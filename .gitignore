@@ -1,0 +1,18 @@
+#Visual Studio hidden folder
+.vs/
+
+#Build folders
+out/
+[Bb]uild/
+
+#Files that may be generated in compile time
+*.cmake
+*.out
+*.o
+*.S
+*.obj
+[Mm]akefile
+
+#Executable files
+*.exe
+*.out
