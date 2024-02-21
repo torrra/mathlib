@@ -1,4 +1,5 @@
 #include "Angle.h"
+#include "Arithmetic.h"
 
 #define PI 3.14159265359F
 #define RAD2DEG 180.0F / PI
@@ -9,10 +10,10 @@
 
 namespace LibMath
 {
-	Degree::Degree() {}
+	Degree::Degree() = default;
 	Degree::Degree(float val) : m_value(val) {}				// explicit so no ambiguous / implicit conversion from float to angle can happen
 	Degree::Degree(Degree const& other) : m_value(other.m_value) {}
-	Degree::~Degree() {}
+	Degree::~Degree() = default;
 
 	Degree::operator Radian() const
 	{
@@ -98,8 +99,8 @@ namespace LibMath
 
 
 
-	bool	operator==(Degree lhs, Degree rhs) { return lhs.degree() - rhs.degree() < DEG_PRECISION; } 			// bool isEqual = Degree{45} == Degree{45};		// true
-	bool	operator==(Degree lhs, Radian const& rhs) { return lhs.degree() - rhs.degree() < DEG_PRECISION; }	// bool isEqual = Degree{60} == Radian{0.5};	// false
+	bool	operator==(Degree lhs, Degree rhs) { return almostEqual(lhs.degree(), rhs.degree()); } 			// bool isEqual = Degree{45} == Degree{45};		// true
+	bool	operator==(Degree lhs, Radian const& rhs) { return almostEqual(lhs.degree(), rhs.degree()); }	// bool isEqual = Degree{60} == Radian{0.5};	// false
 
 	Degree	operator-(Degree rhs) { return Degree(-rhs.degree()); }					// Degree angle = - Degree{45};					// Degree{-45}
 
@@ -114,10 +115,10 @@ namespace LibMath
 		LibMath::Degree operator""_deg(unsigned long long int val) { return Degree(static_cast<float>(val)); }	// Degree angle = 7.5_deg;
 	}
 
-	Radian::Radian() {}
+	Radian::Radian() = default;
 	Radian::Radian(float val) : m_value(val) {}				// explicit so no ambiguous / implicit conversion from float to angle can happen
 	Radian::Radian(Radian const& other) : m_value(other.m_value) {}
-	Radian::~Radian() {}
+	Radian::~Radian() = default;
 
 	Radian::operator Degree() const
 	{
