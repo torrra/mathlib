@@ -34,6 +34,21 @@ namespace mth
         m_values[1][1] = _other.m_values[1][1];
     }
 
+    
+    float Matrix2::Determinant(void)    const
+    {
+        return (m_values[0][0] * m_values[1][1]) - 
+	       (m_values[0][1] * m_values[1][0]);
+    }
+
+
+    void Matrix2::Identity(float _diag)
+    {
+        m_values[0][0] = _diag;
+	m_values[0][1] = 0.f;
+	m_values[1][0] = 0.f;
+	m_values[1][1] = _diag;
+    }
 
     float* Matrix2::operator[](int _index)
     {
