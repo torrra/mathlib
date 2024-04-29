@@ -1,4 +1,5 @@
 #include <cmath>
+#include <algorithm>
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/catch_approx.hpp>
@@ -12,7 +13,7 @@ TEST_CASE("Arithmetic", "[all]")
 {
     SECTION("Rounding")
     {
-        constexpr float   roundUp = 13.7f, roundDown = 0.2f, 
+        constexpr float   roundUp = 13.7f, roundDown = 0.2f,
                           pointFive = 3.5f, pointZero = 2.0f;
 
         // Testing with a number with a decimal part above .5
@@ -34,15 +35,15 @@ TEST_CASE("Arithmetic", "[all]")
         CHECK(mth::floor(pointZero) == std::floor(pointZero));
         CHECK(mth::round(pointZero) == std::round(pointZero));
         CHECK(mth::ceil(pointZero) == std::ceil(pointZero));
-        
+
     }
 
 
     SECTION("Comparisons")
     {
         constexpr float   big = 1555.4f, small = 3.77777f,
-                          eq1 = 5.1f, eq2 = 5.10001f;      
-    
+                          eq1 = 5.1f, eq2 = 5.10001f;
+
         // Very close numbers should be treated as equal
         CHECK(mth::almostEqual(eq1, eq1));
         CHECK(mth::almostEqual(eq1, eq2));
@@ -50,7 +51,7 @@ TEST_CASE("Arithmetic", "[all]")
         // Vastly different numbers should NOT be treated as equal
         CHECK_FALSE(mth::almostEqual(big, small));
 
-        // Similar numbers can be considered different with a small anough precision
+        // Similar numbers can be considered different with a small enough precision
         CHECK_FALSE(mth::almostEqual(eq1, eq2, 0.000001f));
 
         // Get smallest and largest numbers
@@ -73,7 +74,7 @@ TEST_CASE("Arithmetic", "[all]")
        constexpr float      big = 1555.4f, small = 3.f,
                             veryBig = 99999.f, verySmall = 0.4f;
 
-       // TODO: Test wrap 
+       // TODO: Test wrap
 
        CHECK(mth::clamp(veryBig, small, big) == std::clamp(veryBig, small, big));
        CHECK(mth::clamp(verySmall, small, big) == std::clamp(verySmall, small, big));
