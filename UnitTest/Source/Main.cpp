@@ -4,22 +4,24 @@
 
 #include <iostream>
 
-int main (int argc, char* argv[])
-{
-    std::vector<const char*> arguments;
 
 
 #if (WIN32)
-    AddTests(arguments);
+
+int main(void)
+{
+	std::vector<const char*>	arguments;
+
+	AddTests(arguments);
+
+	return Catch::Session().run((int)arguments.size(), &arguments[0]);
+}
+
 #else
-	
-	for (int i = 0; i < argc; i++)
-	{
-		arguments.push_back(argv[i]);
-	}
+
+int main(int argc, char* argv[])
+{
+	return Catch::Session().run(argc, argv);
+}
 
 #endif
-
-
-    return Catch::Session().run((int) arguments.size(), &arguments[0]);
-}
