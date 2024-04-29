@@ -40,3 +40,4 @@ namespace mth
 }
 
 namespace LibMath = mth;
+namespace lm = mth;
