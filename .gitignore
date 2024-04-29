@@ -6,6 +6,9 @@
 .vs/
 .vscode/
 
+# Vi / Vim editor files
+*.swp
+
 # Executables
 *.exe
 *.out
