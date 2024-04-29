@@ -9,7 +9,7 @@ namespace mth
                         Matrix2(void) = default;
                         Matrix2(float _diag);
                         Matrix2(float _a, float _b, float _c, float _d);
-                        Matrix2(float _vals[4]);
+                        Matrix2(float _vals[]);
                         Matrix2(const Matrix2& _other);
 
                         ~Matrix2(void) = default;
@@ -42,7 +42,7 @@ namespace mth
 
     private:
 
-        float       m_values[2][2];
+        float       m_values[2][2] = {{0.f}};
 
         
     };
