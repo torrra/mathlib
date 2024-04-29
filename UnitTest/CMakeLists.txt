@@ -107,6 +107,6 @@ if (MSVC)
 elseif(LINUX)
 
     # Raise warning level to max and treat warnings as errors
-    target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wshadow -Wextra -Wpedantic -Werror)
+    target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wshadow -Wextra -Wpedantic -Werror -g)
 
 endif()
