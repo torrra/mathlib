@@ -2,4 +2,4 @@
 
 #include <vector>
 
-void AddTests(std::vector<const char*> tests);
+void AddTests(std::vector<const char*>& tests);

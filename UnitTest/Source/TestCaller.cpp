@@ -1,6 +1,6 @@
 #include "TestCaller.h"
 
-void AddTests(std::vector<const char*> tests)
+void AddTests(std::vector<const char*>& tests)
 {
     tests.push_back("[all]");
 
