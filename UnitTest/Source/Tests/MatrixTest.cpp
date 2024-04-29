@@ -34,5 +34,15 @@ TEST_CASE("Matrix2", "[matrix] [all]")
             CHECK_MAT2(myMat, glmMat);
             
         }
+
+	mth::Matrix2        identityMat(3.4f, 1.f, 4.6f, 0.7f);
+
+	DISPLAY_MAT2(identityMat, "Before calling Identity()");
+
+	identityMat.Identity();
+
+	DISPLAY_MAT2(identityMat, "After calling Identity()");
+
+
     }
 }
