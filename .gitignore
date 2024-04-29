@@ -1,18 +1,18 @@
-#Visual Studio hidden folder
+# Cmake output folders
+[oO]ut/
+[bB]uild/
+
+# Microsoft editor folders
 .vs/
+.vscode/
 
-#Build folders
-out/
-[Bb]uild/
-
-#Files that may be generated in compile time
-*.cmake
-*.out
-*.o
-*.S
-*.obj
-[Mm]akefile
-
-#Executable files
+# Executables
 *.exe
 *.out
+
+# Static libs
+*.lib
+
+# Object files
+*.o
+*.obj
