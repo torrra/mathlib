@@ -4,9 +4,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/catch_approx.hpp>
 
-#define GLM_FORCE_SILENT_WARNINGS
-#include <glm/glm.hpp>
-
 #include "libmath/Arithmetic.h"
 
 TEST_CASE("Arithmetic", "[all]")
