@@ -1,28 +1,42 @@
-# ~ LibMath
-cmake_minimum_required(VERSION 3.24 FATAL_ERROR) # PATH_EQUAL
+# libmath project with with unit tests (NOT LIBMATH STATIC LIB CMAKE, see libmath subdirectory)
 
-option(LIB_MATH_UNIT_TEST "" ON)
+# I am using 3.29 on Ubuntu and 3.27 on Windows, and the most recent
+# features I usually use in CMake were added in 3.25, so allow 3.25 and up
+cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
+# Enable unit tests (basically a boolean to read later on)
+option(UNIT_TESTS "libmath unit tests" ON)
+
+# Write directory name into variable to automatically name lib project
 get_filename_component(PROJECT_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-if(${CMAKE_CURRENT_SOURCE_DIR} PATH_EQUAL ${CMAKE_SOURCE_DIR})
-	# Create project if build directly
-	set(CMAKE_CXX_STANDARD 20)
-	set(CMAKE_CXX_STANDARD_REQUIRED True)
+# Create standalone project if current directory is CMake root folder
+if (${CMAKE_CURRENT_SOURCE_DIR} PATH_EQUAL ${CMAKE_SOURCE_DIR})
 
-	project(${PROJECT_NAME} LANGUAGES CXX)
+    set(CMAKE_CXX_STANDARD 20)
+    set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+    project(${PROJECT_NAME})
+
+# If this script is ran from add_subdirectory()
 else()
-	# Put all target a folder if build from add_subdirectory()
-	set(CMAKE_FOLDER ${PROJECT_NAME})
+    
+    # Place targets build from this file in a folder named after this directory
+    set(CMAKE_FOLDER ${PROJECT_NAME})
+
 endif()
 
-add_subdirectory(LibMath)
+# Build libmath static lib
+add_subdirectory(libmath)
 
-if (${LIB_MATH_UNIT_TEST})
-	add_subdirectory(UnitTest)
+# Build executable with unit tests
+if (${UNIT_TESTS})
 
-	if(MSVC)
-		set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT UnitTest)
-	endif()
+    add_subdirectory(UnitTest)
+
+    # Set unit test executable as Visual Studio startup project
+    if (MSVC)
+        set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT UnitTest)
+    endif()
+
 endif()
