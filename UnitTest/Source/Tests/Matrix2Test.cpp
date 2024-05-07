@@ -63,6 +63,39 @@ TEST_CASE("Matrix2", "[matrix] [all]")
         CHECK_MAT2(myMat.Inverse(), glm::inverse(glmMat));
 
 
+        mth::Matrix2   otherMat(1.7f, 3.2f, 4.2f, 6.f);
+        glm::mat2      otherGlm(1.7f, 3.2f, 4.2f, 6.f);
+
+
+        // Addition
+        mth::Matrix2   myResult = myMat + otherMat;
+        glm::mat2      glmResult = glmMat + otherGlm;
+
+        CHECK_MAT2(myResult, glmResult);
+
+        // Subtraction
+        myResult = myMat - otherMat;
+        glmResult = glmMat - otherGlm;
+
+
+        CHECK_MAT2(myResult, glmResult);
+
+
+        // Multiplication
+
+        myMat = { 4.f, 3.f, 7.f, 8.f };
+        glmMat = { 4.f, 3.f, 7.f, 8.f };
+
+        otherMat = { 9.f, 2.f, 5.f, 6.f };
+        otherGlm = { 9.f, 2.f, 5.f, 6.f };
+
+        myResult = myMat * otherMat;
+        glmResult = glmMat * otherGlm;
+
+        CHECK_MAT2(myResult, glmResult);
+
+        DISPLAY_MAT2(myResult, "Matrix product");
+        DISPLAY_MAT2(glmResult, "glm matrix product");
 
 
     }
