@@ -2,6 +2,9 @@
 
 #include "libmath/Arithmetic.h"
 
+#define DEG_PRECISION		1.f
+#define RAD_PRECISION		0.0001f
+
 namespace mth
 {
 	Degree::Degree(float _val)
@@ -12,8 +15,7 @@ namespace mth
 
 	Degree::operator Radian()
 	{
-		// TODO: Re-implement
-		return Radian(/*Rad(false)*/);
+		return Radian(Rad(false));
 	}
 
 	float Degree::Deg(bool _wrap180) const
@@ -44,6 +46,136 @@ namespace mth
 		m_value = Deg(_wrap180);
 	}
 
+	Degree& Degree::operator=(const Degree& _rhs)
+	{
+		m_value = _rhs.m_value;
+
+		return *this;
+	}
+
+	Degree& Degree::operator=(float _rhs)
+	{
+		m_value = _rhs;
+
+		return *this;
+	}
+
+	Degree Degree::operator+(const Degree& _rhs) const
+	{
+		return Degree(m_value + _rhs.m_value);
+	}
+
+	Degree Degree::operator-(const Degree& _rhs) const
+	{
+		return Degree(m_value - _rhs.m_value);
+	}
+
+	Degree Degree::operator*(const Degree& _rhs) const
+	{
+		return Degree(m_value * _rhs.m_value);
+	}
+
+	Degree Degree::operator/(const Degree& _rhs) const
+	{
+		return Degree(m_value / _rhs.m_value);
+	}
+
+	Degree Degree::operator+(float _rhs) const
+	{
+		return Degree(m_value + _rhs);
+	}
+
+	Degree Degree::operator-(float _rhs) const
+	{
+		return Degree(m_value - _rhs);
+	}
+
+	Degree Degree::operator*(float _rhs) const
+	{
+		return Degree(m_value * _rhs);
+	}
+
+	Degree Degree::operator/(float _rhs) const
+	{
+		return Degree(m_value / _rhs);
+	}
+
+	Degree& Degree::operator+=(const Degree& _rhs)
+	{
+		m_value += _rhs.m_value;
+
+		return *this;
+	}
+
+	Degree& Degree::operator-=(const Degree& _rhs)
+	{
+		m_value -= _rhs.m_value;
+
+		return *this;
+	}
+
+	Degree& Degree::operator*=(const Degree& _rhs)
+	{
+		m_value *= _rhs.m_value;
+
+		return *this;
+	}
+
+	Degree& Degree::operator/=(const Degree& _rhs)
+	{
+		m_value /= _rhs.m_value;
+
+		return *this;
+	}
+
+	Degree& Degree::operator+=(float _rhs)
+	{
+		m_value += _rhs;
+
+		return *this;
+	}
+
+	Degree& Degree::operator-=(float _rhs)
+	{
+		m_value -= _rhs;
+
+		return *this;
+	}
+
+	Degree& Degree::operator*=(float _rhs)
+	{
+		m_value *= _rhs;
+
+		return *this;
+	}
+
+	Degree& Degree::operator/=(float _rhs)
+	{
+		m_value /= _rhs;
+
+		return *this;
+	}
+
+	bool Degree::operator==(const Degree& _rhs) const
+	{
+		return almostEqual(m_value, _rhs.m_value, DEG_PRECISION);
+	}
+
+	bool Degree::operator!=(const Degree& _rhs) const
+	{
+		return !(*this == _rhs);
+	}
+
+	bool Degree::operator==(float _rhs) const
+	{
+		return almostEqual(m_value, _rhs, DEG_PRECISION);
+	}
+
+	bool Degree::operator!=(float _rhs) const
+	{
+		return !(*this == _rhs);
+	}
+
 	Degree mth::Literal::operator""_deg(long double _val)
 	{
 		return Degree(static_cast<float>(_val));
@@ -53,5 +185,11 @@ namespace mth
 	{
 		return Degree(static_cast<float>(_val));
 	}
+
+	Radian::Radian(float _val)
+		: m_value(_val) {}
+
+	Radian::Radian(const Radian & _other)
+	: m_value(_other.m_value) {}
 
 }
