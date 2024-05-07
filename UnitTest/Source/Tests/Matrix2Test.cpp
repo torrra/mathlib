@@ -11,10 +11,12 @@
 #include "libmath/Arithmetic.h"
 #include "libmath/Matrix2.h"
 
+// Display any matrix' content
 #define DISPLAY_MAT2(obj, title)\
 std::cout << title << ":\n" << obj[0][0] << ' ' << obj[0][1]\
 << '\n' << obj[1][0] << ' ' << obj[1][1] << '\n';
 
+// Comparison compatible with both my libmath and glm
 #define CHECK_MAT2(mat1, mat2)\
 CHECK(mth::almostEqual(mat1[0][0], mat2[0][0]));\
 CHECK(mth::almostEqual(mat1[0][1], mat2[0][1]));\
@@ -22,6 +24,7 @@ CHECK(mth::almostEqual(mat1[1][0], mat2[1][0]));\
 CHECK(mth::almostEqual(mat1[1][1], mat2[1][1]))
 
 
+// Comparison between two matrices (mine or from glm) without epsilon test
 #define CHECK_M2_EQ(mat1, mat2)\
 CHECK(mat1[0][0] == mat2[0][0]);\
 CHECK(mat1[0][1] == mat2[0][1]);\
@@ -77,25 +80,21 @@ TEST_CASE("Matrix2", "[matrix] [all]")
         myResult = myMat - otherMat;
         glmResult = glmMat - otherGlm;
 
-
         CHECK_MAT2(myResult, glmResult);
 
 
         // Multiplication
-
-        myMat = { 4.f, 3.f, 7.f, 8.f };
-        glmMat = { 4.f, 3.f, 7.f, 8.f };
-
-        otherMat = { 9.f, 2.f, 5.f, 6.f };
-        otherGlm = { 9.f, 2.f, 5.f, 6.f };
-
         myResult = myMat * otherMat;
         glmResult = glmMat * otherGlm;
 
         CHECK_MAT2(myResult, glmResult);
 
-        DISPLAY_MAT2(myResult, "Matrix product");
-        DISPLAY_MAT2(glmResult, "glm matrix product");
+
+        // Addition assignment
+        myResult += myMat;
+        glmResult += glmMat;
+
+        CHECK_MAT2(myResult, glmResult);
 
 
     }
