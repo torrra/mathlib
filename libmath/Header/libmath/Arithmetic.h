@@ -11,12 +11,12 @@ namespace mth
     // Round to the nearest integral value (greater or equal)
     float       ceil(float _val);
 
-    // Round to the nearest integral value (smaller or equal) 
+    // Round to the nearest integral value (smaller or equal)
     float       floor(float _val);
 
     // Wrap value around a set of limits
     float       wrap(float _val, float _low, float _high);
-    
+
     // Get value within a range without wrapping
     float       clamp(float _val, float _low, float _high);
 
@@ -25,7 +25,7 @@ namespace mth
 
     // Get smallest value
     float       min(float _a, float _b);
-    
+
     // Get largest value
     float       max(float _a, float _b);
 
