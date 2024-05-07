@@ -97,5 +97,20 @@ TEST_CASE("Matrix2", "[matrix] [all]")
         CHECK_MAT2(myResult, glmResult);
 
 
+        myResult -= otherMat;
+        glmResult -= otherGlm;
+
+        CHECK_MAT2(myResult, glmResult);
+
+        myResult *= myMat;
+        glmResult *= glmMat;
+
+        CHECK_MAT2(myResult, glmResult);
+
+        CHECK(myMat == myMat);
+        CHECK_FALSE(myMat == myResult);
+
+        CHECK(myMat != myResult);
+        CHECK_FALSE(myMat != myMat);
     }
 }
