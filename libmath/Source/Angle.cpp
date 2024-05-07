@@ -235,4 +235,122 @@ namespace mth
 		m_value = Deg(_wrap180);
 	}
 
+	Radian Radian::operator+(const Radian& _rhs) const
+	{
+		return Radian(m_value + _rhs.m_value);
+	}
+
+	Radian Radian::operator-(const Radian& _rhs) const
+	{
+		return Radian(m_value - _rhs.m_value);
+	}
+
+	Radian Radian::operator*(const Radian& _rhs) const
+	{
+		return Radian(m_value * _rhs.m_value);
+	}
+
+	Radian Radian::operator/(const Radian& _rhs) const
+	{
+		return Radian(m_value / _rhs.m_value);
+	}
+
+	Radian& Radian::operator+=(const Radian& _rhs)
+	{
+		m_value += _rhs.m_value;
+
+		return *this;
+	}
+
+	Radian& Radian::operator-=(const Radian& _rhs)
+	{
+		m_value -= _rhs.m_value;
+
+		return *this;
+	}
+
+	Radian& Radian::operator*=(const Radian& _rhs)
+	{
+		m_value *= _rhs.m_value;
+
+		return *this;
+	}
+
+	Radian& Radian::operator/=(const Radian& _rhs)
+	{
+		m_value /= _rhs.m_value;
+
+		return *this;
+	}
+
+	Radian Radian::operator+(float _rhs) const
+	{
+		return Radian(m_value + _rhs);
+	}
+
+	Radian Radian::operator-(float _rhs) const
+	{
+		return Radian(m_value - _rhs);
+	}
+
+	Radian Radian::operator*(float _rhs) const
+	{
+		return Radian(m_value * _rhs);
+	}
+
+	Radian Radian::operator/(float _rhs) const
+	{
+		return Radian(m_value / _rhs);
+	}
+
+	Radian& Radian::operator+=(float _rhs)
+	{
+		m_value += _rhs;
+
+		return *this;
+	}
+
+	Radian& Radian::operator-=(float _rhs)
+	{
+		m_value -= _rhs;
+
+		return *this;
+	}
+
+	Radian& Radian::operator*=(float _rhs)
+	{
+		m_value *= _rhs;
+
+		return *this;
+	}
+
+	Radian& Radian::operator/=(float _rhs)
+	{
+		m_value /= _rhs;
+
+		return *this;
+	}
+
+	bool Radian::operator==(const Radian& _rhs) const
+	{
+		return almostEqual(m_value, _rhs.m_value, RAD_PRECISION);
+	}
+
+
+	bool Radian::operator!=(const Radian& _rhs) const
+	{
+		return !(*this == _rhs);
+	}
+
+	bool Radian::operator==(float _rhs) const
+	{
+		return almostEqual(m_value, _rhs, RAD_PRECISION);
+	}
+
+	bool Radian::operator!=(float _rhs) const
+	{
+		return !(*this == _rhs);
+	}
+
+
 }

@@ -109,8 +109,8 @@ namespace mth
 	bool		operator==(const Radian& _rhs)			const;
 	bool		operator!=(const Radian& _rhs)			const;
 
-	bool		operator==(float _rhs)			const;
-	bool		operator!=(float _rhs)			const;
+	bool		operator==(float _rhs)					const;
+	bool		operator!=(float _rhs)					const;
 
 	private:
 
