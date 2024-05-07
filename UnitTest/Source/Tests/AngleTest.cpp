@@ -169,7 +169,6 @@ TEST_CASE("Radians", "[angle] [all]")
 	SECTION("Accessors")
 	{
 		constexpr float		radCircle = glm::two_pi<float>();
-		//constexpr float		halfRadCircle = glm::pi<float>();
 
 		mth::Radian			wrapTrue{ 5.8f }, wrapNever{ 1.2f }, wrapFalse{ -2.2f };
 
@@ -184,5 +183,6 @@ TEST_CASE("Radians", "[angle] [all]")
 		CHECK(wrapFalse.Rad(false) == radCircle + wrapFalse.Raw());
 
 	}
+
 
 }
