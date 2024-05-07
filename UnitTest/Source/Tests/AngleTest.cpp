@@ -52,4 +52,89 @@ TEST_CASE("Degree", "[angle] [all]")
 		CHECK(wrapTrue.Deg(true) == -60.f);
 
 	}
+
+	SECTION("Degree - degree operators")
+	{
+		mth::Degree		firstDeg(60.f), secondDeg(30.f);
+
+		mth::Degree		result = firstDeg + secondDeg;
+
+		CHECK(result.Raw() == 90.f);
+
+		result = firstDeg - secondDeg;
+
+		CHECK(result.Raw() == 30.f);
+
+		result = firstDeg * secondDeg;
+
+		CHECK(result.Raw() == 1800.f);
+
+		result = firstDeg / secondDeg;
+
+		CHECK(result.Raw() == 2.f);
+
+		result = 60.f;
+
+		CHECK(result.Raw() == 60.f);
+
+		result += mth::Degree(30.f);
+
+		CHECK(result.Raw() == 90.f);
+
+		result -= mth::Degree(30.f);
+
+		CHECK(result.Raw() == 60.f);
+
+		result *= mth::Degree(2.f);
+
+		CHECK(result.Raw() == 120.f);
+
+		result /= mth::Degree(2.f);
+
+		CHECK(result.Raw() == 60.f);
+
+	}
+
+	SECTION("Degree - float operators")
+	{
+		mth::Degree			firstDeg(60.f);
+
+		constexpr float		rightOperand = 30.f;
+
+		mth::Degree		result = firstDeg + rightOperand;
+
+		CHECK(result.Raw() == 90.f);
+
+		result = firstDeg - rightOperand;
+
+		CHECK(result.Raw() == 30.f);
+
+		result = firstDeg * rightOperand;
+
+		CHECK(result.Raw() == 1800.f);
+
+		result = firstDeg / rightOperand;
+
+		CHECK(result.Raw() == 2.f);
+
+		result = 60.f;
+
+		CHECK(result.Raw() == 60.f);
+
+		result += rightOperand;
+
+		CHECK(result.Raw() == 90.f);
+
+		result -= rightOperand;
+
+		CHECK(result.Raw() == 60.f);
+
+		result *= 2.f;
+
+		CHECK(result.Raw() == 120.f);
+
+		result /= 2.f;
+
+		CHECK(result.Raw() == 60.f);
+	}
 }
