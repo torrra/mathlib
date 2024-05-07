@@ -44,17 +44,28 @@ namespace mth
 
     float wrap(float _val, float _low, float _high)
     {
-        float       abs = absolute(_val);
-
-        // Remove 'full circles'
-        if (_val > _high)
+        if (_low > _high)
         {
-            float   count = floor(abs / _high);
+            float   temp = _low;
 
-            abs -= count * _high;
+            _low = _high;
+            _high = temp;
         }
 
-        return _low + abs;
+        float       abs = absolute(_val);
+        float       count = floor(abs / _high);
+
+        // Remove 'full circles'
+        abs -= count * _high;
+
+        if (_val > _high)
+            return _low + abs;
+
+        else if (_val < _low)
+            return _high - abs;
+
+        else return _val;
+
     }
 
 
