@@ -27,10 +27,18 @@ namespace mth
 
 	void		Wrap(bool _wrap180 = false);
 
+	Degree&		operator=(const Degree& _rhs);
+	Degree&		operator=(float _rhs);
+
 	Degree		operator+(const Degree& _rhs)			const;
 	Degree		operator-(const Degree& _rhs)			const;
 	Degree		operator*(const Degree& _rhs)			const;
 	Degree		operator/(const Degree& _rhs)			const;
+
+	Degree		operator+(float _rhs)					const;
+	Degree		operator-(float _rhs)					const;
+	Degree		operator*(float _rhs)					const;
+	Degree		operator/(float _rhs)					const;
 
 	Degree& 	operator+=(const Degree& _rhs);
 	Degree&		operator-=(const Degree& _rhs);
@@ -38,8 +46,17 @@ namespace mth
 	Degree&		operator/=(const Degree& _rhs);
 
 
-	bool		operator==(const Degree& _rhs);
-	bool		operator!=(const Degree& _rhs);
+	Degree&		operator+=(float _rhs);
+	Degree&		operator-=(float _rhs);
+	Degree&		operator*=(float _rhs);
+	Degree&		operator/=(float _rhs);
+
+
+	bool		operator==(const Degree& _rhs)			const;
+	bool		operator!=(const Degree& _rhs)			const;
+
+	bool		operator==(float _rhs)					const;
+	bool		operator!=(float _rhs)					const;
 
 
 	private:
@@ -55,7 +72,7 @@ namespace mth
 				Radian(void) = default;
 	explicit	Radian(float _val);
 				Radian(const Radian& _other);
-				~Radian(void);
+				~Radian(void) = default;
 
 	operator	Degree(void);
 
@@ -77,8 +94,23 @@ namespace mth
 	Radian&		operator/=(const Radian& _rhs);
 
 
-	bool		operator==(const Radian& _rhs);
-	bool		operator!=(const Radian& _rhs);
+	Radian		operator+(float _rhs)					const;
+	Radian		operator-(float _rhs)					const;
+	Radian		operator*(float _rhs)					const;
+	Radian		operator/(float _rhs)					const;
+
+
+	Radian&		operator+=(float _rhs);
+	Radian&		operator-=(float _rhs);
+	Radian&		operator*=(float _rhs);
+	Radian&		operator/=(float _rhs);
+
+
+	bool		operator==(const Radian& _rhs)			const;
+	bool		operator!=(const Radian& _rhs)			const;
+
+	bool		operator==(float _rhs)			const;
+	bool		operator!=(float _rhs)			const;
 
 	private:
 
