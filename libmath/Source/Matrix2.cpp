@@ -142,12 +142,24 @@ namespace mth
         return *this;
     }
 
+    Matrix2& Matrix2::operator*=(const Matrix2& _rhs)
+    {
+        *this = *this * _rhs;
+
+        return *this;
+    }
+
     bool  Matrix2::operator==(const Matrix2& _rhs) const
     {
         return mth::almostEqual(m_values[0][0], _rhs[0][0]) &&
                mth::almostEqual(m_values[0][1], _rhs[0][1]) &&
                mth::almostEqual(m_values[1][0], _rhs[1][0]) &&
                mth::almostEqual(m_values[1][1], _rhs[1][1]);
+    }
+
+    bool Matrix2::operator!=(const Matrix2& _rhs) const
+    {
+        return !(*this == _rhs);
     }
 
 
