@@ -67,6 +67,15 @@ namespace mth
         return Matrix2();
     }
 
+    Matrix2 Matrix2::Transpose(void) const
+    {
+        return Matrix2
+        (
+            m_values[0][0], m_values[1][0],
+            m_values[0][1], m_values[1][1]
+        );
+    }
+
 
     Matrix2& Matrix2::operator=(const Matrix2& _rhs)
     {

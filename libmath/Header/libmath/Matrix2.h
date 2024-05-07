@@ -20,6 +20,7 @@ namespace mth
 
         Matrix2         Adjugate(void)                      const;
         Matrix2         Inverse(void)                       const;
+        Matrix2         Transpose(void)                     const;
 
         Matrix2&        operator=(const Matrix2& _rhs);
 
