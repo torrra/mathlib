@@ -18,7 +18,7 @@ namespace mth
 				Degree(const Degree& _other);
 				~Degree(void) = default;
 
-	operator	Radian(void);
+	operator	Radian(void)							const;
 
 
 	float		Deg(bool _wrap180 = false)				const;
@@ -74,7 +74,7 @@ namespace mth
 				Radian(const Radian& _other);
 				~Radian(void) = default;
 
-	operator	Degree(void);
+	operator	Degree(void)							const;
 
 
 	float		Deg(bool _wrap180 = false)				const;
