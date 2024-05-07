@@ -22,7 +22,7 @@ namespace mth
         Matrix2         Inverse(void)                       const;
 
         Matrix2&        operator=(const Matrix2& _rhs);
-        
+
         Matrix2         operator+(const Matrix2& _rhs)      const;
         Matrix2         operator-(const Matrix2& _rhs)      const;
         Matrix2         operator*(const Matrix2& _rhs)      const;
@@ -37,13 +37,13 @@ namespace mth
         bool            operator!=(const Matrix2& _rhs)     const;
 
         float*          operator[](int _index);
-        float*          operator[](int _index)              const;
+        float const*    operator[](int _index)              const;
 
 
     private:
 
         float       m_values[2][2] = {{0.f}};
 
-        
+
     };
 }
