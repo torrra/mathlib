@@ -4,6 +4,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #define GLM_FORCE_SILENT_WARNINGS
 #include <glm/glm.hpp>
+#include <glm/gtc/constants.hpp>
 
 #include "libmath/Arithmetic.h"
 #include "libmath/Angle.h"
@@ -142,29 +143,46 @@ TEST_CASE("Degree", "[angle] [all]")
 
 TEST_CASE("Radians", "[angle] [all]")
 {
-	SECTION("INSTANTIATION")
+	SECTION("Instanciation")
 	{
-		SECTION("Instanciation")
-		{
-			// Default
-			mth::Radian		emptyRad;
+		// Default
+		mth::Radian		emptyRad;
 
-			// With value
-			mth::Radian		valueRad(1.2f);
+		// With value
+		mth::Radian		valueRad(1.2f);
 
-			// Copy constructor
-			mth::Radian		cpyRad(valueRad);
+		// Copy constructor
+		mth::Radian		cpyRad(valueRad);
 
-			// Literal
-			mth::Radian     litRad = 15_rad;
-			mth::Radian		litRad2 = .4_rad;
+		// Literal
+		mth::Radian     litRad = 15_rad;
+		mth::Radian		litRad2 = .4_rad;
 
 
-			CHECK(valueRad.Raw() == 1.2f);
-			CHECK(valueRad.Raw() == cpyRad.Raw());
-			CHECK(litRad.Raw() == 15.f);
-			CHECK(litRad2.Raw() == 0.4f);
+		CHECK(valueRad.Raw() == 1.2f);
+		CHECK(valueRad.Raw() == cpyRad.Raw());
+		CHECK(litRad.Raw() == 15.f);
+		CHECK(litRad2.Raw() == 0.4f);
 
-		}
 	}
+
+	SECTION("Accessors")
+	{
+		constexpr float		radCircle = glm::two_pi<float>();
+		//constexpr float		halfRadCircle = glm::pi<float>();
+
+		mth::Radian			wrapTrue{ 5.8f }, wrapNever{ 1.2f }, wrapFalse{ -2.2f };
+
+		// No wrap
+		CHECK(wrapTrue.Rad(false) == wrapTrue.Raw());
+		CHECK(wrapFalse.Rad(true) == wrapFalse.Raw());
+		CHECK(wrapNever.Rad(true) == wrapNever.Raw());
+		CHECK(wrapNever.Rad(false) == wrapNever.Raw());
+
+		// Wrap values
+		CHECK(wrapTrue.Rad(true) == wrapTrue.Raw() - radCircle);
+		CHECK(wrapFalse.Rad(false) == radCircle + wrapFalse.Raw());
+
+	}
+
 }
