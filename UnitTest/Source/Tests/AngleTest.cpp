@@ -138,3 +138,33 @@ TEST_CASE("Degree", "[angle] [all]")
 		CHECK(result.Raw() == 60.f);
 	}
 }
+
+
+TEST_CASE("Radians", "[angle] [all]")
+{
+	SECTION("INSTANTIATION")
+	{
+		SECTION("Instanciation")
+		{
+			// Default
+			mth::Radian		emptyRad;
+
+			// With value
+			mth::Radian		valueRad(1.2f);
+
+			// Copy constructor
+			mth::Radian		cpyRad(valueRad);
+
+			// Literal
+			mth::Radian     litRad = 15_rad;
+			mth::Radian		litRad2 = .4_rad;
+
+
+			CHECK(valueRad.Raw() == 1.2f);
+			CHECK(valueRad.Raw() == cpyRad.Raw());
+			CHECK(litRad.Raw() == 15.f);
+			CHECK(litRad2.Raw() == 0.4f);
+
+		}
+	}
+}
