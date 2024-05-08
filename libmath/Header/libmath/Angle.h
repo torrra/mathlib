@@ -83,6 +83,9 @@ namespace mth
 
 	void		Wrap(bool _wrap180 = false);
 
+	Radian&		operator=(const Radian& _rhs);
+	Radian&		operator=(float _rhs);
+
 	Radian		operator+(const Radian& _rhs)			const;
 	Radian		operator-(const Radian& _rhs)			const;
 	Radian		operator*(const Radian& _rhs)			const;
