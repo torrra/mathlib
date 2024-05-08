@@ -184,5 +184,92 @@ TEST_CASE("Radians", "[angle] [all]")
 
 	}
 
+	SECTION("Radian - radian operators")
+	{
+		constexpr float	thirtyDeg = MTH_PI / 6.f, sixtyDeg = MTH_PI / 3.f;
 
+		mth::Radian		firstRad(sixtyDeg), secondRad(thirtyDeg);
+
+		mth::Radian		result = firstRad + secondRad;
+
+		CHECK(result.Raw() == MTH_PI / 2.f);
+
+		result = firstRad - secondRad;
+
+		CHECK(result.Raw() == thirtyDeg);
+
+		result = firstRad * secondRad;
+
+		CHECK(result.Raw() == thirtyDeg * sixtyDeg);
+
+		result = firstRad / secondRad;
+
+		CHECK(result.Raw() == 2.f);
+
+		result = sixtyDeg;
+
+		CHECK(result.Raw() == sixtyDeg);
+
+		result += secondRad;
+
+		CHECK(result.Raw() == MTH_PI / 2.f);
+
+		result -= secondRad;
+
+		CHECK(result.Raw() == sixtyDeg);
+
+		result *= mth::Radian(2.f);
+
+		CHECK(result.Raw() == MTH_PI / 1.5f);
+
+		result /= mth::Radian(2.f);
+
+		CHECK(result.Raw() == sixtyDeg);
+	}
+
+
+	SECTION("Radian - float operators")
+	{
+		constexpr float		thirtyDeg = MTH_PI / 6.f, sixtyDeg = MTH_PI / 3.f;
+
+		mth::Radian			firstRad(sixtyDeg);
+
+		constexpr float		rightOperand = thirtyDeg;
+
+		mth::Radian		result = firstRad + rightOperand;
+
+		CHECK(result.Raw() == MTH_PI / 2.f);
+
+		result = firstRad - rightOperand;
+
+		CHECK(result.Raw() == thirtyDeg);
+
+		result = firstRad * rightOperand;
+
+		CHECK(result.Raw() == sixtyDeg * thirtyDeg);
+
+		result = firstRad / rightOperand;
+
+		CHECK(result.Raw() == 2.f);
+
+		result = sixtyDeg;
+
+		CHECK(result.Raw() == sixtyDeg);
+
+		result += rightOperand;
+
+		CHECK(result.Raw() == MTH_PI / 2.f);
+
+		result -= rightOperand;
+
+		CHECK(result.Raw() == sixtyDeg);
+
+		result *= 2.f;
+
+		CHECK(result.Raw() == MTH_PI / 1.5f);
+
+		result /= 2.f;
+
+		CHECK(result.Raw() == sixtyDeg);
+	}
 }
