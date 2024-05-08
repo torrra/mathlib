@@ -235,6 +235,20 @@ namespace mth
 		m_value = Deg(_wrap180);
 	}
 
+	Radian& Radian::operator=(const Radian& _rhs)
+	{
+		m_value = _rhs.m_value;
+
+		return *this;
+	}
+
+	Radian& Radian::operator=(float _rhs)
+	{
+		m_value = _rhs;
+
+		return *this;
+	}
+
 	Radian Radian::operator+(const Radian& _rhs) const
 	{
 		return Radian(m_value + _rhs.m_value);
