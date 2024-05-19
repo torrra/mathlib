@@ -1,24 +1,42 @@
 #include "libmath/Trigonometry.h"
 #include "libmath/Arithmetic.h"
 
+#include <cmath>
+
+#define COS_IT 6u
+
 namespace mth
 {
-	float cos(const Radian& _rad, unsigned int _maxIterations)
+	static float cosFlt(float _val)
+	{
+		float powResult, cosResult = 0.f, itResult, radians = wrap(_val, -MTH_PI, MTH_PI);
+
+		for (unsigned int it = 1; it <= COS_IT; ++it)
+		{
+			powResult = pow(radians, it * 2);
+
+			itResult = powResult * mth::Factorials::evenFacts[it - 1];
+
+			cosResult += itResult;
+
+		}
+
+		cosResult = 1.f - cosResult;
+
+		return cosResult;
+	}
+
+	float cos(const Radian& _rad)
 	{
 		float powResult, cosResult = 0.f, radians = _rad.Rad(true), itResult;
 
-		for (unsigned int it = 1; it <= _maxIterations; ++it)
+		for (unsigned int it = 1; it <= COS_IT; ++it)
 		{
-				powResult = pow(radians, it * 2);
+			powResult = pow(radians, it * 2);
 
-				if (it <= 6)
-					itResult = powResult * mth::Factorials::evenFacts[it - 1];
-				else if (it % 2)
-					itResult = powResult / factorial(it * 2);
-				else
-					itResult = - powResult / factorial(it * 2);
+			itResult = powResult * mth::Factorials::evenFacts[it - 1];
 
-				cosResult += itResult;
+			cosResult += itResult;
 
 		}
 
@@ -27,10 +45,49 @@ namespace mth
 		return cosResult;
 	}
 
+	float sin(const Radian& _rad)
+	{
+		// Apply 90 degree offset
+		// See: https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Sine_cosine_one_period.svg/1920px-Sine_cosine_one_period.svg.png
+		constexpr float		piOverTwo = 1.570796326794896619231f;
 
+		float				cosine = cosFlt(absolute(_rad.Raw()) - piOverTwo);
+
+		if (_rad.Raw() < 0.f)
+			return -cosine;
+
+		else return cosine;
+	}
+
+	float tan(const Radian& _rad)
+	{
+		// tan x = sin x / cos x
+		return sin(_rad) / cos(_rad);
+	}
+
+
+	Radian acos(float _cosine)
+	{
+		float powResult, acosResult = 0.f, itResult;
+
+		for (unsigned int it = 1; it <= COS_IT; ++it)
+		{
+			powResult = pow(_cosine, it * 2);
+
+			itResult = powResult * mth::Factorials::evenFacts[it - 1];
+
+			acosResult += itResult;
+
+		}
+
+		acosResult = _cosine + acosResult;
+
+		return Radian(acosResult);
+	}
 
 	const float mth::Factorials::evenFacts[] =
 	{
+			// Pre-compute even factorials and divisions for faster cosine execution
 			1.f / static_cast<float>(factorial(2)),
 			-1.f / static_cast<float>(factorial(4)),
 			1.f / static_cast<float>(factorial(6)),
@@ -39,14 +96,5 @@ namespace mth
 			-1.f / static_cast<float>(factorial(12)),
 	};
 
-	const float mth::Factorials::oddFacts[] =
-	{
-			1.f / static_cast<float>(factorial(3)),
-			-1.f / static_cast<float>(factorial(5)),
-			1.f / static_cast<float>(factorial(7)),
-			-1.f / static_cast<float>(factorial(9)),
-			1.f / static_cast<float>(factorial(11)),
-			-1.f / static_cast<float>(factorial(13)),
-	};
-
 }
+
