@@ -66,7 +66,7 @@ public:
 	}
 
 	// Get elapsed time in nanoseconds (must be previously saved with start() and stop() or getRuntime())
-	long long getClock(void) const { return m_elapsed; }
+	long long getElapsed(void) const { return m_elapsed; }
 
 
 
