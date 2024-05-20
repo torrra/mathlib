@@ -21,8 +21,9 @@ timer.stop();\
 std::cout << '\n' << #func << '\n'; \
 timer.display();
 
+#define COMPARE_TRIG
 
-TEST_CASE("Trigonometry", "[all]")
+TEST_CASE("Trigonometry - my tests", "[all]")
 {
 	SECTION("Positive angle")
 	{

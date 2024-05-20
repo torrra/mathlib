@@ -12,7 +12,7 @@
 
 using namespace mth::Literal;
 
-TEST_CASE("Degree", "[angle] [all]")
+TEST_CASE("Degree - my tests", "[angle] [all]")
 {
 	SECTION("Instanciation")
 	{
@@ -141,7 +141,7 @@ TEST_CASE("Degree", "[angle] [all]")
 }
 
 
-TEST_CASE("Radians", "[angle] [all]")
+TEST_CASE("Radians - my tests", "[angle] [all]")
 {
 	SECTION("Instanciation")
 	{
