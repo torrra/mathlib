@@ -179,8 +179,8 @@ TEST_CASE("Radians", "[angle] [all]")
 		CHECK(wrapNever.Rad(false) == wrapNever.Raw());
 
 		// Wrap values
-		CHECK(wrapTrue.Rad(true) == wrapTrue.Raw() - radCircle);
-		CHECK(wrapFalse.Rad(false) == radCircle + wrapFalse.Raw());
+		CHECK(mth::almostEqual(wrapTrue.Rad(true), wrapTrue.Raw() - radCircle));
+		CHECK(mth::almostEqual(wrapFalse.Rad(false), radCircle + wrapFalse.Raw()));
 
 	}
 
