@@ -130,7 +130,60 @@ TEST_CASE("Trigonometry", "[all]")
 
 	SECTION("Wrapped negative angle")
 	{
-		constexpr float sixtyDeg = -5.f;
+		constexpr float minusFive = -5.f;
+
+		mth::Radian  myRad(minusFive);
+
+		Timer  stopwatch;
+
+		float myCos, glmCos, stdCos;
+
+		std::cout << "\n-- COSINE -5 --\n";
+
+		RECORD_FUNC(stopwatch, mth::cos(myRad), myCos);
+
+		RECORD_FUNC(stopwatch, glm::cos(minusFive), glmCos);
+
+		RECORD_FUNC(stopwatch, std::cos(minusFive), stdCos);
+
+		std::printf("\nmine : %.5f\tglm : %.5f\t cmath : %.5f\n\n", myCos, glmCos, stdCos);
+
+		CHECK(mth::almostEqual(myCos, glmCos));
+
+		float mySin, glmSin, stdSin;
+
+		std::cout << "-- SINE -5 --\n";
+
+		RECORD_FUNC(stopwatch, mth::sin(myRad), mySin);
+
+		RECORD_FUNC(stopwatch, glm::sin(minusFive), glmSin);
+
+		RECORD_FUNC(stopwatch, std::sin(minusFive), stdSin);
+
+		CHECK(mth::almostEqual(mySin, glmSin));
+
+
+		std::printf("\nmine : %.5f\tglm : %.5f\t cmath : %.5f\n\n", mySin, glmSin, stdSin);
+
+
+		float myTan, glmTan, stdTan;
+
+		std::cout << "-- TANGENT -5 --\n";
+
+		RECORD_FUNC(stopwatch, mth::tan(myRad), myTan);
+
+		RECORD_FUNC(stopwatch, glm::tan(minusFive), glmTan);
+
+		RECORD_FUNC(stopwatch, std::tan(minusFive), stdTan);
+
+		CHECK(mth::almostEqual(myTan, glmTan));
+
+		std::printf("\nmine : %.5f\tglm : %.5f\t cmath : %.5f\n\n", myTan, glmTan, stdTan);
+	}
+
+	SECTION("Wrapped positive angle")
+	{
+		constexpr float sixtyDeg = 7.3f;
 
 		mth::Radian  myRad(sixtyDeg);
 
@@ -138,7 +191,7 @@ TEST_CASE("Trigonometry", "[all]")
 
 		float myCos, glmCos, stdCos;
 
-		std::cout << "\n-- COSINE -5 --\n";
+		std::cout << "\n-- COSINE 7.3 --\n";
 
 		RECORD_FUNC(stopwatch, mth::cos(myRad), myCos);
 
@@ -152,7 +205,7 @@ TEST_CASE("Trigonometry", "[all]")
 
 		float mySin, glmSin, stdSin;
 
-		std::cout << "-- SINE -5 --\n";
+		std::cout << "-- SINE 7.3--\n";
 
 		RECORD_FUNC(stopwatch, mth::sin(myRad), mySin);
 
@@ -168,7 +221,7 @@ TEST_CASE("Trigonometry", "[all]")
 
 		float myTan, glmTan, stdTan;
 
-		std::cout << "-- TANGENT -5 --\n";
+		std::cout << "-- TANGENT 7.3 --\n";
 
 		RECORD_FUNC(stopwatch, mth::tan(myRad), myTan);
 
