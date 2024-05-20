@@ -1,5 +1,7 @@
 #include "libmath/Arithmetic.h"
 
+#include <cmath>
+
 namespace mth
 {
     float absolute(float _val)
@@ -44,27 +46,16 @@ namespace mth
 
     float wrap(float _val, float _low, float _high)
     {
-        if (_low > _high)
-        {
-            float   temp = _low;
+        if (-_val > _high)
+        _val = _high + std::fmodf(_val - _high, _low - _high);
 
-            _low = _high;
-            _high = temp;
-        }
+        else
+            _val = _low + std::fmodf(_val - _low, _high - _low);
 
-        float       abs = absolute(_val);
-        float       count = floor(abs / _high);
+        if (_val < _low)
+            _val += _high;
 
-        // Remove 'full circles'
-        abs -= count * _high;
-
-        if (_val > _high)
-            return _low + abs;
-
-        else if (_val < _low)
-            return _high - abs;
-
-        else return _val;
+        return _val;
 
     }
 
