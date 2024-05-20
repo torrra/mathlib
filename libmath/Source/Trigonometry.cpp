@@ -65,24 +65,21 @@ namespace mth
 		return sin(_rad) / cos(_rad);
 	}
 
+	// TODO: re-implement my own inverse tring functions
 
 	Radian acos(float _cosine)
 	{
-		float powResult, acosResult = 0.f, itResult;
+		return Radian(std::acosf(_cosine));
+	}
 
-		for (unsigned int it = 1; it <= COS_IT; ++it)
-		{
-			powResult = pow(_cosine, it * 2);
+	Radian asin(float _sine)
+	{
+		return Radian(std::asinf(_sine));
+	}
 
-			itResult = powResult * mth::Factorials::evenFacts[it - 1];
-
-			acosResult += itResult;
-
-		}
-
-		acosResult = _cosine + acosResult;
-
-		return Radian(acosResult);
+	Radian atan(float _tangent)
+	{
+		return Radian(std::atanf(_tangent));
 	}
 
 	const float mth::Factorials::evenFacts[] =
@@ -95,6 +92,8 @@ namespace mth
 			1.f / static_cast<float>(factorial(10)),
 			-1.f / static_cast<float>(factorial(12)),
 	};
+
+
 
 }
 
