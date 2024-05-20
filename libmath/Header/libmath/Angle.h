@@ -1,9 +1,12 @@
 #pragma once
 
-#define MTH_PI		3.141592653589f
-#define RAD_CIRCLE	6.283185307179f
-#define DEG2RAD		0.0174532925f
-#define RAD2DEG		57.29577951308f
+#define MTH_PI				3.141592653589f
+#define RAD_CIRCLE			6.283185307179f
+#define HALF_RAD_CIRCLE		1.570796326794f
+
+
+#define DEG2RAD				0.0174532925f
+#define RAD2DEG				57.29577951308f
 
 namespace mth
 {
@@ -50,6 +53,8 @@ namespace mth
 	Degree&		operator-=(float _rhs);
 	Degree&		operator*=(float _rhs);
 	Degree&		operator/=(float _rhs);
+
+	Degree		operator-(void)							const;
 
 
 	bool		operator==(const Degree& _rhs)			const;
@@ -107,6 +112,8 @@ namespace mth
 	Radian&		operator-=(float _rhs);
 	Radian&		operator*=(float _rhs);
 	Radian&		operator/=(float _rhs);
+
+	Radian		operator-(void)							const;
 
 
 	bool		operator==(const Radian& _rhs)			const;

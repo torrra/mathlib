@@ -156,9 +156,14 @@ namespace mth
 		return *this;
 	}
 
+	Degree Degree::operator-(void) const
+	{
+		return Degree(-m_value);
+	}
+
 	bool Degree::operator==(const Degree& _rhs) const
 	{
-		return almostEqual(m_value, _rhs.m_value, DEG_PRECISION);
+		return almostEqual(Deg(false), _rhs.Deg(false), DEG_PRECISION);
 	}
 
 	bool Degree::operator!=(const Degree& _rhs) const
@@ -168,7 +173,7 @@ namespace mth
 
 	bool Degree::operator==(float _rhs) const
 	{
-		return almostEqual(m_value, _rhs, DEG_PRECISION);
+		return almostEqual(Deg(false), _rhs, DEG_PRECISION);
 	}
 
 	bool Degree::operator!=(float _rhs) const
@@ -345,9 +350,14 @@ namespace mth
 		return *this;
 	}
 
+	Radian Radian::operator-(void) const
+	{
+		return Radian(-m_value);
+	}
+
 	bool Radian::operator==(const Radian& _rhs) const
 	{
-		return almostEqual(m_value, _rhs.m_value, RAD_PRECISION);
+		return almostEqual(Rad(false), _rhs.Rad(false), RAD_PRECISION);
 	}
 
 
@@ -358,7 +368,7 @@ namespace mth
 
 	bool Radian::operator==(float _rhs) const
 	{
-		return almostEqual(m_value, _rhs, RAD_PRECISION);
+		return almostEqual(Rad(false), _rhs, RAD_PRECISION);
 	}
 
 	bool Radian::operator!=(float _rhs) const
