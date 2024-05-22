@@ -44,14 +44,14 @@ FetchContent_MakeAvailable(glm)
 # Gather files to build executable
 
 # Headers
-file(GLOB_RECURSE TARGET_HEADER_FILES 
+file(GLOB_RECURSE TARGET_HEADER_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/*.h
 	${CMAKE_CURRENT_SOURCE_DIR}/*.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/*.inl
 )
 
 # Source files
-file(GLOB_RECURSE TARGET_SOURCE_FILES 
+file(GLOB_RECURSE TARGET_SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/*.c
 	${CMAKE_CURRENT_SOURCE_DIR}/*.cc
 	${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
@@ -60,16 +60,22 @@ file(GLOB_RECURSE TARGET_SOURCE_FILES
 )
 
 # Documentation
-file(GLOB_RECURSE TARGET_EXTRA_FILES 
+file(GLOB_RECURSE TARGET_DOC_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/*.txt
 	${CMAKE_CURRENT_SOURCE_DIR}/*.md
 )
 
-# Create variable containing all relevant files
-set(TARGET_FILES ${TARGET_HEADER_FILES} ${TARGET_SOURCE_FILES} ${TARGET_EXTRA_FILES})
+# Extras
+file(GLOB TARGET_EXTRA_FILES
+    ${CMAKE_SOURCE_DIR}/.gitignore
+)
 
-# Generate visual studio filters following
+# Create variable containing all relevant files
+set(TARGET_FILES ${TARGET_HEADER_FILES} ${TARGET_SOURCE_FILES} ${TARGET_DOC_FILES})
+
+# Generate visual studio filters following the hierarchy
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TARGET_FILES})
+source_group("Extra files" FILES ${TARGET_EXTRA_FILES})
 
 # Set include directory variable
 set(TARGET_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Header)
@@ -78,7 +84,7 @@ set(TARGET_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Header)
 add_executable(${TARGET_NAME})
 
 # Add sources to executable, only visible to itself
-target_sources(${TARGET_NAME} PRIVATE ${TARGET_SOURCE_FILES})
+target_sources(${TARGET_NAME} PRIVATE ${TARGET_FILES} ${TARGET_EXTRA_FILES})
 
 # Make necessary include directories visible to the executable
 target_include_directories(${TARGET_NAME}
@@ -102,7 +108,7 @@ if (MSVC)
 
     # TODO remove
     # Force disable LNK2019 unresolved external linker error
-    target_link_options(${TARGET_NAME} PRIVATE /FORCE:UNRESOLVED)
+    # target_link_options(${TARGET_NAME} PRIVATE /FORCE:UNRESOLVED)
 
 elseif(LINUX)
 

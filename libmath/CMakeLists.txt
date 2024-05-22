@@ -35,13 +35,13 @@ file(GLOB_RECURSE TARGET_SOURCE_FILES
 )
 
 # Extras/documentation
-file(GLOB_RECURSE TARGET_EXTRA_FILES
+file(GLOB_RECURSE TARGET_DOC_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/*.txt
 	${CMAKE_CURRENT_SOURCE_DIR}/*.md
 )
 
 # Put target all files together in a variable
-set(TARGET_FILES ${TARGET_HEADER_FILES} ${TARGET_SOURCE_FILES} ${TARGET_EXTRA_FILES})
+set(TARGET_FILES ${TARGET_HEADER_FILES} ${TARGET_SOURCE_FILES} ${TARGET_DOC_FILES})
 
 # Generate Visual Studio filter without the extra "libmath" folder in Header
 source_group("Source" ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TARGET_SOURCE_FILES})
