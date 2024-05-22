@@ -27,5 +27,10 @@ namespace mth
 
 
 		static const float		evenFacts[6];
+		static const float		oddFacts[6];
+		static const float		acosFactors[6];
 	};
 }
+
+namespace LibMath = mth;
+namespace lm = mth;

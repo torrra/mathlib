@@ -38,6 +38,5 @@ namespace mth
     // Get factorial of an unsigned integral value
     unsigned int       factorial(unsigned int _val);
 }
-
 namespace LibMath = mth;
 namespace lm = mth;
