@@ -1,8 +1,11 @@
 #pragma once
 
 #define MTH_PI				3.141592653589f
+
+
 #define RAD_CIRCLE			6.283185307179f
-#define HALF_RAD_CIRCLE		1.570796326794f
+#define PI_OVER_FOUR		0.785398163397f
+#define PI_OVER_TWO			1.570796326794f
 
 
 #define DEG2RAD				0.0174532925f
