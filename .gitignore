@@ -19,3 +19,6 @@
 # Object files
 *.o
 *.obj
+
+# Notepad++ backup folders
+/**/nppBackup/
