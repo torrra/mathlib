@@ -42,8 +42,8 @@ public:
 			long long		nanoseconds = m_elapsed;
 
 			// Conversion factors between each time unit
-			double			nanoToSec = 0.000000001, nanoToMilli = 0.000001, nanoToMicro = 0.001;
-			long long		secToNano = 1000000000ll, milliToNano = 1000000ll, microToNano = 1000ll;
+			double			nanoToSec = 1e-9, nanoToMilli = 1e-6, nanoToMicro = 1e-3;
+			long long		secToNano = (__int64) 1e9, milliToNano = (__int64) 1e6, microToNano = (__int64) 1e3;
 
 			// Divide into microseconds, milliseconds, etc
 			long long		seconds = static_cast<long long>(nanoseconds * nanoToSec);
