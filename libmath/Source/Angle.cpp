@@ -223,11 +223,38 @@ namespace mth
 
 	float Radian::Rad(bool _wrapPi) const
 	{
-		if (_wrapPi)
-			return wrap(m_value, -MTH_PI, MTH_PI);
+		// Treat value as positive
+		float			absValue = absolute(m_value);
 
-		else
-			return wrap(m_value, 0.f, RAD_CIRCLE);
+		// Wrap around unit circle
+		if (absValue >= RAD_CIRCLE)
+		{
+			float	circleCount = floor(absValue / RAD_CIRCLE);
+
+			absValue -= circleCount * RAD_CIRCLE;
+		}
+
+		// Wrap again if range is -pi, pi
+		if (_wrapPi)
+		{
+			if (absValue >= MTH_PI)
+				absValue -= RAD_CIRCLE;
+
+			// Restore sign
+			if (m_value < 0.f && absValue > 0.f)
+				absValue = -absValue;
+
+		}
+
+		// Add negative value to circle if range is 0, 2pi
+		else if (m_value < 0.f)
+		{
+			absValue = RAD_CIRCLE - absValue;
+		}
+
+		return absValue;
+
+
 	}
 
 	float Radian::Raw() const
@@ -237,7 +264,7 @@ namespace mth
 
 	void Radian::Wrap(bool _wrap180)
 	{
-		m_value = Deg(_wrap180);
+		m_value = Rad(_wrap180);
 	}
 
 	Radian& Radian::operator=(const Radian& _rhs)
