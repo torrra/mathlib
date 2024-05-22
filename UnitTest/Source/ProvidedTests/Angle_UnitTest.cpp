@@ -7,8 +7,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 
-namespace LibMath = mth;
-
 using namespace LibMath::Literal;
 
 TEST_CASE("Degree", "[all][angle]")
@@ -204,7 +202,7 @@ TEST_CASE("Degree", "[all][angle]")
 	}
 }
 
-TEST_CASE("Radian", "[.all][angle]")
+TEST_CASE("Radian", "[all][angle]")
 {
 	constexpr float halfRadianCircle = glm::pi<float>();
 	constexpr float radianCircle = glm::two_pi<float>();
@@ -396,7 +394,7 @@ TEST_CASE("Radian", "[.all][angle]")
 		}
 
 		{
-			// prefere lower edge value
+			// prefer lower edge value
 			LibMath::Radian wrapEdge{ radianCircle };
 			wrapEdge.Wrap(false);
 			CHECK(wrapEdge.Raw() == 0.f);

@@ -8,8 +8,6 @@
 
 #include <iostream>
 
-namespace LibMath = mth;
-
 TEST_CASE("Trigonometry", "[all]")
 {
 	LibMath::Radian radian{ 1.2f };
