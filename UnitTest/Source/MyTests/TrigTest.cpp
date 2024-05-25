@@ -16,6 +16,7 @@
 // Uncomment to display results
 //#define DISPLAY_TRIG
 
+#pragma region timer_macros
 #ifdef DISPLAY_TRIG
 
 #define RECORD_FUNC(timer, func, out)\
@@ -24,33 +25,106 @@ timer.start();\
 out = func;\
 timer.stop();\
 std::cout << '\n' << #func << '\n'; \
-timer.display();
+timer.display()
+
+
+#define RECORD_VOID(timer, func)\
+timer.clear();\
+timer.start();\
+func;\
+timer.stop();\
+std::cout << '\n' << #func << '\n';\
+timer.display()
+
+
+#define AVERAGE_VOID(timer, func, avg, maxIt)\
+avg       = 0;\
+for (int i = 0; i < maxIt; ++i)\
+{\
+timer.clear(); \
+timer.start(); \
+func; \
+timer.stop(); \
+avg += timer.getElapsed();\
+}\
+avg /= maxIt;\
+std::cout << '\n' << #func ": Average execution time over " <<\
+maxIt << " iterations: " << avg << " ns \n"
+
+#define AVERAGE_FUNC(timer, func, out, avg, maxIt)\
+avg = 0; \
+for (int i = 0; i < maxIt; ++i)\
+{\
+timer.clear(); \
+timer.start(); \
+out = func; \
+timer.stop(); \
+avg += timer.getElapsed(); \
+}\
+avg /= maxIt; \
+std::cout << '\n' << #func ": Average execution time over " << \
+maxIt << " iterations: " << avg << " ns \n"
+
 
 #else
 
 # define RECORD_FUNC(timer, func, out)\
-out = func;
+out = func
+
+#define RECORD_VOID(timer, func)
+
+#define AVERAGE_VOID(timer, func, avg, maxIt)\
+avg = 0; \
+for (int i = 0; i < maxIt; ++i)\
+{\
+timer.clear(); \
+timer.start(); \
+func; \
+timer.stop(); \
+avg += timer.getElapsed(); \
+}\
+avg /= maxIt
+
+
+#define AVERAGE_FUNC(timer, func, out, avg, maxIt)\
+avg = 0; \
+for (int i = 0; i < maxIt; ++i)\
+{\
+timer.clear(); \
+timer.start(); \
+out = func; \
+timer.stop(); \
+avg += timer.getElapsed(); \
+}\
+avg /= maxIt
+
 
 #endif
 
+#pragma endregion timer_macros
+
 TEST_CASE("Trigonometry - my tests", "[all]")
 {
+
+	Timer				stopwatch;
+
+	constexpr float		sixtyDeg = MTH_PI / 3.f;
+
+	mth::Radian			myRad(sixtyDeg);
+
+	float				myCos, glmCos, stdCos;
+	float				mySin, glmSin, stdSin;
+	float				myTan, glmTan, stdTan;
+
 	SECTION("Positive angle")
 	{
-		constexpr float		sixtyDeg = MTH_PI / 3.f;
-
-		mth::Radian			myRad(sixtyDeg);
-		Timer				stopwatch;
-		float				myCos, glmCos, stdCos;
 
 
 		RECORD_FUNC(stopwatch, mth::cos(myRad), myCos);
 		RECORD_FUNC(stopwatch, glm::cos(sixtyDeg), glmCos);
-
 		RECORD_FUNC(stopwatch, std::cos(sixtyDeg), stdCos);
-		CHECK(mth::almostEqual(myCos, glmCos));
 
-		float				mySin, glmSin, stdSin;
+		CHECK(mth::almostEqual(myCos, glmCos));
 
 
 		RECORD_FUNC(stopwatch, mth::sin(myRad), mySin);
@@ -60,15 +134,23 @@ TEST_CASE("Trigonometry - my tests", "[all]")
 		CHECK(mth::almostEqual(mySin, glmSin));
 
 
-		float				myTan, glmTan, stdTan;
-
-
 		RECORD_FUNC(stopwatch, mth::tan(myRad), myTan);
 		RECORD_FUNC(stopwatch, glm::tan(sixtyDeg), glmTan);
 		RECORD_FUNC(stopwatch, std::tan(sixtyDeg), stdTan);
 
 		CHECK(mth::almostEqual(myTan, glmTan));
 
+		long long		avg;
+		int				iterations = (int) 1e4;
+
+		AVERAGE_VOID(stopwatch, mth::cos(myRad), avg, iterations);
+		AVERAGE_FUNC(stopwatch, glm::cos(sixtyDeg), glmCos, avg, iterations);
+
+		AVERAGE_VOID(stopwatch, mth::sin(myRad), avg, iterations);
+		AVERAGE_FUNC(stopwatch, glm::sin(sixtyDeg), glmSin, avg, iterations);
+
+		AVERAGE_VOID(stopwatch, mth::tan(myRad), avg, iterations);
+		AVERAGE_FUNC(stopwatch, glm::tan(sixtyDeg), glmTan, avg, iterations);
 
 
 #ifdef DISPLAY_TRIG
@@ -88,19 +170,15 @@ TEST_CASE("Trigonometry - my tests", "[all]")
 	SECTION("Negative angle")
 	{
 		constexpr float		minusSixtyDeg = -MTH_PI / 3.f;
-		mth::Radian			myRad(minusSixtyDeg);
-		Timer				stopwatch;
 
-		float				myCos, glmCos, stdCos;
+
+		myRad = minusSixtyDeg;
 
 		RECORD_FUNC(stopwatch, mth::cos(myRad), myCos);
 		RECORD_FUNC(stopwatch, glm::cos(minusSixtyDeg), glmCos);
 		RECORD_FUNC(stopwatch, std::cos(minusSixtyDeg), stdCos);
 
 		CHECK(mth::almostEqual(myCos, glmCos));
-
-		float				mySin, glmSin, stdSin;
-
 
 		RECORD_FUNC(stopwatch, mth::sin(myRad), mySin);
 		RECORD_FUNC(stopwatch, glm::sin(minusSixtyDeg), glmSin);
@@ -109,14 +187,16 @@ TEST_CASE("Trigonometry - my tests", "[all]")
 		CHECK(mth::almostEqual(mySin, glmSin));
 
 
-		float				myTan, glmTan, stdTan;
-
-
 		RECORD_FUNC(stopwatch, mth::tan(myRad), myTan);
 		RECORD_FUNC(stopwatch, glm::tan(minusSixtyDeg), glmTan);
 		RECORD_FUNC(stopwatch, std::tan(minusSixtyDeg), stdTan);
 
 		CHECK(mth::almostEqual(myTan, glmTan));
+
+		//const char* hi = "coucou\0
+
+
+		//stopwatch.recordFunction<float>(mth::cos, true);
 
 #ifdef DISPLAY_TRIG
 
@@ -136,9 +216,8 @@ TEST_CASE("Trigonometry - my tests", "[all]")
 	{
 		constexpr float		minusFive = -5.f;
 
-		mth::Radian			myRad(minusFive);
-		Timer				stopwatch;
-		float				myCos, glmCos, stdCos;
+		myRad = minusFive;
+
 
 
 		RECORD_FUNC(stopwatch, mth::cos(myRad), myCos);
@@ -146,8 +225,7 @@ TEST_CASE("Trigonometry - my tests", "[all]")
 		RECORD_FUNC(stopwatch, std::cos(minusFive), stdCos);
 
 		CHECK(mth::almostEqual(myCos, glmCos));
-
-		float				mySin, glmSin, stdSin;
+;
 
 		RECORD_FUNC(stopwatch, mth::sin(myRad), mySin);
 		RECORD_FUNC(stopwatch, glm::sin(minusFive), glmSin);
@@ -155,7 +233,7 @@ TEST_CASE("Trigonometry - my tests", "[all]")
 
 		CHECK(mth::almostEqual(mySin, glmSin));
 
-		float				myTan, glmTan, stdTan;
+
 
 		RECORD_FUNC(stopwatch, mth::tan(myRad), myTan);
 		RECORD_FUNC(stopwatch, glm::tan(minusFive), glmTan);
@@ -179,34 +257,30 @@ TEST_CASE("Trigonometry - my tests", "[all]")
 
 	SECTION("Wrapped positive angle")
 	{
-		constexpr float		sixtyDeg = 7.3f;
-		mth::Radian			myRad(sixtyDeg);
-		Timer				stopwatch;
+		constexpr float		sevenRad = 7.3f;
 
-		float				myCos, glmCos, stdCos;
+		myRad = sevenRad;
+
 
 
 		RECORD_FUNC(stopwatch, mth::cos(myRad), myCos);
-		RECORD_FUNC(stopwatch, glm::cos(sixtyDeg), glmCos);
-		RECORD_FUNC(stopwatch, std::cos(sixtyDeg), stdCos);
+		RECORD_FUNC(stopwatch, glm::cos(sevenRad), glmCos);
+		RECORD_FUNC(stopwatch, std::cos(sevenRad), stdCos);
 
 		CHECK(mth::almostEqual(myCos, glmCos));
 
-		float				mySin, glmSin, stdSin;
-
 
 		RECORD_FUNC(stopwatch, mth::sin(myRad), mySin);
-		RECORD_FUNC(stopwatch, glm::sin(sixtyDeg), glmSin);
-		RECORD_FUNC(stopwatch, std::sin(sixtyDeg), stdSin);
+		RECORD_FUNC(stopwatch, glm::sin(sevenRad), glmSin);
+		RECORD_FUNC(stopwatch, std::sin(sevenRad), stdSin);
 
 		CHECK(mth::almostEqual(mySin, glmSin));
 
 
-		float				myTan, glmTan, stdTan;
 
 		RECORD_FUNC(stopwatch, mth::tan(myRad), myTan);
-		RECORD_FUNC(stopwatch, glm::tan(sixtyDeg), glmTan);
-		RECORD_FUNC(stopwatch, std::tan(sixtyDeg), stdTan);
+		RECORD_FUNC(stopwatch, glm::tan(sevenRad), glmTan);
+		RECORD_FUNC(stopwatch, std::tan(sevenRad), stdTan);
 
 		CHECK(mth::almostEqual(myTan, glmTan));
 
