@@ -70,6 +70,39 @@ public:
 
 
 
+	template <typename T>
+	T recordFunction(std::function<T()> func, bool shouldDisplay = true)
+	{
+		clear();
+		start();
+
+		T res = func();
+
+		stop();
+
+		if (shouldDisplay)
+			display();
+
+		return res;
+	}
+
+	template<>
+	void recordFunction<void>(std::function<void()> func, bool shouldDisplay)
+	{
+		clear();
+		start();
+
+		func();
+
+		stop();
+
+		if (shouldDisplay)
+			display();
+
+	}
+
+
+
 
 private:
 	using hrc = std::chrono::high_resolution_clock;
