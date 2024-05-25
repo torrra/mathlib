@@ -3,7 +3,7 @@
 
 namespace mth
 {
-    Matrix2::Matrix2(float _diag)
+    Matrix2::Matrix2(const float _diag)
     {
         m_values[0][0] = _diag;
         m_values[1][1] = _diag;
@@ -18,7 +18,7 @@ namespace mth
     }
 
 
-    Matrix2::Matrix2(float _vals[])
+    Matrix2::Matrix2(const float _vals[])
     {
         m_values[0][0] = _vals[0];
         m_values[0][1] = _vals[1];
