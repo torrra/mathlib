@@ -18,10 +18,10 @@ std::cout << title << ":\n" << obj[0][0] << ' ' << obj[0][1]\
 
 // Comparison compatible with both my libmath and glm
 #define CHECK_MAT2(mat1, mat2)\
-CHECK(mth::almostEqual(mat1[0][0], mat2[0][0]));\
-CHECK(mth::almostEqual(mat1[0][1], mat2[0][1]));\
-CHECK(mth::almostEqual(mat1[1][0], mat2[1][0]));\
-CHECK(mth::almostEqual(mat1[1][1], mat2[1][1]))
+CHECK(mth::AlmostEqual(mat1[0][0], mat2[0][0]));\
+CHECK(mth::AlmostEqual(mat1[0][1], mat2[0][1]));\
+CHECK(mth::AlmostEqual(mat1[1][0], mat2[1][0]));\
+CHECK(mth::AlmostEqual(mat1[1][1], mat2[1][1]))
 
 
 // Comparison between two matrices (mine or from glm) without epsilon test
@@ -33,7 +33,7 @@ CHECK(mat1[1][1] == mat2[1][1])
 
 
 
-TEST_CASE("Matrix2", "[matrix] [all]")
+TEST_CASE("Matrix2", "[matrix][all]")
 {
     SECTION("Instanciation")
     {
