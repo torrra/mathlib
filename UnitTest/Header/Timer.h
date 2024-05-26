@@ -101,6 +101,51 @@ public:
 
 	}
 
+	template <typename T>
+	T recordFunctionAverage(std::function<T()> func, int maxIterations = (int) 1e6, bool shouldDisplay = true)
+	{
+		clear();
+		start();
+
+		T res;
+
+		for (int iteration = 0; iteration < maxIterations; ++iteration)
+		{
+			res = func();
+		}
+
+		stop();
+
+		long long		average = m_elapsed / maxIterations;
+
+		if (shouldDisplay)
+			std::cout << "\nAverage execution time over " << maxIterations <<
+						 " iterations: " << average << " ns\n";
+
+		return res;
+	}
+
+	template<>
+	void recordFunctionAverage<void>(std::function<void()> func, int maxIterations, bool shouldDisplay)
+	{
+		clear();
+		start();
+
+		for (int iteration = 0; iteration < maxIterations; ++iteration)
+		{
+			func();
+		}
+
+		stop();
+
+		long long		average = m_elapsed / maxIterations;
+
+		if (shouldDisplay)
+			std::cout << "\nAverage execution time over " << maxIterations <<
+			" iterations: " << average << " ns\n";
+
+	}
+
 
 
 
