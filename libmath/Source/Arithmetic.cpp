@@ -4,21 +4,21 @@
 
 namespace mth
 {
-    float absolute(float _val)
+    float Absolute(float _val)
     {
         // Multiply by -1 if negative
         return (_val < 0) ? -_val : _val;
     }
 
-    bool almostEqual(float _a, float _b, float _epsilon)
+    bool AlmostEqual(float _a, float _b, float _epsilon)
     {
         // Check if difference is smaller than epsilon
-        return absolute(_a - _b) <= _epsilon;
+        return Absolute(_a - _b) <= _epsilon;
     }
 
-    float round(float _val)
+    float Round(float _val)
     {
-        float       floored = floor(_val);
+        float       floored = Floor(_val);
 
         // Round up if decimal part > .5
         if (_val - floored >= 0.5f)
@@ -29,22 +29,22 @@ namespace mth
             return floored;
     }
 
-    float ceil(float _val)
+    float Ceil(float _val)
     {
-        float       floored = floor(_val);
+        float       floored = Floor(_val);
 
         // Round up if there is a decimal part
         return (floored == _val) ? floored : floored + 1.f;
     }
 
-    float floor(float _val)
+    float Floor(float _val)
     {
         // Remove decimal part
         return static_cast<float>((int) _val);
     }
 
 
-    float wrap(float _val, float _low, float _high)
+    float Wrap(float _val, float _low, float _high)
     {
         if (-_val > _high)
         _val = _high + std::fmodf(_val - _high, _low - _high);
@@ -60,7 +60,7 @@ namespace mth
     }
 
 
-    float clamp(float _val, float _low, float _high)
+    float Clamp(float _val, float _low, float _high)
     {
         // Return highest of low values
         if (_val < _low)
@@ -73,7 +73,7 @@ namespace mth
         return _val;
     }
 
-    float pow(float _val, unsigned int _power)
+    float Pow(float _val, unsigned int _power)
     {
         if (0 == _power)
             return 1.f;
@@ -91,28 +91,33 @@ namespace mth
         return _val;
     }
 
+    float SquareRoot(float _val)
+    {
+        return sqrtf(_val);
+    }
 
-    float min(float _a, float _b)
+
+    float Min(float _a, float _b)
     {
         // Return smallest
         return (_a < _b) ? _a : _b;
     }
 
 
-    float max(float _a, float _b)
+    float Max(float _a, float _b)
     {
         // Return largest
         return (_a > _b) ? _a : _b;
     }
 
 
-    int absolute (int _val)
+    int Absolute (int _val)
     {
         // Multiply by -1 if < 0
         return (_val < 0) ? -_val : _val;
     }
 
-    unsigned int factorial(unsigned int _val)
+    unsigned int Factorial(unsigned int _val)
     {
         if (0u == _val || 1u == _val)
             return 1u;
