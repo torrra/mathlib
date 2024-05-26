@@ -36,7 +36,7 @@ namespace mth
     int         Absolute(int _val);
 
     // Get factorial of an unsigned integral value
-    unsigned int       Factorial(unsigned int _val);
+    unsigned     Factorial(unsigned int _val);
 }
 namespace LibMath = mth;
 namespace lm = mth;
