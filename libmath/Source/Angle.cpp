@@ -21,19 +21,19 @@ namespace mth
 	float Degree::Deg(bool _wrap180) const
 	{
 		if (_wrap180)
-			return wrap(m_value, -180.f, 180.f);
+			return mth::Wrap(m_value, -180.f, 180.f);
 
 		else
-			return wrap(m_value, 0.f, 360.f);
+			return mth::Wrap(m_value, 0.f, 360.f);
 	}
 
 	float Degree::Rad(bool _wrapPi) const
 	{
 		if (_wrapPi)
-			return wrap(m_value * DEG2RAD, -MTH_PI, MTH_PI);
+			return mth::Wrap(m_value * DEG2RAD, -MTH_PI, MTH_PI);
 
 		else
-			return wrap(m_value * DEG2RAD, 0.f, RAD_CIRCLE);
+			return mth::Wrap(m_value * DEG2RAD, 0.f, RAD_CIRCLE);
 	}
 
 	float Degree::Raw(void) const
@@ -163,7 +163,7 @@ namespace mth
 
 	bool Degree::operator==(const Degree& _rhs) const
 	{
-		return almostEqual(Deg(false), _rhs.Deg(false), DEG_PRECISION);
+		return AlmostEqual(Deg(false), _rhs.Deg(false), DEG_PRECISION);
 	}
 
 	bool Degree::operator!=(const Degree& _rhs) const
@@ -173,7 +173,7 @@ namespace mth
 
 	bool Degree::operator==(float _rhs) const
 	{
-		return almostEqual(Deg(false), _rhs, DEG_PRECISION);
+		return AlmostEqual(Deg(false), _rhs, DEG_PRECISION);
 	}
 
 	bool Degree::operator!=(float _rhs) const
@@ -215,21 +215,21 @@ namespace mth
 	float Radian::Deg(bool _wrap180) const
 	{
 		if (_wrap180)
-			return wrap(m_value * RAD2DEG, -180.f, 180.f);
+			return mth::Wrap(m_value * RAD2DEG, -180.f, 180.f);
 
 		else
-			return wrap(m_value * RAD2DEG, 0.f, 360.f);
+			return mth::Wrap(m_value * RAD2DEG, 0.f, 360.f);
 	}
 
 	float Radian::Rad(bool _wrapPi) const
 	{
 		// Treat value as positive
-		float			absValue = absolute(m_value);
+		float			absValue = Absolute(m_value);
 
 		// Wrap around unit circle
 		if (absValue >= RAD_CIRCLE)
 		{
-			float	circleCount = floor(absValue / RAD_CIRCLE);
+			float	circleCount = Floor(absValue / RAD_CIRCLE);
 
 			absValue -= circleCount * RAD_CIRCLE;
 		}
@@ -384,7 +384,7 @@ namespace mth
 
 	bool Radian::operator==(const Radian& _rhs) const
 	{
-		return almostEqual(Rad(false), _rhs.Rad(false), RAD_PRECISION);
+		return AlmostEqual(Rad(false), _rhs.Rad(false), RAD_PRECISION);
 	}
 
 
@@ -395,7 +395,7 @@ namespace mth
 
 	bool Radian::operator==(float _rhs) const
 	{
-		return almostEqual(Rad(false), _rhs, RAD_PRECISION);
+		return AlmostEqual(Rad(false), _rhs, RAD_PRECISION);
 	}
 
 	bool Radian::operator!=(float _rhs) const
