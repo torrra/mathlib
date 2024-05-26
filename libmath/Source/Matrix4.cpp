@@ -58,7 +58,7 @@ namespace mth
 		for (int cofactor = 0; cofactor < 4; ++cofactor)
 		{
 			minor = SubMatrix(stripedRow, cofactor);
-			result += m_values[stripedRow][cofactor] * minor.Determinant() * pow(minusOne, cofactor);
+			result += m_values[stripedRow][cofactor] * minor.Determinant() * Pow(minusOne, cofactor);
 
 		}
 
@@ -92,7 +92,7 @@ namespace mth
 			{
 				result[column][row] = SubMatrix(row, column).Determinant();
 
-				result[column][row] *= pow(minusOne, row + column);
+				result[column][row] *= Pow(minusOne, row + column);
 			}
 		}
 
@@ -129,7 +129,7 @@ namespace mth
 			{
 				result[row][column] = SubMatrix(row, column).Determinant();
 
-				result[row][column] *= pow(minusOne, row + column);
+				result[row][column] *= Pow(minusOne, row + column);
 			}
 		}
 
@@ -148,7 +148,7 @@ namespace mth
 			{
 				result[column][row] = SubMatrix(row, column).Determinant();
 
-				result[column][row] *= pow(minusOne, row + column);
+				result[column][row] *= Pow(minusOne, row + column);
 				result[column][row] *= invDeterminant;
 
 			}
@@ -220,7 +220,7 @@ namespace mth
 		return *this;
 	}
 
-	Matrix4& Matrix4::operator=(const float _rhs[9])
+	Matrix4& Matrix4::operator=(const float _rhs[16])
 	{
 		int		arrayIndex = 0;
 
@@ -234,7 +234,6 @@ namespace mth
 
 		return *this;
 	}
-
 
 
 	Matrix4 Matrix4::operator+(const Matrix4& _rhs) const
@@ -392,7 +391,7 @@ namespace mth
 		{
 			for (int column = 0; column < 4; ++column)
 			{
-				if (!mth::almostEqual(m_values[row][column],
+				if (!mth::AlmostEqual(m_values[row][column],
 					_rhs.m_values[row][column]))
 					return false;
 			}
