@@ -93,7 +93,7 @@ namespace mth
 			{
 				result[column][row] = SubMatrix(row, column).Determinant();
 
-				result[column][row] *= pow(minusOne, row + column);
+				result[column][row] *= Pow(minusOne, row + column);
 			}
 		}
 
@@ -130,7 +130,7 @@ namespace mth
 			{
 				result[row][column] = SubMatrix(row, column).Determinant();
 
-				result[row][column] *= pow(minusOne, row + column);
+				result[row][column] *= Pow(minusOne, row + column);
 			}
 		}
 
@@ -149,7 +149,7 @@ namespace mth
 			{
 				result[column][row] = SubMatrix(row, column).Determinant();
 
-				result[column][row] *= pow(minusOne, row + column);
+				result[column][row] *= Pow(minusOne, row + column);
 				result[column][row] *= invDeterminant;
 
 			}
@@ -393,7 +393,7 @@ namespace mth
 		{
 			for (int column = 0; column < 3; ++column)
 			{
-				if (!mth::almostEqual(m_values[row][column],
+				if (!mth::AlmostEqual(m_values[row][column],
 					_rhs.m_values[row][column]))
 					return false;
 			}
