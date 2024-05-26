@@ -61,3 +61,6 @@ namespace mth
 
 	};
 }
+
+namespace lm = mth;
+namespace LibMath = lm;
