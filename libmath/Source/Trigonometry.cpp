@@ -7,7 +7,7 @@
 
 namespace mth
 {
-	static float cosFlt(float _val)
+	static float InternalCos(float _val)
 	{
 		float powResult, cosResult = 0.f, itResult, radians = Wrap(_val, -MTH_PI, MTH_PI);
 
@@ -51,7 +51,7 @@ namespace mth
 		// See: https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Sine_cosine_one_period.svg/1920px-Sine_cosine_one_period.svg.png
 		constexpr float		piOverTwo = 1.570796326794896619231f;
 
-		float				cosine = cosFlt(Absolute(_rad.Raw()) - piOverTwo);
+		float				cosine = InternalCos(Absolute(_rad.Raw()) - piOverTwo);
 
 		if (_rad.Raw() < 0.f)
 			return -cosine;
