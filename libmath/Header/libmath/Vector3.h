@@ -129,8 +129,6 @@ namespace mth
 	float				Distance(const Vector3& _start, const Vector3& _end);
 	float				DistanceSquared(const Vector3& _start, const Vector3& _end);
 
-	Vector3				Rotate(const Vector3& _target, Radian _angleZ);
-
 	Vector3				Rotate
 	(
 		const Vector3& _target, Radian _angleX, Radian _angleY, Radian _angleZ

@@ -438,6 +438,15 @@ namespace mth
 		return result;
 	}
 
+	Vector3 Rotate(const Vector3& _target, Radian _angle, const Vector3& _axis)
+	{
+		Vector3		result = _target;
+
+		result.Rotate(_angle, _axis);
+
+		return result;
+	}
+
 	Vector3 Vector3::operator+(const Vector3& _rhs) const
 	{
 		return Vector3(m_x + _rhs.m_x, m_y + _rhs.m_y, m_z + _rhs.m_z);
