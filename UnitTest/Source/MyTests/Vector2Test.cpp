@@ -442,6 +442,13 @@ TEST_CASE("Vector 2", "[all][vector]")
 
 		CHECK_VECTOR2(result, glmResult);
 
+		CHECK(result == result);
+
+		mth::Vector2			vecThree(154.f, 0.f);
+
+		CHECK(vecThree != result);
+		CHECK_FALSE(vecOne == vecThree);
+
 	}
 
 }
