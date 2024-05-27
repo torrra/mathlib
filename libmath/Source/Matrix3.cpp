@@ -306,6 +306,29 @@ namespace mth
 		return result;
 	}
 
+
+	Vector3  Matrix3::operator*(const Vector3& _rhs) const
+	{
+		Vector3		result;
+		float		num;
+
+		for (int row = 0; row < 3; ++row)
+		{
+			num = 0.f;
+
+			for (int column = 0; column < 3; ++column)
+			{
+				num += m_values[row][column] * _rhs[column];
+			}
+
+			result[row] = num;
+		}
+
+		return result;
+	}
+
+
+
 	Matrix3 Matrix3::operator/(float _rhs) const
 	{
 		return *this * (1.f / _rhs);
