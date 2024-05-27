@@ -66,6 +66,10 @@ namespace mth
 		float			operator[](int _index)								const;
 
 
+		bool			operator==(const Vector2& _rhs)						const;
+		bool			operator!=(const Vector2& _rhs)						const;
+
+
 		Vector2			operator+(const Vector2& _rhs)						const;
 		Vector2			operator-(const Vector2& _rhs)						const;
 		Vector2			operator*(const Vector2& _rhs)						const;

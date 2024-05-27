@@ -232,6 +232,21 @@ namespace mth
 		}
 	}
 
+	bool Vector2::operator==(const Vector2& _rhs) const
+	{
+		return
+		(
+			AlmostEqual(m_x, _rhs.m_x) &&
+			AlmostEqual(m_y, _rhs.m_y)
+		);
+	}
+
+
+	bool Vector2::operator!=(const Vector2& _rhs) const
+	{
+		return !(*this == _rhs);
+	}
+
 
 	float Dot(const Vector2& _first, const Vector2& _second)
 	{
