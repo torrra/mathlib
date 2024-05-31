@@ -43,7 +43,8 @@ public:
 
 			// Conversion factors between each time unit
 			double			nanoToSec = 1e-9, nanoToMilli = 1e-6, nanoToMicro = 1e-3;
-			long long		secToNano = (__int64) 1e9, milliToNano = (__int64) 1e6, microToNano = (__int64) 1e3;
+			long long		secToNano = (__int64) 1e9, milliToNano = (__int64) 1e6,
+							microToNano = (__int64) 1e3;
 
 			// Divide into microseconds, milliseconds, etc
 			long long		seconds = static_cast<long long>(nanoseconds * nanoToSec);
@@ -61,7 +62,9 @@ public:
 			nanoseconds -= microseconds * microToNano;
 
 
-			std::cout << "Elapsed time: " << seconds << " s, " << milliseconds << " ms, " << microseconds << " us, " << nanoseconds << " ns." << '\n';
+			std::cout << "Elapsed time: " << seconds << " s, " <<
+						 milliseconds << " ms, " << microseconds <<
+						 " us, " << nanoseconds << " ns." << '\n';
 		}
 	}
 
