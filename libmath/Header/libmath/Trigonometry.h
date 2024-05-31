@@ -2,6 +2,10 @@
 
 #include "libmath/Angle.h"
 
+#define MIN_COS		-1.f
+#define MAX_COS		1.f
+
+
 namespace mth
 {
 	float		Cos(const Radian& _rad);
