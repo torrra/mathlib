@@ -288,6 +288,26 @@ namespace mth
 		return result;
 	}
 
+	Vector4 Matrix4::operator*(const Vector4& _rhs) const
+	{
+		Vector4		result;
+		float		num;
+
+		for (int row = 0; row < 4; ++row)
+		{
+			num = 0.f;
+
+			for (int column = 0; column < 4; ++column)
+			{
+				num += m_values[row][column] * _rhs[column];
+			}
+
+			result[row] = num;
+		}
+
+		return result;
+	}
+
 
 	Matrix4 Matrix4::operator*(float _rhs) const
 	{

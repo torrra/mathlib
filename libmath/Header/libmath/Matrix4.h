@@ -1,6 +1,7 @@
 #pragma once
 
 #include "libmath/Matrix3.h"
+#include "libmath/Vector4.h"
 
 namespace mth
 {
@@ -37,6 +38,8 @@ namespace mth
 		Matrix4         operator+(const Matrix4& _rhs)      const;
 		Matrix4         operator-(const Matrix4& _rhs)      const;
 		Matrix4         operator*(const Matrix4& _rhs)      const;
+
+		Vector4         operator*(const Vector4& _rhs)      const;
 
 		Matrix4         operator*(float _factor)            const;
 		Matrix4         operator/(float _factor)            const;
