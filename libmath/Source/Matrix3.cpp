@@ -85,7 +85,7 @@ namespace mth
 	{
 		Matrix3			result;
 
-		float			minusOne = -1;
+		float			sign = 1;
 
 		for (int row = 0; row < 3; ++row)
 		{
@@ -93,7 +93,9 @@ namespace mth
 			{
 				result[column][row] = SubMatrix(row, column).Determinant();
 
-				result[column][row] *= Pow(minusOne, row + column);
+				result[column][row] *= sign;
+
+				sign *= -1;
 			}
 		}
 
@@ -122,7 +124,7 @@ namespace mth
 	{
 		Matrix3			result;
 
-		float			minusOne = -1;
+		float			sign = 1;
 
 		for (int row = 0; row < 3; ++row)
 		{
@@ -130,7 +132,9 @@ namespace mth
 			{
 				result[row][column] = SubMatrix(row, column).Determinant();
 
-				result[row][column] *= Pow(minusOne, row + column);
+				result[row][column] *= sign;
+
+				sign *= -1;
 			}
 		}
 
@@ -141,7 +145,7 @@ namespace mth
 	{
 		float			invDeterminant = 1.f / Determinant();
 		Matrix3			result;
-		float			minusOne = -1;
+		float			sign = 1;
 
 		for (int row = 0; row < 3; ++row)
 		{
@@ -149,9 +153,10 @@ namespace mth
 			{
 				result[column][row] = SubMatrix(row, column).Determinant();
 
-				result[column][row] *= Pow(minusOne, row + column);
+				result[column][row] *= sign;
 				result[column][row] *= invDeterminant;
 
+				sign *= -1;
 			}
 		}
 
