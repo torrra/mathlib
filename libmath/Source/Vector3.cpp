@@ -8,8 +8,6 @@
 #include "libmath/Trigonometry.h"
 #include "libmath/Arithmetic.h"
 
-#define MIN_COS		-1.f
-#define MAX_COS		1.f
 
 namespace mth
 {
@@ -116,7 +114,14 @@ namespace mth
 
 	void Vector3::Normalize()
 	{
-		float		invMagnitude = 1.f / Magnitude();
+		float		invMagnitude = Magnitude();
+
+		if (AlmostEqual(invMagnitude, 0.f, FLT_EPSILON))
+			throw std::logic_error("Cannot divide by zero magnitude");
+
+		else
+			invMagnitude = 1.f / invMagnitude;
+
 
 		m_x *= invMagnitude;
 		m_y *= invMagnitude;
@@ -202,7 +207,7 @@ namespace mth
 
 	void Vector3::Rotate(Radian _angle, const Vector3& _axis)
 	{
-		const Vector3		normalizedAxis = mth::Normalize(_axis);
+		const Vector3		norm = mth::Normalize(_axis);
 		const float			xCpy = m_x, yCpy = m_y, zCpy = m_z;
 
 		// lib math trig functions are not precise enough,
@@ -211,39 +216,41 @@ namespace mth
 		const float			sinAngle = std::sin(_angle.Raw());
 
 		const float			oneMinCos = 1.f - cosAngle;
+		const Vector3		oneMinAxis = norm * oneMinCos;
 
 		// Perform matrix multiplication
-		float				factorX = cosAngle + normalizedAxis.m_x *
-									  normalizedAxis.m_x * oneMinCos;
+		float				factorX = cosAngle + norm.m_x *
+									  norm.m_x * oneMinCos;
 
-		float				factorY = normalizedAxis.m_x * normalizedAxis.m_y *
-									  oneMinCos - normalizedAxis.m_z * sinAngle;
-		float				factorZ = normalizedAxis.m_x * normalizedAxis.m_z *
-									  oneMinCos + normalizedAxis.m_y * sinAngle;
+		float				factorY = norm.m_x * norm.m_y *
+									  oneMinCos - norm.m_z * sinAngle;
+		float				factorZ = norm.m_x * norm.m_z *
+									  oneMinCos + norm.m_y * sinAngle;
 
 		m_x = xCpy * factorX + yCpy * factorY + factorZ * zCpy;
 
-		factorX = normalizedAxis.m_y * normalizedAxis.m_x *
-				  oneMinCos + normalizedAxis.m_z * sinAngle;
+		factorX = norm.m_y * norm.m_x *
+				  oneMinCos + norm.m_z * sinAngle;
 
-		factorY = cosAngle + normalizedAxis.m_y *
-				  normalizedAxis.m_y * oneMinCos;
+		factorY = cosAngle + norm.m_y *
+				  norm.m_y * oneMinCos;
 
-		factorZ = normalizedAxis.m_y * normalizedAxis.m_z *
-			      oneMinCos - normalizedAxis.m_x * sinAngle;
+		factorZ = norm.m_y * norm.m_z *
+			      oneMinCos - norm.m_x * sinAngle;
 
 		m_y = xCpy * factorX + yCpy * factorY + factorZ * zCpy;
 
-		factorX = normalizedAxis.m_z * normalizedAxis.m_x *
-				  oneMinCos - normalizedAxis.m_y * sinAngle;
+		factorX = norm.m_z * norm.m_x *
+				  oneMinCos - norm.m_y * sinAngle;
 
-		factorY = normalizedAxis.m_z * normalizedAxis.m_y *
-				  oneMinCos + normalizedAxis.m_x * sinAngle;
+		factorY = norm.m_z * norm.m_y *
+				  oneMinCos + norm.m_x * sinAngle;
 
-		factorZ = cosAngle + normalizedAxis.m_z *
-				  normalizedAxis.m_z * oneMinCos;
+		factorZ = cosAngle + norm.m_z *
+				  norm.m_z * oneMinCos;
 
 		m_z = xCpy * factorX + yCpy * factorY + factorZ * zCpy;
+
 	}
 
 
@@ -478,7 +485,7 @@ namespace mth
 	{
 		_rhs = 1.f / _rhs;
 
-		return Vector3(m_x * _rhs, m_y * _rhs, m_z / _rhs);
+		return Vector3(m_x * _rhs, m_y * _rhs, m_z * _rhs);
 	}
 
 	Vector3 Vector3::operator-(void) const
