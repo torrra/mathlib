@@ -135,4 +135,46 @@ namespace mth
 		return intersection;
 	}
 
+
+	Ray2D::Ray2D(const Vector2& _pos, const Vector2& _dir)
+		: m_origin(_pos)
+	{
+		m_direction = Normalize(_dir);
+
+		// Pre compute direction divisor
+		m_inverseDir.X() = (m_direction.GetX() != 0.f) ? 1.f / m_direction.GetX() : 0.f;
+		m_inverseDir.Y() = (m_direction.GetY() != 0.f) ? 1.f / m_direction.GetY() : 0.f;
+	}
+
+
+	bool Ray2D::Intersect(const AABBCollider2D& _box, float& _distance) const
+	{
+		float   maxIntersect = FLT_MAX, minIntersect = -FLT_MAX;
+
+		Vector2 minVertex = _box.GetMin(), maxVertex = _box.GetMax();
+
+		// x plane = 0, y plane = 1, z plane = 2
+		for (int axis = 0; axis < 3; ++axis)
+		{
+			// t1 for x, t3 for y, t5 for z
+			float lowIntersect = (minVertex[axis] - m_origin[axis]) * m_inverseDir[axis];
+
+			// t2 for x, t4 for y, t6 for z
+			float highIntersect = (maxVertex[axis] - m_origin[axis]) * m_inverseDir[axis];
+
+			maxIntersect = Min(Max(lowIntersect, highIntersect), maxIntersect);
+			minIntersect = Max(Min(lowIntersect, highIntersect), minIntersect);
+		}
+
+		// Check if an intersection occurred
+		bool	intersection = maxIntersect > Max(minIntersect, 0.f);
+
+		// Write distance into reference argument if intersection is successful
+		if (intersection)
+			_distance = minIntersect;
+
+		// Return intersection status
+		return intersection;
+	}
+
 }
