@@ -39,6 +39,8 @@ namespace mth
 		void			Normalize(void);
 		Vector2			Normalized(void)									const;
 
+		Vector2			Normal(void)										const;
+
 		void			ProjectOnto(const Vector2& _other);
 
 		void			ReflectOnto(const Vector2& _axis);
