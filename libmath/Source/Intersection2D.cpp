@@ -177,4 +177,48 @@ namespace mth
 		return intersection;
 	}
 
+	PolygonCollider2D::PolygonCollider2D(Vector2 _vertices[], int _count)
+		: m_vertexCount(_count)
+	{
+		if (!m_vertices)
+			m_vertices = new Vector2[_count];
+
+
+		for (int vertex = 0; vertex < _count; ++vertex)
+		{
+			m_vertices[vertex] = _vertices[vertex];
+		}
+	}
+
+	PolygonCollider2D::PolygonCollider2D(const PolygonCollider2D& _other)
+		: m_vertexCount(_other.m_vertexCount)
+	{
+		if (_other.m_vertexCount)
+			m_vertices = new Vector2[_other.m_vertexCount];
+
+		for (unsigned int vert = 0; vert < _other.m_vertexCount; ++vert)
+			m_vertices[vert] = _other.m_vertices[vert];
+
+	}
+
+
+	PolygonCollider2D::~PolygonCollider2D(void)
+	{
+		if (m_vertices)
+			delete[] m_vertices;
+	}
+
+
+	Vector2& PolygonCollider2D::operator[](int _index)
+	{
+		return m_vertices[_index];
+	}
+
+
+	Vector2 PolygonCollider2D::operator[](int _index) const
+	{
+		return m_vertices[_index];
+	}
+
+
 }
