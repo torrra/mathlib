@@ -33,4 +33,106 @@ namespace mth
 		return m_extents;
 	}
 
+	bool AABBCollider2D::CheckCollision(const AABBCollider2D& _other) const
+	{
+		Vector2		selfMin = GetMin(),
+					selfMax = GetMax();
+
+		Vector2		otherMin = _other.GetMin(),
+					otherMax = _other.GetMax();
+
+
+		if (selfMax[0] < otherMin[0] || selfMin[0] > otherMax[0])
+			return false;
+
+		if (selfMax[1] < otherMin[1] || selfMin[1] > otherMax[1])
+			return false;
+
+		return true;
+	}
+
+	bool AABBCollider2D::CheckCollision(const OBBCollider2D& _other) const
+	{
+		PolygonCollider2D    selfPoly, otherPoly;
+
+		Vector2        selfVertices[4] =
+		{
+			GetMax(),
+			GetMin(),
+			{ m_position.GetX() + m_extents.GetX(), m_position.GetY() - m_extents.GetY()},
+			{ m_position.GetX() - m_extents.GetX(), m_position.GetY() + m_extents.GetY()},
+		};
+
+		Vector2				otherRotated = Rotate(_other.GetExtents(), _other.GetRotation());
+
+
+		Vector2		otherVertices[4] =
+		{
+			_other.GetPosition() + otherRotated,
+			_other.GetPosition() - otherRotated,
+			{
+				_other.GetPosition().GetX() + otherRotated.GetX(),
+				_other.GetPosition().GetY() - otherRotated.GetY()
+			},
+			{
+				_other.GetPosition().GetX() - otherRotated.GetX(),
+				_other.GetPosition().GetY() + otherRotated.GetY()
+			},
+		};
+
+		selfPoly.m_vertices = selfVertices;
+		otherPoly.m_vertices = otherVertices;
+
+		selfPoly.m_vertexCount = otherPoly.m_vertexCount = 4;
+
+
+		bool		intersection = selfPoly.CheckCollision(otherPoly);
+
+		selfPoly.m_vertices = otherPoly.m_vertices = nullptr;
+
+		return intersection;
+
+	}
+
+	bool AABBCollider2D::CheckCollision(const CircleCollider2D& _other) const
+	{
+		Vector2 minVertex = GetMin(), maxVertex = GetMax();
+
+
+		Vector2		closestPoint
+		{
+			Max(minVertex.GetX(), Min(_other.GetPosition().GetX(), maxVertex.GetX())),
+			Max(minVertex.GetY(), Min(_other.GetPosition().GetY(), maxVertex.GetY()))
+		};
+
+		Vector2		distance = closestPoint - _other.GetPosition();
+
+
+		return distance.MagnitudeSquared() <= _other.GetRadius() * _other.GetRadius();
+	}
+
+	bool AABBCollider2D::CheckCollision(const PolygonCollider2D& _other) const
+	{
+		PolygonCollider2D	selfPoly;
+
+		Vector2		selfVertices[4] =
+		{
+			GetMax(),
+			GetMin(),
+			{ m_position.GetX() + m_extents.GetX(), m_position.GetY() - m_extents.GetY()},
+			{ m_position.GetX() - m_extents.GetX(), m_position.GetY() + m_extents.GetY()},
+		};
+
+		selfPoly.m_vertices = selfVertices;
+
+		selfPoly.m_vertexCount = 4;
+
+
+		bool		intersection = selfPoly.CheckCollision(_other);
+
+		selfPoly.m_vertices = nullptr;
+
+		return intersection;
+	}
+
 }
