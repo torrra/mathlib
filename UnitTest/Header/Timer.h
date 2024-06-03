@@ -110,7 +110,7 @@ public:
 		clear();
 		start();
 
-		T res;
+		T res = T(0);
 
 		for (int iteration = 0; iteration < maxIterations; ++iteration)
 		{
