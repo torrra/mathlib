@@ -71,8 +71,6 @@ TEST_CASE("Arithmetic", "[all]")
        constexpr float      big = 1555.4f, small = 3.f,
                             veryBig = 99999.f, verySmall = 0.4f;
 
-       // TODO: Test wrap
-
        CHECK(mth::Clamp(veryBig, small, big) == std::clamp(veryBig, small, big));
        CHECK(mth::Clamp(verySmall, small, big) == std::clamp(verySmall, small, big));
 
