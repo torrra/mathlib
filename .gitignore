@@ -22,3 +22,6 @@
 
 # Notepad++ backup folders
 /**/nppBackup/
+
+# Databases
+*.pdb
