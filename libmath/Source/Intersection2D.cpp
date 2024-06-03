@@ -307,4 +307,62 @@ namespace mth
 	{
 		return m_position + m_extents;
 	}
+
+
+	Vector2 OBBCollider2D::GetMin(void) const
+	{
+		Vector2		rotated = Rotate(m_extents, m_rotation);
+
+		return m_position - rotated;
+	}
+
+	Vector2 OBBCollider2D::GetMax(void) const
+	{
+		Vector2		rotated = Rotate(m_extents, m_rotation);
+
+		return rotated + m_position;
+	}
+
+
+	OBBCollider2D::OBBCollider2D(const Vector2& _pos, const Vector2& _extents, Radian _angle)
+		: m_position(_pos), m_extents(_extents), m_rotation(_angle)
+	{
+	}
+
+	bool OBBCollider2D::CheckCollision(const AABBCollider2D& _other) const
+	{
+		return _other.CheckCollision(*this);
+	}
+
+
+	Vector2& OBBCollider2D::Position(void)
+	{
+		return m_position;
+	}
+
+	Vector2& OBBCollider2D::Extents(void)
+	{
+		return m_extents;
+	}
+
+	Radian& OBBCollider2D::Rotation(void)
+	{
+		return m_rotation;
+	}
+
+	Vector2 OBBCollider2D::GetPosition(void) const
+	{
+		return m_position;
+	}
+
+	Vector2 OBBCollider2D::GetExtents(void) const
+	{
+		return m_extents;
+	}
+
+	Radian OBBCollider2D::GetRotation(void) const
+	{
+		return m_rotation;
+	}
+
 }
