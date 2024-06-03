@@ -44,4 +44,34 @@ namespace mth
 		Vector2		m_extents;
 
 	};
+
+	class CircleCollider2D
+	{
+	public:
+
+					CircleCollider2D(void) = default;
+					CircleCollider2D(const Vector2& _pos, float _radius);
+
+					CircleCollider2D
+					(const CircleCollider2D& _other) = default;
+
+		bool		CheckCollision(const AABBCollider2D& _other)	const;
+
+		bool		CheckCollision(const OBBCollider2D& _other)		const;
+
+		bool		CheckCollision(const CircleCollider2D& _other)	const;
+
+
+		Vector2&	Position(void);
+		float&		Radius(void);
+
+		Vector2		GetPosition(void)								const;
+		float		GetRadius(void)									const;
+
+	private:
+
+		Vector2 m_position;
+		float	m_radius = 0.f;
+	};
+
 }
