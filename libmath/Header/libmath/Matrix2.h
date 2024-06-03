@@ -1,5 +1,7 @@
 #pragma once
 
+#include "libmath/Angle.h"
+
 namespace mth
 {
     class Matrix2
@@ -40,6 +42,8 @@ namespace mth
         float*          operator[](int _index);
         float const*    operator[](int _index)              const;
 
+
+        static Matrix2  Rotate(Radian _angle);
 
     private:
 
