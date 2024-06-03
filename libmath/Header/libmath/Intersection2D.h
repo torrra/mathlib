@@ -192,4 +192,11 @@ namespace mth
 		Radian		m_rotation;
 	};
 
+
+	using Rectangle = AABBCollider2D;
+	using OrientedRectangle = OBBCollider2D;
+
+	using Point2D = Vector2;
+	using Circle = CircleCollider2D;
+
 }
