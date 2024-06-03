@@ -121,4 +121,73 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 	}
 
+	SECTION("OBB")
+	{
+		mth::OBBCollider2D		controlOBB
+		(
+			{ 4.f, 6.f }, { 1.f, 3.f }, mth::Radian(100.f * DEG2RAD)
+		);
+
+		SECTION("Instanciation and accessors")
+		{
+			
+			mth::OBBCollider2D		discard;
+			mth::OBBCollider2D		copy = controlOBB;
+
+			mth::Vector2			position{ 4.f, 6.f }, extents{ 1.f, 3.f};
+
+			mth::Vector2			rotated = mth::Rotate
+			(
+				controlOBB.GetExtents(), 
+				controlOBB.GetRotation()
+			);
+
+			// Accessor
+			CHECK(copy.GetMax() == controlOBB.GetPosition() + rotated);
+			CHECK(copy.GetMin() == controlOBB.GetPosition() - rotated);
+
+			CHECK(copy.GetPosition() == position);
+			CHECK(copy.Position() == position);
+
+			CHECK(copy.Extents() == extents);
+			CHECK(copy.GetExtents() == extents);
+		}
+
+		SECTION("OBB / OBB")
+		{
+			mth::OBBCollider2D 	noCollide
+			(
+				{0.f, 0.f}, {2.f, 1.f}, mth::Radian(0.f)
+			);
+
+			mth::OBBCollider2D 	collide
+			(
+				{3.f, 6.f}, {5.f, 4.f}, mth::Radian(0.f)
+			);
+
+			CHECK_FALSE(controlOBB.CheckCollision(noCollide));
+			CHECK(controlOBB.CheckCollision(collide));
+
+			std::cout << controlOBB.GetMin() << ' ' << controlOBB.GetMax() << '\n' << collide.GetMin() << ' ' << collide.GetMax() << '\n';
+
+		}
+
+
+	}
+
+	SECTION("CIRCLE")
+	{
+
+	}
+
+	SECTION("POLYGON")
+	{
+
+	}
+
+	SECTION("RAY")
+	{
+
+	}
+
 }
