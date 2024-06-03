@@ -106,6 +106,11 @@ namespace mth
 		return result;
 	}
 
+	Vector2 Vector2::Normal(void) const
+	{
+		return Vector2(-m_y, m_x);
+	}
+
 
 	void Vector2::ProjectOnto(const Vector2& _other)
 	{
