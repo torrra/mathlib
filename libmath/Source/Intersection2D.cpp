@@ -70,14 +70,18 @@ namespace mth
 		{
 			_other.GetPosition() + otherRotated,
 			_other.GetPosition() - otherRotated,
-			{
-				_other.GetPosition().GetX() + otherRotated.GetX(),
-				_other.GetPosition().GetY() - otherRotated.GetY()
-			},
-			{
-				_other.GetPosition().GetX() - otherRotated.GetX(),
-				_other.GetPosition().GetY() + otherRotated.GetY()
-			},
+			
+			_other.GetPosition() + Rotate
+			(
+				{_other.GetExtents().X(), -_other.GetExtents().Y()},
+				 _other.GetRotation()
+			),
+
+			_other.GetPosition() + Rotate
+			(
+				{-_other.GetExtents().X(), _other.GetExtents().Y()},
+				 _other.GetRotation()
+			),
 		};
 
 		selfPoly.m_vertices = selfVertices;
@@ -324,7 +328,8 @@ namespace mth
 	}
 
 
-	OBBCollider2D::OBBCollider2D(const Vector2& _pos, const Vector2& _extents, Radian _angle)
+	OBBCollider2D::OBBCollider2D
+	(const Vector2& _pos, const Vector2& _extents, Radian _angle)
 		: m_position(_pos), m_extents(_extents), m_rotation(_angle)
 	{
 	}
@@ -378,22 +383,34 @@ namespace mth
 		{
 			m_position + selfRotated,
 			m_position - selfRotated,
-			{ m_position.GetX() + selfRotated.GetX(), m_position.GetY() - selfRotated.GetY()},
-			{ m_position.GetX() - selfRotated.GetX(), selfRotated.GetY() + selfRotated.GetY()},
+			m_position + Rotate
+			(
+				{ m_extents.GetX(), -m_extents.GetY() },
+				  m_rotation
+			),
+			m_position + Rotate
+			(
+				{ -m_extents.GetX(), m_extents.GetY() },
+				  m_rotation
+			),
 		};
 
 		Vector2		otherVertices[4] =
 		{
 			_other.GetPosition() + otherRotated,
 			_other.GetPosition() - otherRotated,
-			{
-				_other.GetPosition().GetX() + otherRotated.GetX(),
-				_other.GetPosition().GetY() - otherRotated.GetY()
-			},
-			{
-				_other.GetPosition().GetX() - otherRotated.GetX(),
-				_other.GetPosition().GetY() + otherRotated.GetY()
-			},
+			
+			_other.GetPosition() + Rotate
+			(
+				{_other.GetExtents().X(), -_other.GetExtents().Y()},
+				 _other.GetRotation()
+			),
+
+			_other.GetPosition() + Rotate
+			(
+				{-_other.GetExtents().X(), _other.GetExtents().Y()},
+				 _other.GetRotation()
+			),
 		};
 
 		selfPoly.m_vertices = selfVertices;
