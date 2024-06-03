@@ -150,4 +150,46 @@ namespace mth
 
 	};
 
+	class OBBCollider2D
+	{
+	public:
+
+					OBBCollider2D(void) = default;
+
+					OBBCollider2D
+					(const Vector2& _pos, const Vector2& _extents, Radian _angle);
+
+					OBBCollider2D(const OBBCollider2D& _other) = default;
+					~OBBCollider2D(void) = default;
+
+
+		bool		CheckCollision(const AABBCollider2D& _other)	const;
+
+		bool		CheckCollision(const OBBCollider2D& _other)		const;
+
+		bool		CheckCollision(const CircleCollider2D& _other)	const;
+
+		bool		CheckCollision(const PolygonCollider2D& _other)	const;
+
+		Vector2&	Position(void);
+		Vector2&	Extents(void);
+
+		Radian&		Rotation(void);
+
+		Vector2		GetPosition(void)								const;
+		Vector2		GetExtents(void)								const;
+
+		Radian		GetRotation(void)								const;
+
+		Vector2		GetMin(void)									const;
+		Vector2		GetMax(void)									const;
+
+
+	private:
+
+		Vector2		m_position;
+		Vector2		m_extents;
+		Radian		m_rotation;
+	};
+
 }
