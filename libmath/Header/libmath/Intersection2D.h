@@ -74,4 +74,37 @@ namespace mth
 		float	m_radius = 0.f;
 	};
 
+	class Ray2D
+	{
+	public:
+
+		Ray2D(void) = delete;
+		Ray2D(const Vector2& _pos, const Vector2& _dir);
+		Ray2D(const Ray2D& _other) = default;
+
+		~Ray2D(void) = default;
+
+		bool Intersect
+		(const AABBCollider2D& _box, float& _distance)				const;
+
+
+		Vector2&	Origin(void);
+		Vector2&	Direction(void);
+
+		Vector2		GetOrigin(void)									 const;
+		Vector2		GetDirection(void)								 const;
+		Vector2		GetInverseDir(void)								 const;
+
+
+	private:
+		// Origin of ray
+		Vector2    m_origin;
+
+		// Direction unit vector
+		Vector2    m_direction;
+
+		// 1 / direction
+		Vector2    m_inverseDir;
+	};
+
 }
