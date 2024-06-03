@@ -1,5 +1,6 @@
 #include "libmath/Matrix2.h"
 #include "libmath/Arithmetic.h"
+#include "libmath/Trigonometry.h"
 
 namespace mth
 {
@@ -171,5 +172,17 @@ namespace mth
     float const* Matrix2::operator[](int _index) const
     {
         return m_values[_index];
+    }
+
+
+    Matrix2 Matrix2::Rotate(Radian _angle)
+    {
+        float   cosAngle = Cos(_angle), sinAngle = Sin(_angle);
+
+        return Matrix2
+        (
+            cosAngle, -sinAngle,
+            sinAngle, cosAngle
+        );
     }
 }
