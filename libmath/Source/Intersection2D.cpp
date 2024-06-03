@@ -221,4 +221,67 @@ namespace mth
 	}
 
 
+
+	bool PolygonCollider2D::CheckCollision(const PolygonCollider2D& _other) const
+	{
+		return SeparatingAxisTheorem(_other);
+	}
+
+	void PolygonCollider2D::MinMaxProjection
+	(const Vector2& _normal, float& _min, float& _max) const
+	{
+		for (unsigned int vertex = 0; vertex < m_vertexCount; ++vertex)
+		{
+			float	projection = Round(_normal.Dot(m_vertices[vertex]));
+
+			if (projection < _min)
+				_min = projection;
+
+			else if (projection > _max)
+				_max = projection;
+		}
+	}
+
+	bool PolygonCollider2D::
+		SeparatingAxisTheorem(const PolygonCollider2D& _other) const
+	{
+
+		if (!InternalSAT(_other))
+			return false;
+
+		if (!_other.InternalSAT(*this))
+			return false;
+
+		return true;
+	}
+
+
+	bool PolygonCollider2D::InternalSAT(const PolygonCollider2D& _other) const
+	{
+		float	min1, max1;
+		float   min2, max2;
+
+
+		for (unsigned int side = 0; side < m_vertexCount; ++side)
+		{
+			min1 = FLT_MAX, max1 = -FLT_MAX;
+			min2 = FLT_MAX, max2 = -FLT_MAX;
+
+			Vector2		normal;
+
+			if (0 == side)
+				normal = (m_vertices[side] - m_vertices[m_vertexCount - 1]).Normal();
+
+			else
+				normal = (m_vertices[side] - m_vertices[side - 1]).Normal();
+
+			MinMaxProjection(normal, min1, max1);
+			_other.MinMaxProjection(normal, min2, max2);
+
+			if (min2 > max1 || min1 > max2)
+				return false;
+		}
+
+		return true;
+	}
 }
