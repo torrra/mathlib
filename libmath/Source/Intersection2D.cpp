@@ -451,4 +451,26 @@ namespace mth
 		return intersection;
 	}
 
+	Vector2& CircleCollider2D::Position(void)
+	{
+		return m_position;
+	}
+
+	float& CircleCollider2D::Radius(void)
+	{
+		return m_radius;
+	}
+
+	Vector2 CircleCollider2D::GetPosition(void) const
+	{
+		return m_position;
+	}
+
+	float CircleCollider2D::GetRadius(void) const
+	{
+		return m_radius;
+	}
+
+	
+
 }
