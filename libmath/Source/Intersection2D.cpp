@@ -471,6 +471,27 @@ namespace mth
 		return m_radius;
 	}
 
-	
+	CircleCollider2D::CircleCollider2D(const Vector2& _pos, float _radius)
+		: m_position(_pos), m_radius(_radius)
+	{
+	}
+
+
+	bool CircleCollider2D::CheckCollision(const AABBCollider2D& _other) const
+	{
+		return _other.CheckCollision(*this);
+	}
+
+	bool CircleCollider2D::CheckCollision(const OBBCollider2D& _other) const
+	{
+		return _other.CheckCollision(*this);
+	}
+
+	bool CircleCollider2D::CheckCollision(const CircleCollider2D& _other) const
+	{
+		float		distance = DistanceSquared(m_position, _other.m_position);
+
+		return distance >= m_radius * m_radius;
+	}
 
 }
