@@ -107,4 +107,47 @@ namespace mth
 		Vector2    m_inverseDir;
 	};
 
+	class PolygonCollider2D
+	{
+	public:
+
+		PolygonCollider2D(void) = default;
+		PolygonCollider2D(Vector2 _vertices[], int _count);
+		PolygonCollider2D(const PolygonCollider2D& _other);
+		~PolygonCollider2D(void);
+
+
+		bool			CheckCollision
+		(const PolygonCollider2D& _other)							const;
+		bool			CheckCollision
+		(const AABBCollider2D& _other)								const;
+
+		bool			CheckCollision
+		(const OBBCollider2D& _other)								const;
+
+
+		Vector2&		operator[](int _index);
+		Vector2			operator[](int _index)						const;
+
+	private:
+
+		bool SeparatingAxisTheorem
+		(const PolygonCollider2D& _other)							const;
+
+
+		void MinMaxProjection
+		(const Vector2& _normal, float& _min, float& _max)					const;
+
+
+		bool InternalSAT(const PolygonCollider2D& _poly2)					const;
+
+		Vector2*		m_vertices = nullptr;
+		unsigned int	m_vertexCount = 0;
+
+
+		friend class AABBCollider2D;
+		friend class OBBCollider2D;
+
+	};
+
 }
