@@ -284,4 +284,27 @@ namespace mth
 
 		return true;
 	}
+
+	bool PolygonCollider2D::CheckCollision(const AABBCollider2D& _other) const
+	{
+		return _other.CheckCollision(*this);
+	}
+
+	bool PolygonCollider2D::CheckCollision(const OBBCollider2D& _other) const
+	{
+		return _other.CheckCollision(*this);
+	}
+
+
+
+	Vector2 AABBCollider2D::GetMin(void) const
+	{
+		return m_position - m_extents;
+	}
+
+
+	Vector2 AABBCollider2D::GetMax(void) const
+	{
+		return m_position + m_extents;
+	}
 }
