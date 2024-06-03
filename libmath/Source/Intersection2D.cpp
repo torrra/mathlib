@@ -365,4 +365,90 @@ namespace mth
 		return m_rotation;
 	}
 
+
+	bool OBBCollider2D::CheckCollision(const OBBCollider2D& _other) const
+	{
+		PolygonCollider2D	selfPoly, otherPoly;
+
+		Vector2				selfRotated = Rotate(m_extents, m_rotation);
+		Vector2				otherRotated = Rotate(_other.m_extents, _other.m_rotation);
+
+
+		Vector2		selfVertices[4] =
+		{
+			m_position + selfRotated,
+			m_position - selfRotated,
+			{ m_position.GetX() + selfRotated.GetX(), m_position.GetY() - selfRotated.GetY()},
+			{ m_position.GetX() - selfRotated.GetX(), selfRotated.GetY() + selfRotated.GetY()},
+		};
+
+		Vector2		otherVertices[4] =
+		{
+			_other.GetPosition() + otherRotated,
+			_other.GetPosition() - otherRotated,
+			{
+				_other.GetPosition().GetX() + otherRotated.GetX(),
+				_other.GetPosition().GetY() - otherRotated.GetY()
+			},
+			{
+				_other.GetPosition().GetX() - otherRotated.GetX(),
+				_other.GetPosition().GetY() + otherRotated.GetY()
+			},
+		};
+
+		selfPoly.m_vertices = selfVertices;
+		otherPoly.m_vertices = otherVertices;
+
+		selfPoly.m_vertexCount = otherPoly.m_vertexCount = 4;
+
+
+		bool		intersection = selfPoly.CheckCollision(otherPoly);
+
+		selfPoly.m_vertices = otherPoly.m_vertices = nullptr;
+
+		return intersection;
+	}
+
+	bool OBBCollider2D::CheckCollision(const CircleCollider2D& _other) const
+	{
+		Vector2 minVertex = GetMin(), maxVertex = GetMax();
+
+		Vector2		closestPoint
+		{
+			Max(minVertex.GetX(), Min(_other.GetPosition().GetX(), maxVertex.GetX())),
+			Max(minVertex.GetY(), Min(_other.GetPosition().GetY(), maxVertex.GetY()))
+		};
+
+		float		distance = Dot(closestPoint, _other.GetPosition());
+
+		return distance <= _other.GetRadius() * _other.GetRadius();
+	}
+
+	bool OBBCollider2D::CheckCollision(const PolygonCollider2D& _other) const
+	{
+		PolygonCollider2D	selfPoly;
+
+		Vector2		selfVertices[4] =
+		{
+			GetMax(),
+			GetMin(),
+			{ m_position.GetX() + m_extents.GetX(), m_position.GetY() - m_extents.GetY()},
+			{ m_position.GetX() - m_extents.GetX(), m_position.GetY() + m_extents.GetY()},
+		};
+
+		selfVertices[2].Rotate(GetRotation());
+		selfVertices[3].Rotate(GetRotation());
+
+		selfPoly.m_vertices = selfVertices;
+
+		selfPoly.m_vertexCount = 4;
+
+
+		bool	intersection = selfPoly.CheckCollision(_other);
+
+		selfPoly.m_vertices = nullptr;
+
+		return intersection;
+	}
+
 }
