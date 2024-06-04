@@ -349,4 +349,30 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 		}
 	}
 
+
+	SECTION("Point 2D")
+	{
+		mth::Point2D	pointTrue{ 1.f, 1.5f };
+		mth::Point2D	pointFalse{ -5.f, 7.5f };
+
+		SECTION("Point vs AABB")
+		{
+			mth::AABBCollider2D		aabb({ 2.f, 2.f }, { 2.f, 2.f });
+
+			CHECK(aabb.PointInBox(pointTrue));
+
+			CHECK_FALSE(aabb.PointInBox(pointFalse));
+
+		}
+
+		SECTION("Point vs Circle")
+		{
+			mth::CircleCollider2D	circle{ { 2.f, 2.f }, 2.f };
+
+			CHECK(circle.PointInCircle(pointTrue));
+
+			CHECK_FALSE(circle.PointInCircle(pointFalse));
+		}
+	}
+
 }
