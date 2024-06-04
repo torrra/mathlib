@@ -1,5 +1,6 @@
 #include "libmath/Intersection2D.h"
 
+
 namespace mth
 {
 
@@ -110,7 +111,7 @@ namespace mth
 		Vector2		distance = closestPoint - _other.GetPosition();
 
 
-		return distance.MagnitudeSquared() <= _other.GetRadius() * _other.GetRadius();
+		return distance.MagnitudeSquared() <= _other.GetRadiusSquared();
 	}
 
 	bool AABBCollider2D::CheckCollision(const PolygonCollider2D& _other) const
@@ -135,6 +136,19 @@ namespace mth
 		selfPoly.m_vertices = nullptr;
 
 		return intersection;
+	}
+
+	bool AABBCollider2D::PointInBox(const Vector2& _point) const
+	{
+		Vector2		min = GetMin(), max = GetMax();
+
+		if (_point.GetX() < min.GetX() || _point.GetX() > max.GetX())
+			return false;
+
+		if (_point.GetY() < min.GetY() || _point.GetY() > max.GetY())
+			return false;
+
+		return true;
 	}
 
 
@@ -462,7 +476,7 @@ namespace mth
 		Vector2		distance = closestPoint - _other.GetPosition();
 
 
-		return distance.MagnitudeSquared() <= _other.GetRadius() * _other.GetRadius();
+		return distance.MagnitudeSquared() <= _other.GetRadiusSquared();
 	}
 
 	bool OBBCollider2D::CheckCollision(const PolygonCollider2D& _other) const
@@ -519,6 +533,11 @@ namespace mth
 		return m_radius;
 	}
 
+	float CircleCollider2D::GetRadiusSquared(void) const
+	{
+		return m_radius * m_radius;
+	}
+
 	CircleCollider2D::CircleCollider2D(const Vector2& _pos, float _radius)
 		: m_position(_pos), m_radius(_radius)
 	{
@@ -542,4 +561,83 @@ namespace mth
 		return distance <= (m_radius * m_radius) + (_other.m_radius * _other.m_radius);
 	}
 
+	bool CircleCollider2D::PointInCircle(const Vector2& _point) const
+	{
+		Vector2		distance = _point - m_position;
+
+		return distance.MagnitudeSquared() <= m_radius * m_radius;
+	}
+
+	Line2D::Line2D(const Vector2& _start, const Vector2& _end)
+		: m_start(_start), m_end(_end)
+	{
+	}
+
+    Vector2 &Line2D::Start(void)
+    {
+       return m_start;
+    }
+
+    Vector2 &Line2D::End(void)
+    {
+        return m_end;
+    }
+
+    Vector2 Line2D::GetStart(void) const
+    {
+        return m_start;
+    }
+
+    Vector2 Line2D::GetEnd(void) const
+    {
+        return m_end;
+    }
+
+    bool Line2D::Intersect(const AABBCollider2D &_box) const
+    {
+		float 		distanceToBox = 1e10f;
+		Vector2		direction = m_end - m_start;
+
+		Ray2D		lineRay(m_start, direction);
+
+		if (!lineRay.Intersect(_box, distanceToBox) ||
+			distanceToBox * distanceToBox > direction.MagnitudeSquared())
+		return false;
+
+		return true;
+    }
+
+    bool Line2D::Intersect(const CircleCollider2D &_circle) const
+    {
+		Vector2		circleToLineStart = m_start - _circle.GetPosition();
+		Vector2		lineDirection = m_end - m_start;
+
+		// -b
+		float		quadraticDelta = (2.f * lineDirection.Dot(circleToLineStart));
+
+		quadraticDelta *= quadraticDelta;
+
+		// 4ac
+		float		tmpQuadratic = 4.f * lineDirection.MagnitudeSquared() *
+					(circleToLineStart.MagnitudeSquared() -
+					_circle.GetRadiusSquared());
+
+		quadraticDelta -= tmpQuadratic;
+
+		if (quadraticDelta < 0.f)
+			return false;
+
+
+        return true;
+    }
+
+    float Line2D::Length(void) const
+    {
+        return (m_end - m_start).Magnitude();
+    }
+
+    float Line2D::LengthSquared(void) const
+    {
+       return (m_end - m_start).MagnitudeSquared();
+    }
 }
