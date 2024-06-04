@@ -193,10 +193,6 @@ TEST_CASE("Trigonometry - my tests", "[all]")
 
 		CHECK(mth::AlmostEqual(myTan, glmTan));
 
-		//const char* hi = "coucou\0
-
-
-		//stopwatch.recordFunction<float>(mth::Cos, true);
 
 #ifdef DISPLAY_TRIG
 
