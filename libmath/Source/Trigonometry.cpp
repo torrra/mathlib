@@ -26,6 +26,19 @@ namespace mth
 		return cosResult;
 	}
 
+
+	static float AtanZeroX(float _y)
+	{
+		if (_y > 0.f)
+			return PI_OVER_TWO;
+
+		else if (_y < 0.f)
+			return -PI_OVER_TWO;
+
+		return 0.f;
+	}
+
+
 	float Cos(const Radian& _rad)
 	{
 		float powResult, cosResult = 0.f, radians = _rad.Rad(true), itResult;
@@ -65,7 +78,7 @@ namespace mth
 		return Sin(_rad) / Cos(_rad);
 	}
 
-	// TODO: re-implement my own inverse tring functions
+	// TODO: re-implement my own inverse trig functions
 
 	Radian Acos(float _cosine)
 	{
@@ -82,6 +95,26 @@ namespace mth
 		return Radian(std::atanf(_tangent));
 	}
 
+	Radian Atan2(float _y, float _x)
+	{
+		if (AlmostEqual(_x, 0.0f))
+			return Radian(AtanZeroX(_y));
+
+
+		Radian		angle = Atan(_y / _x);
+
+		if (_x >= 0.f && _y <= 0.f)
+			angle += RAD_CIRCLE;
+
+		else if (_x < 0.f && _y <= 0.f)
+			angle += MTH_PI;
+
+		else if (_x < 0.f && _y > 0.f)
+			angle += MTH_PI;
+
+		return angle;
+	}
+
 	const float mth::Factorials::m_evenFacts[] =
 	{
 			// Pre-compute even factorials and divisions for faster cosine execution
@@ -92,8 +125,6 @@ namespace mth
 			1.f / static_cast<float>(Factorial(10)),
 			-1.f / static_cast<float>(Factorial(12))
 	};
-
-
 
 }
 

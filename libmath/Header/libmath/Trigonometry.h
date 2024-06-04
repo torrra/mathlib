@@ -19,7 +19,7 @@ namespace mth
 	Radian		Asin(float _sine);
 	Radian		Atan(float _tangent);
 
-	Radian		Atan2(float _tangent);
+	Radian		Atan2(float _y, float _x);
 
 
 
