@@ -156,6 +156,76 @@ TEST_CASE("Intersection3D", "[all][intersection]")
 			CHECK(distance != FLT_MAX);
 
 		}
+
+		SECTION("Ray vs Sphere")
+		{
+			mth::SphereCollider3D		noCollision({ -4.f, -5.f, -15.f }, 1.f);
+			mth::SphereCollider3D		collision({ 6.f, 5.f, 4.f }, 4.f);
+
+			float distance = FLT_MAX;
+
+			CHECK_FALSE(ray.Intersect(noCollision, distance));
+
+			CHECK(distance == FLT_MAX);
+
+
+			CHECK(ray.Intersect(collision, distance));
+
+			CHECK(distance != FLT_MAX);
+
+		}
 	}
 
+
+	SECTION("LINE SEGMENT")
+	{
+		mth::Line3D		lineTrue({ -3.f, 3.f, 3.f }, { 11.f, 2.f, 5.f });
+		mth::Line3D		lineFalse({ -8.64f, 2.23f, -7.f }, { -6.28f, -6.93f, -8.f });
+
+		SECTION("Line vs Sphere")
+		{
+
+			mth::SphereCollider3D	sphere({ 4.2f, 1.f, 3.f }, 10.f);
+
+			CHECK(lineTrue.Intersect(sphere));
+
+			CHECK_FALSE(lineFalse.Intersect(sphere));
+		}
+
+		SECTION("Line vs AABB")
+		{
+			mth::AABBCollider3D		aabb({ 4.2f, 1.f, 3.f }, { 10.f, 10.f, 10.f });
+
+			CHECK(lineTrue.Intersect(aabb));
+
+			CHECK_FALSE(lineFalse.Intersect(aabb));
+
+		}
+	}
+
+
+	SECTION("Point 3D")
+	{
+		mth::Point3D	pointTrue{ 1.f, 1.5f, 1.f };
+		mth::Point3D	pointFalse{ -5.f, 7.5f, -4.f };
+
+		SECTION("Point vs AABB")
+		{
+			mth::AABBCollider3D		aabb({ 2.f, 2.f, 2.f }, { 2.f, 2.f, 2.f });
+
+			CHECK(aabb.PointInBox(pointTrue));
+
+			CHECK_FALSE(aabb.PointInBox(pointFalse));
+
+		}
+
+		SECTION("Point vs Sphere")
+		{
+			mth::SphereCollider3D	sphere{ { 2.f, 2.f, 2.f }, 2.f };
+
+			CHECK(sphere.PointInSphere(pointTrue));
+
+			CHECK_FALSE(sphere.PointInSphere(pointFalse));
+		}
+	}
 }
