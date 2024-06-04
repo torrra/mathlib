@@ -63,7 +63,8 @@ target_include_directories(${TARGET_NAME} PUBLIC ${TARGET_INCLUDE_DIR})
 # Raise warning level in MSVC and g++
 if(MSVC)
 
-	target_compile_options(${TARGET_NAME} PRIVATE /W4 /WX)
+	# Compile with all warnings and optimizations available
+	target_compile_options(${TARGET_NAME} PRIVATE /W4 /O2 /WX)
 
 elseif(LINUX)
 
