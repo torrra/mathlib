@@ -289,5 +289,38 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 		}
 	}
 
-	
+	SECTION("RAY")
+	{
+		mth::Ray2D	ray({4.f, 2.f}, {2.f, 3.f});
+
+		SECTION("Instanciation and accessors")
+		{
+			mth::Ray2D	copy = ray;
+
+			mth::Vector2	origin{4.f, 2.f}, direction = mth::Normalize({ 2.f, 3.f }),
+							invDir{ 1.f / direction.X(), 1.f / direction.Y() };
+
+			CHECK(copy.Direction() == direction);
+			CHECK(copy.Origin() == origin);
+			CHECK(copy.GetInverseDir() == (invDir));
+		}
+
+		SECTION("Ray vs AABB")
+		{
+			mth::AABBCollider2D		noCollision({ -4.f, -5.f }, { 1.f, 1.f });
+			mth::AABBCollider2D		collision({ 6.f, 5.f }, { 3.f, 2.f });
+			float					distance = FLT_MAX;
+
+			CHECK_FALSE(ray.Intersect(noCollision, distance));
+
+			CHECK(distance == FLT_MAX);
+
+
+			CHECK(ray.Intersect(collision, distance));
+
+			CHECK(distance != FLT_MAX);
+
+		}
+	}
+
 }
