@@ -25,6 +25,8 @@ namespace mth
 
 			bool		CheckCollision (const SphereCollider3D& _other)	const;
 
+			bool		PointInBox(const Vector3& _point)				const;
+
 			Vector3&	Position(void);
 			Vector3&	Extents(void);
 
@@ -55,12 +57,14 @@ namespace mth
 		bool		CheckCollision(const AABBCollider3D& _other)	const;
 		bool		CheckCollision(const SphereCollider3D& _other)	const;
 
+		bool		PointInSphere(const Vector3& _point)			const;
 
 		Vector3&	Position(void);
 		float&		Radius(void);
 
 		Vector3		GetPosition(void)								const;
 		float		GetRadius(void)									const;
+		float		GetRadiusSquared(void)							const;
 
 	private:
 
@@ -80,6 +84,9 @@ namespace mth
 
 		bool Intersect
 		(const AABBCollider3D& _box, float& _distance)				const;
+
+		bool Intersect
+		(const SphereCollider3D& _sphere, float& _distance)			const;
 
 
 		Vector3&	Origin(void);
@@ -149,12 +156,12 @@ namespace mth
 	{
 	public:
 
-		Line3D(void) = default;
-		Line3D(const Vector3& _start, const Vector3& _end);
-		Line3D(const Line3D& _other) = default;
+					Line3D(void) = default;
+					Line3D(const Vector3& _start, const Vector3& _end);
+					Line3D(const Line3D& _other) = default;
 
-		Vector3& Start(void);
-		Vector3& End(void);
+		Vector3&	Start(void);
+		Vector3&	End(void);
 
 		Vector3		GetStart(void)												const;
 		Vector3		GetEnd(void)												const;

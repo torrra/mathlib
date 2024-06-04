@@ -74,6 +74,22 @@ namespace mth
 		return distance.MagnitudeSquared() <= _other.GetRadius() * _other.GetRadius();
 	}
 
+	bool AABBCollider3D::PointInBox(const Vector3& _point) const
+	{
+		Vector3		min = GetMin(), max = GetMax();
+
+		if (_point.GetX() < min.GetX() || _point.GetX() > max.GetX())
+			return false;
+
+		if (_point.GetY() < min.GetY() || _point.GetY() > max.GetY())
+			return false;
+
+		if (_point.GetZ() < min.GetZ() || _point.GetZ() > max.GetZ())
+			return false;
+
+		return true;
+	}
+
 
 
 
@@ -117,6 +133,27 @@ namespace mth
 
 		// Return intersection status
 		return intersection;
+	}
+
+	bool Ray3D::Intersect(const SphereCollider3D& _sphere, float& _distance) const
+	{
+		Vector3		sphereToOrigin = GetOrigin() - _sphere.GetPosition();
+
+		float		quadraticA = m_direction.MagnitudeSquared();
+		float		quadraticB = 2.f * sphereToOrigin.Dot(m_direction);
+		float		quadraticC = sphereToOrigin.MagnitudeSquared() -
+							_sphere.GetRadiusSquared();
+		// delta = b^2 * 4ac
+		float		quadraticDelta = quadraticB * quadraticB -
+					4.f * quadraticA * quadraticC;
+
+		if (quadraticDelta < 0.f)
+			return false;
+
+		_distance = (-quadraticB * SquareRoot(quadraticDelta)) / (2.f * quadraticA);
+
+		return true;
+
 	}
 
     Vector3 &Ray3D::Origin(void)
@@ -295,6 +332,11 @@ namespace mth
 		return m_radius;
 	}
 
+	float SphereCollider3D::GetRadiusSquared(void) const
+	{
+		return m_radius * m_radius;
+	}
+
 	SphereCollider3D::SphereCollider3D(const Vector3& _pos, float _radius)
 		: m_position(_pos), m_radius(_radius)
 	{
@@ -314,5 +356,88 @@ namespace mth
 
 		return distance <= (m_radius * m_radius) + (_other.m_radius * _other.m_radius);
 	}
+
+	bool SphereCollider3D::PointInSphere(const Vector3& _point) const
+	{
+		Vector3		distance = _point - m_position;
+
+		return distance.MagnitudeSquared() <= m_radius * m_radius;
+	}
+
+	Line3D::Line3D(const Vector3& _start, const Vector3& _end)
+		: m_start(_start), m_end(_end)
+	{
+	}
+
+	Vector3& Line3D::Start(void)
+	{
+		return m_start;
+	}
+
+	Vector3& Line3D::End(void)
+	{
+		return m_end;
+	}
+
+	Vector3 Line3D::GetStart(void) const
+	{
+		return m_start;
+	}
+
+	Vector3 Line3D::GetEnd(void) const
+	{
+		return m_end;
+	}
+
+	bool Line3D::Intersect(const AABBCollider3D& _box) const
+	{
+
+		float 		distanceToBox = 1e10f;
+		Vector3		direction = m_end - m_start;
+
+		Ray3D		lineRay(m_start, direction);
+
+		if (!lineRay.Intersect(_box, distanceToBox) ||
+			distanceToBox * distanceToBox > direction.MagnitudeSquared())
+			return false;
+
+		return true;
+	}
+
+	bool Line3D::Intersect(const SphereCollider3D& _sphere) const
+	{
+		Vector3		circleToLineStart = m_start - _sphere.GetPosition();
+		Vector3		lineDirection = m_end - m_start;
+
+		// -b
+		float		quadraticDelta = (2.f * lineDirection.Dot(circleToLineStart));
+
+		quadraticDelta *= quadraticDelta;
+
+		// 4ac
+		float		tmpQuadratic = 4.f * lineDirection.MagnitudeSquared() *
+			(circleToLineStart.MagnitudeSquared() -
+				_sphere.GetRadiusSquared());
+
+		quadraticDelta -= tmpQuadratic;
+
+		if (quadraticDelta < 0.f)
+			return false;
+
+
+		return true;
+	}
+
+	float Line3D::Length(void) const
+	{
+		return (m_end - m_start).Magnitude();
+	}
+
+	float Line3D::LengthSquared(void) const
+	{
+		return (m_end - m_start).MagnitudeSquared();
+	}
+
+
 
 }
