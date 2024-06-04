@@ -28,6 +28,8 @@ namespace mth
 
 			bool		CheckCollision(const PolygonCollider2D& _other)	const;
 
+			bool		PointInBox(const Vector2& _point)				const;
+
 			Vector2&	Position(void);
 			Vector2&	Extents(void);
 
@@ -61,17 +63,20 @@ namespace mth
 
 		bool		CheckCollision(const CircleCollider2D& _other)	const;
 
+		bool		PointInCircle(const Vector2& _point)			const;
+
 
 		Vector2&	Position(void);
 		float&		Radius(void);
 
 		Vector2		GetPosition(void)								const;
 		float		GetRadius(void)									const;
+		float		GetRadiusSquared(void)							const;
 
 	private:
 
-		Vector2 m_position;
-		float	m_radius = 0.f;
+		Vector2		m_position;
+		float		m_radius = 0.f;
 	};
 
 	class Ray2D
