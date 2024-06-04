@@ -469,16 +469,23 @@ namespace mth
 	{
 		PolygonCollider2D	selfPoly;
 
+		Vector2				selfRotated = Rotate(m_extents, m_rotation);
+
 		Vector2		selfVertices[4] =
 		{
-			GetMax(),
-			GetMin(),
-			{ m_position.GetX() + m_extents.GetX(), m_position.GetY() - m_extents.GetY()},
-			{ m_position.GetX() - m_extents.GetX(), m_position.GetY() + m_extents.GetY()},
+			m_position + selfRotated,
+			m_position - selfRotated,
+			m_position + Rotate
+			(
+				{ m_extents.GetX(), -m_extents.GetY() },
+				  m_rotation
+			),
+			m_position + Rotate
+			(
+				{ -m_extents.GetX(), m_extents.GetY() },
+				  m_rotation
+			),
 		};
-
-		selfVertices[2].Rotate(GetRotation());
-		selfVertices[3].Rotate(GetRotation());
 
 		selfPoly.m_vertices = selfVertices;
 
