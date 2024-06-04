@@ -197,6 +197,31 @@ namespace mth
 		Radian		m_rotation;
 	};
 
+	class Line2D
+	{
+	public:
+
+					Line2D(void) = default;
+					Line2D(const Vector2& _start, const Vector2& _end);
+					Line2D(const Line2D& _other) = default;
+
+		Vector2&	Start(void);
+		Vector2&	End(void);
+
+		Vector2		GetStart(void)												const;
+		Vector2		GetEnd(void)												const;
+
+		bool		Intersect(const AABBCollider2D& _box)						const;
+		bool		Intersect(const CircleCollider2D& _circle)					const;
+
+		float		Length(void)												const;
+		float		LengthSquared(void)											const;
+
+	private:
+
+		Vector2		m_start;
+		Vector2		m_end;
+	};
 
 	using Rectangle = AABBCollider2D;
 	using OrientedRectangle = OBBCollider2D;
