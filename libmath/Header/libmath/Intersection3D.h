@@ -145,6 +145,33 @@ namespace mth
 	};
 
 
+	class Line3D
+	{
+	public:
+
+		Line3D(void) = default;
+		Line3D(const Vector3& _start, const Vector3& _end);
+		Line3D(const Line3D& _other) = default;
+
+		Vector3& Start(void);
+		Vector3& End(void);
+
+		Vector3		GetStart(void)												const;
+		Vector3		GetEnd(void)												const;
+
+		bool		Intersect(const AABBCollider3D& _box)						const;
+		bool		Intersect(const SphereCollider3D& _circle)					const;
+
+		float		Length(void)												const;
+		float		LengthSquared(void)											const;
+
+	private:
+
+		Vector3		m_start;
+		Vector3		m_end;
+	};
+
+
 	using Box = AABBCollider3D;
 	using OrientedBox = OBBCollider3D;
 
