@@ -1,13 +1,13 @@
 #pragma once
 
 #include "libmath/Vector3.h"
+#include "libmath/Matrix3.h"
 #include "libmath/Arithmetic.h"
 
 namespace mth
 {
 	class OBBCollider3D;
 	class SphereCollider3D;
-	class MeshCollider3D;
 
 	class AABBCollider3D
 	{
@@ -22,11 +22,8 @@ namespace mth
 
 			bool		CheckCollision(const AABBCollider3D& _other)	const;
 
-			bool		CheckCollision(const OBBCollider3D& _other)		const;
 
 			bool		CheckCollision (const SphereCollider3D& _other)	const;
-
-			bool		CheckCollision(const MeshCollider3D& _other)	const;
 
 			Vector3&	Position(void);
 			Vector3&	Extents(void);
@@ -56,8 +53,6 @@ namespace mth
 					(const SphereCollider3D& _other) = default;
 
 		bool		CheckCollision(const AABBCollider3D& _other)	const;
-
-
 		bool		CheckCollision(const SphereCollider3D& _other)	const;
 
 
@@ -106,50 +101,7 @@ namespace mth
 		Vector3    m_inverseDir;
 	};
 
-	class MeshCollider3D
-	{
-	public:
 
-		MeshCollider3D(void) = default;
-		MeshCollider3D(Vector3 _vertices[], int _count);
-		MeshCollider3D(const MeshCollider3D& _other);
-		~MeshCollider3D(void);
-
-
-		bool			CheckCollision
-		(const MeshCollider3D& _other)							const;
-		bool			CheckCollision
-		(const AABBCollider3D& _other)								const;
-
-		bool			CheckCollision
-		(const OBBCollider3D& _other)								const;
-
-
-		Vector3&		operator[](int _index);
-		Vector3			operator[](int _index)						const;
-
-	private:
-
-		bool SeparatingAxisTheorem
-		(const MeshCollider3D& _other)							const;
-
-
-		void MinMaxProjection
-		(const Vector3& _normal, float& _min, float& _max)		const;
-
-
-		bool InternalSAT(const MeshCollider3D& _poly3)					const;
-
-		bool PlanesSAT(const MeshCollider3D& _other)			const;
-
-		Vector3*		m_vertices = nullptr;
-		unsigned int	m_vertexCount = 0;
-
-
-		friend class AABBCollider3D;
-		friend class OBBCollider3D;
-
-	};
 
 	class OBBCollider3D
 	{
@@ -164,24 +116,22 @@ namespace mth
 					OBBCollider3D(const OBBCollider3D& _other) = default;
 					~OBBCollider3D(void) = default;
 
+		Radian&		RotationX(void);
+		Radian&		RotationY(void);
+		Radian&		RotationZ(void);
 
-		bool		CheckCollision(const AABBCollider3D& _other)	const;
-
-		bool		CheckCollision(const OBBCollider3D& _other)		const;
-
-		bool		CheckCollision(const SphereCollider3D& _other)	const;
-
-		bool		CheckCollision(const MeshCollider3D& _other)	const;
+		Radian		GetRotationX(void);
+		Radian		GetRotationY(void);
+		Radian		GetRotationZ(void);
 
 		Vector3&	Position(void);
 		Vector3&	Extents(void);
 
-		Radian* 	Rotation(void);
+		Matrix3 	RotationMatrix(void)							const;
 
 		Vector3		GetPosition(void)								const;
 		Vector3		GetExtents(void)								const;
 
-		Radian const*	GetRotation(void)							const;
 
 		Vector3		GetMin(void)									const;
 		Vector3		GetMax(void)									const;

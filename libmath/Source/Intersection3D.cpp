@@ -1,4 +1,5 @@
 #include "libmath/Intersection3D.h"
+#include "libmath/Trigonometry.h"
 
 namespace mth
 {
@@ -53,86 +54,7 @@ namespace mth
 		return true;
 	}
 
-	bool AABBCollider3D::CheckCollision(const OBBCollider3D& _other) const
-	{
-		MeshCollider3D    selfPoly, otherPoly;
 
-		Vector3        selfVertices[8] =
-		{
-			GetMax(),
-			{ m_position.GetX() - m_extents.GetX(), m_position.GetY() + m_extents.GetY(), m_position.GetZ() + m_extents.GetZ()},
-
-			{ m_position.GetX() + m_extents.GetX(), m_position.GetY() - m_extents.GetY(), m_position.GetZ() + m_extents.GetZ()},
-			{ m_position.GetX() - m_extents.GetX(), m_position.GetY() - m_extents.GetY(), m_position.GetZ() + m_extents.GetZ()},
-
-
-			GetMin(),
-			{ m_position.GetX() - m_extents.GetX(), m_position.GetY() + m_extents.GetY(), m_position.GetZ() - m_extents.GetZ()},
-
-			{ m_position.GetX() + m_extents.GetX(), m_position.GetY() - m_extents.GetY(), m_position.GetZ() - m_extents.GetZ()},
-			{ m_position.GetX() - m_extents.GetX(), m_position.GetY() - m_extents.GetY(), m_position.GetZ() - m_extents.GetZ()},
-		};
-
-		Vector3				otherRotated = Rotate(_other.GetExtents(), _other.GetRotation()[0], _other.GetRotation()[1], _other.GetRotation()[2]);
-
-
-		Vector3		otherVertices[8] =
-		{
-			_other.GetPosition() + otherRotated,
-
-			_other.GetPosition() + Rotate
-			(
-				{_other.GetExtents().X(), -_other.GetExtents().Y(), _other.GetExtents().Z()},
-				 _other.GetRotation()[0], _other.GetRotation()[1], _other.GetRotation()[2]
-			),
-
-			_other.GetPosition() + Rotate
-			(
-				{-_other.GetExtents().X(), -_other.GetExtents().Y(), _other.GetExtents().Z()},
-				 _other.GetRotation()[0], _other.GetRotation()[1], _other.GetRotation()[2]
-			),
-
-			_other.GetPosition() + Rotate
-			(
-				{-_other.GetExtents().X(), _other.GetExtents().Y(), _other.GetExtents().Z()},
-				 _other.GetRotation()[0], _other.GetRotation()[1], _other.GetRotation()[2]
-			),
-
-
-			_other.GetPosition() - otherRotated,
-
-			_other.GetPosition() + Rotate
-			(
-				{_other.GetExtents().X(), -_other.GetExtents().Y(), -_other.GetExtents().Z()},
-				 _other.GetRotation()[0], _other.GetRotation()[1], _other.GetRotation()[2]
-			),
-
-			_other.GetPosition() + Rotate
-			(
-				{-_other.GetExtents().X(), -_other.GetExtents().Y(), -_other.GetExtents().Z()},
-				 _other.GetRotation()[0], _other.GetRotation()[1], _other.GetRotation()[2]
-			),
-
-			_other.GetPosition() + Rotate
-			(
-				{-_other.GetExtents().X(), _other.GetExtents().Y(), -_other.GetExtents().Z()},
-				 _other.GetRotation()[0], _other.GetRotation()[1], _other.GetRotation()[2]
-			),
-		};
-
-		selfPoly.m_vertices = selfVertices;
-		otherPoly.m_vertices = otherVertices;
-
-		selfPoly.m_vertexCount = otherPoly.m_vertexCount = 8;
-
-
-		bool		intersection = selfPoly.CheckCollision(otherPoly);
-
-		selfPoly.m_vertices = otherPoly.m_vertices = nullptr;
-
-		return intersection;
-
-	}
 
 	bool AABBCollider3D::CheckCollision(const SphereCollider3D& _other) const
 	{
@@ -152,37 +74,7 @@ namespace mth
 		return distance.MagnitudeSquared() <= _other.GetRadius() * _other.GetRadius();
 	}
 
-	bool AABBCollider3D::CheckCollision(const MeshCollider3D& _other) const
-	{
-		MeshCollider3D	selfPoly;
 
-		Vector3        selfVertices[8] =
-		{
-			GetMax(),
-			{ m_position.GetX() - m_extents.GetX(), m_position.GetY() + m_extents.GetY(), m_position.GetZ() + m_extents.GetZ()},
-
-			{ m_position.GetX() + m_extents.GetX(), m_position.GetY() - m_extents.GetY(), m_position.GetZ() + m_extents.GetZ()},
-			{ m_position.GetX() - m_extents.GetX(), m_position.GetY() - m_extents.GetY(), m_position.GetZ() + m_extents.GetZ()},
-
-
-			GetMin(),
-			{ m_position.GetX() - m_extents.GetX(), m_position.GetY() + m_extents.GetY(), m_position.GetZ() - m_extents.GetZ()},
-
-			{ m_position.GetX() + m_extents.GetX(), m_position.GetY() - m_extents.GetY(), m_position.GetZ() - m_extents.GetZ()},
-			{ m_position.GetX() - m_extents.GetX(), m_position.GetY() - m_extents.GetY(), m_position.GetZ() - m_extents.GetZ()},
-		};
-
-		selfPoly.m_vertices = selfVertices;
-
-		selfPoly.m_vertexCount = 8;
-
-
-		bool		intersection = selfPoly.CheckCollision(_other);
-
-		selfPoly.m_vertices = nullptr;
-
-		return intersection;
-	}
 
 
 	Ray3D::Ray3D(const Vector3& _pos, const Vector3& _dir)
@@ -252,129 +144,6 @@ namespace mth
         return m_inverseDir;
     }
 
-    MeshCollider3D::MeshCollider3D(Vector3 _vertices[], int _count)
-        : m_vertexCount(_count)
-    {
-		if (!m_vertices)
-			m_vertices = new Vector3[_count];
-
-
-		for (int vertex = 0; vertex < _count; ++vertex)
-		{
-			m_vertices[vertex] = _vertices[vertex];
-		}
-	}
-
-	MeshCollider3D::MeshCollider3D(const MeshCollider3D& _other)
-		: m_vertexCount(_other.m_vertexCount)
-	{
-		if (_other.m_vertexCount)
-			m_vertices = new Vector3[_other.m_vertexCount];
-
-		for (unsigned int vert = 0; vert < _other.m_vertexCount; ++vert)
-			m_vertices[vert] = _other.m_vertices[vert];
-
-	}
-
-
-	MeshCollider3D::~MeshCollider3D(void)
-	{
-		if (m_vertices)
-			delete[] m_vertices;
-	}
-
-
-	Vector3& MeshCollider3D::operator[](int _index)
-	{
-		return m_vertices[_index];
-	}
-
-
-	Vector3 MeshCollider3D::operator[](int _index) const
-	{
-		return m_vertices[_index];
-	}
-
-
-
-	bool MeshCollider3D::CheckCollision(const MeshCollider3D& _other) const
-	{
-		return SeparatingAxisTheorem(_other);
-	}
-
-	void MeshCollider3D::MinMaxProjection
-	(const Vector3& _normal, float& _min, float& _max) const
-	{
-		for (unsigned int vertex = 0; vertex < m_vertexCount; ++vertex)
-		{
-			float	projection = Round(_normal.Dot(m_vertices[vertex]));
-
-			if (projection < _min)
-				_min = projection;
-
-			else if (projection > _max)
-				_max = projection;
-		}
-	}
-
-	bool MeshCollider3D::
-		SeparatingAxisTheorem(const MeshCollider3D& _other) const
-	{
-
-		if (!InternalSAT(_other))
-			return false;
-
-		if (!_other.InternalSAT(*this))
-			return false;
-
-		return true;
-	}
-
-
-	bool MeshCollider3D::InternalSAT(const MeshCollider3D& _other) const
-	{
-		/*float	min1, max1;
-		float   min3, max3;
-
-
-		for (unsigned int side = 0; side < m_vertexCount; ++side)
-		{
-			min1 = FLT_MAX, max1 = -FLT_MAX;
-			min3 = FLT_MAX, max3 = -FLT_MAX;
-
-			Vector3		normal;
-
-			if (0 == side)
-				normal = (m_vertices[side] - m_vertices[m_vertexCount - 1]).Normal();
-
-			else
-				normal = (m_vertices[side] - m_vertices[side - 1]).Normal();
-
-			MinMaxProjection(normal, min1, max1);
-			_other.MinMaxProjection(normal, min3, max3);
-
-			if (min3 > max1 || min1 > max3)
-				return false;
-		}*/
-
-		return true;
-	}
-
-	bool MeshCollider3D::PlanesSAT(const MeshCollider3D& _other) const
-	{
-		return false;
-	}
-
-	bool MeshCollider3D::CheckCollision(const AABBCollider3D& _other) const
-	{
-		return _other.CheckCollision(*this);
-	}
-
-	bool MeshCollider3D::CheckCollision(const OBBCollider3D& _other) const
-	{
-		return _other.CheckCollision(*this);
-	}
-
 
 
 	Vector3 AABBCollider3D::GetMin(void) const
@@ -420,9 +189,34 @@ namespace mth
 		m_rotation[2] = _angleZ;
 	}
 
-	bool OBBCollider3D::CheckCollision(const AABBCollider3D& _other) const
+	Radian& OBBCollider3D::RotationX(void)
 	{
-		return _other.CheckCollision(*this);
+		return m_rotation[0];
+	}
+
+	Radian& OBBCollider3D::RotationY(void)
+	{
+		return m_rotation[1];
+	}
+
+	Radian& OBBCollider3D::RotationZ(void)
+	{
+		return m_rotation[2];
+	}
+
+	Radian OBBCollider3D::GetRotationX(void)
+	{
+		return m_rotation[0];
+	}
+
+	Radian OBBCollider3D::GetRotationY(void)
+	{
+		return m_rotation[1];
+	}
+
+	Radian OBBCollider3D::GetRotationZ(void)
+	{
+		return m_rotation[2];
 	}
 
 
@@ -436,10 +230,39 @@ namespace mth
 		return m_extents;
 	}
 
-	Radian* OBBCollider3D::Rotation(void)
+	Matrix3 OBBCollider3D::RotationMatrix(void) const
 	{
-		return m_rotation;
+		float		cosYaw = Cos(m_rotation[2]), sinYaw = Sin(m_rotation[2]);
+		float		cosPitch = Cos(m_rotation[0]), sinPitch = Sin(m_rotation[0]);
+		float		cosRoll = Cos(m_rotation[1]), sinRoll = Sin(m_rotation[1]);
+
+
+		float		rotation[][3] =
+		{
+			{
+				cosYaw * cosRoll + sinYaw * sinPitch * sinRoll,
+				-cosYaw * sinRoll + sinYaw * sinPitch * cosRoll,
+				sinYaw * cosPitch
+			},
+
+
+			{
+				sinRoll * cosPitch,
+				cosRoll * cosPitch,
+				-sinPitch
+			},
+
+
+			{
+				-sinYaw * cosRoll + cosYaw * sinPitch * sinRoll,
+				sinRoll * sinYaw + cosYaw * sinPitch * cosRoll,
+				cosYaw * cosPitch
+			}
+		};
+
+		return Matrix3(rotation);
 	}
+
 
 	Vector3 OBBCollider3D::GetPosition(void) const
 	{
@@ -451,200 +274,6 @@ namespace mth
 		return m_extents;
 	}
 
-	Radian const* OBBCollider3D::GetRotation(void) const
-	{
-		return m_rotation;
-	}
-
-
-	bool OBBCollider3D::CheckCollision(const OBBCollider3D& _other) const
-	{
-		MeshCollider3D	selfPoly, otherPoly;
-
-		Vector3				selfRotated = Rotate(m_extents, m_rotation[0], m_rotation[1], m_rotation[2]);
-		Vector3				otherRotated = Rotate(_other.m_extents, _other.m_rotation[0], _other.m_rotation[1], _other.m_rotation[2]);
-
-
-		Vector3		selfVertices[8] =
-		{
-			GetPosition() + selfRotated,
-
-			GetPosition() + Rotate
-			(
-				{GetExtents().X(), -GetExtents().Y(), GetExtents().Z()},
-				 GetRotation()[0], GetRotation()[1], GetRotation()[2]
-			),
-
-			GetPosition() + Rotate
-			(
-				{-GetExtents().X(), -GetExtents().Y(), GetExtents().Z()},
-				 GetRotation()[0], GetRotation()[1], GetRotation()[2]
-			),
-
-			GetPosition() + Rotate
-			(
-				{-GetExtents().X(), GetExtents().Y(), GetExtents().Z()},
-				 GetRotation()[0], GetRotation()[1], GetRotation()[2]
-			),
-
-
-			GetPosition() - selfRotated,
-
-			GetPosition() + Rotate
-			(
-				{GetExtents().X(), -GetExtents().Y(), -GetExtents().Z()},
-				 GetRotation()[0], GetRotation()[1], GetRotation()[2]
-			),
-
-			GetPosition() + Rotate
-			(
-				{-GetExtents().X(), -GetExtents().Y(), -GetExtents().Z()},
-				 GetRotation()[0], GetRotation()[1], GetRotation()[2]
-			),
-
-			GetPosition() + Rotate
-			(
-				{-GetExtents().X(), GetExtents().Y(), -GetExtents().Z()},
-				 GetRotation()[0], GetRotation()[1], GetRotation()[2]
-			),
-		};
-
-		Vector3		otherVertices[8] =
-		{
-			_other.GetPosition() + otherRotated,
-
-			_other.GetPosition() + Rotate
-			(
-				{_other.GetExtents().X(), -_other.GetExtents().Y(), _other.GetExtents().Z()},
-				 _other.GetRotation()[0], _other.GetRotation()[1], _other.GetRotation()[2]
-			),
-
-			_other.GetPosition() + Rotate
-			(
-				{-_other.GetExtents().X(), -_other.GetExtents().Y(), _other.GetExtents().Z()},
-				 _other.GetRotation()[0], _other.GetRotation()[1], _other.GetRotation()[2]
-			),
-
-			_other.GetPosition() + Rotate
-			(
-				{-_other.GetExtents().X(), _other.GetExtents().Y(), _other.GetExtents().Z()},
-				 _other.GetRotation()[0], _other.GetRotation()[1], _other.GetRotation()[2]
-			),
-
-
-			_other.GetPosition() - otherRotated,
-
-			_other.GetPosition() + Rotate
-			(
-				{_other.GetExtents().X(), -_other.GetExtents().Y(), -_other.GetExtents().Z()},
-				 _other.GetRotation()[0], _other.GetRotation()[1], _other.GetRotation()[2]
-			),
-
-			_other.GetPosition() + Rotate
-			(
-				{-_other.GetExtents().X(), -_other.GetExtents().Y(), -_other.GetExtents().Z()},
-				 _other.GetRotation()[0], _other.GetRotation()[1], _other.GetRotation()[2]
-			),
-
-			_other.GetPosition() + Rotate
-			(
-				{-_other.GetExtents().X(), _other.GetExtents().Y(), -_other.GetExtents().Z()},
-				 _other.GetRotation()[0], _other.GetRotation()[1], _other.GetRotation()[2]
-			),
-		};
-
-		selfPoly.m_vertices = selfVertices;
-		otherPoly.m_vertices = otherVertices;
-
-		selfPoly.m_vertexCount = otherPoly.m_vertexCount = 8;
-
-
-		bool		intersection = selfPoly.CheckCollision(otherPoly);
-
-		selfPoly.m_vertices = otherPoly.m_vertices = nullptr;
-
-		return intersection;
-	}
-
-	bool OBBCollider3D::CheckCollision(const SphereCollider3D& _other) const
-	{
-		Vector3 minVertex = GetMin(), maxVertex = GetMax();
-
-		Vector3		closestPoint
-		{
-			Max(minVertex.GetX(), Min(_other.GetPosition().GetX(), maxVertex.GetX())),
-			Max(minVertex.GetY(), Min(_other.GetPosition().GetY(), maxVertex.GetY())),
-			Max(minVertex.GetZ(), Min(_other.GetPosition().GetZ(), maxVertex.GetZ()))
-		};
-
-		Vector3		distance = closestPoint - _other.GetPosition();
-
-
-		return distance.MagnitudeSquared() <= _other.GetRadius() * _other.GetRadius();
-	}
-
-	bool OBBCollider3D::CheckCollision(const MeshCollider3D& _other) const
-	{
-		MeshCollider3D	selfPoly;
-
-		Vector3				selfRotated = Rotate(m_extents, m_rotation[0], m_rotation[1], m_rotation[2]);
-
-
-		Vector3		selfVertices[8] =
-		{
-			GetPosition() + selfRotated,
-
-			GetPosition() + Rotate
-			(
-				{GetExtents().X(), -GetExtents().Y(), GetExtents().Z()},
-				 GetRotation()[0], GetRotation()[1], GetRotation()[2]
-			),
-
-			GetPosition() + Rotate
-			(
-				{-GetExtents().X(), -GetExtents().Y(), GetExtents().Z()},
-				 GetRotation()[0], GetRotation()[1], GetRotation()[2]
-			),
-
-			GetPosition() + Rotate
-			(
-				{-GetExtents().X(), GetExtents().Y(), GetExtents().Z()},
-				 GetRotation()[0], GetRotation()[1], GetRotation()[2]
-			),
-
-
-			GetPosition() - selfRotated,
-
-			GetPosition() + Rotate
-			(
-				{GetExtents().X(), -GetExtents().Y(), -GetExtents().Z()},
-				 GetRotation()[0], GetRotation()[1], GetRotation()[2]
-			),
-
-			GetPosition() + Rotate
-			(
-				{-GetExtents().X(), -GetExtents().Y(), -GetExtents().Z()},
-				 GetRotation()[0], GetRotation()[1], GetRotation()[2]
-			),
-
-			GetPosition() + Rotate
-			(
-				{-GetExtents().X(), GetExtents().Y(), -GetExtents().Z()},
-				 GetRotation()[0], GetRotation()[1], GetRotation()[2]
-			),
-		};
-
-		selfPoly.m_vertices = selfVertices;
-
-		selfPoly.m_vertexCount = 8;
-
-
-		bool	intersection = selfPoly.CheckCollision(_other);
-
-		selfPoly.m_vertices = nullptr;
-
-		return intersection;
-	}
 
 	Vector3& SphereCollider3D::Position(void)
 	{
@@ -677,10 +306,7 @@ namespace mth
 		return _other.CheckCollision(*this);
 	}
 
-	bool SphereCollider3D::CheckCollision(const OBBCollider3D& _other) const
-	{
-		return _other.CheckCollision(*this);
-	}
+
 
 	bool SphereCollider3D::CheckCollision(const SphereCollider3D& _other) const
 	{
