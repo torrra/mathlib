@@ -70,7 +70,7 @@ namespace mth
 		{
 			_other.GetPosition() + otherRotated,
 			_other.GetPosition() - otherRotated,
-			
+
 			_other.GetPosition() + Rotate
 			(
 				{_other.GetExtents().X(), -_other.GetExtents().Y()},
@@ -399,7 +399,7 @@ namespace mth
 		{
 			_other.GetPosition() + otherRotated,
 			_other.GetPosition() - otherRotated,
-			
+
 			_other.GetPosition() + Rotate
 			(
 				{_other.GetExtents().X(), -_other.GetExtents().Y()},
@@ -436,9 +436,10 @@ namespace mth
 			Max(minVertex.GetY(), Min(_other.GetPosition().GetY(), maxVertex.GetY()))
 		};
 
-		float		distance = Dot(closestPoint, _other.GetPosition());
+		Vector2		distance = closestPoint - _other.GetPosition();
 
-		return distance <= _other.GetRadius() * _other.GetRadius();
+
+		return distance.MagnitudeSquared() <= _other.GetRadius() * _other.GetRadius();
 	}
 
 	bool OBBCollider2D::CheckCollision(const PolygonCollider2D& _other) const
@@ -508,7 +509,7 @@ namespace mth
 	{
 		float		distance = DistanceSquared(m_position, _other.m_position);
 
-		return distance >= m_radius * m_radius;
+		return distance <= (m_radius * m_radius) + (_other.m_radius * _other.m_radius);
 	}
 
 }
