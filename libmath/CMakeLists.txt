@@ -64,7 +64,7 @@ target_include_directories(${TARGET_NAME} PUBLIC ${TARGET_INCLUDE_DIR})
 if(MSVC)
 
 	# Compile with all warnings and optimizations available
-	target_compile_options(${TARGET_NAME} PRIVATE /W4 /O2 /WX)
+	target_compile_options(${TARGET_NAME} PRIVATE /W4 /WX)
 
 elseif(LINUX)
 
