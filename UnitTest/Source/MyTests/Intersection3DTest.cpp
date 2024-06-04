@@ -72,4 +72,57 @@ TEST_CASE("Intersection3D", "[all][intersection]")
 	}
 
 
+	SECTION("Sphere")
+	{
+		mth::SphereCollider3D	controlSphere({ 4.f, 6.f, 1.f }, 3.f);
+
+		SECTION("Instanciation and accessors")
+		{
+			mth::SphereCollider3D		discard;
+			mth::SphereCollider3D		copy = controlSphere;
+
+			mth::Vector3				position{ 4.f, 6.f, 1.f };
+			float						radius = 3.f;
+
+			// Accessor
+			CHECK(copy.GetPosition() == position);
+			CHECK(copy.Position() == position);
+
+			CHECK(copy.Radius() == radius);
+			CHECK(copy.GetRadius() == radius);
+		}
+
+		SECTION("Sphere vs AABB")
+		{
+			mth::AABBCollider3D		noCollide({ 10.f, 8.f, 10.f }, { 1.f, 3.f, 1.f });
+			mth::AABBCollider3D		collide({ 3.f, 7.f, 2.f }, { 3.1f, 2.f, 3.f });
+
+			// Should not collide
+			CHECK_FALSE(controlSphere.CheckCollision(noCollide));
+
+			// Should collide
+			CHECK(controlSphere.CheckCollision(collide));
+
+			mth::AABBCollider3D		aabbThree({ 5.f, 8.f, 2.f }, { 3.5f, 3.75f, 1.f });
+
+
+			CHECK(controlSphere.CheckCollision(aabbThree));
+
+		}
+
+
+		SECTION("Sphere vs Sphere")
+		{
+			mth::SphereCollider3D	noCollide({ 3.1f, 15.f, 10.f }, 3.f);
+			mth::SphereCollider3D	collide({ 4.3f, 1.f, 2.f }, 10.f);
+
+
+			CHECK_FALSE(controlSphere.CheckCollision(noCollide));
+			CHECK_FALSE(controlSphere.CheckCollision(mth::SphereCollider3D()));
+
+			CHECK(controlSphere.CheckCollision(collide));
+		}
+	}
+
+
 }
