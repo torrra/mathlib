@@ -217,8 +217,12 @@ namespace mth
 		{
 		case 0:
 			return m_x;
-		default:
+
+		case 1:
 			return m_y;
+
+		default:
+			throw std::logic_error("Index out of range");
 		}
 	}
 
@@ -233,7 +237,7 @@ namespace mth
 			return m_y;
 
 		default:
-			return 0.f;
+			throw std::logic_error("Index out of range");
 		}
 	}
 
