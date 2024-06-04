@@ -1,7 +1,5 @@
 #include "libmath/Intersection2D.h"
 
-#include <iostream>
-
 namespace mth
 {
 
@@ -158,7 +156,7 @@ namespace mth
 		Vector2 minVertex = _box.GetMin(), maxVertex = _box.GetMax();
 
 		// x plane = 0, y plane = 1, z plane = 2
-		for (int axis = 0; axis < 3; ++axis)
+		for (int axis = 0; axis < 2; ++axis)
 		{
 			// t1 for x, t3 for y, t5 for z
 			float lowIntersect = (minVertex[axis] - m_origin[axis]) * m_inverseDir[axis];
@@ -181,9 +179,34 @@ namespace mth
 		return intersection;
 	}
 
-	PolygonCollider2D::PolygonCollider2D(Vector2 _vertices[], int _count)
-		: m_vertexCount(_count)
-	{
+    Vector2 &Ray2D::Origin(void)
+    {
+       return m_origin;
+    }
+
+    Vector2 &Ray2D::Direction(void)
+    {
+        return m_direction;
+    }
+
+    Vector2 Ray2D::GetOrigin(void) const
+    {
+        return m_origin;
+    }
+
+    Vector2 Ray2D::GetDirection(void) const
+    {
+        return m_direction;
+    }
+
+    Vector2 Ray2D::GetInverseDir(void) const
+    {
+        return m_inverseDir;
+    }
+
+    PolygonCollider2D::PolygonCollider2D(Vector2 _vertices[], int _count)
+        : m_vertexCount(_count)
+    {
 		if (!m_vertices)
 			m_vertices = new Vector2[_count];
 
