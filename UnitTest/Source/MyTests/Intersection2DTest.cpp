@@ -234,6 +234,60 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 	}
 
-	
+	SECTION("CIRCLE")
+	{
+		mth::CircleCollider2D	controlCircle({ 4.f, 6.f }, 3.f );
 
+		SECTION("Instanciation and accessors")
+		{
+			mth::CircleCollider2D		discard;
+			mth::CircleCollider2D		copy = controlCircle;
+
+			mth::Vector2				position{ 4.f, 6.f };
+			float						radius = 3.f;
+
+			// Accessor
+			CHECK(copy.GetPosition() == position);
+			CHECK(copy.Position() == position);
+
+			CHECK(copy.Radius() == radius);
+			CHECK(copy.GetRadius() == radius);
+		}
+
+		SECTION("Circle vs AABB")
+		{
+			mth::AABBCollider2D		noCollide({ 10.f, 8.f }, { 1.f, 2.f });
+			mth::AABBCollider2D		collide({ 2.f, 7.f }, { 2.1f, 1.f });
+
+			// Should not collide
+			CHECK_FALSE(controlCircle.CheckCollision(noCollide));
+
+			// Should collide
+			CHECK(controlCircle.CheckCollision(collide));
+
+			mth::AABBCollider2D		aabbThree({ 5.f, 8.f }, { 3.5f, 2.75f });
+
+
+			CHECK(controlCircle.CheckCollision(aabbThree));
+
+			aabbThree.Position() = { 0.f, 0.f };
+
+			CHECK_FALSE(controlCircle.CheckCollision(aabbThree));
+		}
+
+
+		SECTION("Circle vs Circle")
+		{
+			mth::CircleCollider2D	noCollide({ 2.1f, 15.f }, 2.f);
+			mth::CircleCollider2D	collide({ 4.2f, 1.f }, 10.f);
+
+
+			CHECK_FALSE(controlCircle.CheckCollision(noCollide));
+			CHECK_FALSE(controlCircle.CheckCollision(mth::CircleCollider2D()));
+
+			CHECK(controlCircle.CheckCollision(collide));
+		}
+	}
+
+	
 }
