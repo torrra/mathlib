@@ -19,5 +19,5 @@ TEST_CASE("Trigonometry", "[all]")
 	CHECK(LibMath::Asin(0.5f).Rad() == Catch::Approx(glm::asin(0.5f)));
 	CHECK(LibMath::Acos(0.5f).Rad() == Catch::Approx(glm::acos(0.5f)));
 	CHECK(LibMath::Atan(0.5f).Rad() == Catch::Approx(glm::atan(0.5f)));
-	//CHECK(LibMath::atan(1.f, -2.f).Rad() == Catch::Approx(glm::atan(1.f, -2.f)));
+	CHECK(LibMath::Atan2(1.f, -2.f).Rad() == Catch::Approx(glm::atan(1.f, -2.f)));
 }
