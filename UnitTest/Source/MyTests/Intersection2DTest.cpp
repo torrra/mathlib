@@ -323,4 +323,30 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 		}
 	}
 
+
+	SECTION("LINE SEGMENT")
+	{
+		mth::Line2D		lineTrue({-3.f, 3.f}, {11.f, 2.f});
+		mth::Line2D		lineFalse({-8.64f, 2.23f}, {-6.28f, -6.93f});
+
+		SECTION("Line vs circle")
+		{
+
+			mth::CircleCollider2D	circle({ 4.2f, 1.f }, 10.f);
+
+			CHECK(lineTrue.Intersect(circle));
+
+			CHECK_FALSE(lineFalse.Intersect(circle));
+		}
+
+		SECTION("Line vs AABB")
+		{
+			mth::AABBCollider2D		aabb({ 4.2f, 1.f }, { 10.f, 10.f });
+
+			CHECK(lineTrue.Intersect(aabb));
+
+			CHECK_FALSE(lineFalse.Intersect(aabb));
+		}
+	}
+
 }
