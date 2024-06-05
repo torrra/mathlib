@@ -76,7 +76,7 @@ namespace mth
 		// Rotate this vector around the all 3 axes
 		void			Rotate(Radian _angleX, Radian _angleY, Radian _angleZ);
 
-		// Rotate this vector around an aribtary axis
+		// Rotate this vector around an arbitrary axis
 		void			Rotate(Radian _angle, const Vector3& _axis);
 
 		// Multiply this vector's components by another's
@@ -125,7 +125,7 @@ namespace mth
 		// Divide all components by a single scalar
 		Vector3			operator/(float _rhs)								const;
 
-		// Flip sign of both componenents
+		// Flip sign of both components
 		Vector3			operator-(void)										const;
 
 
