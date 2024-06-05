@@ -12,7 +12,7 @@ namespace mth
 
 	Matrix3::Matrix3(const float _vals[][3])
 	{
-		// Copy 3x3 array into matix
+		// Copy 3x3 array into matrix
 		for (int row = 0; row < 3; ++row)
 		{
 			for (int column = 0; column < 3; ++column)
@@ -27,7 +27,7 @@ namespace mth
 		int		arrayIndex = 0;
 
 
-		// Copy 1D array into matix
+		// Copy 1D array into matrix
 		for (int row = 0; row < 3; ++row)
 		{
 			for (int column = 0; column < 3; ++column, ++arrayIndex)
