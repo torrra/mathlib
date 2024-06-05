@@ -9,6 +9,8 @@ namespace mth
 	class Vector2
 	{
 	public:
+		// Constructors / destructor
+
 						Vector2(void) = default;
 
 		explicit		Vector2(float _val);
@@ -17,43 +19,73 @@ namespace mth
 
 						~Vector2(void) = default;
 
+		// Get angle from this vector to another
 		Radian			AngleFrom(const Vector2& _other)					const;
+
+		// Get angle from this vector to another unit vector
+		// Should be used if this vector and the other are both
+		// unit vectors
 		Radian			AngleFromUnit(const Vector2& _other)				const;
 
+		// Compute cross product with another
+		// this x other
 		float			Cross(const Vector2& _other)						const;
 
+		// Get distance between 2 points
 		float			DistanceFrom(const Vector2& _other)					const;
+
+		// Get distance squared between two points
 		float			DistanceSquaredFrom(const Vector2& _other)			const;
 
-
+		// Compute dot product of two vectors
 		float			Dot(const Vector2& _other)							const;
 
+		// Is this vector's magnitude longer than another ?
 		bool			IsLongerThan(const Vector2& _other)					const;
+
+		// Is this vector's magnitude shorter than another ?
 		bool			IsShorterThan(const Vector2& _other)				const;
 
+		// Is this vector's magnitude equal to 1 ?
 		bool			IsUnitVector(void)									const;
 
 		float			Magnitude(void)										const;
 		float			MagnitudeSquared(void)								const;
 
+		// Adjust vector to turn into unit vector
 		void			Normalize(void);
+
+		// Get normalized copy of this vector
 		Vector2			Normalized(void)									const;
 
+		// Get vector normal to this one
 		Vector2			Normal(void)										const;
 
+		// Project this vector onto another
 		void			ProjectOnto(const Vector2& _other);
 
+		// Reflect this vector onto another
 		void			ReflectOnto(const Vector2& _axis);
+
+		// Reflect this vector onto a UNIT vector
 		void			ReflectOntoUnit(const Vector2& _axis);
 
+		// Rotate this point around the z axis
 		void			Rotate(Radian _angle);
 
+		// Multiply this vector's components by another's
 		void			Scale(const Vector2& _other);
 
+		// Get components as string
 		std::string		String(void)										const;
+
+		// Get components as verbose string
 		std::string		StringLong(void)									const;
 
+		// Add another vector's components to this one's
 		void			Translate(const Vector2& _other);
+
+		// Accessors
 
 		float&			X(void);
 		float&			Y(void);
@@ -92,7 +124,7 @@ namespace mth
 		Vector2&		operator/=(float _rhs);
 
 
-
+		// Constants
 
 		static Vector2	Zero(void);
 		static Vector2	One(void);
@@ -108,6 +140,9 @@ namespace mth
 		float				m_y = 0.f;
 	};
 
+
+	// Non-member functions (similar to member functions but provided for readability)
+
 	float				Dot(const Vector2& _first, const Vector2& _second);
 	float				Cross(const Vector2& _first, const Vector2& _second);
 
@@ -122,8 +157,10 @@ namespace mth
 
 	Vector2				Rotate(const Vector2& _target, Radian _angle);
 
-
+	// Send a vector's components to an output stream
 	std::ostream&		operator<<(std::ostream& _os, Vector2 const& _vector);
+
+	// Get components from an input stream
 	std::istream&		operator>>(std::istream& _is, Vector2& _vector);
 }
 
