@@ -647,7 +647,12 @@ namespace mth
 
     bool Line2D::Intersect(const AABBCollider2D &_box) const
     {
+		// Use huge value (likely smaller than line length)
+		// that can be safely squared without causing
+		// 32-bit overflow
 		float 		distanceToBox = 1e10f;
+
+
 		Vector2		direction = m_end - m_start;
 
 		// Turn segment into ray to use already defined raycast algorithm

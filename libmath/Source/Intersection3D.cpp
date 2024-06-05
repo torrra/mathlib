@@ -40,6 +40,7 @@ namespace mth
 		Vector3		otherMin = _other.GetMin(),
 					otherMax = _other.GetMax();
 
+		// Check min and max vertices on each axis to look for a gap
 
 		if (selfMax[0] < otherMin[0] || selfMin[0] > otherMax[0])
 			return false;
@@ -60,7 +61,7 @@ namespace mth
 	{
 		Vector3 minVertex = GetMin(), maxVertex = GetMax();
 
-
+		// Get closest point
 		Vector3		closestPoint
 		{
 			Max(minVertex.GetX(), Min(_other.GetPosition().GetX(), maxVertex.GetX())),
@@ -70,13 +71,15 @@ namespace mth
 
 		Vector3		distance = closestPoint - _other.GetPosition();
 
-
+		// Point closer than end of radius = intersection
 		return distance.MagnitudeSquared() <= _other.GetRadius() * _other.GetRadius();
 	}
 
 	bool AABBCollider3D::PointInBox(const Vector3& _point) const
 	{
 		Vector3		min = GetMin(), max = GetMax();
+
+		// Check if point is within AABB bounds
 
 		if (_point.GetX() < min.GetX() || _point.GetX() > max.GetX())
 			return false;
@@ -140,9 +143,12 @@ namespace mth
 		Vector3		sphereToOrigin = GetOrigin() - _sphere.GetPosition();
 
 		float		quadraticA = m_direction.MagnitudeSquared();
+
 		float		quadraticB = 2.f * sphereToOrigin.Dot(m_direction);
+
 		float		quadraticC = sphereToOrigin.MagnitudeSquared() -
-							_sphere.GetRadiusSquared();
+								_sphere.GetRadiusSquared();
+
 		// delta = b^2 * 4ac
 		float		quadraticDelta = quadraticB * quadraticB -
 					4.f * quadraticA * quadraticC;
@@ -197,9 +203,11 @@ namespace mth
 
 	Vector3 OBBCollider3D::GetMin(void) const
 	{
+		// Rotate BEFORE translating
 		Vector3		rotated = Rotate
 		(
-			m_extents, m_rotation[0], m_rotation[1], m_rotation[2]
+			m_extents, m_rotation[0],
+			m_rotation[1], m_rotation[2]
 		);
 
 		return m_position - rotated;
@@ -207,9 +215,11 @@ namespace mth
 
 	Vector3 OBBCollider3D::GetMax(void) const
 	{
+		// Rotate BEFORE translating
 		Vector3		rotated = Rotate
 		(
-			m_extents, m_rotation[0], m_rotation[1], m_rotation[2]
+			m_extents, m_rotation[0],
+			m_rotation[1], m_rotation[2]
 		);
 
 		return rotated + m_position;
@@ -269,11 +279,17 @@ namespace mth
 
 	Matrix3 OBBCollider3D::RotationMatrix(void) const
 	{
-		float		cosYaw = Cos(m_rotation[2]), sinYaw = Sin(m_rotation[2]);
-		float		cosPitch = Cos(m_rotation[0]), sinPitch = Sin(m_rotation[0]);
-		float		cosRoll = Cos(m_rotation[1]), sinRoll = Sin(m_rotation[1]);
+		// Store sines and cosines
+		float		cosYaw = Cos(m_rotation[2]),
+					sinYaw = Sin(m_rotation[2]);
 
+		float		cosPitch = Cos(m_rotation[0]),
+					sinPitch = Sin(m_rotation[0]);
 
+		float		cosRoll = Cos(m_rotation[1]),
+					sinRoll = Sin(m_rotation[1]);
+
+		// Create rotation matrix
 		float		rotation[][3] =
 		{
 			{
@@ -391,12 +407,18 @@ namespace mth
 
 	bool Line3D::Intersect(const AABBCollider3D& _box) const
 	{
-
+		// Use huge value (likely smaller than line length)
+		// that can be safely squared without causing
+		// 32-bit overflow
 		float 		distanceToBox = 1e10f;
+
 		Vector3		direction = m_end - m_start;
 
+		// Turn segment into ray to use already defined raycast algorithm
 		Ray3D		lineRay(m_start, direction);
 
+		// If no intersection or intersection is further than line length,
+		// no line intsersection occurs
 		if (!lineRay.Intersect(_box, distanceToBox) ||
 			distanceToBox * distanceToBox > direction.MagnitudeSquared())
 			return false;
@@ -409,16 +431,17 @@ namespace mth
 		Vector3		circleToLineStart = m_start - _sphere.GetPosition();
 		Vector3		lineDirection = m_end - m_start;
 
-		// -b
+		// Compute b^2
 		float		quadraticDelta = (2.f * lineDirection.Dot(circleToLineStart));
 
 		quadraticDelta *= quadraticDelta;
 
-		// 4ac
+		// Find 4ac
 		float		tmpQuadratic = 4.f * lineDirection.MagnitudeSquared() *
 			(circleToLineStart.MagnitudeSquared() -
 				_sphere.GetRadiusSquared());
 
+		// delta = b^2 - 4ac
 		quadraticDelta -= tmpQuadratic;
 
 		if (quadraticDelta < 0.f)
@@ -430,11 +453,13 @@ namespace mth
 
 	float Line3D::Length(void) const
 	{
+		// Distance from start to end
 		return (m_end - m_start).Magnitude();
 	}
 
 	float Line3D::LengthSquared(void) const
 	{
+		// Distance from start to end squared
 		return (m_end - m_start).MagnitudeSquared();
 	}
 
