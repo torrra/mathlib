@@ -22,7 +22,8 @@ public:
 	// Stop timer and save time between start and stop
 	void stop(void)
 	{
-		m_elapsed += std::chrono::duration_cast<std::chrono::nanoseconds>(hrc::now() - m_beg).count();
+		m_elapsed += std::chrono::duration_cast<std::chrono::nanoseconds>
+					(hrc::now() - m_beg).count();
 	}
 
 	// Reset elapsed time
@@ -47,17 +48,20 @@ public:
 							microToNano = (__int64) 1e3;
 
 			// Divide into microseconds, milliseconds, etc
-			long long		seconds = static_cast<long long>(nanoseconds * nanoToSec);
+			long long		seconds = static_cast<long long>
+									 (nanoseconds * nanoToSec);
 
 			// Keep remainder
 			nanoseconds -= seconds * secToNano;
 
-			long long		milliseconds = static_cast<long long>(nanoseconds * nanoToMilli);
+			long long		milliseconds = static_cast<long long>
+										 (nanoseconds * nanoToMilli);
 
 			nanoseconds -= milliseconds * milliToNano;
 
 
-			long long		microseconds = static_cast<long long>(nanoseconds * nanoToMicro);
+			long long		microseconds = static_cast<long long>
+										 (nanoseconds * nanoToMicro);
 
 			nanoseconds -= microseconds * microToNano;
 
@@ -68,18 +72,19 @@ public:
 		}
 	}
 
-	// Get elapsed time in nanoseconds (must be previously saved with start() and stop() or getRuntime())
+	// Get elapsed time in nanoseconds (must be previously saved
+	// with start() and stop() or getRuntime())
 	long long getElapsed(void) const { return m_elapsed; }
 
 
-
+	// Record std::function object or lambda expression once and return result
 	template <typename T>
 	T recordFunction(std::function<T()> func, bool shouldDisplay = true)
 	{
 		clear();
 		start();
 
-		T res = func();
+		T	res = func();
 
 		stop();
 
@@ -89,6 +94,7 @@ public:
 		return res;
 	}
 
+	// Record std::function object or lambda expression once
 	template<>
 	void recordFunction<void>(std::function<void()> func, bool shouldDisplay)
 	{
@@ -104,13 +110,16 @@ public:
 
 	}
 
+	// Record std::function object or lambda expression a given amount of times and return result
+	// of last iteration
 	template <typename T>
-	T recordFunctionAverage(std::function<T()> func, int maxIterations = (int) 1e6, bool shouldDisplay = true)
+	T recordFunctionAverage(std::function<T()> func, int maxIterations = (int) 1e6,
+	bool shouldDisplay = true)
 	{
 		clear();
 		start();
 
-		T res = T(0);
+		T	res = T(0);
 
 		for (int iteration = 0; iteration < maxIterations; ++iteration)
 		{
@@ -128,8 +137,10 @@ public:
 		return res;
 	}
 
+	// Record std::function object or lambda expression a given amount of times
 	template<>
-	void recordFunctionAverage<void>(std::function<void()> func, int maxIterations, bool shouldDisplay)
+	void recordFunctionAverage<void>(std::function<void()> func,
+	int maxIterations, bool shouldDisplay)
 	{
 		clear();
 		start();
