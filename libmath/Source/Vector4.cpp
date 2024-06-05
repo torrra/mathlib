@@ -28,14 +28,19 @@ namespace mth
 	{
 		float		magnitudes = MagnitudeSquared() * _other.MagnitudeSquared();
 
+		// Only run square root once
 		magnitudes = SquareRoot(magnitudes);
 
-
+		// Transform dot product equation to get cos angle,
+		// then run acos
 		return Acos(Dot(_other) / magnitudes);
 	}
 
 	Radian Vector4::AngleFromUnit(const Vector4& _other) const
 	{
+		// Clamp dot to avoid acos domain error (NaN result)
+		// and call acos as both vectors are assumed to be
+		// unit vectors
 		return Acos(Clamp(Dot(_other), MIN_COS, MAX_COS));
 	}
 
@@ -46,12 +51,13 @@ namespace mth
 
 	float Vector4::DistanceSquaredFrom(const Vector4& _other) const
 	{
+		// Find distance vector and get magnitude
 		return (_other - *this).MagnitudeSquared();
 	}
 
 	float Vector4::Distance2DFrom(Vector4 const& _other) const
 	{
-
+		// Ignore z and w axes
 		Vector2		self2D = { m_x, m_y };
 		Vector2		other2D = { _other.m_x, _other.m_y};
 
@@ -61,7 +67,7 @@ namespace mth
 
 	float Vector4::Distance2DSquaredFrom(Vector4 const& _other) const
 	{
-
+		// Ignore z and w axes
 		Vector2		self2D = { m_x, m_y };
 		Vector2		other2D = { _other.m_x, _other.m_y };
 
@@ -71,6 +77,7 @@ namespace mth
 
 	float Vector4::Distance3DFrom(Vector4 const& _other) const
 	{
+		// Ignore w axis
 		Vector3		self3D = { m_x, m_y, m_z };
 		Vector3		other3D = { _other.m_x, _other.m_y, _other.m_z };
 
@@ -80,6 +87,7 @@ namespace mth
 
 	float Vector4::Distance3DSquaredFrom(Vector4 const& _other) const
 	{
+		// Ignore w axis
 		Vector3		self3D = { m_x, m_y, m_z };
 		Vector3		other3D = { _other.m_x, _other.m_y, _other.m_z };
 
@@ -89,21 +97,26 @@ namespace mth
 
 	float Vector4::Dot(const Vector4& _other) const
 	{
-		return (m_x * _other.m_x) + (m_y * _other.m_y) + (m_z * _other.m_z) + (m_w * _other.m_w);
+		// Multiply components
+		return (m_x * _other.m_x) + (m_y * _other.m_y) +
+			   (m_z * _other.m_z) + (m_w * _other.m_w);
 	}
 
 	bool Vector4::IsLongerThan(const Vector4& _other) const
 	{
+		// Compare squared magnitudes to avoid two sqrt calls
 		return MagnitudeSquared() > _other.MagnitudeSquared();
 	}
 
 	bool Vector4::IsShorterThan(const Vector4& _other) const
 	{
+		// Compare squared magnitudes to avoid two sqrt calls
 		return MagnitudeSquared() < _other.MagnitudeSquared();
 	}
 
 	bool Vector4::IsUnitVector(void) const
 	{
+		// 1 squared == 1 so avoiding sqrt call is possible
 		return AlmostEqual(MagnitudeSquared(), 1.f);
 	}
 
@@ -114,15 +127,19 @@ namespace mth
 
 	float Vector4::MagnitudeSquared(void) const
 	{
+		// Square components
 		return Dot(*this);
 	}
 
 	void Vector4::Normalize(void)
 	{
+		// Only divide once
 		float		invMagnitude = Magnitude();
 
 		if (AlmostEqual(invMagnitude, 0.f, FLT_EPSILON))
+		{
 			throw std::logic_error("Cannot divide by zero magnitude");
+		}
 
 		else
 			invMagnitude = 1.f / invMagnitude;
@@ -140,11 +157,13 @@ namespace mth
 
 		result.Normalize();
 
+		// Return normalized copy
 		return result;
 	}
 
 	void Vector4::ProjectOnto(const Vector4& _other)
 	{
+		// Apply projection formula
 		float		squareMagnitude = _other.MagnitudeSquared();
 		float		projFactor = Dot(_other) / squareMagnitude;
 
@@ -156,13 +175,15 @@ namespace mth
 
 	void Vector4::ReflectOnto(const Vector4& _axis)
 	{
-		Vector4	normal = mth::Normalize(_axis);
+		// Only reflect onto unit vector
+		Vector4		normal = mth::Normalize(_axis);
 
 		*this -= normal * (Dot(normal) * 2.f);
 	}
 
 	void Vector4::ReflectOntoUnit(const Vector4& _axis)
 	{
+		// Assume normal is already unit vector and skip normalize call
 		*this -= _axis * (Dot(_axis) * 2.f);
 	}
 
@@ -174,7 +195,7 @@ namespace mth
 		float		cosPitch = Cos(_angleX), sinPitch = Sin(_angleX);
 		float		cosRoll = Cos(_angleY), sinRoll = Sin(_angleY);
 
-
+		// Create rotation matrix
 		float		rotation[][4] =
 		{
 			{
@@ -205,14 +226,16 @@ namespace mth
 
 		Matrix4		rotMatrix(rotation);
 
-
+		// Multiply by rotation matrix
 		*this = rotMatrix * copy;
 	}
 
 	void Vector4::Rotate(Radian _angle, const Vector3& _axis)
 	{
+		// Ignore w axis
 		Vector3		self3D = { m_x, m_y, m_z };
 
+		// Rotate without w
 		self3D.Rotate(_angle, _axis);
 
 		m_x = self3D.GetX();
@@ -227,8 +250,10 @@ namespace mth
 
 	std::string Vector4::String(void) const
 	{
+		// Use stream for easy conversion
 		std::stringstream		stream;
 
+		// Pass components to stream
 		stream << '{' << m_x << ',' << m_y << ',' << m_z << ',' << m_w << '}';
 
 		return stream.str();
@@ -236,9 +261,12 @@ namespace mth
 
 	std::string Vector4::StringLong(void) const
 	{
+		// Use stream for easy conversion
 		std::stringstream		stream;
 
-		stream << "Vector4{ x:" << m_x << ", y:" << m_y << ", z:" << m_z << ", w:" << m_w << " }";
+		// Pass components to stream
+		stream << "Vector4{ x:" << m_x << ", y:" << m_y << ", z:"
+			   << m_z << ", w:" << m_w << " }";
 
 		return stream.str();
 	}
@@ -290,6 +318,7 @@ namespace mth
 
 	Vector4& Vector4::operator=(const Vector4& _rhs)
 	{
+		// Copy assign
 		m_x = _rhs.m_x;
 		m_y = _rhs.m_y;
 		m_z = _rhs.m_z;
@@ -334,6 +363,7 @@ namespace mth
 
 	bool Vector4::operator==(const Vector4& _rhs) const
 	{
+		// Compare all components
 		return
 			(
 				AlmostEqual(m_x, _rhs.m_x) &&
@@ -349,29 +379,38 @@ namespace mth
 		return !(*this == _rhs);
 	}
 
+
+	// Component-wise operators
+
+
 	Vector4 Vector4::operator+(const Vector4& _rhs) const
 	{
-		return Vector4(m_x + _rhs.m_x, m_y + _rhs.m_y, m_z + _rhs.m_z, m_w + _rhs.m_w);
+		return Vector4(m_x + _rhs.m_x, m_y + _rhs.m_y,
+					  m_z + _rhs.m_z, m_w + _rhs.m_w);
 	}
 
 	Vector4 Vector4::operator-(const Vector4& _rhs) const
 	{
-		return Vector4(m_x - _rhs.m_x, m_y - _rhs.m_y, m_z - _rhs.m_z, m_w - _rhs.m_w);
+		return Vector4(m_x - _rhs.m_x, m_y - _rhs.m_y,
+					   m_z - _rhs.m_z, m_w - _rhs.m_w);
 	}
 
 	Vector4 Vector4::operator*(const Vector4& _rhs) const
 	{
-		return Vector4(m_x * _rhs.m_x, m_y * _rhs.m_y, m_z * _rhs.m_z, m_w * _rhs.m_w);
+		return Vector4(m_x * _rhs.m_x, m_y * _rhs.m_y,
+			           m_z * _rhs.m_z, m_w * _rhs.m_w);
 	}
 
 	Vector4 Vector4::operator/(const Vector4& _rhs) const
 	{
-		return Vector4(m_x / _rhs.m_x, m_y / _rhs.m_y, m_z / _rhs.m_z, m_w / _rhs.m_w);
+		return Vector4(m_x / _rhs.m_x, m_y / _rhs.m_y,
+					   m_z / _rhs.m_z, m_w / _rhs.m_w);
 	}
 
 	Vector4 Vector4::operator*(float _rhs) const
 	{
-		return Vector4(m_x * _rhs, m_y * _rhs, m_z * _rhs, m_w * _rhs);
+		return Vector4(m_x * _rhs, m_y * _rhs,
+					   m_z * _rhs, m_w * _rhs);
 	}
 
 	Vector4 Vector4::operator/(float _rhs) const
@@ -448,6 +487,12 @@ namespace mth
 		return *this;
 	}
 
+
+	// !Component-wise operators
+
+
+	// Constants
+
 	Vector4 Vector4::Zero(void)
 	{
 		return Vector4();
@@ -489,6 +534,7 @@ namespace mth
 	}
 
 
+	// !Constants
 
 	float Dot(const Vector4& _first, const Vector4& _second)
 	{
@@ -499,6 +545,7 @@ namespace mth
 	{
 		Vector4		copy = _target;
 
+		// Return reflected copy
 		copy.ReflectOnto(_ontoNormal);
 
 		return copy;
@@ -508,6 +555,7 @@ namespace mth
 	{
 		Vector4		copy = _target;
 
+		// Return reflected copy
 		copy.ReflectOntoUnit(_ontoNormal);
 
 		return copy;
@@ -517,6 +565,7 @@ namespace mth
 	{
 		Vector4		copy = _target;
 
+		// Return projected copy
 		copy.ProjectOnto(_ontoVector);
 
 		return copy;
@@ -524,6 +573,7 @@ namespace mth
 
 	Vector4 Normalize(const Vector4& _target)
 	{
+		// Return normalized copy
 		return _target.Normalized();
 	}
 
@@ -541,6 +591,7 @@ namespace mth
 	{
 		Vector4		copy = _target;
 
+		// Return rotated copy
 		copy.Rotate(_angleX, _angleY, _angleZ);
 
 		return copy;
@@ -550,6 +601,7 @@ namespace mth
 	{
 		Vector4		copy = _target;
 
+		// Return rotated copy
 		copy.Rotate(_angle, _axis);
 
 		return copy;
@@ -557,7 +609,9 @@ namespace mth
 
 	std::ostream& operator<<(std::ostream& _os, Vector4 const& _vector)
 	{
-		_os << '{' << _vector.GetX() << ',' << _vector.GetY() << ',' << _vector.GetZ() << ',' << _vector.GetW() << '}';
+		// Pass components to stream
+		_os << '{' << _vector.GetX() << ',' << _vector.GetY()
+			<< ',' << _vector.GetZ() << ',' << _vector.GetW() << '}';
 
 		return _os;
 	}
@@ -565,7 +619,9 @@ namespace mth
 	{
 		char	discard;
 
-		_is >> discard >> _vector.X() >> discard >> _vector.Y() >> discard >> _vector.Z() >> discard >> _vector.W() >> discard;
+		// Get input from stream
+		_is >> discard >> _vector.X() >> discard >> _vector.Y()
+			>> discard >> _vector.Z() >> discard >> _vector.W() >> discard;
 
 		return _is;
 	}
