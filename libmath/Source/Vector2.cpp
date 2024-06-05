@@ -21,23 +21,29 @@ namespace mth
 
 	Radian Vector2::AngleFrom(const Vector2& _other) const
 	{
-
 		float		magnitudes = MagnitudeSquared() * _other.MagnitudeSquared();
 
+		// Only run square root once
 		magnitudes = SquareRoot(magnitudes);
 
-
+		// Transform dot product equation to get cos angle,
+		// then run acos
 		return Acos(Dot(_other) / magnitudes);
 	}
 
 	Radian Vector2::AngleFromUnit(const Vector2& _other) const
 	{
+		// Clamp dot to avoid acos domain error (NaN result)
+		// and call acos as both vectors are assumed to be
+		// unit vectors
 		return Acos(Clamp(Dot(_other), MIN_COS, MAX_COS));
 	}
 
 
 	float Vector2::Cross(const Vector2& _other) const
 	{
+		// Only compute result for result's  z component as
+		// both x and y will be zero for vec2 cross product
 		return (m_x * _other.m_y) - (m_y * _other.m_x);
 	}
 
@@ -50,30 +56,35 @@ namespace mth
 
 	float Vector2::DistanceSquaredFrom(const Vector2& _other) const
 	{
+		// Find fistance vector and get magnitude
 		return (_other - *this).MagnitudeSquared();
 	}
 
 
 	float Vector2::Dot(const Vector2& _other) const
 	{
+		// Multiply components
 		return (m_x * _other.m_x) + (m_y * _other.m_y);
 	}
 
 
 	bool Vector2::IsLongerThan(const Vector2& _other) const
 	{
+		// Compare squared magnitudes to avoid two sqrt calls
 		return MagnitudeSquared() > _other.MagnitudeSquared();
 	}
 
 
 	bool Vector2::IsShorterThan(const Vector2& _other) const
 	{
+		// Compare squared magnitudes to avoid two sqrt calls
 		return MagnitudeSquared() < _other.MagnitudeSquared();
 	}
 
 
 	bool Vector2::IsUnitVector() const
 	{
+		// 1 squares == 1 so avoiding sqrt call is possible
 		return AlmostEqual(MagnitudeSquared(), 1.f);
 	}
 
@@ -86,11 +97,13 @@ namespace mth
 
 	float Vector2::MagnitudeSquared() const
 	{
+		// Square components
 		return Dot(*this);
 	}
 
 	void Vector2::Normalize()
 	{
+		// Only divide once
 		float		invMagnitude = 1.f / Magnitude();
 
 		m_x *= invMagnitude;
@@ -103,18 +116,20 @@ namespace mth
 
 		result.Normalize();
 
+		// Return normalized copy
 		return result;
 	}
 
 	Vector2 Vector2::Normal(void) const
 	{
+		// Swap x and y and flip one sign (y here)
 		return Vector2(-m_y, m_x);
 	}
 
 
 	void Vector2::ProjectOnto(const Vector2& _other)
 	{
-
+		// Apply projection formula
 		float		squareMagnitude = _other.MagnitudeSquared();
 		float		projFactor = Dot(_other) / squareMagnitude;
 
@@ -126,23 +141,30 @@ namespace mth
 
 	void Vector2::ReflectOnto(const Vector2& _axis)
 	{
+		// Only reflect onto unit vector
 		Vector2		normal = mth::Normalize(_axis);
 
+		// Apply reflection formula
 		*this -= normal * (Dot(normal) * 2.f);
 	}
 
 	void Vector2::ReflectOntoUnit(const Vector2& _axis)
 	{
+		// Assume normal is already unit vector and skip normalize call
 		*this -= _axis * (Dot(_axis) * 2.f);
 	}
 
 
 	void Vector2::Rotate(Radian _angle)
 	{
-		float		cosAngle = Cos(_angle), sinAngle = Sin(_angle);
+		float		cosAngle = Cos(_angle),
+					sinAngle = Sin(_angle);
+
+		// Copy x as base x value is needed for
+		// both x and y results
 		float		xCopy = m_x;
 
-
+		// Manually multiply by 2x2 rotation matrix
 		m_x = cosAngle * xCopy - m_y * sinAngle;
 		m_y = sinAngle * xCopy + m_y * cosAngle;
 	}
@@ -155,8 +177,10 @@ namespace mth
 
 	std::string Vector2::String() const
 	{
+		// Use stream for easy conversion
 		std::stringstream		stream;
 
+		// Pass components to stream
 		stream << '{' << m_x << ',' << m_y << '}';
 
 		return stream.str();
@@ -165,8 +189,10 @@ namespace mth
 
 	std::string Vector2::StringLong() const
 	{
+		// Use stream for easy conversion
 		std::stringstream		stream;
 
+		// Pass components to stream with some extra
 		stream << "Vector2{ x:" << m_x << ", y:" << m_y << " }";
 
 		return stream.str();
@@ -205,6 +231,7 @@ namespace mth
 
 	Vector2& Vector2::operator=(const Vector2& _rhs)
 	{
+		// Copy assign
 		m_x = _rhs.m_x;
 		m_y = _rhs.m_y;
 
@@ -243,6 +270,7 @@ namespace mth
 
 	bool Vector2::operator==(const Vector2& _rhs) const
 	{
+		// Compare both components
 		return
 		(
 			AlmostEqual(m_x, _rhs.m_x) &&
@@ -271,6 +299,7 @@ namespace mth
 	{
 		Vector2		result = _target;
 
+		// Return reflected copy
 		result.ReflectOnto(_ontoNormal);
 
 		return result;
@@ -280,6 +309,7 @@ namespace mth
 	{
 		Vector2		result = _target;
 
+		// Return reflected copy
 		result.ReflectOntoUnit(_ontoNormal);
 
 		return result;
@@ -289,6 +319,7 @@ namespace mth
 	{
 		Vector2		result = _target;
 
+		// Return projected copy
 		result.ProjectOnto(_ontoVector);
 
 		return result;
@@ -299,6 +330,7 @@ namespace mth
 	{
 		Vector2		result = _target;
 
+		// Return normalized copy
 		result.Normalize();
 
 		return result;
@@ -318,10 +350,14 @@ namespace mth
 	{
 		Vector2		result = _target;
 
+		// Return rotated copy
 		result.Rotate(_angle);
 
 		return result;
 	}
+
+
+	// Componenet-wise operators
 
 	Vector2 Vector2::operator+(const Vector2& _rhs) const
 	{
@@ -412,6 +448,11 @@ namespace mth
 		return *this;
 	}
 
+	// !Componenet-wise operators
+
+
+	// Constants
+
 	Vector2 Vector2::Zero(void)
 	{
 		return Vector2();
@@ -443,10 +484,12 @@ namespace mth
 		return Vector2(1.f, 0.f);
 	}
 
+	// !Constants
 
 
 	std::ostream& operator<<(std::ostream& _os, Vector2 const& _vector)
 	{
+		// Pass components to stream
 		_os << '{' << _vector.GetX() << ',' << _vector.GetY() << '}';
 
 		return _os;
