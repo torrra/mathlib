@@ -56,7 +56,7 @@ namespace mth
 
 	float Vector2::DistanceSquaredFrom(const Vector2& _other) const
 	{
-		// Find fistance vector and get magnitude
+		// Find distance vector and get magnitude
 		return (_other - *this).MagnitudeSquared();
 	}
 
@@ -84,7 +84,7 @@ namespace mth
 
 	bool Vector2::IsUnitVector() const
 	{
-		// 1 squares == 1 so avoiding sqrt call is possible
+		// 1 squared == 1 so avoiding sqrt call is possible
 		return AlmostEqual(MagnitudeSquared(), 1.f);
 	}
 
@@ -103,8 +103,16 @@ namespace mth
 
 	void Vector2::Normalize()
 	{
+		float		invMagnitude = Magnitude();
+
+		if (AlmostEqual(invMagnitude, 0.f, FLT_EPSILON))
+		{
+			throw std::logic_error("Cannot divide by zero magnitude");
+		}
+
 		// Only divide once
-		float		invMagnitude = 1.f / Magnitude();
+		else
+			invMagnitude = 1.f / invMagnitude;
 
 		m_x *= invMagnitude;
 		m_y *= invMagnitude;
@@ -357,7 +365,7 @@ namespace mth
 	}
 
 
-	// Componenet-wise operators
+	// Component-wise operators
 
 	Vector2 Vector2::operator+(const Vector2& _rhs) const
 	{
@@ -448,7 +456,7 @@ namespace mth
 		return *this;
 	}
 
-	// !Componenet-wise operators
+	// !Component-wise operators
 
 
 	// Constants
@@ -499,6 +507,7 @@ namespace mth
 	{
 		char	discard;
 
+		// Get input from stream
 		_is >> discard >> _vector.X() >> discard >> _vector.Y() >> discard;
 
 		return _is;

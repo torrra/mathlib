@@ -25,21 +25,26 @@ namespace mth
 
 		float		magnitudes = MagnitudeSquared() * _other.MagnitudeSquared();
 
+		// Only run square root once
 		magnitudes = SquareRoot(magnitudes);
 
-
+		// Transform dot product equation to get cos angle,
+		// then run acos
 		return Acos(Dot(_other) / magnitudes);
 	}
 
 	Radian Vector3::AngleFromUnit(const Vector3& _other) const
 	{
+		// Clamp dot to avoid acos domain error (NaN result)
+		// and call acos as both vectors are assumed to be
+		// unit vectors
 		return Acos(Clamp(Dot(_other), MIN_COS, MAX_COS));
 	}
 
 
 	Vector3 Vector3::Cross(const Vector3& _other) const
 	{
-		// TODO: 3d
+		// Compute cross product
 		return Vector3
 		(
 			(m_y * _other.m_z) - (m_z * _other.m_y),
@@ -57,6 +62,7 @@ namespace mth
 
 	float Vector3::DistanceSquaredFrom(const Vector3& _other) const
 	{
+		// Find distance vector and get magnitude
 		return (_other - *this).MagnitudeSquared();
 	}
 
@@ -67,36 +73,42 @@ namespace mth
 
 	float Vector3::Distance2DSquaredFrom(const Vector3& _other) const
 	{
-		Vector2 dist2D =
+		// Ignore z axis
+		Vector2		dist2D =
 		{
 			_other.m_x - m_x,
 			_other.m_y - m_y
 		};
 
+		// Find distance vector and get magnitude
 		return dist2D.MagnitudeSquared();
 	}
 
 
 	float Vector3::Dot(const Vector3& _other) const
 	{
+		// Multiply components
 		return (m_x * _other.m_x) + (m_y * _other.m_y) + (m_z * _other.m_z);
 	}
 
 
 	bool Vector3::IsLongerThan(const Vector3& _other) const
 	{
+		// Compare squared magnitudes to avoid two sqrt calls
 		return MagnitudeSquared() > _other.MagnitudeSquared();
 	}
 
 
 	bool Vector3::IsShorterThan(const Vector3& _other) const
 	{
+		// Compare squared magnitudes to avoid two sqrt calls
 		return MagnitudeSquared() < _other.MagnitudeSquared();
 	}
 
 
 	bool Vector3::IsUnitVector() const
 	{
+		// 1 squared == 1 so avoiding sqrt call is possible
 		return AlmostEqual(MagnitudeSquared(), 1.f);
 	}
 
@@ -109,6 +121,7 @@ namespace mth
 
 	float Vector3::MagnitudeSquared() const
 	{
+		// Square components
 		return Dot(*this);
 	}
 
@@ -117,8 +130,11 @@ namespace mth
 		float		invMagnitude = Magnitude();
 
 		if (AlmostEqual(invMagnitude, 0.f, FLT_EPSILON))
+		{
 			throw std::logic_error("Cannot divide by zero magnitude");
+		}
 
+		// Only divide once
 		else
 			invMagnitude = 1.f / invMagnitude;
 
@@ -134,13 +150,14 @@ namespace mth
 
 		result.Normalize();
 
+		// Return normalized copy
 		return result;
 	}
 
 
 	void Vector3::ProjectOnto(const Vector3& _other)
 	{
-
+		// Apply projection formula
 		float		squareMagnitude = _other.MagnitudeSquared();
 		float		projFactor = Dot(_other) / squareMagnitude;
 
@@ -153,13 +170,16 @@ namespace mth
 
 	void Vector3::ReflectOnto(const Vector3& _axis)
 	{
+		// Only reflect onto unit vector
 		Vector3		normal = mth::Normalize(_axis);
 
+		// Apply reflection formula
 		*this -= normal * (Dot(normal) * 2.f);
 	}
 
 	void Vector3::ReflectOntoUnit(const Vector3& _axis)
 	{
+		// Assume normal is already unit vector and skip normalize call
 		*this -= _axis * (Dot(_axis) * 2.f);
 	}
 
@@ -173,6 +193,7 @@ namespace mth
 		float		cosRoll = Cos(_angleY), sinRoll = Sin(_angleY);
 
 
+		// Create rotation matrix
 		float		rotation[][3] =
 		{
 			{
@@ -198,7 +219,7 @@ namespace mth
 
 		Matrix3		rotMatrix(rotation);
 
-
+		// Multiply by rotation matrix
 		*this = rotMatrix * copy;
 
 
@@ -218,7 +239,7 @@ namespace mth
 		const float			oneMinCos = 1.f - cosAngle;
 		const Vector3		oneMinAxis = norm * oneMinCos;
 
-		// Perform matrix multiplication
+		// Create multiplication matrix and multiply manually
 		float				factorX = cosAngle + norm.m_x *
 									  norm.m_x * oneMinCos;
 
@@ -261,8 +282,10 @@ namespace mth
 
 	std::string Vector3::String() const
 	{
+		// Use stream for easy conversion
 		std::stringstream		stream;
 
+		// Pass components to stream
 		stream << '{' << m_x << ',' << m_y << ',' << m_z << '}';
 
 		return stream.str();
@@ -271,8 +294,10 @@ namespace mth
 
 	std::string Vector3::StringLong() const
 	{
+		// Use stream for easy conversion
 		std::stringstream		stream;
 
+		// Pass components to stream
 		stream << "Vector3{ x:" << m_x << ", y:" << m_y << ", z:" << m_z << " }";
 
 		return stream.str();
@@ -321,6 +346,7 @@ namespace mth
 
 	Vector3& Vector3::operator=(const Vector3& _rhs)
 	{
+		// Copy assign
 		m_x = _rhs.m_x;
 		m_y = _rhs.m_y;
 		m_z = _rhs.m_z;
@@ -364,6 +390,7 @@ namespace mth
 
 	bool Vector3::operator==(const Vector3& _rhs) const
 	{
+		// Compare all components
 		return
 		(
 			AlmostEqual(m_x, _rhs.m_x) &&
@@ -393,6 +420,7 @@ namespace mth
 	{
 		Vector3		result = _target;
 
+		// Return reflected copy
 		result.ReflectOnto(_ontoNormal);
 
 		return result;
@@ -402,6 +430,7 @@ namespace mth
 	{
 		Vector3		result = _target;
 
+		// Return reflected copy
 		result.ReflectOntoUnit(_ontoNormal);
 
 		return result;
@@ -411,6 +440,7 @@ namespace mth
 	{
 		Vector3		result = _target;
 
+		// Return projected copy
 		result.ProjectOnto(_ontoVector);
 
 		return result;
@@ -421,6 +451,7 @@ namespace mth
 	{
 		Vector3		result = _target;
 
+		// Return normalized copy
 		result.Normalize();
 
 		return result;
@@ -440,6 +471,7 @@ namespace mth
 	{
 		Vector3		result = _target;
 
+		// Return rotated copy
 		result.Rotate(_x, _y, _z);
 
 		return result;
@@ -449,10 +481,15 @@ namespace mth
 	{
 		Vector3		result = _target;
 
+		// Return rotated copy
 		result.Rotate(_angle, _axis);
 
 		return result;
 	}
+
+
+	// Component-wise operators
+
 
 	Vector3 Vector3::operator+(const Vector3& _rhs) const
 	{
@@ -549,6 +586,12 @@ namespace mth
 		return *this;
 	}
 
+
+	// !Component-wise operators
+
+
+	// Constants
+
 	Vector3 Vector3::Zero(void)
 	{
 		return Vector3();
@@ -590,11 +633,13 @@ namespace mth
 		return Vector3(0.f, 0.f, 1.f);
 	}
 
-
+	// !Constants
 
 	std::ostream& operator<<(std::ostream& _os, Vector3 const& _vector)
 	{
-		_os << '{' << _vector.GetX() << ',' << _vector.GetY() << ',' << _vector.GetZ() << '}';
+		// Pass components to stream
+		_os << '{' << _vector.GetX() << ',' << _vector.GetY() << ',' <<
+		_vector.GetZ() << '}';
 
 		return _os;
 	}
@@ -603,7 +648,9 @@ namespace mth
 	{
 		char	discard;
 
-		_is >> discard >> _vector.X() >> discard >> _vector.Y() >> discard >> _vector.Z() >> discard;
+		// Get input from stream
+		_is >> discard >> _vector.X() >> discard >> _vector.Y()
+			>> discard >> _vector.Z() >> discard;
 
 		return _is;
 	}
