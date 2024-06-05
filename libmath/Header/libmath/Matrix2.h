@@ -44,7 +44,7 @@ namespace mth
         // Multiply all numbers of a copy of this matrix by a scalar factor
         Matrix2         operator*(float _factor)            const;
 
-        // MAtrix / matrix assignment operators
+        // Matrix / matrix assignment operators
 
         Matrix2&        operator+=(const Matrix2& _rhs);
         Matrix2&        operator-=(const Matrix2& _rhs);
