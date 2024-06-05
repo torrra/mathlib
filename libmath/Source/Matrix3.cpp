@@ -12,6 +12,7 @@ namespace mth
 
 	Matrix3::Matrix3(const float _vals[][3])
 	{
+		// Copy 3x3 array into matix
 		for (int row = 0; row < 3; ++row)
 		{
 			for (int column = 0; column < 3; ++column)
@@ -25,6 +26,8 @@ namespace mth
 	{
 		int		arrayIndex = 0;
 
+
+		// Copy 1D array into matix
 		for (int row = 0; row < 3; ++row)
 		{
 			for (int column = 0; column < 3; ++column, ++arrayIndex)
@@ -39,6 +42,7 @@ namespace mth
 	{
 		int		maxSize = 3;
 
+		// Copy other matrix into this matrix
 		for (int row = 0; row < maxSize; ++row)
 		{
 			for (int column = 0; column < maxSize; ++column)
@@ -50,6 +54,7 @@ namespace mth
 
 	float Matrix3::Determinant(void) const
 	{
+		// Add multiplied left-right diagonals together
 		float		positiveDiags
 		{
 			m_values[0][0] * m_values[1][1] * m_values[2][2] +
@@ -57,6 +62,7 @@ namespace mth
 			m_values[0][2] * m_values[1][0] * m_values[2][1]
 		};
 
+		// Add multiplied right-left diagonals together
 		float		negativeDiags
 		{
 			m_values[0][2] * m_values[1][1] * m_values[2][0] +
@@ -64,6 +70,7 @@ namespace mth
 			m_values[0][0] * m_values[1][2] * m_values[2][1]
 		};
 
+		// Subtract negative diagonals from positive diagnonals
 		return positiveDiags - negativeDiags;
 	}
 
@@ -71,6 +78,7 @@ namespace mth
 	{
 		int		maxSize = 3;
 
+		// Zero-out matrix except for diagonal
 		for (int row = 0; row < maxSize; ++row)
 		{
 			for (int column = 0; column < maxSize; ++column)
@@ -87,14 +95,19 @@ namespace mth
 
 		float			sign = 1;
 
+		// Avoid call to transpose by running one nested loop
 		for (int row = 0; row < 3; ++row)
 		{
 			for (int column = 0; column < 3; ++column)
 			{
-				result[column][row] = SubMatrix(row, column).Determinant();
+				// Compute minor and transpose (row and column switched)
+				result[column][row] = SubMatrix(row, column)
+									  .Determinant();
 
+				// Minor to cofactor (multiply by sign)
 				result[column][row] *= sign;
 
+				// Flip sign (instead of calling pow(-1, row + colum))
 				sign *= -1;
 			}
 		}
@@ -112,7 +125,9 @@ namespace mth
 		{
 			for (int column = 0; column < 3; ++column)
 			{
-				result[row][column] = SubMatrix(row, column).Determinant();
+				// Minor = stripped matrix' determinant
+				result[row][column] = SubMatrix(row, column)
+									  .Determinant();
 			}
 		}
 
@@ -130,8 +145,11 @@ namespace mth
 		{
 			for (int column = 0; column < 3; ++column)
 			{
-				result[row][column] = SubMatrix(row, column).Determinant();
+				// Compute minor
+				result[row][column] = SubMatrix(row, column)
+									 .Determinant();
 
+				// Minot to cofactor
 				result[row][column] *= sign;
 
 				sign *= -1;
@@ -143,6 +161,7 @@ namespace mth
 
 	Matrix3 Matrix3::Inverse(void) const
 	{
+		// Perform only one division
 		float			invDeterminant = 1.f / Determinant();
 		Matrix3			result;
 		float			sign = 1;
@@ -151,11 +170,17 @@ namespace mth
 		{
 			for (int column = 0; column < 3; ++column)
 			{
-				result[column][row] = SubMatrix(row, column).Determinant();
+				// Compute minor and transpose
+				result[column][row] = SubMatrix(row, column)
+									  .Determinant();
 
+				// Minor to cofactor
 				result[column][row] *= sign;
+
+				// Cofactor to inverse
 				result[column][row] *= invDeterminant;
 
+				// Flip next sign
 				sign *= -1;
 			}
 		}
@@ -166,8 +191,9 @@ namespace mth
 
 	Matrix3 Matrix3::Transpose(void) const
 	{
-		Matrix3 result;
+		Matrix3		result;
 
+		// Assign opposite row-colum combination for each value
 		for (int row = 0; row < 3; ++row)
 		{
 			for (int column = 0; column < 3; ++column)
@@ -184,8 +210,9 @@ namespace mth
 
 	Matrix2 Matrix3::SubMatrix(int _row, int _column) const
 	{
-		Matrix2 minor;
+		Matrix2		minor;
 
+		// Go through matrix and ignore row argument
 		for (int thisRow = 0, mat2Row = 0; thisRow < 3; ++thisRow)
 		{
 			if (_row == thisRow)
@@ -193,6 +220,7 @@ namespace mth
 
 			for (int thisColumn = 0, mat2Column = 0; thisColumn < 3; ++thisColumn)
 			{
+				// Ignore column parameter
 				if (_column == thisColumn)
 					continue;
 
@@ -202,6 +230,7 @@ namespace mth
 			++mat2Row;
 		}
 
+		// Get stripped 2x2 matrix
 		return minor;
 	}
 
@@ -215,6 +244,7 @@ namespace mth
 
 	Matrix3& Matrix3::operator=(const float _rhs[][3])
 	{
+		// Copy double array
 		for (int row = 0; row < 3; ++row)
 		{
 			for (int column = 0; column < 3; ++column)
@@ -230,6 +260,7 @@ namespace mth
 	{
 		int		arrayIndex = 0;
 
+		// Copy 1D array
 		for (int row = 0; row < 3; ++row)
 		{
 			for (int column = 0; column < 3; ++column, ++arrayIndex)
@@ -247,11 +278,13 @@ namespace mth
 	{
 		Matrix3		result;
 
+		// Add all components
 		for (int row = 0; row < 3; ++row)
 		{
 			for (int column = 0; column < 3; ++column)
 			{
-				result.m_values[row][column] = m_values[row][column] + _rhs[row][column];
+				result.m_values[row][column] =
+				m_values[row][column] + _rhs[row][column];
 			}
 		}
 
@@ -260,13 +293,15 @@ namespace mth
 
 	Matrix3 Matrix3::operator-(const Matrix3& _rhs) const
 	{
-		Matrix3 result;
+		Matrix3		result;
 
+		// Subtract all components
 		for (int row = 0; row < 3; ++row)
 		{
 			for (int column = 0; column < 3; ++column)
 			{
-				result.m_values[row][column] = m_values[row][column] - _rhs[row][column];
+				result.m_values[row][column] =
+				m_values[row][column] - _rhs[row][column];
 			}
 		}
 
@@ -277,15 +312,20 @@ namespace mth
 	{
 		Matrix3		result;
 
+		// Go through *this object's rows
 		for (int thisRow = 0; thisRow < 3; thisRow++)
 		{
+			// Go through rhs object's rows
 			for (int rightColumn = 0; rightColumn < 3; rightColumn++)
 			{
+				// Row * column accumulator
 				float	currentNum = 0.f;
 
+				// Go through rhs's columns
 				for (int rightRow = 0; rightRow < 3; rightRow++)
 				{
-					currentNum += m_values[thisRow][rightRow] * _rhs[rightRow][rightColumn];
+					currentNum += m_values[thisRow][rightRow] *
+					_rhs[rightRow][rightColumn];
 				}
 
 				result.m_values[thisRow][rightColumn] = currentNum;
@@ -300,6 +340,7 @@ namespace mth
 	{
 		Matrix3		result;
 
+		// Multiply all components by scalar
 		for (int row = 0; row < 3; ++row)
 		{
 			for (int column = 0; column < 3; ++column)
@@ -317,8 +358,10 @@ namespace mth
 		Vector3		result;
 		float		num;
 
+		// Multiply vector by *this object
 		for (int row = 0; row < 3; ++row)
 		{
+			// Accumulator
 			num = 0.f;
 
 			for (int column = 0; column < 3; ++column)
@@ -336,6 +379,7 @@ namespace mth
 
 	Matrix3 Matrix3::operator/(float _rhs) const
 	{
+		// Multiply by one over divisor
 		return *this * (1.f / _rhs);
 	}
 
@@ -343,6 +387,7 @@ namespace mth
 
 	Matrix3& mth::Matrix3::operator+=(const Matrix3& _rhs)
 	{
+		// Add and assign
 		for (int row = 0; row < 3; ++row)
 		{
 			for (int column = 0; column < 3; ++column)
@@ -357,6 +402,7 @@ namespace mth
 
 	Matrix3& mth::Matrix3::operator-=(const Matrix3& _rhs)
 	{
+		//Subtract and assign
 		for (int row = 0; row < 3; ++row)
 		{
 			for (int column = 0; column < 3; ++column)
@@ -373,21 +419,27 @@ namespace mth
 	{
 		Matrix3		result;
 
+		// Go through *this object's rows
 		for (int thisRow = 0; thisRow < 3; thisRow++)
 		{
+			// Go through rhs object's rows
 			for (int rightColumn = 0; rightColumn < 3; rightColumn++)
 			{
 				float	currentNum = 0.f;
 
+				// Go through rhs object's column
 				for (int rightRow = 0; rightRow < 3; rightRow++)
 				{
-					currentNum += m_values[thisRow][rightRow] * _rhs[rightRow][rightColumn];
+					currentNum += m_values[thisRow][rightRow] *
+					_rhs[rightRow][rightColumn];
 				}
 
+				// Store result
 				result.m_values[thisRow][rightColumn] = currentNum;
 			}
 		}
 
+		// Assign result to *this
 		*this = result;
 
 		return *this;
@@ -396,6 +448,7 @@ namespace mth
 
 	Matrix3& Matrix3::operator*=(float _rhs)
 	{
+		// Multiply by scalar
 		for (int row = 0; row < 3; ++row)
 		{
 			for (int column = 0; column < 3; ++column)
@@ -409,6 +462,7 @@ namespace mth
 
 	Matrix3& Matrix3::operator/=(float _rhs)
 	{
+		// Multiply by one over divisor
 		*this *= (1.f / _rhs);
 
 		return *this;
@@ -417,13 +471,16 @@ namespace mth
 
 	bool Matrix3::operator==(const Matrix3& _rhs) const
 	{
+		// Check all components for equality
 		for (int row = 0; row < 3; ++row)
 		{
 			for (int column = 0; column < 3; ++column)
 			{
 				if (!mth::AlmostEqual(m_values[row][column],
 					_rhs.m_values[row][column]))
+				{
 					return false;
+				}
 			}
 		}
 
@@ -433,12 +490,14 @@ namespace mth
 
 	bool Matrix3::operator!=(const Matrix3& _rhs) const
 	{
+		// Return opposite of equality
 		return !(*this == _rhs);
 	}
 
 
 	float* mth::Matrix3::operator[](int _index)
 	{
+		// Return row
 		return m_values[_index];
 	}
 
@@ -446,6 +505,7 @@ namespace mth
 
 	float const* Matrix3::operator[](int _index) const
 	{
+		// Return row
 		return m_values[_index];
 	}
 
