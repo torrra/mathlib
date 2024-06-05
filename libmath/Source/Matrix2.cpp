@@ -54,6 +54,7 @@ namespace mth
 
     Matrix2 Matrix2::Adjugate(void) const
     {
+        // Transpose cofactors
         return Matrix2(m_values[1][1], -m_values[0][1],
                        -m_values[1][0], m_values[0][0]);
     }
@@ -62,14 +63,17 @@ namespace mth
     {
         float       det = Determinant();
 
+        // Divide adjugate by determinant
         if (det != 0.f)
             return Adjugate() * (1 / det);
 
+        // Do not devide by zero
         return Matrix2();
     }
 
     Matrix2 Matrix2::Transpose(void) const
     {
+        // Switch non-diagonal values
         return Matrix2
         (
             m_values[0][0], m_values[1][0],
@@ -91,6 +95,7 @@ namespace mth
 
     Matrix2 Matrix2::operator+(const Matrix2& _rhs) const
     {
+        // Add components
         return Matrix2
         (
             m_values[0][0] + _rhs[0][0], m_values[0][1] + _rhs[0][1],
@@ -100,6 +105,7 @@ namespace mth
 
     Matrix2 Matrix2::operator-(const Matrix2& _rhs) const
     {
+        // Subtract components
         return Matrix2
         (
             m_values[0][0] - _rhs.m_values[0][0], m_values[0][1] - _rhs.m_values[0][1],
@@ -109,6 +115,7 @@ namespace mth
 
     Matrix2 Matrix2::operator*(const Matrix2& _rhs) const
     {
+        // Multiply components
         return Matrix2
         (
             m_values[0][0] * _rhs.m_values[0][0] + m_values[1][0] * _rhs.m_values[0][1],
@@ -121,6 +128,7 @@ namespace mth
 
     Matrix2 Matrix2::operator*(float _factor) const
     {
+        // Multiply by a scalar
         return Matrix2(
                         m_values[0][0] * _factor,
                         m_values[0][1] * _factor,
@@ -152,6 +160,7 @@ namespace mth
 
     bool  Matrix2::operator==(const Matrix2& _rhs) const
     {
+        // Check if all componenents are almost equal
         return mth::AlmostEqual(m_values[0][0], _rhs[0][0]) &&
                mth::AlmostEqual(m_values[0][1], _rhs[0][1]) &&
                mth::AlmostEqual(m_values[1][0], _rhs[1][0]) &&
@@ -179,6 +188,7 @@ namespace mth
     {
         float   cosAngle = Cos(_angle), sinAngle = Sin(_angle);
 
+        // Create z axis rotation matrix (non-homogenized)
         return Matrix2
         (
             cosAngle, -sinAngle,
