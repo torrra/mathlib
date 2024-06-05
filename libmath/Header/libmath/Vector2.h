@@ -55,7 +55,7 @@ namespace mth
 		// Adjust vector to turn into unit vector
 		void			Normalize(void);
 
-		// Get normalized copy of this vector
+		// Get copy of this vector as a unit vector
 		Vector2			Normalized(void)									const;
 
 		// Get vector normal to this one
@@ -99,28 +99,39 @@ namespace mth
 		float&			operator[](int _index);
 		float			operator[](int _index)								const;
 
+		// Boolean test operators
 
 		bool			operator==(const Vector2& _rhs)						const;
 		bool			operator!=(const Vector2& _rhs)						const;
 
+		// Component-wise operations
 
 		Vector2			operator+(const Vector2& _rhs)						const;
 		Vector2			operator-(const Vector2& _rhs)						const;
 		Vector2			operator*(const Vector2& _rhs)						const;
 		Vector2			operator/(const Vector2& _rhs)						const;
 
+		// Multiply all components by a single scalar
 		Vector2			operator*(float _rhs)								const;
+
+		// Divide all components by a single scalar
 		Vector2			operator/(float _rhs)								const;
 
-
+		// Flip sign of both componenents
 		Vector2			operator-(void)										const;
+
+
+		// Component-wise operations
 
 		Vector2&		operator+=(const Vector2& _rhs);
 		Vector2&		operator-=(const Vector2& _rhs);
 		Vector2&		operator*=(const Vector2& _rhs);
 		Vector2&		operator/=(const Vector2& _rhs);
 
+		// Multiply all components by a single scalar
 		Vector2&		operator*=(float _rhs);
+
+		// Divide all components by a single scalar
 		Vector2&		operator/=(float _rhs);
 
 
