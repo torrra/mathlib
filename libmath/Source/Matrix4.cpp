@@ -12,7 +12,6 @@ namespace mth
 
 	Matrix4::Matrix4(const float _vals[][4])
 	{
-		// Copy 3x3 array into matrix
 		for (int row = 0; row < 4; ++row)
 		{
 			for (int column = 0; column < 4; ++column)
@@ -26,7 +25,6 @@ namespace mth
 	{
 		int		arrayIndex = 0;
 
-		// Copy 1D array into matrix
 		for (int row = 0; row < 4; ++row)
 		{
 			for (int column = 0; column < 4; ++column, ++arrayIndex)
@@ -41,7 +39,6 @@ namespace mth
 	{
 		int		maxSize = 4;
 
-		// Copy other matrix into this matrix
 		for (int row = 0; row < maxSize; ++row)
 		{
 			for (int column = 0; column < maxSize; ++column)
@@ -55,20 +52,14 @@ namespace mth
 	{
 		Matrix3     minor;
 
-		float		result = 0.f, sign = 1.f;
+		float		result = 0.f, minusOne = -1.f;
 		int			stripedRow = 0;
 
 		for (int cofactor = 0; cofactor < 4; ++cofactor)
 		{
-			// Reduce matrix
 			minor = SubMatrix(stripedRow, cofactor);
+			result += m_values[stripedRow][cofactor] * minor.Determinant() * Pow(minusOne, cofactor);
 
-			// Get its signed determinant
-			result += m_values[stripedRow][cofactor] *
-					  minor.Determinant() * sign;
-
-			// Flip next sign
-			sign *= -1.f;
 		}
 
 		return result;
@@ -79,7 +70,6 @@ namespace mth
 	{
 		int		maxSize = 4;
 
-		// Zero out everything except diagonal
 		for (int row = 0; row < maxSize; ++row)
 		{
 			for (int column = 0; column < maxSize; ++column)
@@ -94,19 +84,15 @@ namespace mth
 	{
 		Matrix4			result;
 
-		float			sign = 1.f;
+		float			minusOne = -1;
 
 		for (int row = 0; row < 4; ++row)
 		{
 			for (int column = 0; column < 4; ++column)
 			{
-				// Reduce matrix and get determinant (+ transpose)
 				result[column][row] = SubMatrix(row, column).Determinant();
 
-				// Get cofactor
-				result[column][row] *= sign;
-
-				sign *= -1.f;
+				result[column][row] *= Pow(minusOne, row + column);
 			}
 		}
 
@@ -123,7 +109,6 @@ namespace mth
 		{
 			for (int column = 0; column < 4; ++column)
 			{
-				// Reduce matrix and get determinant
 				result[row][column] = SubMatrix(row, column).Determinant();
 			}
 		}
@@ -136,20 +121,15 @@ namespace mth
 	{
 		Matrix4			result;
 
-		float			sign = 1.f;
+		float			minusOne = -1;
 
 		for (int row = 0; row < 4; ++row)
 		{
 			for (int column = 0; column < 4; ++column)
 			{
-				// Reduce matrix and get determinant
 				result[row][column] = SubMatrix(row, column).Determinant();
 
-				// Get cofactor
-				result[row][column] *= sign;
-
-				// Flip next sign
-				sign *= -1.f;
+				result[row][column] *= Pow(minusOne, row + column);
 			}
 		}
 
@@ -160,7 +140,7 @@ namespace mth
 	{
 		float			invDeterminant = 1.f / Determinant();
 		Matrix4			result;
-		float			sign = 1;
+		float			minusOne = -1;
 
 		for (int row = 0; row < 4; ++row)
 		{
@@ -168,13 +148,8 @@ namespace mth
 			{
 				result[column][row] = SubMatrix(row, column).Determinant();
 
-				// Get cofactir and transpose
-				result[column][row] *= sign;
-
-				// divide by determinant
+				result[column][row] *= Pow(minusOne, row + column);
 				result[column][row] *= invDeterminant;
-
-				sign *= -1.f;
 
 			}
 		}
@@ -185,9 +160,8 @@ namespace mth
 
 	Matrix4 Matrix4::Transpose(void) const
 	{
-		Matrix4		result;
+		Matrix4 result;
 
-		// Swap rows and columns
 		for (int row = 0; row < 4; ++row)
 		{
 			for (int column = 0; column < 4; ++column)
@@ -204,15 +178,13 @@ namespace mth
 
 	Matrix3 Matrix4::SubMatrix(int _row, int _column) const
 	{
-		Matrix3		minor;
+		Matrix3 minor;
 
-		// Go through each row and ignore parameter row
 		for (int thisRow = 0, mat2Row = 0; thisRow < 4; ++thisRow)
 		{
 			if (_row == thisRow)
 				continue;
 
-			// Go through each column and ignore parameter column
 			for (int thisColumn = 0, mat2Column = 0; thisColumn < 4; ++thisColumn)
 			{
 				if (_column == thisColumn)
@@ -237,7 +209,6 @@ namespace mth
 
 	Matrix4& Matrix4::operator=(const float _rhs[][4])
 	{
-		// Copy 2D array
 		for (int row = 0; row < 4; ++row)
 		{
 			for (int column = 0; column < 4; ++column)
@@ -253,7 +224,6 @@ namespace mth
 	{
 		int		arrayIndex = 0;
 
-		// Copy 1D array
 		for (int row = 0; row < 4; ++row)
 		{
 			for (int column = 0; column < 4; ++column, ++arrayIndex)
@@ -270,13 +240,11 @@ namespace mth
 	{
 		Matrix4		result;
 
-		// Add all components
 		for (int row = 0; row < 4; ++row)
 		{
 			for (int column = 0; column < 4; ++column)
 			{
-				result.m_values[row][column] =
-				m_values[row][column] + _rhs[row][column];
+				result.m_values[row][column] = m_values[row][column] + _rhs[row][column];
 			}
 		}
 
@@ -285,15 +253,13 @@ namespace mth
 
 	Matrix4 Matrix4::operator-(const Matrix4& _rhs) const
 	{
-		Matrix4		result;
+		Matrix4 result;
 
-		// Subtract all components
 		for (int row = 0; row < 4; ++row)
 		{
 			for (int column = 0; column < 4; ++column)
 			{
-				result.m_values[row][column] =
-				m_values[row][column] - _rhs[row][column];
+				result.m_values[row][column] = m_values[row][column] - _rhs[row][column];
 			}
 		}
 
@@ -304,20 +270,15 @@ namespace mth
 	{
 		Matrix4		result;
 
-		// Go through *this object's rows
 		for (int thisRow = 0; thisRow < 4; thisRow++)
 		{
-			// Go through rhs object's rows
 			for (int rightColumn = 0; rightColumn < 4; rightColumn++)
 			{
-				// Row * column accumulator
-				float		currentNum = 0.f;
+				float	currentNum = 0.f;
 
-				// Go through rhs's columns
 				for (int rightRow = 0; rightRow < 4; rightRow++)
 				{
-					currentNum += m_values[thisRow][rightRow] *
-								_rhs[rightRow][rightColumn];
+					currentNum += m_values[thisRow][rightRow] * _rhs[rightRow][rightColumn];
 				}
 
 				result.m_values[thisRow][rightColumn] = currentNum;
@@ -332,10 +293,8 @@ namespace mth
 		Vector4		result;
 		float		num;
 
-		// Multiply vector by *this object
 		for (int row = 0; row < 4; ++row)
 		{
-			// Accumulator
 			num = 0.f;
 
 			for (int column = 0; column < 4; ++column)
@@ -354,7 +313,6 @@ namespace mth
 	{
 		Matrix4		result;
 
-		// Multiply all components by scalar
 		for (int row = 0; row < 4; ++row)
 		{
 			for (int column = 0; column < 4; ++column)
@@ -368,7 +326,6 @@ namespace mth
 
 	Matrix4 Matrix4::operator/(float _rhs) const
 	{
-		// Multiply by one over divisor
 		return *this * (1.f / _rhs);
 	}
 
@@ -376,7 +333,6 @@ namespace mth
 
 	Matrix4& mth::Matrix4::operator+=(const Matrix4& _rhs)
 	{
-		// Add and assign
 		for (int row = 0; row < 4; ++row)
 		{
 			for (int column = 0; column < 4; ++column)
@@ -391,7 +347,6 @@ namespace mth
 
 	Matrix4& mth::Matrix4::operator-=(const Matrix4& _rhs)
 	{
-		//Subtract and assign
 		for (int row = 0; row < 4; ++row)
 		{
 			for (int column = 0; column < 4; ++column)
@@ -408,26 +363,21 @@ namespace mth
 	{
 		Matrix4		result;
 
-		// Go through *this object's rows
 		for (int thisRow = 0; thisRow < 4; thisRow++)
 		{
-			// Go through rhs object's rows
 			for (int rightColumn = 0; rightColumn < 4; rightColumn++)
 			{
 				float	currentNum = 0.f;
 
-				// Go through rhs object's column
 				for (int rightRow = 0; rightRow < 4; rightRow++)
 				{
 					currentNum += m_values[thisRow][rightRow] * _rhs[rightRow][rightColumn];
 				}
 
-				// Store result
 				result.m_values[thisRow][rightColumn] = currentNum;
 			}
 		}
 
-		// Assign result to *this
 		*this = result;
 
 		return *this;
@@ -436,7 +386,6 @@ namespace mth
 
 	Matrix4& Matrix4::operator*=(float _rhs)
 	{
-		// Multiply by scalar
 		for (int row = 0; row < 4; ++row)
 		{
 			for (int column = 0; column < 4; ++column)
@@ -450,7 +399,6 @@ namespace mth
 
 	Matrix4& Matrix4::operator/=(float _rhs)
 	{
-		// Multiply by one over divisor
 		*this *= (1.f / _rhs);
 
 		return *this;
@@ -459,16 +407,13 @@ namespace mth
 
 	bool Matrix4::operator==(const Matrix4& _rhs) const
 	{
-		// Check all components for equality
 		for (int row = 0; row < 4; ++row)
 		{
 			for (int column = 0; column < 4; ++column)
 			{
 				if (!mth::AlmostEqual(m_values[row][column],
 					_rhs.m_values[row][column]))
-				{
 					return false;
-				}
 			}
 		}
 
@@ -478,14 +423,12 @@ namespace mth
 
 	bool Matrix4::operator!=(const Matrix4& _rhs) const
 	{
-		// Return opposite of equality
 		return !(*this == _rhs);
 	}
 
 
 	float* mth::Matrix4::operator[](int _index)
 	{
-		// Return row
 		return m_values[_index];
 	}
 
@@ -493,7 +436,6 @@ namespace mth
 
 	float const* Matrix4::operator[](int _index) const
 	{
-		// Return row
 		return m_values[_index];
 	}
 
