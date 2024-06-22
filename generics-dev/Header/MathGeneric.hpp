@@ -26,6 +26,9 @@ Type suffix: Generic type, goes with T prefix
 
 */
 
+#ifndef __MATH_GENERICS_H__
+#define __MATH_GENERICS_H__
+
 #include <type_traits>
 
 namespace ion
@@ -37,6 +40,13 @@ namespace ion
     template <typename TEvaluatedType>
     concept CScalarType =
     std::is_arithmetic<TEvaluatedType>::value;
+
+
+    // Constrain type to a built-in integral type
+    // int, unsigned int, etc... excluding pointer
+    template <typename TEvaluatedType>
+    concept CIntegralType = 
+    std::is_integral<TEvaluatedType>::value;
 
 
     // Constrain type to a type that can be manipulated through addition,
@@ -62,3 +72,5 @@ namespace ion
 
   }
 }
+
+#endif
