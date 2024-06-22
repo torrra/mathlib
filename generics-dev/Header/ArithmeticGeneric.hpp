@@ -80,4 +80,19 @@ namespace ion::math
     TValueType      Factorial(TValueType _val);
 }
 
+
+
+// ----  Implementations ----
+
+namespace ion::math
+{
+    template <CScalarType TValueType>
+    TValueType Absolute(TValueType _val)
+    {
+        // Multiply by -1 if negative
+        return (_val < static_cast<TValueType>(0)) ? -_val : _val;
+    }
+}
+
+
 #endif
