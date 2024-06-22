@@ -92,6 +92,14 @@ namespace ion::math
         // Multiply by -1 if negative
         return (_val < static_cast<TValueType>(0)) ? -_val : _val;
     }
+
+
+    template <CScalarType TValueType>
+    bool  AlmostEqual(TValueType _a, TValueType _b, TValueType _epsilon)
+    {
+        // Check if difference is smaller than epsilon
+        return Absolute(_a - _b) <= _epsilon;
+    }
 }
 
 
