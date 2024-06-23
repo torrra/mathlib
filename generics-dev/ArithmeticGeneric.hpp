@@ -10,9 +10,9 @@
                                |___/
 
 
-NAME: MathGenerics.h
+NAME: ArithmeticGenerics.h
 
-DESCTIPTION: Template definitions for mathematical classes
+DESCTIPTION: Basic arithmetic function template. Implementation below
 
 AUTHOR: Noah de Pischof | @torrra on GitHub
 
@@ -25,6 +25,8 @@ CIntegralType only accepts integral numeric types
 
 #ifndef __ARITHMETIC_H__
 #define __ARITHMETIC_H__
+
+#include <cmath>
 
 #include "MathGeneric.hpp"
 
@@ -78,14 +80,18 @@ namespace ion::math
     // Get factorial of an unsigned integral value
     template <CIntegralType TValueType>
     TValueType      Factorial(TValueType _val);
-}
+
+
+    template <CScalarType TValuetype>
+    TValuetype      Modulo(TValueType _toDivide, TValueType _divisor);
 
 
 
-// ----  Implementations ----
 
-namespace ion::math
-{
+// ---- Implementation ----
+
+#pragma region Implementation
+
     template <CScalarType TValueType>
     TValueType Absolute(TValueType _val)
     {
@@ -100,6 +106,79 @@ namespace ion::math
         // Check if difference is smaller than epsilon
         return Absolute(_a - _b) <= _epsilon;
     }
+
+    template <CScalarType TValuetype>
+    TValuetype Modulo(TValueType _toDivide, TValueType _divisor)
+    {
+        // Integral modulo, flaoting point types
+        // are handled below
+        return _toDivide % _divisor;
+    }
+
+#pragma region Modulo specializations
+
+    template<>
+    double Modulo<double>(double _toDivide, double _divisor)
+    {
+        return fmod(_toDivide, _divisor);
+    }
+
+    template <>
+    float Modulo<float>(float _toDivide, float _divisor)
+    {
+        return fmodf(_toDivide, _divisor);
+    }
+
+    template<>
+    long double Modulo<long double>(long double _toDivide, long double _divisor)
+    {
+        return fmodl(_toDivide, _divisor);
+    }
+
+#pragma endregion Modulo specializations
+
+
+    template <CScalarType TValueType>
+    TValueType Floor(TValueType _val)
+    {
+        // Integral types do not need to be manipulated
+        // floatig point cases handled below
+        return _val;
+    }
+
+
+    template <>
+    float Floor(float _val)
+    {
+        return static_cast<float>
+        (
+            static_cast<int32_t>(_val);
+        );
+    }
+
+
+    template <>
+    double Floor(double _val)
+    {
+        return static_cast<double>
+        (
+            static_cast<int64_t>(_val);
+        );
+    }
+
+
+    template <>
+    long double Floor(long double _val)
+    {
+        return static_cast<long double>
+        (
+            static_cast<int64_t>(_val);
+        );
+    }
+#pragma endregion Modulo specialization
+
+
+#pragma endregion Implementations
 }
 
 
