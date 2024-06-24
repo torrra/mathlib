@@ -47,7 +47,7 @@ namespace ion::math
 
     // Round to the nearest integral value
     template <CScalarType TValueType>
-    
+
     TValueType       Round(TValueType _val)                             noexcept;
 
     // Round to the nearest integral value (greater or equal)
@@ -67,10 +67,14 @@ namespace ion::math
 
     // Get value within a range without wrapping
     template <CScalarType TValueType>
-    TValueType       Clamp(TValueType _val, TValueType _low, TValueType _high);
+    TValueType       Clamp
+    (
+        TValueType _val, TValueType _low, TValueType _high
+    )                                                                   noexcept;
 
-    template <CScalarType TValueType>
-    TValueType       Pow(TValueType _val, unsigned int _power);
+    // Raise number to an integral power
+    template <CScalarType TValueType, CUnsignedType TPowerType>
+    TValueType       Pow(TValueType _val, TPowerType _power)            noexcept;
 
 
     template <CScalarType TValueType>
@@ -149,19 +153,19 @@ namespace ion::math
     }
 
 
-// !Modulus specialization
+// !Modulus specializations
 
 
     template <CScalarType TValueType>
     TValueType Floor(TValueType _val) noexcept
     {
         // Integral types do not need to be manipulated
-        // floatig point cases handled below
+        // floating point cases handled below
         return _val;
     }
 
 
-// ---- Flooor specializations ----
+// ---- Floor specializations ----
 
     // Strip down decimal part and match size if possible
 
@@ -263,6 +267,25 @@ namespace ion::math
     ION_POP_WARNINGS()
 
 #endif
+
+
+
+   // Get value within a range without wrapping
+   template <CScalarType TValueType>
+   TValueType Clamp(TValueType _val, TValueType _low, TValueType _high) noexcept
+   {
+       // Return highest of low values
+       if (_val < _low)
+           return _low;
+
+       // Return lowest of high values
+       if (_val > _high)
+           return _high;
+
+       return _val;
+   }
+
+
 
 // !Implementation
 }
