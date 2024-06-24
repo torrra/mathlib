@@ -10,7 +10,7 @@
                                |___/
 
 
-NAME: ArithmeticGenerics.h
+NAME: ArithmeticGenerics.hpp
 
 DESCTIPTION: Basic arithmetic function templates. Implementation below
 
@@ -27,6 +27,7 @@ CIntegralType only accepts integral numeric types
 #define __ARITHMETIC_H__
 
 #include <cmath>
+#include <limits>
 
 #include "MathGeneric.hpp"
 
@@ -34,7 +35,14 @@ namespace ion::math
 {
     // Epsilon test
     template <CScalarType TValueType>
-    bool             AlmostEqual(TValueType _a, TValueType _b, TValueType _epsilon = TValueType(1e-3));
+    bool             AlmostEqual
+    (
+        TValueType _a, TValueType _b,
+
+        // Use the type's built-in epsilon if none is provided
+        TValueType _epsilon = std::numeric_limits<TValueType>::epsilon()
+    );
+
 
     // Round to the nearest integral value
     template <CScalarType TValueType>
@@ -146,9 +154,10 @@ namespace ion::math
         return _val;
     }
 
-#pragma region Floor specialization
+#pragma region Floor specializations
 
- 
+    // Strip down decimal part and match size if possible
+
     template <>
     float Floor(float _val)
     {
@@ -180,7 +189,7 @@ namespace ion::math
         );
     }
 
-#pragma endregion Floor specialization
+#pragma endregion Floor specializations
 
 
    template <CScalarType TValueType>
@@ -202,6 +211,9 @@ namespace ion::math
         else
             return floored;
     }
+
+
+
 
 #pragma endregion Implementations
 }
