@@ -12,7 +12,7 @@
 
 NAME: ArithmeticGenerics.h
 
-DESCTIPTION: Basic arithmetic function template. Implementation below
+DESCTIPTION: Basic arithmetic function templates. Implementation below
 
 AUTHOR: Noah de Pischof | @torrra on GitHub
 
@@ -146,7 +146,6 @@ namespace ion::math
         return _val;
     }
 
-
 #pragma region Floor specialization
 
  
@@ -175,11 +174,34 @@ namespace ion::math
     {
         return static_cast<long double>
         (
+            // No standard 128 bit integer
+            // available, so resort to 64
             static_cast<int64_t>(_val)
         );
     }
 
 #pragma endregion Floor specialization
+
+
+   template <CScalarType TValueType>
+    TValueType Round(TValueType _val)
+    {
+        // Integral values do not need to be manipulated
+        // if statement can be constexpr as is_integral will be
+        // resolved in compile time
+        if constexpr (std::is_integral<TValueType>::value)
+            return _val;
+
+        TValueType      floored = Floor<TValueType>(_val);
+
+        // Round up if decimal part >= .5
+        if (_val - floored >= static_cast<TValueType>(0.5))
+            return floored + static_cast<TValueType>(1.0);
+
+        // Round down if not
+        else
+            return floored;
+    }
 
 #pragma endregion Implementations
 }
