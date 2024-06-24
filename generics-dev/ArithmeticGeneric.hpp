@@ -358,6 +358,22 @@ namespace ion::math
 
 
 
+   template <CScalarType TValueType>
+   TValueType Min(TValueType _a, TValueType _b) noexcept
+   {
+       // Return smallest
+       return (_a < _b) ? _a : _b;
+   }
+
+
+   template <CScalarType TValueType>
+   TValueType Max(TValueType _a, TValueType _b) noexcept
+   {
+       // Return largest
+       return (_a > _b) ? _a : _b;
+   }
+
+
 
 // !Implementation
 }
