@@ -1,6 +1,11 @@
 #include "libmath/Intersection2D.h"
 
 
+#ifndef  FLT_MAX
+#include <cfloat>
+#endif // ! FLT_MAX
+
+
 namespace mth
 {
 

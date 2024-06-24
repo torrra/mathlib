@@ -1,6 +1,12 @@
 #include "libmath/Intersection3D.h"
 #include "libmath/Trigonometry.h"
 
+
+#ifndef  FLT_MAX
+#include <cfloat>
+#endif // ! FLT_MAX
+
+
 namespace mth
 {
 
