@@ -53,6 +53,8 @@ ION_ prefix helps identify macros specific to the project
 
 // GCC pragma warning directives
 
+#define ION_GCC_COMPILER
+
 #define ION_PUSH_WARNINGS()                   ION_PRAGMA(GCC diagnostic push)
 #define ION_POP_WARNINGS()                    ION_PRAGMA(GCC diagnostic pop)
 #define ION_DISABLE_WARNING(_warning)         ION_PRAGMA(GCC diagnostic ignored #_warning)
@@ -64,6 +66,6 @@ ION_ prefix helps identify macros specific to the project
 // TODO: clang support ?
 #error [ION ENGINE] Sorry, this compiler is not supported.
 
-#endif
+#endif // !_MSC_VER
 
-#endif
+#endif // !__ION_WARNINGS_H__
