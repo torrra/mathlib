@@ -82,8 +82,8 @@ namespace ion::math
     TValueType      Factorial(TValueType _val);
 
 
-    template <CScalarType TValuetype>
-    TValuetype      Modulo(TValueType _toDivide, TValueType _divisor);
+    template <CScalarType TValueType>
+    TValueType      Modulo(TValueType _toDivide, TValueType _divisor);
 
 
 
@@ -107,8 +107,8 @@ namespace ion::math
         return Absolute(_a - _b) <= _epsilon;
     }
 
-    template <CScalarType TValuetype>
-    TValuetype Modulo(TValueType _toDivide, TValueType _divisor)
+    template <CScalarType TValueType>
+    TValueType Modulo(TValueType _toDivide, TValueType _divisor)
     {
         // Integral modulo, flaoting point types
         // are handled below
@@ -147,12 +147,15 @@ namespace ion::math
     }
 
 
+#pragma region Floor specialization
+
+ 
     template <>
     float Floor(float _val)
     {
         return static_cast<float>
         (
-            static_cast<int32_t>(_val);
+            static_cast<int32_t>(_val)
         );
     }
 
@@ -162,7 +165,7 @@ namespace ion::math
     {
         return static_cast<double>
         (
-            static_cast<int64_t>(_val);
+            static_cast<int64_t>(_val)
         );
     }
 
@@ -172,11 +175,11 @@ namespace ion::math
     {
         return static_cast<long double>
         (
-            static_cast<int64_t>(_val);
+            static_cast<int64_t>(_val)
         );
     }
-#pragma endregion Modulo specialization
 
+#pragma endregion Floor specialization
 
 #pragma endregion Implementations
 }
