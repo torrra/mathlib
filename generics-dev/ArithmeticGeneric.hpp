@@ -304,6 +304,27 @@ namespace ion::math
 
 
 
+   template <CScalarType TValueType, CUnsignedType TPowerType>
+   TValueType Pow(TValueType _val, TPowerType _power) noexcept
+   {
+       if (static_cast<TPowerType>(0) == _power)
+           return static_cast<TValueType>(1);
+
+       if (static_cast<TPowerType>(1) == _power)
+           return _val;
+
+
+       TValueType       valCopy = _val;
+
+       // Multiply value by itself _power times
+       for (TPowerType iteration = static_cast<TPowerType>(1); iteration < _power; ++iteration)
+           _val *= valCopy;
+
+       return _val;
+   }
+
+
+
 // !Implementation
 }
 
