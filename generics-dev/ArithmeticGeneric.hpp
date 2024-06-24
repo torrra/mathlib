@@ -287,6 +287,23 @@ namespace ion::math
 
 
 
+   template <CScalarType TValueType>
+   TValueType Wrap(TValueType _val, TValueType _low, TValueType _high)
+   {
+       if (-_val > _high)
+           _val = _high + Modulus(_val - _high, _low - _high);
+
+       else
+           _val = _low + Modulus(_val - _low, _high - _low);
+
+       if (_val < _low)
+           _val += _high;
+
+       return _val;
+   }
+
+
+
 // !Implementation
 }
 
