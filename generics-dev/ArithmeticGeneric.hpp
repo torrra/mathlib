@@ -374,6 +374,32 @@ namespace ion::math
    }
 
 
+   template <CIntegralType TValueType>
+   TValueType Factorial(TValueType _val) noexcept
+   {
+       TValueType       zero = static_cast<TValueType>(0),
+           one = static_cast<TValueType>(1);
+
+
+       if (zero == _val || one == _val)
+           return one;
+
+       if (static_cast<TValueType>(2) == _val)
+           return _val;
+
+       TValueType     result = Absolute(_val),
+           valCopy = result - one;
+
+
+       // Multiply _val by numbers smaller than itself going all the way down to 1
+       while (valCopy > zero)
+           result *= valCopy--;
+
+       if (_val < zero)
+           result *= -one;
+
+       return result;
+   }
 
 // !Implementation
 }
