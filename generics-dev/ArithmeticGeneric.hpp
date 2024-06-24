@@ -91,7 +91,7 @@ namespace ion::math
 
 
     template <CScalarType TValueType>
-    TValueType      Modulo(TValueType _toDivide, TValueType _divisor);
+    TValueType      Modulus(TValueType _toDivide, TValueType _divisor);
 
 
 
@@ -116,7 +116,7 @@ namespace ion::math
     }
 
     template <CScalarType TValueType>
-    TValueType Modulo(TValueType _toDivide, TValueType _divisor)
+    TValueType Modulus(TValueType _toDivide, TValueType _divisor)
     {
         // Integral modulo, flaoting point types
         // are handled below
@@ -126,19 +126,19 @@ namespace ion::math
 #pragma region Modulo specializations
 
     template<>
-    double Modulo<double>(double _toDivide, double _divisor)
+    double Modulus<double>(double _toDivide, double _divisor)
     {
         return fmod(_toDivide, _divisor);
     }
 
     template <>
-    float Modulo<float>(float _toDivide, float _divisor)
+    float Modulus<float>(float _toDivide, float _divisor)
     {
         return fmodf(_toDivide, _divisor);
     }
 
     template<>
-    long double Modulo<long double>(long double _toDivide, long double _divisor)
+    long double Modulus<long double>(long double _toDivide, long double _divisor)
     {
         return fmodl(_toDivide, _divisor);
     }
@@ -232,6 +232,7 @@ namespace ion::math
         else
             return floored + static_cast<TValueType>(1);
     }
+
 
 #pragma endregion Implementations
 }
