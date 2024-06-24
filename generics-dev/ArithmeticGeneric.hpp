@@ -289,7 +289,7 @@ namespace ion::math
 
 
    template <CScalarType TValueType>
-   TValueType Wrap(TValueType _val, TValueType _low, TValueType _high)
+   TValueType Wrap(TValueType _val, TValueType _low, TValueType _high) noexcept
    {
        if (-_val > _high)
            _val = _high + Modulus(_val - _high, _low - _high);
