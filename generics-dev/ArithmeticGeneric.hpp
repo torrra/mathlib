@@ -41,25 +41,28 @@ namespace ion::math
 
         // Use the type's built-in epsilon if none is provided
         TValueType _epsilon = std::numeric_limits<TValueType>::epsilon()
-    );
+    )                                                                   noexcept;
 
 
     // Round to the nearest integral value
     template <CScalarType TValueType>
     
-    TValueType       Round(TValueType _val);
+    TValueType       Round(TValueType _val)                             noexcept;
 
     // Round to the nearest integral value (greater or equal)
     template <CScalarType TValueType>
-    TValueType       Ceil(TValueType _val);
+    TValueType       Ceil(TValueType _val)                              noexcept;
 
     // Round to the nearest integral value (smaller or equal)
     template <CScalarType TValueType>
-    TValueType       Floor(TValueType _val);
+    TValueType       Floor(TValueType _val)                             noexcept;
 
     // Wrap value around a set of limits
     template <CScalarType TValueType>
-    TValueType       Wrap(TValueType _val, TValueType _low, TValueType _high);
+    TValueType       Wrap
+    (
+        TValueType _val, TValueType _low, TValueType _high
+    )                                                                   noexcept;
 
     // Get value within a range without wrapping
     template <CScalarType TValueType>
@@ -82,7 +85,7 @@ namespace ion::math
 
     // Absolute value
     template <CScalarType TValueType>
-    TValueType       Absolute(TValueType _val);
+    TValueType       Absolute(TValueType _val)                          noexcept;
 
 
     // Get factorial of an unsigned integral value
@@ -91,17 +94,15 @@ namespace ion::math
 
 
     template <CScalarType TValueType>
-    TValueType      Modulus(TValueType _toDivide, TValueType _divisor);
+    TValueType      Modulus(TValueType _toDivide, TValueType _divisor)  noexcept;
 
 
 
 
 // ---- Implementation ----
 
-#pragma region Implementation
-
     template <CScalarType TValueType>
-    TValueType Absolute(TValueType _val)
+    TValueType Absolute(TValueType _val) noexcept
     {
         // Multiply by -1 if negative
         return (_val < static_cast<TValueType>(0)) ? -_val : _val;
@@ -109,57 +110,52 @@ namespace ion::math
 
 
     template <CScalarType TValueType>
-    bool  AlmostEqual(TValueType _a, TValueType _b, TValueType _epsilon)
+    bool  AlmostEqual(TValueType _a, TValueType _b, TValueType _epsilon) noexcept
     {
         // Check if difference is smaller than epsilon
         return Absolute(_a - _b) <= _epsilon;
     }
 
     template <CScalarType TValueType>
-    TValueType Modulus(TValueType _toDivide, TValueType _divisor)
+    TValueType Modulus(TValueType _toDivide, TValueType _divisor) noexcept
     {
         // Integral modulo, flaoting point types
         // are handled below
         return _toDivide % _divisor;
     }
 
-#pragma region Modulo specializations
-
+    
     template<>
-    double Modulus<double>(double _toDivide, double _divisor)
+    double Modulus<double>(double _toDivide, double _divisor) noexcept
     {
         return fmod(_toDivide, _divisor);
     }
 
     template <>
-    float Modulus<float>(float _toDivide, float _divisor)
+    float Modulus<float>(float _toDivide, float _divisor) noexcept
     {
         return fmodf(_toDivide, _divisor);
     }
 
     template<>
-    long double Modulus<long double>(long double _toDivide, long double _divisor)
+    long double Modulus<long double>(long double _toDivide, long double _divisor) noexcept
     {
         return fmodl(_toDivide, _divisor);
     }
 
-#pragma endregion Modulo specializations
-
 
     template <CScalarType TValueType>
-    TValueType Floor(TValueType _val)
+    TValueType Floor(TValueType _val) noexcept
     {
         // Integral types do not need to be manipulated
         // floatig point cases handled below
         return _val;
     }
 
-#pragma region Floor specializations
-
     // Strip down decimal part and match size if possible
 
     template <>
-    float Floor(float _val)
+    float Floor(float _val) noexcept
     {
         return static_cast<float>
         (
@@ -169,7 +165,7 @@ namespace ion::math
 
 
     template <>
-    double Floor(double _val)
+    double Floor(double _val) noexcept
     {
         return static_cast<double>
         (
@@ -179,7 +175,7 @@ namespace ion::math
 
 
     template <>
-    long double Floor(long double _val)
+    long double Floor(long double _val) noexcept
     {
         return static_cast<long double>
         (
@@ -189,11 +185,8 @@ namespace ion::math
         );
     }
 
-#pragma endregion Floor specializations
-
-
     template <CScalarType TValueType>
-    TValueType Round(TValueType _val)
+    TValueType Round(TValueType _val) noexcept
     {
         // Integral values do not need to be manipulated.
         // If statement can be constexpr as is_integral will be
@@ -214,7 +207,7 @@ namespace ion::math
 
 
     template <CScalarType TValueType>
-    TValueType Ceil(TValueType _val)
+    TValueType Ceil(TValueType _val) noexcept
     {
         // Integral values do not need to be manipulated.
         // If statement can be constexpr as is_integral will be
@@ -234,8 +227,6 @@ namespace ion::math
     }
 
 
-#pragma endregion Implementations
 }
-
 
 #endif
