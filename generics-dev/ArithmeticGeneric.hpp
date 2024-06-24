@@ -77,16 +77,17 @@ namespace ion::math
     TValueType       Pow(TValueType _val, TPowerType _power)            noexcept;
 
 
+    //TODO: Re-implement our own function
     template <CScalarType TValueType>
-    TValueType       SquareRoot(TValueType _val);  //TODO: Re-implement
+    TValueType       SquareRoot(TValueType _val)                        noexcept;
 
     // Get smallest value
     template <CScalarType TValueType>
-    TValueType       Min(TValueType _a, TValueType _b);
+    TValueType       Min(TValueType _a, TValueType _b)                  noexcept;
 
     // Get largest value
     template <CScalarType TValueType>
-    TValueType       Max(TValueType _a, TValueType _b);
+    TValueType       Max(TValueType _a, TValueType _b)                  noexcept;
 
     // Absolute value
     template <CScalarType TValueType>
@@ -95,7 +96,7 @@ namespace ion::math
 
     // Get factorial of an unsigned integral value
     template <CIntegralType TValueType>
-    TValueType      Factorial(TValueType _val);
+    TValueType      Factorial(TValueType _val)                          noexcept;
 
 
     template <CScalarType TValueType>
@@ -322,6 +323,39 @@ namespace ion::math
 
        return _val;
    }
+
+
+
+   template <CScalarType TValueType>
+   TValueType SquareRoot(TValueType _val) noexcept
+   {
+       return static_cast<TValueType>
+       (
+           sqrt(static_cast<double>(_val))
+       );
+   }
+
+
+
+   // ---- SquareRoot specializations ----
+
+   template<>
+   float SquareRoot<float>(float _val) noexcept
+   {
+       return sqrtf(_val);
+   }
+
+
+   template<>
+   long double SquareRoot<long double>(long double _val) noexcept
+   {
+       return sqrtl(_val);
+   }
+
+
+
+   // !SquareRoot specializations
+
 
 
 
