@@ -29,6 +29,7 @@ CIntegralType only accepts integral numeric types
 #include <cmath>
 #include <limits>
 
+#include "IonWarnings.hpp"
 #include "MathGeneric.hpp"
 
 namespace ion::math
@@ -46,7 +47,7 @@ namespace ion::math
 
     // Round to the nearest integral value
     template <CScalarType TValueType>
-    
+
     TValueType       Round(TValueType _val);
 
     // Round to the nearest integral value (greater or equal)
@@ -98,7 +99,7 @@ namespace ion::math
 
 // ---- Implementation ----
 
-#pragma region Implementation
+
 
     template <CScalarType TValueType>
     TValueType Absolute(TValueType _val)
@@ -118,12 +119,13 @@ namespace ion::math
     template <CScalarType TValueType>
     TValueType Modulus(TValueType _toDivide, TValueType _divisor)
     {
-        // Integral modulo, flaoting point types
+        // Integral modulo, floating point types
         // are handled below
         return _toDivide % _divisor;
     }
 
-#pragma region Modulo specializations
+
+// ---- Modulus specializations ----
 
     template<>
     double Modulus<double>(double _toDivide, double _divisor)
@@ -143,7 +145,8 @@ namespace ion::math
         return fmodl(_toDivide, _divisor);
     }
 
-#pragma endregion Modulo specializations
+
+// !Modulus specialization
 
 
     template <CScalarType TValueType>
@@ -154,7 +157,8 @@ namespace ion::math
         return _val;
     }
 
-#pragma region Floor specializations
+
+// ---- Flooor specializations ----
 
     // Strip down decimal part and match size if possible
 
@@ -189,17 +193,34 @@ namespace ion::math
         );
     }
 
-#pragma endregion Floor specializations
+// !Floor specializations
+
+
+#ifdef ION_MSVC_COMPILER
+
+    // Rounding with decimal parts will be unreachable for integral types,
+    // which will trigger an MSVC compiler warning.
+    // It is actually intended behavior to never reach this part,
+    // but this will be properly fixed
+
+    // HACK: disable unreachable warning for rounding functions
+    ION_PUSH_WARNINGS()
+    ION_DISABLE_WARNING(ION_UNREACHABLE_CODE)
+
+#endif
 
 
     template <CScalarType TValueType>
     TValueType Round(TValueType _val)
     {
+
+
         // Integral values do not need to be manipulated.
         // If statement can be constexpr as is_integral will be
         // evaluated in compile time
         if constexpr (std::is_integral<TValueType>::value)
             return _val;
+
 
         TValueType      floored = Floor<TValueType>(_val);
 
@@ -210,6 +231,7 @@ namespace ion::math
         // Round down if not
         else
             return floored;
+
     }
 
 
@@ -233,8 +255,13 @@ namespace ion::math
             return floored + static_cast<TValueType>(1);
     }
 
+#ifdef ION_MSVC_COMPILER
 
-#pragma endregion Implementations
+    ION_POP_WARNINGS()
+
+#endif
+
+// !Implementation
 }
 
 
