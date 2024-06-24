@@ -20,6 +20,9 @@
 *.o
 *.obj
 
+# Precompiled headers
+*.gch
+
 # Notepad++ backup folders
 /**/nppBackup/
 
