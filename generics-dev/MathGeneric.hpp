@@ -43,10 +43,16 @@ namespace ion
 
 
     // Constrain type to a built-in integral type
-    // int, unsigned int, etc... excluding pointer
+    // int, unsigned int, etc... excluding pointers
     template <typename TEvaluatedType>
-    concept CIntegralType = 
+    concept CIntegralType =
     std::is_integral<TEvaluatedType>::value;
+
+
+    // Constrain template to an unsigned integral type
+    template <typename TEvaluatedType>
+    concept CUnsignedType =
+    std::is_unsigned<TEvaluatedType>::value;
 
 
     // Constrain type to a type that can be manipulated through addition,
@@ -55,6 +61,10 @@ namespace ion
     template <typename TEvaluatedType>
     concept CArithmeticType = requires (TEvaluatedType a, TEvaluatedType b)
     {
+     // These statements are never actually ran,
+     // we just check if they can compile to determine
+     // if the evaluated type meets the requirements
+
       a + b;
       a - b;
       a * b;
