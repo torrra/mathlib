@@ -16,12 +16,19 @@ It is also the library used in the Ion engine project.
 
 ### legacy : Jan 13th 2024 - Jun 7th 2024
 
-The state of library as of June 7th, the school assignment's due date
+The state of library as of June 7th 2024, the school assignment's due date
 
-### dev : Jun 15th 2020 - current
+[View branch](https://github.com/torrra/mathlib/tree/legacy)  
+
+
+### dev : Jun 22nd 2024 - current
 
 In-progress features and refactors for the ion engine
 
+[View branch](https://github.com/torrra/mathlib/tree/dev)
+
 ### main
 
-Latest stable release
+Latest stable update
+
+[View branch](https://github.com/torrra/mathlib/tree/main)
