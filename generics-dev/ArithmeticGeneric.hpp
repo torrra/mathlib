@@ -192,12 +192,12 @@ namespace ion::math
 #pragma endregion Floor specializations
 
 
-   template <CScalarType TValueType>
+    template <CScalarType TValueType>
     TValueType Round(TValueType _val)
     {
-        // Integral values do not need to be manipulated
-        // if statement can be constexpr as is_integral will be
-        // resolved in compile time
+        // Integral values do not need to be manipulated.
+        // If statement can be constexpr as is_integral will be
+        // evaluated in compile time
         if constexpr (std::is_integral<TValueType>::value)
             return _val;
 
@@ -205,7 +205,7 @@ namespace ion::math
 
         // Round up if decimal part >= .5
         if (_val - floored >= static_cast<TValueType>(0.5))
-            return floored + static_cast<TValueType>(1.0);
+            return floored + static_cast<TValueType>(1);
 
         // Round down if not
         else
@@ -213,7 +213,25 @@ namespace ion::math
     }
 
 
+    template <CScalarType TValueType>
+    TValueType Ceil(TValueType _val)
+    {
+        // Integral values do not need to be manipulated.
+        // If statement can be constexpr as is_integral will be
+        // resolved in compile time
+        if constexpr (std::is_integral<TValueType>::value)
+            return _val;
 
+        TValueType      floored = Floor<TValueType>(_val);
+
+        if(AlmostEqual<TValueType>(_val, floored))
+            return floored;
+
+
+        // Round up if any decimal part > 0 is found
+        else
+            return floored + static_cast<TValueType>(1);
+    }
 
 #pragma endregion Implementations
 }
