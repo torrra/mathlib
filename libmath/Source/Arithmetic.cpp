@@ -47,10 +47,10 @@ namespace mth
     float Wrap(float _val, float _low, float _high)
     {
         if (-_val > _high)
-        _val = _high + std::fmodf(_val - _high, _low - _high);
+        _val = _high + fmodf(_val - _high, _low - _high);
 
         else
-            _val = _low + std::fmodf(_val - _low, _high - _low);
+            _val = _low + fmodf(_val - _low, _high - _low);
 
         if (_val < _low)
             _val += _high;

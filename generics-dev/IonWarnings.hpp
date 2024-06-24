@@ -18,9 +18,9 @@ AUTHOR: Noah de Pischof | @torrra on GitHub
 
 STYLE:
 
-ION_ prefix helps identify macros specicific to the project
+ION_ prefix helps identify macros specific to the project
 
-()  empty parentheses are added after macros that reprsent an action, to
+()  empty parentheses are added after macros that represent an action, to
     differentiate them from macros that extend to simple values
 
 */
@@ -37,13 +37,15 @@ ION_ prefix helps identify macros specicific to the project
 
 // Microsoft-specific pragma warning directives
 
+#define ION_MSVC_COMPILER
+
 #define ION_PUSH_WARNINGS()                   ION_PRAGMA(warning(push))
 #define ION_POP_WARNINGS()                    ION_PRAGMA(warning(pop))
 #define ION_DISABLE_WARNING(_warning)         ION_PRAGMA(warning(disable: _warning))
 
 
 // Only defined for MSVC.
-// Unreachable code warning has been 
+// Unreachable code warning has been
 // removed from GCC as it was considered unreliable
 #define ION_UNREACHABLE_CODE                    4702
 
