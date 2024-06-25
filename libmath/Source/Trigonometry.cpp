@@ -113,17 +113,17 @@ namespace ion::math
 
 	Radian Acos(float _cosine)
 	{
-		return Radian(std::acosf(_cosine));
+		return Radian(acosf(_cosine));
 	}
 
 	Radian Asin(float _sine)
 	{
-		return Radian(std::asinf(_sine));
+		return Radian(asinf(_sine));
 	}
 
 	Radian Atan(float _tangent)
 	{
-		return Radian(std::atanf(_tangent));
+		return Radian(atanf(_tangent));
 	}
 
 	Radian Atan2(float _y, float _x)
