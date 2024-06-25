@@ -3,7 +3,7 @@
 #include "libmath/Matrix3.h"
 #include "libmath/Vector4.h"
 
-namespace mth
+namespace ion::math
 {
 	class Matrix4
 	{
@@ -97,5 +97,5 @@ namespace mth
 	};
 }
 
-namespace lm = mth;
+namespace lm = ion::math;
 namespace LibMath = lm;

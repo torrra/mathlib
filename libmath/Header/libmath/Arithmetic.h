@@ -1,6 +1,6 @@
 #pragma once
 
-namespace mth
+namespace ion::math
 {
     // Epsilon test
     bool        AlmostEqual(float _a, float _b, float _epsilon = 0.0001f);
@@ -38,5 +38,5 @@ namespace mth
     // Get factorial of an unsigned integral value
     unsigned     Factorial(unsigned int _val);
 }
-namespace LibMath = mth;
-namespace lm = mth;
+namespace LibMath = ion::math;
+namespace lm = ion::math;

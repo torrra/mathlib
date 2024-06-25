@@ -6,7 +6,7 @@
 // Number of times cos should run its loop
 #define COS_IT		6u
 
-namespace mth
+namespace ion::math
 {
 	// Cos specifically made for sin to avoid constructing another Radian object
 	static float InternalCos(float _val)
@@ -26,7 +26,7 @@ namespace mth
 			powResult = Pow(radians, it * 2);
 
 			// Divide result by factorial of said power * sign
-			itResult = powResult * mth::Factorials::m_evenFacts[it - 1];
+			itResult = powResult * ion::math::Factorials::m_evenFacts[it - 1];
 
 			cosResult += itResult;
 
@@ -67,7 +67,7 @@ namespace mth
 			powResult = Pow(radians, it * 2);
 
 			// Divide result by factorial of said power * sign
-			itResult = powResult * mth::Factorials::m_evenFacts[it - 1];
+			itResult = powResult * ion::math::Factorials::m_evenFacts[it - 1];
 
 			cosResult += itResult;
 
@@ -150,7 +150,7 @@ namespace mth
 		return angle;
 	}
 
-	const float mth::Factorials::m_evenFacts[] =
+	const float ion::math::Factorials::m_evenFacts[] =
 	{
 			// Pre-compute even factorials and divisions
 			// for faster cosine execution

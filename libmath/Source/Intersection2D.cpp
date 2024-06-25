@@ -6,7 +6,7 @@
 #endif // ! FLT_MAX
 
 
-namespace mth
+namespace ion::math
 {
 
 

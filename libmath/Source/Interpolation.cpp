@@ -1,6 +1,6 @@
 #include "libmath/Interpolation.h"
 
-namespace mth
+namespace ion::math
 {
 	float Lerp(float _low, float _high, float _ratio)
 	{

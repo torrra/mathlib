@@ -6,7 +6,7 @@
 #define MAX_COS		1.f
 
 
-namespace mth
+namespace ion::math
 {
 	// Compute cosine of an angle in radians using
 	// 6 iterations of Taylor's series
@@ -41,5 +41,5 @@ namespace mth
 	};
 }
 
-namespace LibMath = mth;
-namespace lm = mth;
+namespace LibMath = ion::math;
+namespace lm = ion::math;

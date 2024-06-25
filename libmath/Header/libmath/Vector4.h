@@ -5,7 +5,7 @@
 #include "libmath/Angle.h"
 #include "libmath/Vector3.h"
 
-namespace mth
+namespace ion::math
 {
 	class Vector4
 	{
@@ -204,5 +204,5 @@ namespace mth
 	std::istream& operator>>(std::istream& _is, Vector4& _vector);
 }
 
-namespace LibMath = mth;
+namespace LibMath = ion::math;
 namespace lm = LibMath;

@@ -11,7 +11,7 @@
 #define DEG2RAD				0.0174532925f
 #define RAD2DEG				57.29577951308f
 
-namespace mth
+namespace ion::math
 {
 	class Radian;
 
@@ -160,5 +160,5 @@ namespace mth
 	}
 }
 
-namespace	LibMath = mth;
-namespace	lm = mth;
+namespace	LibMath = ion::math;
+namespace	lm = ion::math;

@@ -4,7 +4,7 @@
 #include "libmath/Matrix3.h"
 #include "libmath/Arithmetic.h"
 
-namespace mth
+namespace ion::math
 {
 	class OBBCollider3D;
 	class SphereCollider3D;

@@ -8,7 +8,7 @@
 #define HALF_CIRCLE_DEG		180.f
 #define FULL_CIRCLE_DEG		360.f
 
-namespace mth
+namespace ion::math
 {
 	Degree::Degree(float _val)
 		: m_value(_val) {}
@@ -27,10 +27,10 @@ namespace mth
 		// Wrap value depending on argument
 
 		if (_wrap180)
-			return mth::Wrap(m_value, -HALF_CIRCLE_DEG, HALF_CIRCLE_DEG);
+			return ion::math::Wrap(m_value, -HALF_CIRCLE_DEG, HALF_CIRCLE_DEG);
 
 		else
-			return mth::Wrap(m_value, 0.f, FULL_CIRCLE_DEG);
+			return ion::math::Wrap(m_value, 0.f, FULL_CIRCLE_DEG);
 	}
 
 	float Degree::Rad(bool _wrapPi) const
@@ -38,10 +38,10 @@ namespace mth
 		// Wrap value depending on argument
 
 		if (_wrapPi)
-			return mth::Wrap(m_value * DEG2RAD, -MTH_PI, MTH_PI);
+			return ion::math::Wrap(m_value * DEG2RAD, -MTH_PI, MTH_PI);
 
 		else
-			return mth::Wrap(m_value * DEG2RAD, 0.f, RAD_CIRCLE);
+			return ion::math::Wrap(m_value * DEG2RAD, 0.f, RAD_CIRCLE);
 	}
 
 	float Degree::Raw(void) const
@@ -238,7 +238,7 @@ namespace mth
 		return !(*this == _rhs);
 	}
 
-	Degree mth::Literal::operator""_deg(long double _val)
+	Degree ion::math::Literal::operator""_deg(long double _val)
 	{
 		// Get numeric value from literal
 		return Degree(static_cast<float>(_val));
@@ -278,10 +278,10 @@ namespace mth
 	{
 		// Wrap value depending on argument
 		if (_wrap180)
-			return mth::Wrap(m_value * RAD2DEG, -HALF_CIRCLE_DEG, HALF_CIRCLE_DEG);
+			return ion::math::Wrap(m_value * RAD2DEG, -HALF_CIRCLE_DEG, HALF_CIRCLE_DEG);
 
 		else
-			return mth::Wrap(m_value * RAD2DEG, 0.f, FULL_CIRCLE_DEG);
+			return ion::math::Wrap(m_value * RAD2DEG, 0.f, FULL_CIRCLE_DEG);
 	}
 
 	float Radian::Rad(bool _wrapPi) const

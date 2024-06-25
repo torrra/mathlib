@@ -9,7 +9,7 @@
 #include "libmath/Arithmetic.h"
 #include "libmath/Trigonometry.h"
 
-namespace mth
+namespace ion::math
 {
 
 	Vector4::Vector4(float _val)
@@ -176,7 +176,7 @@ namespace mth
 	void Vector4::ReflectOnto(const Vector4& _axis)
 	{
 		// Only reflect onto unit vector
-		Vector4		normal = mth::Normalize(_axis);
+		Vector4		normal = ion::math::Normalize(_axis);
 
 		*this -= normal * (Dot(normal) * 2.f);
 	}

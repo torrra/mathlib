@@ -3,7 +3,7 @@
 
 #include "libmath/Arithmetic.h"
 
-namespace mth
+namespace ion::math
 {
 	Matrix4::Matrix4(const float _diag)
 	{
@@ -331,7 +331,7 @@ namespace mth
 
 
 
-	Matrix4& mth::Matrix4::operator+=(const Matrix4& _rhs)
+	Matrix4& ion::math::Matrix4::operator+=(const Matrix4& _rhs)
 	{
 		for (int row = 0; row < 4; ++row)
 		{
@@ -345,7 +345,7 @@ namespace mth
 	}
 
 
-	Matrix4& mth::Matrix4::operator-=(const Matrix4& _rhs)
+	Matrix4& ion::math::Matrix4::operator-=(const Matrix4& _rhs)
 	{
 		for (int row = 0; row < 4; ++row)
 		{
@@ -411,7 +411,7 @@ namespace mth
 		{
 			for (int column = 0; column < 4; ++column)
 			{
-				if (!mth::AlmostEqual(m_values[row][column],
+				if (!ion::math::AlmostEqual(m_values[row][column],
 					_rhs.m_values[row][column]))
 					return false;
 			}
@@ -427,7 +427,7 @@ namespace mth
 	}
 
 
-	float* mth::Matrix4::operator[](int _index)
+	float* ion::math::Matrix4::operator[](int _index)
 	{
 		return m_values[_index];
 	}

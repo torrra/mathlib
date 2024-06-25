@@ -9,7 +9,7 @@
 #include "libmath/Arithmetic.h"
 
 
-namespace mth
+namespace ion::math
 {
 	Vector3::Vector3(float _val)
 		: m_x(_val), m_y(_val), m_z(_val) {}
@@ -171,7 +171,7 @@ namespace mth
 	void Vector3::ReflectOnto(const Vector3& _axis)
 	{
 		// Only reflect onto unit vector
-		Vector3		normal = mth::Normalize(_axis);
+		Vector3		normal = ion::math::Normalize(_axis);
 
 		// Apply reflection formula
 		*this -= normal * (Dot(normal) * 2.f);
@@ -228,7 +228,7 @@ namespace mth
 
 	void Vector3::Rotate(Radian _angle, const Vector3& _axis)
 	{
-		const Vector3		norm = mth::Normalize(_axis);
+		const Vector3		norm = ion::math::Normalize(_axis);
 		const float			xCpy = m_x, yCpy = m_y, zCpy = m_z;
 
 		// lib math trig functions are not precise enough,

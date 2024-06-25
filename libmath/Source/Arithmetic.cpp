@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-namespace mth
+namespace ion::math
 {
     float Absolute(float _val)
     {

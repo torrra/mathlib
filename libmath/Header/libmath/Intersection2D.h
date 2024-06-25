@@ -3,7 +3,7 @@
 #include "libmath/Vector2.h"
 #include "libmath/Arithmetic.h"
 
-namespace mth
+namespace ion::math
 {
 	class OBBCollider2D;
 	class CircleCollider2D;

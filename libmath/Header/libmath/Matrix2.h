@@ -2,7 +2,7 @@
 
 #include "libmath/Angle.h"
 
-namespace mth
+namespace ion::math
 {
     class Matrix2
     {
@@ -70,5 +70,5 @@ namespace mth
     };
 }
 
-namespace LibMath = mth;
-namespace lm = mth;
+namespace LibMath = ion::math;
+namespace lm = ion::math;

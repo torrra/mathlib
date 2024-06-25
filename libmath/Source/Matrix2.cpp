@@ -2,7 +2,7 @@
 #include "libmath/Arithmetic.h"
 #include "libmath/Trigonometry.h"
 
-namespace mth
+namespace ion::math
 {
     Matrix2::Matrix2(const float _diag)
     {
@@ -161,10 +161,10 @@ namespace mth
     bool  Matrix2::operator==(const Matrix2& _rhs) const
     {
         // Check if all componenents are almost equal
-        return mth::AlmostEqual(m_values[0][0], _rhs[0][0]) &&
-               mth::AlmostEqual(m_values[0][1], _rhs[0][1]) &&
-               mth::AlmostEqual(m_values[1][0], _rhs[1][0]) &&
-               mth::AlmostEqual(m_values[1][1], _rhs[1][1]);
+        return ion::math::AlmostEqual(m_values[0][0], _rhs[0][0]) &&
+               ion::math::AlmostEqual(m_values[0][1], _rhs[0][1]) &&
+               ion::math::AlmostEqual(m_values[1][0], _rhs[1][0]) &&
+               ion::math::AlmostEqual(m_values[1][1], _rhs[1][1]);
     }
 
     bool Matrix2::operator!=(const Matrix2& _rhs) const

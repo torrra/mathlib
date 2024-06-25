@@ -8,7 +8,7 @@
 #define MIN_COS		-1.f
 #define MAX_COS		1.f
 
-namespace mth
+namespace ion::math
 {
 	Vector2::Vector2(float _val)
 		: m_x(_val), m_y(_val) {}
@@ -150,7 +150,7 @@ namespace mth
 	void Vector2::ReflectOnto(const Vector2& _axis)
 	{
 		// Only reflect onto unit vector
-		Vector2		normal = mth::Normalize(_axis);
+		Vector2		normal = ion::math::Normalize(_axis);
 
 		// Apply reflection formula
 		*this -= normal * (Dot(normal) * 2.f);
