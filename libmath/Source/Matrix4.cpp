@@ -55,7 +55,7 @@ namespace ion::math
 		float		result = 0.f, minusOne = -1.f;
 		int			stripedRow = 0;
 
-		for (int cofactor = 0; cofactor < 4; ++cofactor)
+		for (unsigned int cofactor = 0; cofactor < 4; ++cofactor)
 		{
 			minor = SubMatrix(stripedRow, cofactor);
 			result += m_values[stripedRow][cofactor] * minor.Determinant() * Pow(minusOne, cofactor);
@@ -86,9 +86,9 @@ namespace ion::math
 
 		float			minusOne = -1;
 
-		for (int row = 0; row < 4; ++row)
+		for (unsigned int row = 0; row < 4; ++row)
 		{
-			for (int column = 0; column < 4; ++column)
+			for (unsigned int column = 0; column < 4; ++column)
 			{
 				result[column][row] = SubMatrix(row, column).Determinant();
 
@@ -123,9 +123,9 @@ namespace ion::math
 
 		float			minusOne = -1;
 
-		for (int row = 0; row < 4; ++row)
+		for (unsigned int row = 0; row < 4; ++row)
 		{
-			for (int column = 0; column < 4; ++column)
+			for (unsigned int column = 0; column < 4; ++column)
 			{
 				result[row][column] = SubMatrix(row, column).Determinant();
 
@@ -142,9 +142,9 @@ namespace ion::math
 		Matrix4			result;
 		float			minusOne = -1;
 
-		for (int row = 0; row < 4; ++row)
+		for (unsigned int row = 0; row < 4; ++row)
 		{
-			for (int column = 0; column < 4; ++column)
+			for (unsigned int column = 0; column < 4; ++column)
 			{
 				result[column][row] = SubMatrix(row, column).Determinant();
 
