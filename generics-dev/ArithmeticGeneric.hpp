@@ -29,13 +29,19 @@ CIntegralType only accepts integral numeric types
 #include <cmath>
 #include <limits>
 
-#include "IonWarnings.hpp"
+#include "IonCompiler.hpp"
 #include "MathGeneric.hpp"
 
 namespace ion::math
 {
+    
+    // Absolute value
+    template <CScalarType TValueType> inline
+    TValueType       Absolute(TValueType _val)                          noexcept;
+
+
     // Epsilon test
-    template <CScalarType TValueType>
+    template <CScalarType TValueType> inline
     bool             AlmostEqual
     (
         TValueType _a, TValueType _b,
@@ -46,61 +52,63 @@ namespace ion::math
 
 
     // Round to the nearest integral value
-    template <CScalarType TValueType>
-
+    template <CScalarType TValueType> inline
     TValueType       Round(TValueType _val)                             noexcept;
 
+
     // Round to the nearest integral value (greater or equal)
-    template <CScalarType TValueType>
+    template <CScalarType TValueType> inline
     TValueType       Ceil(TValueType _val)                              noexcept;
 
+
+
     // Round to the nearest integral value (smaller or equal)
-    template <CScalarType TValueType>
+    template <CScalarType TValueType> inline
     TValueType       Floor(TValueType _val)                             noexcept;
 
+
     // Wrap value around a set of limits
-    template <CScalarType TValueType>
+    template <CScalarType TValueType> inline
     TValueType       Wrap
     (
         TValueType _val, TValueType _low, TValueType _high
     )                                                                   noexcept;
 
     // Get value within a range without wrapping
-    template <CScalarType TValueType>
+    template <CScalarType TValueType> inline
     TValueType       Clamp
     (
         TValueType _val, TValueType _low, TValueType _high
     )                                                                   noexcept;
 
+
     // Raise number to an integral power
-    template <CScalarType TValueType, CUnsignedType TPowerType>
+    template <CScalarType TValueType, CUnsignedType TPowerType> inline
     TValueType       Pow(TValueType _val, TPowerType _power)            noexcept;
 
 
     //TODO: Re-implement our own function
-    template <CScalarType TValueType>
+    template <CScalarType TValueType> inline
     TValueType       SquareRoot(TValueType _val)                        noexcept;
 
     // Get smallest value
-    template <CScalarType TValueType>
+    template <CScalarType TValueType> inline
     TValueType       Min(TValueType _a, TValueType _b)                  noexcept;
 
     // Get largest value
-    template <CScalarType TValueType>
+    template <CScalarType TValueType> inline
     TValueType       Max(TValueType _a, TValueType _b)                  noexcept;
 
-    // Absolute value
-    template <CScalarType TValueType>
-    TValueType       Absolute(TValueType _val)                          noexcept;
 
 
     // Get factorial of an unsigned integral value
-    template <CIntegralType TValueType>
+    template <CIntegralType TValueType> inline
     TValueType      Factorial(TValueType _val)                          noexcept;
 
 
-    template <CScalarType TValueType>
-    TValueType      Modulus(TValueType _toDivide, TValueType _divisor)  noexcept;
+    template <CScalarType TValueType> inline
+    TValueType      Modulus(TValueType _toDivide, TValueType _divisor)  noexcept;  
+    
 
 
 
@@ -109,7 +117,7 @@ namespace ion::math
 
 
 
-    template <CScalarType TValueType>
+    template <CScalarType TValueType> inline
     TValueType Absolute(TValueType _val) noexcept
     {
         // Multiply by -1 if negative
@@ -117,14 +125,14 @@ namespace ion::math
     }
 
 
-    template <CScalarType TValueType>
+    template <CScalarType TValueType> inline
     bool  AlmostEqual(TValueType _a, TValueType _b, TValueType _epsilon) noexcept
     {
         // Check if difference is smaller than epsilon
         return Absolute(_a - _b) <= _epsilon;
     }
 
-    template <CScalarType TValueType>
+    template <CScalarType TValueType> inline
     TValueType Modulus(TValueType _toDivide, TValueType _divisor) noexcept
     {
         // Integral modulo, floating point types
@@ -135,19 +143,19 @@ namespace ion::math
 
 // ---- Modulus specializations ----
 
-    template<>
+    template<> inline
     double Modulus<double>(double _toDivide, double _divisor) noexcept
     {
         return fmod(_toDivide, _divisor);
     }
 
-    template <>
+    template <> inline
     float Modulus<float>(float _toDivide, float _divisor) noexcept
     {
         return fmodf(_toDivide, _divisor);
     }
 
-    template<>
+    template<> inline
     long double Modulus<long double>(long double _toDivide, long double _divisor) noexcept
     {
         return fmodl(_toDivide, _divisor);
@@ -157,7 +165,7 @@ namespace ion::math
 // !Modulus specializations
 
 
-    template <CScalarType TValueType>
+    template <CScalarType TValueType> inline
     TValueType Floor(TValueType _val) noexcept
     {
         // Integral types do not need to be manipulated
@@ -170,7 +178,7 @@ namespace ion::math
 
     // Strip down decimal part and match size if possible
 
-    template <>
+    template <> inline
     float Floor(float _val) noexcept
     {
         return static_cast<float>
@@ -180,7 +188,7 @@ namespace ion::math
     }
 
 
-    template <>
+    template <> inline
     double Floor(double _val) noexcept
     {
         return static_cast<double>
@@ -190,7 +198,7 @@ namespace ion::math
     }
 
 
-    template <>
+    template <> inline
     long double Floor(long double _val) noexcept
     {
         return static_cast<long double>
@@ -204,37 +212,24 @@ namespace ion::math
 // !Floor specializations
 
 
-#ifdef ION_MSVC_COMPILER
-
-    // Rounding with decimal parts will be unreachable for integral types,
-    // which will trigger an MSVC compiler warning.
-    // It is actually intended behavior to never reach this part,
-    // but this will be properly fixed
-
-    // HACK: disable unreachable warning for rounding functions
-    ION_PUSH_WARNINGS()
-    ION_DISABLE_WARNING(ION_UNREACHABLE_CODE)
-
-#endif
-
-
-    template <CScalarType TValueType>
+    template <CScalarType TValueType> inline
     TValueType Round(TValueType _val) noexcept
     {
+        return _val;
+    }
 
 
-        // Integral values do not need to be manipulated.
-        // If statement can be constexpr as is_integral will be
-        // evaluated in compile time
-        if constexpr (std::is_integral<TValueType>::value)
-            return _val;
+// ---- Round specializations ----
 
+    template <> inline
+    float Round(float _val) noexcept
+    {
 
-        TValueType      floored = Floor<TValueType>(_val);
+        float      floored = Floor<float>(_val);
 
         // Round up if decimal part >= .5
-        if (_val - floored >= static_cast<TValueType>(0.5))
-            return floored + static_cast<TValueType>(1);
+        if (_val - floored >= 0.5f)
+            return floored + 1.f;
 
         // Round down if not
         else
@@ -243,36 +238,100 @@ namespace ion::math
     }
 
 
-    template <CScalarType TValueType>
+    template <> inline
+    double Round(double _val) noexcept
+    {
+
+        double      floored = Floor<double>(_val);
+
+        // Round up if decimal part >= .5
+        if (_val - floored >= 0.5)
+            return floored + 1.0;
+
+        // Round down if not
+        else
+            return floored;
+
+    }
+
+    template <> inline
+    long double Round(long double _val) noexcept
+    {
+
+        long double      floored = Floor<long double>(_val);
+
+        // Round up if decimal part >= .5
+        if (_val - floored >= 0.5l)
+            return floored + 1.0l;
+
+        // Round down if not
+        else
+            return floored;
+
+    }
+
+
+// !Round specializations
+
+    template <CScalarType TValueType> inline
     TValueType Ceil(TValueType _val) noexcept
     {
-        // Integral values do not need to be manipulated.
-        // If statement can be constexpr as is_integral will be
-        // resolved in compile time
-        if constexpr (std::is_integral<TValueType>::value)
+       
             return _val;
+    }
 
-        TValueType      floored = Floor<TValueType>(_val);
+// ---- Ceil specializations ----
 
-        if(AlmostEqual<TValueType>(_val, floored))
+    template <> inline
+    float Ceil(float _val) noexcept
+    {
+        float      floored = Floor<float>(_val);
+
+        if (AlmostEqual<float>(_val, floored))
             return floored;
 
 
         // Round up if any decimal part > 0 is found
         else
-            return floored + static_cast<TValueType>(1);
+            return floored + static_cast<float>(1);
     }
 
-#ifdef ION_MSVC_COMPILER
 
-    ION_POP_WARNINGS()
+    template <> inline
+    double Ceil(double _val) noexcept
+    {
+        double      floored = Floor<double>(_val);
 
-#endif
+        if (AlmostEqual<double>(_val, floored))
+            return floored;
 
+
+        // Round up if any decimal part > 0 is found
+        else
+            return floored + static_cast<double>(1);
+    }
+
+
+    template <> inline
+    long double Ceil(long double _val) noexcept
+    {
+        long double      floored = Floor<long double>(_val);
+
+        if (AlmostEqual<long double>(_val, floored))
+            return floored;
+
+
+        // Round up if any decimal part > 0 is found
+        else
+            return floored + static_cast<long double>(1);
+    }
+
+
+// !Ceil specializations
 
 
    // Get value within a range without wrapping
-   template <CScalarType TValueType>
+   template <CScalarType TValueType> inline
    TValueType Clamp(TValueType _val, TValueType _low, TValueType _high) noexcept
    {
        // Return highest of low values
@@ -288,7 +347,7 @@ namespace ion::math
 
 
 
-   template <CScalarType TValueType>
+   template <CScalarType TValueType> inline
    TValueType Wrap(TValueType _val, TValueType _low, TValueType _high) noexcept
    {
        if (-_val > _high)
@@ -305,7 +364,7 @@ namespace ion::math
 
 
 
-   template <CScalarType TValueType, CUnsignedType TPowerType>
+   template <CScalarType TValueType, CUnsignedType TPowerType> inline
    TValueType Pow(TValueType _val, TPowerType _power) noexcept
    {
        if (static_cast<TPowerType>(0) == _power)
@@ -326,7 +385,7 @@ namespace ion::math
 
 
 
-   template <CScalarType TValueType>
+   template <CScalarType TValueType> inline
    TValueType SquareRoot(TValueType _val) noexcept
    {
        return static_cast<TValueType>
@@ -339,14 +398,14 @@ namespace ion::math
 
    // ---- SquareRoot specializations ----
 
-   template<>
+   template<> inline
    float SquareRoot<float>(float _val) noexcept
    {
        return sqrtf(_val);
    }
 
 
-   template<>
+   template<> inline
    long double SquareRoot<long double>(long double _val) noexcept
    {
        return sqrtl(_val);
@@ -358,7 +417,7 @@ namespace ion::math
 
 
 
-   template <CScalarType TValueType>
+   template <CScalarType TValueType> inline
    TValueType Min(TValueType _a, TValueType _b) noexcept
    {
        // Return smallest
@@ -366,7 +425,7 @@ namespace ion::math
    }
 
 
-   template <CScalarType TValueType>
+   template <CScalarType TValueType> inline
    TValueType Max(TValueType _a, TValueType _b) noexcept
    {
        // Return largest
@@ -374,7 +433,7 @@ namespace ion::math
    }
 
 
-   template <CIntegralType TValueType>
+   template <CIntegralType TValueType> inline
    TValueType Factorial(TValueType _val) noexcept
    {
        TValueType       zero = static_cast<TValueType>(0),
@@ -404,4 +463,8 @@ namespace ion::math
 // !Implementation
 }
 
+namespace LibMath = ion::math;
+namespace lm = LibMath;
+
 #endif
+
