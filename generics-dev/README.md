@@ -4,7 +4,7 @@ This is a temporary folder. All files inside will be moved to their rightful pla
 
 ## File destinations
 
-### IonWarnings.hpp
+### IonCompiler.hpp
 
 This file is going to be fundamental for the entire Ion project; it will likely be moved to a folder accessed by evey module
 
