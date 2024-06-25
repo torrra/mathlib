@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 
 #include <libmath/Vector3.h>
 
@@ -57,8 +58,8 @@ TEST_CASE("Vector3", "[.all][vector][Vector3]")
 		CHECK_VECTOR3(empty, emptyGlm);
 
 		// OpenGL compatibility
-		CHECK(sizeof LibMath::Vector3 == sizeof glm::vec3);
-		CHECK(memcmp(&allParam, &allParamGlm, sizeof LibMath::Vector3) == 0);
+		CHECK(sizeof(LibMath::Vector3) == sizeof(glm::vec3));
+		CHECK(memcmp(&allParam, &allParamGlm, sizeof(LibMath::Vector3)) == 0);
 	}
 
 	SECTION("Accessor")

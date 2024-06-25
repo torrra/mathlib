@@ -42,7 +42,7 @@ TEST_CASE("Degree", "[all][angle]")
 		CHECK(literal.Raw() == 22.5f);
 
 
-		CHECK(sizeof LibMath::Degree == sizeof(float));
+		CHECK(sizeof(LibMath::Degree) == sizeof(float));
 	}
 
 	SECTION("Accessor")
@@ -236,7 +236,7 @@ TEST_CASE("Radian", "[all][angle]")
 		literal = 1_rad;
 		CHECK(literal.Raw() == 1.f);
 
-		CHECK(sizeof LibMath::Radian == sizeof(float));
+		CHECK(sizeof(LibMath::Radian) == sizeof(float));
 	}
 
 	SECTION("Accessor")
