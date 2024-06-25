@@ -45,8 +45,6 @@ namespace ion::math
     bool             AlmostEqual
     (
         TValueType _a, TValueType _b,
-
-        // Use the type's built-in epsilon if none is provided
         TValueType _epsilon = static_cast<TValueType>(1e-4)
     )                                                                   noexcept;
 
