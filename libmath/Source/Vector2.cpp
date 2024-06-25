@@ -5,8 +5,14 @@
 #include "libmath/Trigonometry.h"
 #include "libmath/Arithmetic.h"
 
-#define MIN_COS		-1.f
-#define MAX_COS		1.f
+
+#ifndef FLT_EPSILON
+#include <limits>
+#define FLT_EPSILON 	std::numeric_limits<float>::epsilon()
+#endif
+
+#define MIN_COS			-1.f
+#define MAX_COS			1.f
 
 namespace ion::math
 {

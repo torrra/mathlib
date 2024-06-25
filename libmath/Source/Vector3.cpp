@@ -9,6 +9,11 @@
 #include "libmath/Arithmetic.h"
 
 
+#ifndef FLT_EPSILON
+#include <limits>
+#define FLT_EPSILON 	std::numeric_limits<float>::epsilon()
+#endif
+
 namespace ion::math
 {
 	Vector3::Vector3(float _val)

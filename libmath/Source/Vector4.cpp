@@ -9,6 +9,12 @@
 #include "libmath/Arithmetic.h"
 #include "libmath/Trigonometry.h"
 
+
+#ifndef FLT_EPSILON
+#include <limits>
+#define FLT_EPSILON 	std::numeric_limits<float>::epsilon()
+#endif
+
 namespace ion::math
 {
 
