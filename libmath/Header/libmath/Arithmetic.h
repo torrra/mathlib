@@ -34,7 +34,7 @@ CIntegralType only accepts integral numeric types
 
 namespace ion::math
 {
-    
+
     // Absolute value
     template <CScalarType TValueType> inline
     TValueType       Absolute(TValueType _val)                          noexcept;
@@ -105,8 +105,8 @@ namespace ion::math
 
 
     template <CScalarType TValueType> inline
-    TValueType      Modulus(TValueType _toDivide, TValueType _divisor)  noexcept;  
-    
+    TValueType      Modulus(TValueType _toDivide, TValueType _divisor)  noexcept;
+
 
 
 
@@ -118,14 +118,26 @@ namespace ion::math
     template <CScalarType TValueType> inline
     TValueType Absolute(TValueType _val) noexcept
     {
-        // Multiply by -1 if negative
-        return (_val < static_cast<TValueType>(0)) ? -_val : _val;
+        // Unsigned types cannot be negative
+        if constexpr (std::is_unsigned<TValueType>::value)
+            return _val;
+
+        else
+            // Multiply by -1 if negative
+            return (_val < static_cast<TValueType>(0)) ? -_val : _val;
     }
 
 
     template <CScalarType TValueType> inline
     bool  AlmostEqual(TValueType _a, TValueType _b, TValueType _epsilon) noexcept
     {
+        // Cannot use negative differences with unsigned types,
+        // ensure difference will be positive
+        if constexpr (std::is_unsigned<TValueType>::value)
+        {
+            return Max(_a, _b) - Min(_a, _b) <= _epsilon;
+        }
+
         // Check if difference is smaller than epsilon
         return Absolute(_a - _b) <= _epsilon;
     }
@@ -166,8 +178,8 @@ namespace ion::math
     template <CScalarType TValueType> inline
     TValueType Floor(TValueType _val) noexcept
     {
-        // Integral types do not need to be manipulated
-        // floating point cases handled below
+        // Integral types do not need to be manipulated.
+        // Floating point cases handled below
         return _val;
     }
 
@@ -274,8 +286,9 @@ namespace ion::math
     template <CScalarType TValueType> inline
     TValueType Ceil(TValueType _val) noexcept
     {
-       
-            return _val;
+        // No need to round integral values.
+        // Floating point types handled below
+        return _val;
     }
 
 // ---- Ceil specializations ----
@@ -435,7 +448,7 @@ namespace ion::math
    TValueType Factorial(TValueType _val) noexcept
    {
        TValueType       zero = static_cast<TValueType>(0),
-           one = static_cast<TValueType>(1);
+                        one = static_cast<TValueType>(1);
 
 
        if (zero == _val || one == _val)
@@ -452,8 +465,9 @@ namespace ion::math
        while (valCopy > zero)
            result *= valCopy--;
 
-       if (_val < zero)
-           result *= -one;
+       // Restore negative sign if type permits it and value is < 0
+       if constexpr (!std::is_unsigned<TValueType>::value)
+           result *= (_val < static_cast<TValueType>(0)) ? -one : one;
 
        return result;
    }
