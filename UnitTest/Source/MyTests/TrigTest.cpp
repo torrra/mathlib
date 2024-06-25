@@ -110,7 +110,7 @@ TEST_CASE("Trigonometry - my tests", "[all]")
 
 	constexpr float		sixtyDeg = MTH_PI / 3.f;
 
-	mth::Radian			myRad(sixtyDeg);
+	ion::math::Radian			myRad(sixtyDeg);
 
 	float				myCos, glmCos, stdCos;
 	float				mySin, glmSin, stdSin;
@@ -120,36 +120,36 @@ TEST_CASE("Trigonometry - my tests", "[all]")
 	{
 
 
-		RECORD_FUNC(stopwatch, mth::Cos(myRad), myCos);
+		RECORD_FUNC(stopwatch, ion::math::Cos(myRad), myCos);
 		RECORD_FUNC(stopwatch, glm::cos(sixtyDeg), glmCos);
 		RECORD_FUNC(stopwatch, std::cos(sixtyDeg), stdCos);
 
-		CHECK(mth::AlmostEqual(myCos, glmCos));
+		CHECK(ion::math::AlmostEqual(myCos, glmCos));
 
 
-		RECORD_FUNC(stopwatch, mth::Sin(myRad), mySin);
+		RECORD_FUNC(stopwatch, ion::math::Sin(myRad), mySin);
 		RECORD_FUNC(stopwatch, glm::sin(sixtyDeg), glmSin);
 		RECORD_FUNC(stopwatch, std::sin(sixtyDeg), stdSin);
 
-		CHECK(mth::AlmostEqual(mySin, glmSin));
+		CHECK(ion::math::AlmostEqual(mySin, glmSin));
 
 
-		RECORD_FUNC(stopwatch, mth::Tan(myRad), myTan);
+		RECORD_FUNC(stopwatch, ion::math::Tan(myRad), myTan);
 		RECORD_FUNC(stopwatch, glm::tan(sixtyDeg), glmTan);
 		RECORD_FUNC(stopwatch, std::tan(sixtyDeg), stdTan);
 
-		CHECK(mth::AlmostEqual(myTan, glmTan));
+		CHECK(ion::math::AlmostEqual(myTan, glmTan));
 
 		long long		avg;
 		int				iterations = (int) 1e4;
 
-		AVERAGE_VOID(stopwatch, mth::Cos(myRad), avg, iterations);
+		AVERAGE_VOID(stopwatch, ion::math::Cos(myRad), avg, iterations);
 		AVERAGE_FUNC(stopwatch, glm::cos(sixtyDeg), glmCos, avg, iterations);
 
-		AVERAGE_VOID(stopwatch, mth::Sin(myRad), avg, iterations);
+		AVERAGE_VOID(stopwatch, ion::math::Sin(myRad), avg, iterations);
 		AVERAGE_FUNC(stopwatch, glm::sin(sixtyDeg), glmSin, avg, iterations);
 
-		AVERAGE_VOID(stopwatch, mth::Tan(myRad), avg, iterations);
+		AVERAGE_VOID(stopwatch, ion::math::Tan(myRad), avg, iterations);
 		AVERAGE_FUNC(stopwatch, glm::tan(sixtyDeg), glmTan, avg, iterations);
 
 
@@ -174,24 +174,24 @@ TEST_CASE("Trigonometry - my tests", "[all]")
 
 		myRad = minusSixtyDeg;
 
-		RECORD_FUNC(stopwatch, mth::Cos(myRad), myCos);
+		RECORD_FUNC(stopwatch, ion::math::Cos(myRad), myCos);
 		RECORD_FUNC(stopwatch, glm::cos(minusSixtyDeg), glmCos);
 		RECORD_FUNC(stopwatch, std::cos(minusSixtyDeg), stdCos);
 
-		CHECK(mth::AlmostEqual(myCos, glmCos));
+		CHECK(ion::math::AlmostEqual(myCos, glmCos));
 
-		RECORD_FUNC(stopwatch, mth::Sin(myRad), mySin);
+		RECORD_FUNC(stopwatch, ion::math::Sin(myRad), mySin);
 		RECORD_FUNC(stopwatch, glm::sin(minusSixtyDeg), glmSin);
 		RECORD_FUNC(stopwatch, std::sin(minusSixtyDeg), stdSin);
 
-		CHECK(mth::AlmostEqual(mySin, glmSin));
+		CHECK(ion::math::AlmostEqual(mySin, glmSin));
 
 
-		RECORD_FUNC(stopwatch, mth::Tan(myRad), myTan);
+		RECORD_FUNC(stopwatch, ion::math::Tan(myRad), myTan);
 		RECORD_FUNC(stopwatch, glm::tan(minusSixtyDeg), glmTan);
 		RECORD_FUNC(stopwatch, std::tan(minusSixtyDeg), stdTan);
 
-		CHECK(mth::AlmostEqual(myTan, glmTan));
+		CHECK(ion::math::AlmostEqual(myTan, glmTan));
 
 
 #ifdef DISPLAY_TRIG
@@ -216,26 +216,26 @@ TEST_CASE("Trigonometry - my tests", "[all]")
 
 
 
-		RECORD_FUNC(stopwatch, mth::Cos(myRad), myCos);
+		RECORD_FUNC(stopwatch, ion::math::Cos(myRad), myCos);
 		RECORD_FUNC(stopwatch, glm::cos(minusFive), glmCos);
 		RECORD_FUNC(stopwatch, std::cos(minusFive), stdCos);
 
-		CHECK(mth::AlmostEqual(myCos, glmCos));
+		CHECK(ion::math::AlmostEqual(myCos, glmCos));
 ;
 
-		RECORD_FUNC(stopwatch, mth::Sin(myRad), mySin);
+		RECORD_FUNC(stopwatch, ion::math::Sin(myRad), mySin);
 		RECORD_FUNC(stopwatch, glm::sin(minusFive), glmSin);
 		RECORD_FUNC(stopwatch, std::sin(minusFive), stdSin);
 
-		CHECK(mth::AlmostEqual(mySin, glmSin));
+		CHECK(ion::math::AlmostEqual(mySin, glmSin));
 
 
 
-		RECORD_FUNC(stopwatch, mth::Tan(myRad), myTan);
+		RECORD_FUNC(stopwatch, ion::math::Tan(myRad), myTan);
 		RECORD_FUNC(stopwatch, glm::tan(minusFive), glmTan);
 		RECORD_FUNC(stopwatch, std::tan(minusFive), stdTan);
 
-		CHECK(mth::AlmostEqual(myTan, glmTan));
+		CHECK(ion::math::AlmostEqual(myTan, glmTan));
 
 #ifdef DISPLAY_TRIG
 
@@ -259,26 +259,26 @@ TEST_CASE("Trigonometry - my tests", "[all]")
 
 
 
-		RECORD_FUNC(stopwatch, mth::Cos(myRad), myCos);
+		RECORD_FUNC(stopwatch, ion::math::Cos(myRad), myCos);
 		RECORD_FUNC(stopwatch, glm::cos(sevenRad), glmCos);
 		RECORD_FUNC(stopwatch, std::cos(sevenRad), stdCos);
 
-		CHECK(mth::AlmostEqual(myCos, glmCos));
+		CHECK(ion::math::AlmostEqual(myCos, glmCos));
 
 
-		RECORD_FUNC(stopwatch, mth::Sin(myRad), mySin);
+		RECORD_FUNC(stopwatch, ion::math::Sin(myRad), mySin);
 		RECORD_FUNC(stopwatch, glm::sin(sevenRad), glmSin);
 		RECORD_FUNC(stopwatch, std::sin(sevenRad), stdSin);
 
-		CHECK(mth::AlmostEqual(mySin, glmSin));
+		CHECK(ion::math::AlmostEqual(mySin, glmSin));
 
 
 
-		RECORD_FUNC(stopwatch, mth::Tan(myRad), myTan);
+		RECORD_FUNC(stopwatch, ion::math::Tan(myRad), myTan);
 		RECORD_FUNC(stopwatch, glm::tan(sevenRad), glmTan);
 		RECORD_FUNC(stopwatch, std::tan(sevenRad), stdTan);
 
-		CHECK(mth::AlmostEqual(myTan, glmTan));
+		CHECK(ion::math::AlmostEqual(myTan, glmTan));
 
 #ifdef DISPLAY_TRIG
 

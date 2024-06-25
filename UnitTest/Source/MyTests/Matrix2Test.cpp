@@ -18,10 +18,10 @@ std::cout << title << ":\n" << obj[0][0] << ' ' << obj[0][1]\
 
 // Comparison compatible with both my libmath and glm
 #define CHECK_MAT2(mat1, mat2)\
-CHECK(mth::AlmostEqual(mat1[0][0], mat2[0][0]));\
-CHECK(mth::AlmostEqual(mat1[0][1], mat2[0][1]));\
-CHECK(mth::AlmostEqual(mat1[1][0], mat2[1][0]));\
-CHECK(mth::AlmostEqual(mat1[1][1], mat2[1][1]))
+CHECK(ion::math::AlmostEqual(mat1[0][0], mat2[0][0]));\
+CHECK(ion::math::AlmostEqual(mat1[0][1], mat2[0][1]));\
+CHECK(ion::math::AlmostEqual(mat1[1][0], mat2[1][0]));\
+CHECK(ion::math::AlmostEqual(mat1[1][1], mat2[1][1]))
 
 
 // Comparison between two matrices (mine or from glm) without epsilon test
@@ -38,8 +38,8 @@ TEST_CASE("Matrix2", "[matrix][all]")
     SECTION("Instanciation")
     {
         {
-            mth::Matrix2    myMat;
-            mth::Matrix2    toCopy(3.4f, 1.f, 4.6f, 0.7f);
+            ion::math::Matrix2    myMat;
+            ion::math::Matrix2    toCopy(3.4f, 1.f, 4.6f, 0.7f);
             glm::mat2       glmMat(0.f);
 
             CHECK_MAT2(myMat, glmMat);
@@ -55,7 +55,7 @@ TEST_CASE("Matrix2", "[matrix][all]")
 
     SECTION("Operations")
     {
-        mth::Matrix2    myMat(3.4f, 1.f, 4.6f, 0.7f);
+        ion::math::Matrix2    myMat(3.4f, 1.f, 4.6f, 0.7f);
         glm::mat2       glmMat(3.4f, 1.f, 4.6f, 0.7f);
 
         CHECK(myMat.Determinant() == glm::determinant(glmMat));
@@ -66,12 +66,12 @@ TEST_CASE("Matrix2", "[matrix][all]")
         CHECK_MAT2(myMat.Inverse(), glm::inverse(glmMat));
 
 
-        mth::Matrix2   otherMat(1.7f, 3.2f, 4.2f, 6.f);
+        ion::math::Matrix2   otherMat(1.7f, 3.2f, 4.2f, 6.f);
         glm::mat2      otherGlm(1.7f, 3.2f, 4.2f, 6.f);
 
 
         // Addition
-        mth::Matrix2   myResult = myMat + otherMat;
+        ion::math::Matrix2   myResult = myMat + otherMat;
         glm::mat2      glmResult = glmMat + otherGlm;
 
         CHECK_MAT2(myResult, glmResult);

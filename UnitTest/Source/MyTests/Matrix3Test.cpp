@@ -82,7 +82,7 @@ for (int row = 0; row < 3; ++row)\
 {\
 	for (int column = 0; column < 3; ++column)\
 	{\
-		CHECK(mth::AlmostEqual(matA[row][column], matB[row][column]));\
+		CHECK(ion::math::AlmostEqual(matA[row][column], matB[row][column]));\
 	}\
 }
 
@@ -117,9 +117,9 @@ TEST_CASE("Matrix 3", "[matrix][all]")
 
 	SECTION("Instanciation")
 	{
-		mth::Matrix3	zeroMat;
-		mth::Matrix3	doubleArrMat(doubleArr);
-		mth::Matrix3	lineArrMat(lineArr);
+		ion::math::Matrix3	zeroMat;
+		ion::math::Matrix3	doubleArrMat(doubleArr);
+		ion::math::Matrix3	lineArrMat(lineArr);
 
 		glm::mat3		glmZero(0.f);
 		glm::mat3		glmMatrix =
@@ -139,9 +139,9 @@ TEST_CASE("Matrix 3", "[matrix][all]")
 
 	SECTION("Matrix operations")
 	{
-		mth::Matrix3	zeroMat;
-		mth::Matrix3	doubleArrMat(doubleArr);
-		mth::Matrix3	lineArrMat(lineArr);
+		ion::math::Matrix3	zeroMat;
+		ion::math::Matrix3	doubleArrMat(doubleArr);
+		ion::math::Matrix3	lineArrMat(lineArr);
 
 		glm::mat3		glmZero(0.f);
 		glm::mat3		glmMatrix =
@@ -166,7 +166,7 @@ TEST_CASE("Matrix 3", "[matrix][all]")
 
 
 		// Cofactor
-		mth::Matrix3	cofactorsResults = doubleArrMat.Cofactor();
+		ion::math::Matrix3	cofactorsResults = doubleArrMat.Cofactor();
 		CHECK_MATRIX3(cofactorsResults, expectedCofactors);
 
 
@@ -182,10 +182,10 @@ TEST_CASE("Matrix 3", "[matrix][all]")
 
 	SECTION("Operators")
 	{
-		mth::Matrix3    zero;
-		mth::Matrix3	mat1;
-		mth::Matrix3	doubleArrMat(doubleArr);
-		mth::Matrix3	lineArrMat(lineArr);
+		ion::math::Matrix3    zero;
+		ion::math::Matrix3	mat1;
+		ion::math::Matrix3	doubleArrMat(doubleArr);
+		ion::math::Matrix3	lineArrMat(lineArr);
 
 		glm::mat3		glmMatrix =
 		{
@@ -215,7 +215,7 @@ TEST_CASE("Matrix 3", "[matrix][all]")
 
 
 		// Add, subtract and multiply
-		mth::Matrix3		result = mat1 + mat1;
+		ion::math::Matrix3		result = mat1 + mat1;
 		glm::mat3			glmResult = glmMatrix + glmMatrix;
 
 		CHECK_MATRIX3(result, glmResult);

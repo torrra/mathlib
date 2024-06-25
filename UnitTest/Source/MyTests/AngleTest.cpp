@@ -10,24 +10,24 @@
 #include "libmath/Angle.h"
 
 
-using namespace mth::Literal;
+using namespace ion::math::Literal;
 
 TEST_CASE("Degree - my tests", "[angle] [all]")
 {
 	SECTION("Instanciation")
 	{
 			// Default
-			mth::Degree		emptyDeg;
+			ion::math::Degree		emptyDeg;
 
 			// With value
-			mth::Degree		valueDeg(300.f);
+			ion::math::Degree		valueDeg(300.f);
 
 			// Copy constructor
-			mth::Degree		cpyDeg(valueDeg);
+			ion::math::Degree		cpyDeg(valueDeg);
 
 			// Literal
-			mth::Degree     litDeg = 16_deg;
-			mth::Degree		litDeg2 = 5.4_deg;
+			ion::math::Degree     litDeg = 16_deg;
+			ion::math::Degree		litDeg2 = 5.4_deg;
 
 
 			CHECK(valueDeg.Raw() == 300.f);
@@ -39,7 +39,7 @@ TEST_CASE("Degree - my tests", "[angle] [all]")
 
 	SECTION("Accessors")
 	{
-		mth::Degree		wrapTrue(300.f), wrapFalse(-60.f), wrapNever(60.f);
+		ion::math::Degree		wrapTrue(300.f), wrapFalse(-60.f), wrapNever(60.f);
 
 		// No wrapping
 		CHECK(wrapTrue.Deg(false) == wrapTrue.Raw());
@@ -56,9 +56,9 @@ TEST_CASE("Degree - my tests", "[angle] [all]")
 
 	SECTION("Degree - degree operators")
 	{
-		mth::Degree		firstDeg(60.f), secondDeg(30.f);
+		ion::math::Degree		firstDeg(60.f), secondDeg(30.f);
 
-		mth::Degree		result = firstDeg + secondDeg;
+		ion::math::Degree		result = firstDeg + secondDeg;
 
 		CHECK(result.Raw() == 90.f);
 
@@ -78,19 +78,19 @@ TEST_CASE("Degree - my tests", "[angle] [all]")
 
 		CHECK(result.Raw() == 60.f);
 
-		result += mth::Degree(30.f);
+		result += ion::math::Degree(30.f);
 
 		CHECK(result.Raw() == 90.f);
 
-		result -= mth::Degree(30.f);
+		result -= ion::math::Degree(30.f);
 
 		CHECK(result.Raw() == 60.f);
 
-		result *= mth::Degree(2.f);
+		result *= ion::math::Degree(2.f);
 
 		CHECK(result.Raw() == 120.f);
 
-		result /= mth::Degree(2.f);
+		result /= ion::math::Degree(2.f);
 
 		CHECK(result.Raw() == 60.f);
 
@@ -98,11 +98,11 @@ TEST_CASE("Degree - my tests", "[angle] [all]")
 
 	SECTION("Degree - float operators")
 	{
-		mth::Degree			firstDeg(60.f);
+		ion::math::Degree			firstDeg(60.f);
 
 		constexpr float		rightOperand = 30.f;
 
-		mth::Degree		result = firstDeg + rightOperand;
+		ion::math::Degree		result = firstDeg + rightOperand;
 
 		CHECK(result.Raw() == 90.f);
 
@@ -146,17 +146,17 @@ TEST_CASE("Radians - my tests", "[angle] [all]")
 	SECTION("Instanciation")
 	{
 		// Default
-		mth::Radian		emptyRad;
+		ion::math::Radian		emptyRad;
 
 		// With value
-		mth::Radian		valueRad(1.2f);
+		ion::math::Radian		valueRad(1.2f);
 
 		// Copy constructor
-		mth::Radian		cpyRad(valueRad);
+		ion::math::Radian		cpyRad(valueRad);
 
 		// Literal
-		mth::Radian     litRad = 15_rad;
-		mth::Radian		litRad2 = .4_rad;
+		ion::math::Radian     litRad = 15_rad;
+		ion::math::Radian		litRad2 = .4_rad;
 
 
 		CHECK(valueRad.Raw() == 1.2f);
@@ -170,7 +170,7 @@ TEST_CASE("Radians - my tests", "[angle] [all]")
 	{
 		constexpr float		radCircle = glm::two_pi<float>();
 
-		mth::Radian			wrapTrue{ 5.8f }, wrapNever{ 1.2f }, wrapFalse{ -2.2f };
+		ion::math::Radian			wrapTrue{ 5.8f }, wrapNever{ 1.2f }, wrapFalse{ -2.2f };
 
 		// No wrap
 		CHECK(wrapTrue.Rad(false) == wrapTrue.Raw());
@@ -179,8 +179,8 @@ TEST_CASE("Radians - my tests", "[angle] [all]")
 		CHECK(wrapNever.Rad(false) == wrapNever.Raw());
 
 		// Wrap values
-		CHECK(mth::AlmostEqual(wrapTrue.Rad(true), wrapTrue.Raw() - radCircle));
-		CHECK(mth::AlmostEqual(wrapFalse.Rad(false), radCircle + wrapFalse.Raw()));
+		CHECK(ion::math::AlmostEqual(wrapTrue.Rad(true), wrapTrue.Raw() - radCircle));
+		CHECK(ion::math::AlmostEqual(wrapFalse.Rad(false), radCircle + wrapFalse.Raw()));
 
 	}
 
@@ -188,9 +188,9 @@ TEST_CASE("Radians - my tests", "[angle] [all]")
 	{
 		constexpr float	thirtyDeg = MTH_PI / 6.f, sixtyDeg = MTH_PI / 3.f;
 
-		mth::Radian		firstRad(sixtyDeg), secondRad(thirtyDeg);
+		ion::math::Radian		firstRad(sixtyDeg), secondRad(thirtyDeg);
 
-		mth::Radian		result = firstRad + secondRad;
+		ion::math::Radian		result = firstRad + secondRad;
 
 		CHECK(result.Raw() == MTH_PI / 2.f);
 
@@ -218,11 +218,11 @@ TEST_CASE("Radians - my tests", "[angle] [all]")
 
 		CHECK(result.Raw() == sixtyDeg);
 
-		result *= mth::Radian(2.f);
+		result *= ion::math::Radian(2.f);
 
 		CHECK(result.Raw() == MTH_PI / 1.5f);
 
-		result /= mth::Radian(2.f);
+		result /= ion::math::Radian(2.f);
 
 		CHECK(result.Raw() == sixtyDeg);
 	}
@@ -232,11 +232,11 @@ TEST_CASE("Radians - my tests", "[angle] [all]")
 	{
 		constexpr float		thirtyDeg = MTH_PI / 6.f, sixtyDeg = MTH_PI / 3.f;
 
-		mth::Radian			firstRad(sixtyDeg);
+		ion::math::Radian			firstRad(sixtyDeg);
 
 		constexpr float		rightOperand = thirtyDeg;
 
-		mth::Radian		result = firstRad + rightOperand;
+		ion::math::Radian		result = firstRad + rightOperand;
 
 		CHECK(result.Raw() == MTH_PI / 2.f);
 

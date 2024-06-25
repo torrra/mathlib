@@ -129,9 +129,9 @@ TEST_CASE("Matrix 4", "[matrix][all]")
 
 	SECTION("Instanciation")
 	{
-		mth::Matrix4	zeroMat;
-		mth::Matrix4	doubleArrMat(doubleArr);
-		mth::Matrix4	lineArrMat(lineArr);
+		ion::math::Matrix4	zeroMat;
+		ion::math::Matrix4	doubleArrMat(doubleArr);
+		ion::math::Matrix4	lineArrMat(lineArr);
 
 		glm::mat4		glmZero(0.f);
 		glm::mat4		glmMatrix =
@@ -152,9 +152,9 @@ TEST_CASE("Matrix 4", "[matrix][all]")
 
 	SECTION("Matrix operations")
 	{
-		mth::Matrix4	zeroMat;
-		mth::Matrix4	doubleArrMat(doubleArr);
-		mth::Matrix4	lineArrMat(lineArr);
+		ion::math::Matrix4	zeroMat;
+		ion::math::Matrix4	doubleArrMat(doubleArr);
+		ion::math::Matrix4	lineArrMat(lineArr);
 
 		glm::mat4		glmZero(0.f);
 		glm::mat4		glmMatrix =
@@ -181,7 +181,7 @@ TEST_CASE("Matrix 4", "[matrix][all]")
 
 
 		// Cofactor
-		mth::Matrix4	cofactorsResults = doubleArrMat.Cofactor();
+		ion::math::Matrix4	cofactorsResults = doubleArrMat.Cofactor();
 		CHECK_MATRIX4(cofactorsResults, expectedCofactors);
 
 		// Adjugate - transposed cofactor matrix
@@ -196,10 +196,10 @@ TEST_CASE("Matrix 4", "[matrix][all]")
 
 	SECTION("Operators")
 	{
-		mth::Matrix4    zero;
-		mth::Matrix4	mat1;
-		mth::Matrix4	doubleArrMat(doubleArr);
-		mth::Matrix4	lineArrMat(lineArr);
+		ion::math::Matrix4    zero;
+		ion::math::Matrix4	mat1;
+		ion::math::Matrix4	doubleArrMat(doubleArr);
+		ion::math::Matrix4	lineArrMat(lineArr);
 
 		glm::mat4		glmMatrix =
 		{
@@ -230,7 +230,7 @@ TEST_CASE("Matrix 4", "[matrix][all]")
 
 
 		// Add, subtract and multiply
-		mth::Matrix4		result = mat1 + mat1;
+		ion::math::Matrix4		result = mat1 + mat1;
 		glm::mat4			glmResult = glmMatrix + glmMatrix;
 
 		CHECK_MATRIX4(result, glmResult);

@@ -17,15 +17,15 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 {
 	SECTION("AABB")
 	{
-		mth::AABBCollider2D		controlAABB({ 4.f, 6.f }, { 1.f, 3.f });
+		ion::math::AABBCollider2D		controlAABB({ 4.f, 6.f }, { 1.f, 3.f });
 
 		// Constructor / destructor
 		{
-			mth::AABBCollider2D		discard;
-			mth::AABBCollider2D		copy = controlAABB;
+			ion::math::AABBCollider2D		discard;
+			ion::math::AABBCollider2D		copy = controlAABB;
 
 
-			mth::Vector2			position{ 4.f, 6.f }, extents{ 1.f, 3.f};
+			ion::math::Vector2			position{ 4.f, 6.f }, extents{ 1.f, 3.f};
 
 			// Accessor
 			CHECK(copy.GetMax() == controlAABB.GetPosition() + controlAABB.GetExtents());
@@ -41,13 +41,13 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 		SECTION("AABB / AABB")
 		{
 
-			mth::AABBCollider2D		noCollide({ 10.f, 8.f }, { 1.f, 2.f });
-			mth::AABBCollider2D		collide({ 2.f, 7.f }, { 2.1f, 1.f });
+			ion::math::AABBCollider2D		noCollide({ 10.f, 8.f }, { 1.f, 2.f });
+			ion::math::AABBCollider2D		collide({ 2.f, 7.f }, { 2.1f, 1.f });
 
 
 			// Should not collide
 			CHECK_FALSE(controlAABB.CheckCollision(noCollide));
-			CHECK_FALSE(controlAABB.CheckCollision(mth::AABBCollider2D()));
+			CHECK_FALSE(controlAABB.CheckCollision(ion::math::AABBCollider2D()));
 
 
 			// Should collide with itself
@@ -59,8 +59,8 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 		SECTION("AABB / OBB")
 		{
-			mth::OBBCollider2D		noCollide({ 10.f, 8.f }, { 1.f, 2.f }, mth::Radian(0.f));
-			mth::OBBCollider2D		collide({ 2.f, 7.f }, { 2.1f, 1.f }, mth::Radian(0.f));
+			ion::math::OBBCollider2D		noCollide({ 10.f, 8.f }, { 1.f, 2.f }, ion::math::Radian(0.f));
+			ion::math::OBBCollider2D		collide({ 2.f, 7.f }, { 2.1f, 1.f }, ion::math::Radian(0.f));
 
 			// Should not collide
 			CHECK_FALSE(controlAABB.CheckCollision(noCollide));
@@ -68,7 +68,7 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 			// Should collide
 			CHECK(controlAABB.CheckCollision(collide));
 
-			mth::OBBCollider2D		obbThree({5.f, 8.f }, {3.5f, 2.75f}, mth::Radian(100.f * DEG2RAD));
+			ion::math::OBBCollider2D		obbThree({5.f, 8.f }, {3.5f, 2.75f}, ion::math::Radian(100.f * DEG2RAD));
 
 
 			CHECK(controlAABB.CheckCollision(obbThree));
@@ -81,26 +81,26 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 		SECTION("AABB / Circle")
 		{
-			mth::CircleCollider2D	noCollide({ 2.1f, 15.f }, 2.f);
-			mth::CircleCollider2D	collide({ 4.2f, 1.f }, 10.f);
+			ion::math::CircleCollider2D	noCollide({ 2.1f, 15.f }, 2.f);
+			ion::math::CircleCollider2D	collide({ 4.2f, 1.f }, 10.f);
 
 
 			CHECK_FALSE(controlAABB.CheckCollision(noCollide));
-			CHECK_FALSE(controlAABB.CheckCollision(mth::CircleCollider2D()));
+			CHECK_FALSE(controlAABB.CheckCollision(ion::math::CircleCollider2D()));
 
 			CHECK(controlAABB.CheckCollision(collide));
 		}
 
 		SECTION("AABB / Polygon")
 		{
-			mth::Vector2 noColVertices[3] =
+			ion::math::Vector2 noColVertices[3] =
 			{
 				{0.f, 0.f},
 				{4.5f, 4.f},
 				{1.3f, 5.3f}
 			};
 
-			mth::Vector2	collideVertices[3] =
+			ion::math::Vector2	collideVertices[3] =
 			{
 				{16.f, 8.f},
 				{16.f, 4.f},
@@ -110,8 +110,8 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 			controlAABB.Position() = { 16.f, 4.f };
 			controlAABB.Extents() = { 1.f, 1.f };
 
-			mth::PolygonCollider2D		noCollide(noColVertices, 3);
-			mth::PolygonCollider2D		collide(collideVertices, 3);
+			ion::math::PolygonCollider2D		noCollide(noColVertices, 3);
+			ion::math::PolygonCollider2D		collide(collideVertices, 3);
 
 
 			CHECK_FALSE(controlAABB.CheckCollision(noCollide));
@@ -123,20 +123,20 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 	SECTION("OBB")
 	{
-		mth::OBBCollider2D		controlOBB
+		ion::math::OBBCollider2D		controlOBB
 		(
-			{ 4.f, 6.f }, { 1.f, 3.f }, mth::Radian(100.f * DEG2RAD)
+			{ 4.f, 6.f }, { 1.f, 3.f }, ion::math::Radian(100.f * DEG2RAD)
 		);
 
 		SECTION("Instanciation and accessors")
 		{
 
-			mth::OBBCollider2D		discard;
-			mth::OBBCollider2D		copy = controlOBB;
+			ion::math::OBBCollider2D		discard;
+			ion::math::OBBCollider2D		copy = controlOBB;
 
-			mth::Vector2			position{ 4.f, 6.f }, extents{ 1.f, 3.f};
+			ion::math::Vector2			position{ 4.f, 6.f }, extents{ 1.f, 3.f};
 
-			mth::Vector2			rotated = mth::Rotate
+			ion::math::Vector2			rotated = ion::math::Rotate
 			(
 				controlOBB.GetExtents(),
 				controlOBB.GetRotation()
@@ -155,14 +155,14 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 		SECTION("OBB / OBB")
 		{
-			mth::OBBCollider2D 	noCollide
+			ion::math::OBBCollider2D 	noCollide
 			(
-				{0.f, 0.f}, {2.f, 1.f}, mth::Radian(0.f)
+				{0.f, 0.f}, {2.f, 1.f}, ion::math::Radian(0.f)
 			);
 
-			mth::OBBCollider2D 	collide
+			ion::math::OBBCollider2D 	collide
 			(
-				{3.f, 6.f}, {5.f, 4.f}, mth::Radian(0.f)
+				{3.f, 6.f}, {5.f, 4.f}, ion::math::Radian(0.f)
 			);
 
 			CHECK_FALSE(controlOBB.CheckCollision(noCollide));
@@ -172,8 +172,8 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 		SECTION("OBB vs AABB")
 		{
-			mth::AABBCollider2D		noCollide({ 10.f, 8.f }, { 1.f, 2.f });
-			mth::AABBCollider2D		collide({ 2.f, 7.f }, { 2.1f, 1.f });
+			ion::math::AABBCollider2D		noCollide({ 10.f, 8.f }, { 1.f, 2.f });
+			ion::math::AABBCollider2D		collide({ 2.f, 7.f }, { 2.1f, 1.f });
 
 			// Should not collide
 			CHECK_FALSE(controlOBB.CheckCollision(noCollide));
@@ -181,7 +181,7 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 			// Should collide
 			CHECK(controlOBB.CheckCollision(collide));
 
-			mth::AABBCollider2D		aabbThree({5.f, 8.f }, {3.5f, 2.75f});
+			ion::math::AABBCollider2D		aabbThree({5.f, 8.f }, {3.5f, 2.75f});
 
 
 			CHECK(controlOBB.CheckCollision(aabbThree));
@@ -193,12 +193,12 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 		SECTION("OBB vs Circle")
 		{
-			mth::CircleCollider2D	noCollide({ 2.1f, 15.f }, 2.f);
-			mth::CircleCollider2D	collide({ 4.2f, 1.f }, 10.f);
+			ion::math::CircleCollider2D	noCollide({ 2.1f, 15.f }, 2.f);
+			ion::math::CircleCollider2D	collide({ 4.2f, 1.f }, 10.f);
 
 
 			CHECK_FALSE(controlOBB.CheckCollision(noCollide));
-			CHECK_FALSE(controlOBB.CheckCollision(mth::CircleCollider2D()));
+			CHECK_FALSE(controlOBB.CheckCollision(ion::math::CircleCollider2D()));
 
 			CHECK(controlOBB.CheckCollision(collide));
 		}
@@ -206,14 +206,14 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 		SECTION("OBB vs Polygon")
 		{
-			mth::Vector2 noColVertices[3] =
+			ion::math::Vector2 noColVertices[3] =
 			{
 				{0.f, 0.f},
 				{4.5f, 4.f},
 				{1.3f, 5.3f}
 			};
 
-			mth::Vector2	collideVertices[3] =
+			ion::math::Vector2	collideVertices[3] =
 			{
 				{16.f, 8.f},
 				{16.f, 4.f},
@@ -223,8 +223,8 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 			controlOBB.Position() = { 16.f, 4.f };
 			controlOBB.Extents() = { 1.f, 1.f };
 
-			mth::PolygonCollider2D		noCollide(noColVertices, 3);
-			mth::PolygonCollider2D		collide(collideVertices, 3);
+			ion::math::PolygonCollider2D		noCollide(noColVertices, 3);
+			ion::math::PolygonCollider2D		collide(collideVertices, 3);
 
 
 			CHECK_FALSE(controlOBB.CheckCollision(noCollide));
@@ -236,14 +236,14 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 	SECTION("CIRCLE")
 	{
-		mth::CircleCollider2D	controlCircle({ 4.f, 6.f }, 3.f );
+		ion::math::CircleCollider2D	controlCircle({ 4.f, 6.f }, 3.f );
 
 		SECTION("Instanciation and accessors")
 		{
-			mth::CircleCollider2D		discard;
-			mth::CircleCollider2D		copy = controlCircle;
+			ion::math::CircleCollider2D		discard;
+			ion::math::CircleCollider2D		copy = controlCircle;
 
-			mth::Vector2				position{ 4.f, 6.f };
+			ion::math::Vector2				position{ 4.f, 6.f };
 			float						radius = 3.f;
 
 			// Accessor
@@ -256,8 +256,8 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 		SECTION("Circle vs AABB")
 		{
-			mth::AABBCollider2D		noCollide({ 10.f, 8.f }, { 1.f, 2.f });
-			mth::AABBCollider2D		collide({ 2.f, 7.f }, { 2.1f, 1.f });
+			ion::math::AABBCollider2D		noCollide({ 10.f, 8.f }, { 1.f, 2.f });
+			ion::math::AABBCollider2D		collide({ 2.f, 7.f }, { 2.1f, 1.f });
 
 			// Should not collide
 			CHECK_FALSE(controlCircle.CheckCollision(noCollide));
@@ -265,7 +265,7 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 			// Should collide
 			CHECK(controlCircle.CheckCollision(collide));
 
-			mth::AABBCollider2D		aabbThree({ 5.f, 8.f }, { 3.5f, 2.75f });
+			ion::math::AABBCollider2D		aabbThree({ 5.f, 8.f }, { 3.5f, 2.75f });
 
 
 			CHECK(controlCircle.CheckCollision(aabbThree));
@@ -278,12 +278,12 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 		SECTION("Circle vs Circle")
 		{
-			mth::CircleCollider2D	noCollide({ 2.1f, 15.f }, 2.f);
-			mth::CircleCollider2D	collide({ 4.2f, 1.f }, 10.f);
+			ion::math::CircleCollider2D	noCollide({ 2.1f, 15.f }, 2.f);
+			ion::math::CircleCollider2D	collide({ 4.2f, 1.f }, 10.f);
 
 
 			CHECK_FALSE(controlCircle.CheckCollision(noCollide));
-			CHECK_FALSE(controlCircle.CheckCollision(mth::CircleCollider2D()));
+			CHECK_FALSE(controlCircle.CheckCollision(ion::math::CircleCollider2D()));
 
 			CHECK(controlCircle.CheckCollision(collide));
 		}
@@ -291,13 +291,13 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 	SECTION("RAY")
 	{
-		mth::Ray2D	ray({4.f, 2.f}, {2.f, 3.f});
+		ion::math::Ray2D	ray({4.f, 2.f}, {2.f, 3.f});
 
 		SECTION("Instanciation and accessors")
 		{
-			mth::Ray2D	copy = ray;
+			ion::math::Ray2D	copy = ray;
 
-			mth::Vector2	origin{4.f, 2.f}, direction = mth::Normalize({ 2.f, 3.f }),
+			ion::math::Vector2	origin{4.f, 2.f}, direction = ion::math::Normalize({ 2.f, 3.f }),
 							invDir{ 1.f / direction.X(), 1.f / direction.Y() };
 
 			CHECK(copy.Direction() == direction);
@@ -307,8 +307,8 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 		SECTION("Ray vs AABB")
 		{
-			mth::AABBCollider2D		noCollision({ -4.f, -5.f }, { 1.f, 1.f });
-			mth::AABBCollider2D		collision({ 6.f, 5.f }, { 3.f, 2.f });
+			ion::math::AABBCollider2D		noCollision({ -4.f, -5.f }, { 1.f, 1.f });
+			ion::math::AABBCollider2D		collision({ 6.f, 5.f }, { 3.f, 2.f });
 			float					distance = FLT_MAX;
 
 			CHECK_FALSE(ray.Intersect(noCollision, distance));
@@ -326,13 +326,13 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 	SECTION("LINE SEGMENT")
 	{
-		mth::Line2D		lineTrue({-3.f, 3.f}, {11.f, 2.f});
-		mth::Line2D		lineFalse({-8.64f, 2.23f}, {-6.28f, -6.93f});
+		ion::math::Line2D		lineTrue({-3.f, 3.f}, {11.f, 2.f});
+		ion::math::Line2D		lineFalse({-8.64f, 2.23f}, {-6.28f, -6.93f});
 
 		SECTION("Line vs circle")
 		{
 
-			mth::CircleCollider2D	circle({ 4.2f, 1.f }, 10.f);
+			ion::math::CircleCollider2D	circle({ 4.2f, 1.f }, 10.f);
 
 			CHECK(lineTrue.Intersect(circle));
 
@@ -341,7 +341,7 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 		SECTION("Line vs AABB")
 		{
-			mth::AABBCollider2D		aabb({ 4.2f, 1.f }, { 10.f, 10.f });
+			ion::math::AABBCollider2D		aabb({ 4.2f, 1.f }, { 10.f, 10.f });
 
 			CHECK(lineTrue.Intersect(aabb));
 
@@ -352,12 +352,12 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 	SECTION("Point 2D")
 	{
-		mth::Point2D	pointTrue{ 1.f, 1.5f };
-		mth::Point2D	pointFalse{ -5.f, 7.5f };
+		ion::math::Point2D	pointTrue{ 1.f, 1.5f };
+		ion::math::Point2D	pointFalse{ -5.f, 7.5f };
 
 		SECTION("Point vs AABB")
 		{
-			mth::AABBCollider2D		aabb({ 2.f, 2.f }, { 2.f, 2.f });
+			ion::math::AABBCollider2D		aabb({ 2.f, 2.f }, { 2.f, 2.f });
 
 			CHECK(aabb.PointInBox(pointTrue));
 
@@ -367,7 +367,7 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 		SECTION("Point vs Circle")
 		{
-			mth::CircleCollider2D	circle{ { 2.f, 2.f }, 2.f };
+			ion::math::CircleCollider2D	circle{ { 2.f, 2.f }, 2.f };
 
 			CHECK(circle.PointInCircle(pointTrue));
 
