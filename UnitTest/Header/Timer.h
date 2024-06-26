@@ -4,6 +4,8 @@
 #include <chrono>
 #include <functional>
 
+#include <inttypes.h>
+
 using hrc = std::chrono::high_resolution_clock;
 
 // Timer class to act as a stopwatch
@@ -44,8 +46,8 @@ public:
 
 			// Conversion factors between each time unit
 			double			nanoToSec = 1e-9, nanoToMilli = 1e-6, nanoToMicro = 1e-3;
-			long long		secToNano = (__int64) 1e9, milliToNano = (__int64) 1e6,
-							microToNano = (__int64) 1e3;
+			long long		secToNano = (uint64_t) 1e9, milliToNano = (uint64_t) 1e6,
+							microToNano = (uint64_t) 1e3;
 
 			// Divide into microseconds, milliseconds, etc
 			long long		seconds = static_cast<long long>
@@ -94,22 +96,6 @@ public:
 		return res;
 	}
 
-	// Record std::function object or lambda expression once
-	template<>
-	void recordFunction<void>(std::function<void()> func, bool shouldDisplay)
-	{
-		clear();
-		start();
-
-		func();
-
-		stop();
-
-		if (shouldDisplay)
-			display();
-
-	}
-
 	// Record std::function object or lambda expression a given amount of times and return result
 	// of last iteration
 	template <typename T>
@@ -137,28 +123,6 @@ public:
 		return res;
 	}
 
-	// Record std::function object or lambda expression a given amount of times
-	template<>
-	void recordFunctionAverage<void>(std::function<void()> func,
-	int maxIterations, bool shouldDisplay)
-	{
-		clear();
-		start();
-
-		for (int iteration = 0; iteration < maxIterations; ++iteration)
-		{
-			func();
-		}
-
-		stop();
-
-		long long		average = m_elapsed / maxIterations;
-
-		if (shouldDisplay)
-			std::cout << "\nAverage execution time over " << maxIterations <<
-			" iterations: " << average << " ns\n";
-
-	}
 
 
 
@@ -173,3 +137,46 @@ private:
 	long long			m_elapsed = 0ll;
 
 };
+
+
+
+
+
+// Record std::function object or lambda expression once
+template<> inline
+void Timer::recordFunction<void>(std::function<void()> func, bool shouldDisplay)
+{
+	clear();
+	start();
+
+	func();
+
+	stop();
+
+	if (shouldDisplay)
+		display();
+}
+
+
+
+// Record std::function object or lambda expression a given amount of times
+template<> inline
+void Timer::recordFunctionAverage<void>(std::function<void()> func,
+int maxIterations, bool shouldDisplay)
+{
+	clear();
+	start();
+
+	for (int iteration = 0; iteration < maxIterations; ++iteration)
+	{
+		func();
+	}
+
+	stop();
+
+	long long		average = m_elapsed / maxIterations;
+
+	if (shouldDisplay)
+		std::cout << "\nAverage execution time over " << maxIterations <<
+		" iterations: " << average << " ns\n";
+}
