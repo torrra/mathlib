@@ -1,178 +1,837 @@
 #pragma once
 
 #include <string>
+#include <sstream>
+
+#include "libmath/MathGeneric.hpp"
+#include "libmath/VectorGeneric.hpp"
+
 
 #include "libmath/Angle.h"
+#include "Trigonometry.h"
+
 
 namespace ion::math
 {
-	class Vector2
+
+	template <CScalarType TValueType>
+	class Vector<2, TValueType>
 	{
 	public:
 		// Constructors / destructor
 
-						Vector2(void) = default;
+		inline				Vector(void) = default;
 
-		explicit		Vector2(float _val);
-						Vector2(float _x, float _y);
-						Vector2(const Vector2& _other );
+		inline
+		explicit			Vector(TValueType _val);
 
-						~Vector2(void) = default;
+		inline				Vector(TValueType _x, TValueType _y);
+		inline				Vector(const Vector& _other );
+
+		inline				~Vector(void) = default;
 
 		// Get angle from this vector to another
-		Radian<float>			AngleFrom(const Vector2& _other)					const;
+		inline
+		Radian<TValueType>			AngleFrom(const Vector& _other)					const;
 
 		// Get angle from this vector to another unit vector
 		// Should be used if this vector and the other are both
 		// unit vectors
-		Radian<float>			AngleFromUnit(const Vector2& _other)				const;
+		inline
+		Radian<TValueType>			AngleFromUnit(const Vector& _other)				const;
 
 		// Compute cross product with another
 		// this x other
-		float			Cross(const Vector2& _other)						const;
+		inline TValueType			Cross(const Vector& _other)						const;
 
 		// Get distance between 2 points
-		float			DistanceFrom(const Vector2& _other)					const;
+		inline TValueType			DistanceFrom(const Vector& _other)					const;
 
 		// Get distance squared between two points
-		float			DistanceSquaredFrom(const Vector2& _other)			const;
+		inline TValueType			DistanceSquaredFrom(const Vector& _other)			const;
 
 		// Compute dot product of two vectors
-		float			Dot(const Vector2& _other)							const;
+		inline TValueType			Dot(const Vector& _other)							const;
 
 		// Is this vector's magnitude longer than another ?
-		bool			IsLongerThan(const Vector2& _other)					const;
+		inline bool			IsLongerThan(const Vector& _other)					const;
 
 		// Is this vector's magnitude shorter than another ?
-		bool			IsShorterThan(const Vector2& _other)				const;
+		inline bool			IsShorterThan(const Vector& _other)				const;
 
 		// Is this vector's magnitude equal to 1 ?
-		bool			IsUnitVector(void)									const;
+		inline bool			IsUnitVector(void)									const;
 
-		float			Magnitude(void)										const;
-		float			MagnitudeSquared(void)								const;
+		inline TValueType			Magnitude(void)										const;
+		inline TValueType			MagnitudeSquared(void)								const;
 
 		// Adjust vector to turn into unit vector
-		void			Normalize(void);
+		inline void			Normalize(void);
 
 		// Get copy of this vector as a unit vector
-		Vector2			Normalized(void)									const;
+		inline Vector			Normalized(void)									const;
 
 		// Get vector normal to this one
-		Vector2			Normal(void)										const;
+		inline Vector			Normal(void)										const;
 
 		// Project this vector onto another
-		void			ProjectOnto(const Vector2& _other);
+		inline void			ProjectOnto(const Vector& _other);
 
 		// Reflect this vector onto another
-		void			ReflectOnto(const Vector2& _axis);
+		inline void			ReflectOnto(const Vector& _axis);
 
 		// Reflect this vector onto a UNIT vector
-		void			ReflectOntoUnit(const Vector2& _axis);
+		inline void			ReflectOntoUnit(const Vector& _axis);
 
 		// Rotate this point around the z axis
-		void			Rotate(Radian<float> _angle);
+		inline void			Rotate(Radian<TValueType> _angle);
 
 		// Multiply this vector's components by another's
-		void			Scale(const Vector2& _other);
+		inline void			Scale(const Vector& _other);
 
 		// Get components as string
-		std::string		String(void)										const;
+		inline std::string		String(void)										const;
 
 		// Get components as verbose string
-		std::string		StringLong(void)									const;
+		inline std::string		StringLong(void)									const;
 
 		// Add another vector's components to this one's
-		void			Translate(const Vector2& _other);
+		inline void			Translate(const Vector& _other);
 
 		// Accessors
 
-		float&			X(void);
-		float&			Y(void);
+		inline TValueType&			X(void);
+		inline TValueType&			Y(void);
 
-		float			GetX(void)											const;
-		float			GetY(void)											const;
+		inline TValueType			GetX(void)											const;
+		inline TValueType			GetY(void)											const;
 
 
-		Vector2&		operator=(const Vector2& _rhs);
+		inline Vector&		operator=(const Vector& _rhs);
 
-		float&			operator[](int _index);
-		float			operator[](int _index)								const;
+		inline TValueType&			operator[](int _index);
+		inline TValueType			operator[](int _index)								const;
 
 		// Boolean test operators
 
-		bool			operator==(const Vector2& _rhs)						const;
-		bool			operator!=(const Vector2& _rhs)						const;
+		inline bool			operator==(const Vector& _rhs)						const;
+		inline bool			operator!=(const Vector& _rhs)						const;
 
 		// Component-wise operations
 
-		Vector2			operator+(const Vector2& _rhs)						const;
-		Vector2			operator-(const Vector2& _rhs)						const;
-		Vector2			operator*(const Vector2& _rhs)						const;
-		Vector2			operator/(const Vector2& _rhs)						const;
+		inline Vector			operator+(const Vector& _rhs)						const;
+		inline Vector			operator-(const Vector& _rhs)						const;
+		inline Vector			operator*(const Vector& _rhs)						const;
+		inline Vector			operator/(const Vector& _rhs)						const;
 
 		// Multiply all components by a single scalar
-		Vector2			operator*(float _rhs)								const;
+		inline Vector			operator*(TValueType _rhs)								const;
 
 		// Divide all components by a single scalar
-		Vector2			operator/(float _rhs)								const;
+		inline Vector			operator/(TValueType _rhs)								const;
 
 		// Flip sign of both componenents
-		Vector2			operator-(void)										const;
+		inline Vector			operator-(void)										const;
 
 
 		// Component-wise operations
 
-		Vector2&		operator+=(const Vector2& _rhs);
-		Vector2&		operator-=(const Vector2& _rhs);
-		Vector2&		operator*=(const Vector2& _rhs);
-		Vector2&		operator/=(const Vector2& _rhs);
+		inline Vector&		operator+=(const Vector& _rhs);
+		inline Vector&		operator-=(const Vector& _rhs);
+		inline Vector&		operator*=(const Vector& _rhs);
+		inline Vector&		operator/=(const Vector& _rhs);
 
 		// Multiply all components by a single scalar
-		Vector2&		operator*=(float _rhs);
+		inline Vector&		operator*=(TValueType _rhs);
 
 		// Divide all components by a single scalar
-		Vector2&		operator/=(float _rhs);
+		inline Vector&		operator/=(TValueType _rhs);
 
 
 		// Constants
 
-		static Vector2	Zero(void);
-		static Vector2	One(void);
-		static Vector2	Up(void);
-		static Vector2	Down(void);
-		static Vector2	Left(void);
-		static Vector2	Right(void);
+		inline static Vector	Zero(void);
+		inline static Vector	One(void);
+		inline static Vector	Up(void);
+		inline static Vector	Down(void);
+		inline static Vector	Left(void);
+		inline static Vector	Right(void);
 
 
 	private:
 
-		float				m_x = 0.f;
-		float				m_y = 0.f;
+		TValueType				m_x;
+		TValueType				m_y;
 	};
 
 
 	// Non-member functions (similar to member functions but provided for readability)
 
-	float				Dot(const Vector2& _first, const Vector2& _second);
-	float				Cross(const Vector2& _first, const Vector2& _second);
+	template <CScalarType TValueType> inline
+	TValueType				Dot(const Vector<2, TValueType>& _first, const Vector<2, TValueType>& _second);
+	
+	template <CScalarType TValueType> inline
+	TValueType				Cross(const Vector<2, TValueType>& _first, const Vector<2, TValueType>& _second);
 
-	Vector2				Reflect(const Vector2& _target, const Vector2& _ontoNormal);
-	Vector2				ReflectUnit(const Vector2& _target, const Vector2& _ontoNormal);
-	Vector2				Project(const Vector2& _target, const Vector2& _ontoVector);
 
-	Vector2				Normalize(const Vector2& _target);
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType>				Reflect(const Vector<2, TValueType>& _target, const Vector<2, TValueType>& _ontoNormal);
+	
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType>				ReflectUnit(const Vector<2, TValueType>& _target, const Vector<2, TValueType>& _ontoNormal);
+	
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType>				Project(const Vector<2, TValueType>& _target, const Vector<2, TValueType>& _ontoVector);
 
-	float				Distance(const Vector2& _start, const Vector2& _end);
-	float				DistanceSquared(const Vector2& _start, const Vector2& _end);
+	
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType>				Normalize(const Vector<2, TValueType>& _target);
 
-	Vector2				Rotate(const Vector2& _target, Radian<float> _angle);
 
-	// Send a vector's components to an output stream
-	std::ostream&		operator<<(std::ostream& _os, Vector2 const& _vector);
+	template <CScalarType TValueType> inline
+	TValueType				Distance(const Vector<2, TValueType>& _start, const Vector<2, TValueType>& _end);
+	
+	
+	template <CScalarType TValueType> inline
+	TValueType				DistanceSquared(const Vector<2, TValueType>& _start, const Vector<2, TValueType>& _end);
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType>				Rotate(const Vector<2, TValueType>& _target, Radian<TValueType> _angle);
+
+	
+	// Send a Vector<2, TValueType>'s components to an output stream
+	template <CScalarType TValueType> inline
+	std::ostream&		operator<<(std::ostream& _os, Vector<2, TValueType> const& _vector);
 
 	// Get components from an input stream
-	std::istream&		operator>>(std::istream& _is, Vector2& _vector);
+	template <CScalarType TValueType> inline
+	std::istream&		operator>>(std::istream& _is, Vector<2, TValueType>& _vector);
+
+
+
+
+
+// ---- Implementation ----
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType>::Vector(TValueType _val)
+		: m_x(_val), m_y(_val) {}
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType>::Vector(TValueType _x, TValueType _y)
+		: m_x(_x), m_y(_y) {}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType>::Vector(const Vector<2, TValueType>& _other)
+		: m_x(_other.m_x), m_y(_other.m_y) {}
+
+
+	template <CScalarType TValueType> inline
+	Radian<TValueType> Vector<2, TValueType>::AngleFrom(const Vector<2, TValueType>& _other) const
+	{
+		TValueType		magnitudes = MagnitudeSquared() * _other.MagnitudeSquared();
+
+		// Only run square root once
+		magnitudes = SquareRoot(magnitudes);
+
+		// Transform dot product equation to get cos angle,
+		// then run acos
+		return Acos(Dot(_other) / magnitudes);
+	}
+
+
+	template <CScalarType TValueType> inline
+	Radian<TValueType> Vector<2, TValueType>::AngleFromUnit(const Vector<2, TValueType>& _other) const
+	{
+		// Clamp dot to avoid acos domain error (NaN result)
+		// and call acos as both vectors are assumed to be
+		// unit vectors
+		return Acos(Clamp(Dot(_other), MIN_COS, MAX_COS));
+	}
+
+
+	template <CScalarType TValueType> inline
+	TValueType Vector<2, TValueType>::Cross(const Vector<2, TValueType>& _other) const
+	{
+		// Only compute result for result's  z component as
+		// both x and y will be zero for vec2 cross product
+		return (m_x * _other.m_y) - (m_y * _other.m_x);
+	}
+
+
+	template <CScalarType TValueType> inline
+	TValueType Vector<2, TValueType>::DistanceFrom(const Vector<2, TValueType>& _other) const
+	{
+		return SquareRoot(DistanceSquaredFrom(_other));
+	}
+
+
+	template <CScalarType TValueType> inline
+	TValueType Vector<2, TValueType>::DistanceSquaredFrom(const Vector<2, TValueType>& _other) const
+	{
+		// Find distance vector and get magnitude
+		return (_other - *this).MagnitudeSquared();
+	}
+
+
+	template <CScalarType TValueType> inline
+	TValueType Vector<2, TValueType>::Dot(const Vector<2, TValueType>& _other) const
+	{
+		// Multiply components
+		return (m_x * _other.m_x) + (m_y * _other.m_y);
+	}
+
+
+	template <CScalarType TValueType> inline
+	bool Vector<2, TValueType>::IsLongerThan(const Vector<2, TValueType>& _other) const
+	{
+		// Compare squared magnitudes to avoid two sqrt calls
+		return MagnitudeSquared() > _other.MagnitudeSquared();
+	}
+
+
+	template <CScalarType TValueType> inline
+	bool Vector<2, TValueType>::IsShorterThan(const Vector<2, TValueType>& _other) const
+	{
+		// Compare squared magnitudes to avoid two sqrt calls
+		return MagnitudeSquared() < _other.MagnitudeSquared();
+	}
+
+
+	template <CScalarType TValueType> inline
+	bool Vector<2, TValueType>::IsUnitVector() const
+	{
+		// 1 squared == 1 so avoiding sqrt call is possible
+		return AlmostEqual(MagnitudeSquared(), 1.f);
+	}
+
+
+	template <CScalarType TValueType> inline
+	TValueType Vector<2, TValueType>::Magnitude() const
+	{
+		return SquareRoot(MagnitudeSquared());
+	}
+
+	template <CScalarType TValueType> inline
+	TValueType Vector<2, TValueType>::MagnitudeSquared() const
+	{
+		// Square components
+		return Dot(*this);
+	}
+
+
+	template <CScalarType TValueType> inline
+	void Vector<2, TValueType>::Normalize()
+	{
+		TValueType		invMagnitude = Magnitude();
+
+		if (AlmostEqual(invMagnitude, 0.f, std::numeric_limits<float>::epsilon()))
+		{
+			throw std::logic_error("Cannot divide by zero magnitude");
+		}
+
+		// Only divide once
+		else
+			invMagnitude = 1.f / invMagnitude;
+
+		m_x *= invMagnitude;
+		m_y *= invMagnitude;
+	}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Vector<2, TValueType>::Normalized(void) const
+	{
+		Vector<2, TValueType>		result = *this;
+
+		result.Normalize();
+
+		// Return normalized copy
+		return result;
+	}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Vector<2, TValueType>::Normal(void) const
+	{
+		// Swap x and y and flip one sign (y here)
+		return Vector<2, TValueType>(-m_y, m_x);
+	}
+
+
+
+	template <CScalarType TValueType> inline
+	void Vector<2, TValueType>::ProjectOnto(const Vector<2, TValueType>& _other)
+	{
+		// Apply projection formula
+		TValueType		squareMagnitude = _other.MagnitudeSquared();
+		TValueType		projFactor = Dot(_other) / squareMagnitude;
+
+		m_x = _other.m_x * projFactor;
+		m_y = _other.m_y * projFactor;
+
+	}
+
+
+
+	template <CScalarType TValueType> inline
+	void Vector<2, TValueType>::ReflectOnto(const Vector<2, TValueType>& _axis)
+	{
+		// Only reflect onto unit vector
+		Vector<2, TValueType>		normal = ion::math::Normalize(_axis);
+
+		// Apply reflection formula
+		*this -= normal * (Dot(normal) * 2.f);
+	}
+
+
+	template <CScalarType TValueType> inline
+	void Vector<2, TValueType>::ReflectOntoUnit(const Vector<2, TValueType>& _axis)
+	{
+		// Assume normal is already unit vector and skip normalize call
+		*this -= _axis * (Dot(_axis) * 2.f);
+	}
+
+
+
+	template <CScalarType TValueType> inline
+	void Vector<2, TValueType>::Rotate(Radian<TValueType> _angle)
+	{
+		TValueType		cosAngle = Cos(_angle),
+					sinAngle = Sin(_angle);
+
+		// Copy x as base x value is needed for
+		// both x and y results
+		TValueType		xCopy = m_x;
+
+		// Manually multiply by 2x2 rotation matrix
+		m_x = cosAngle * xCopy - m_y * sinAngle;
+		m_y = sinAngle * xCopy + m_y * cosAngle;
+	}
+
+
+
+	template <CScalarType TValueType> inline
+	void Vector<2, TValueType>::Scale(const Vector<2, TValueType>& _other)
+	{
+		*this *= _other;
+	}
+
+
+	template <CScalarType TValueType> inline
+	std::string Vector<2, TValueType>::String() const
+	{
+		// Use stream for easy conversion
+		std::stringstream		stream;
+
+		// Pass components to stream
+		stream << '{' << m_x << ',' << m_y << '}';
+
+		return stream.str();
+	}
+
+
+	template <CScalarType TValueType> inline
+	std::string Vector<2, TValueType>::StringLong() const
+	{
+		// Use stream for easy conversion
+		std::stringstream		stream;
+
+		// Pass components to stream with some extra
+		stream << "Vector2{ x:" << m_x << ", y:" << m_y << " }";
+
+		return stream.str();
+	}
+
+
+	template <CScalarType TValueType> inline
+	void Vector<2, TValueType>::Translate(const Vector<2, TValueType>& _other)
+	{
+		*this += _other;
+	}
+
+
+
+	template <CScalarType TValueType> inline
+	TValueType& Vector<2, TValueType>::X()
+	{
+		return m_x;
+	}
+
+
+
+	template <CScalarType TValueType> inline
+	TValueType& Vector<2, TValueType>::Y()
+	{
+		return m_y;
+	}
+
+
+
+	template <CScalarType TValueType> inline
+	TValueType Vector<2, TValueType>::GetX() const
+	{
+		return m_x;
+	}
+
+
+	template <CScalarType TValueType> inline
+	TValueType Vector<2, TValueType>::GetY() const
+	{
+		return m_y;
+	}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType>& Vector<2, TValueType>::operator=(const Vector<2, TValueType>& _rhs)
+	{
+		// Copy assign
+		m_x = _rhs.m_x;
+		m_y = _rhs.m_y;
+
+		return *this;
+	}
+
+
+	template <CScalarType TValueType> inline
+	TValueType& Vector<2, TValueType>::operator[](int _index)
+	{
+		switch (_index)
+		{
+		case 0:
+			return m_x;
+
+		case 1:
+			return m_y;
+
+		default:
+			throw std::logic_error("Index out of range");
+		}
+	}
+
+
+	template <CScalarType TValueType> inline
+	TValueType Vector<2, TValueType>::operator[](int _index) const
+	{
+		switch (_index)
+		{
+		case 0:
+			return m_x;
+
+		case 1:
+			return m_y;
+
+		default:
+			throw std::logic_error("Index out of range");
+		}
+	}
+
+
+	template <CScalarType TValueType> inline
+	bool Vector<2, TValueType>::operator==(const Vector<2, TValueType>& _rhs) const
+	{
+		// Compare both components
+		return
+		(
+			AlmostEqual(m_x, _rhs.m_x) &&
+			AlmostEqual(m_y, _rhs.m_y)
+		);
+	}
+
+
+
+	template <CScalarType TValueType> inline
+	bool Vector<2, TValueType>::operator!=(const Vector<2, TValueType>& _rhs) const
+	{
+		return !(*this == _rhs);
+	}
+
+
+	template <CScalarType TValueType> inline
+	TValueType Dot(const Vector<2, TValueType>& _first, const Vector<2, TValueType>& _second)
+	{
+		return _first.Dot(_second);
+	}
+
+
+	template <CScalarType TValueType> inline
+	TValueType Cross(const Vector<2, TValueType>& _first, const Vector<2, TValueType>& _second)
+	{
+		return _first.Cross(_second);
+	}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Reflect(const Vector<2, TValueType>& _target, const Vector<2, TValueType>& _ontoNormal)
+	{
+		Vector<2, TValueType>		result = _target;
+
+		// Return reflected copy
+		result.ReflectOnto(_ontoNormal);
+
+		return result;
+	}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> ReflectUnit(const Vector<2, TValueType>& _target, const Vector<2, TValueType>& _ontoNormal)
+	{
+		Vector<2, TValueType>		result = _target;
+
+		// Return reflected copy
+		result.ReflectOntoUnit(_ontoNormal);
+
+		return result;
+	}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Project(const Vector<2, TValueType>& _target, const Vector<2, TValueType>& _ontoVector)
+	{
+		Vector<2, TValueType>		result = _target;
+
+		// Return projected copy
+		result.ProjectOnto(_ontoVector);
+
+		return result;
+	}
+
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Normalize(const Vector<2, TValueType>& _target)
+	{
+		Vector<2, TValueType>		result = _target;
+
+		// Return normalized copy
+		result.Normalize();
+
+		return result;
+	}
+
+
+	template <CScalarType TValueType> inline
+	TValueType Distance(const Vector<2, TValueType>& _start, const Vector<2, TValueType>& _end)
+	{
+		return _start.DistanceFrom(_end);
+	}
+
+
+	template <CScalarType TValueType> inline
+	TValueType DistanceSquared(const Vector<2, TValueType>& _start, const Vector<2, TValueType>& _end)
+	{
+		return _start.DistanceSquaredFrom(_end);
+	}
+
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Rotate(const Vector<2, TValueType>& _target, Radian<TValueType> _angle)
+	{
+		Vector<2, TValueType>		result = _target;
+
+		// Return rotated copy
+		result.Rotate(_angle);
+
+		return result;
+	}
+
+
+	// Component-wise operators
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Vector<2, TValueType>::operator+(const Vector<2, TValueType>& _rhs) const
+	{
+		return Vector<2, TValueType>(m_x + _rhs.m_x, m_y + _rhs.m_y);
+	}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Vector<2, TValueType>::operator-(const Vector<2, TValueType>& _rhs) const
+	{
+		return Vector<2, TValueType>(m_x - _rhs.m_x, m_y - _rhs.m_y);
+	}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Vector<2, TValueType>::operator*(const Vector<2, TValueType>& _rhs) const
+	{
+		return Vector<2, TValueType>(m_x * _rhs.m_x, m_y * _rhs.m_y);
+	}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Vector<2, TValueType>::operator/(const Vector<2, TValueType>& _rhs) const
+	{
+		return Vector<2, TValueType>(m_x /_rhs.m_x, m_y / _rhs.m_y);
+	}
+
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Vector<2, TValueType>::operator*(TValueType _rhs) const
+	{
+		return Vector<2, TValueType>(m_x * _rhs, m_y * _rhs);
+	}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Vector<2, TValueType>::operator/(TValueType _rhs) const
+	{
+		_rhs = 1.f / _rhs;
+
+		return Vector<2, TValueType>(m_x * _rhs, m_y * _rhs);
+	}
+
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Vector<2, TValueType>::operator-(void) const
+	{
+		return Vector<2, TValueType>(-m_x, -m_y);
+	}
+
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType>& Vector<2, TValueType>::operator+=(const Vector<2, TValueType>& _rhs)
+	{
+		m_x += _rhs.m_x;
+		m_y += _rhs.m_y;
+
+		return *this;
+	}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType>& Vector<2, TValueType>::operator-=(const Vector<2, TValueType>& _rhs)
+	{
+		m_x -= _rhs.m_x;
+		m_y -= _rhs.m_y;
+
+		return *this;
+	}
+
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType>& Vector<2, TValueType>::operator*=(const Vector<2, TValueType>& _rhs)
+	{
+		m_x *= _rhs.m_x;
+		m_y *= _rhs.m_y;
+
+		return *this;
+	}
+
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType>& Vector<2, TValueType>::operator/=(const Vector<2, TValueType>& _rhs)
+	{
+		m_x /= _rhs.m_x;
+		m_y /= _rhs.m_y;
+
+		return* this;
+	}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType>& Vector<2, TValueType>::operator*=(TValueType _rhs)
+	{
+		m_x *= _rhs;
+		m_y *= _rhs;
+
+		return *this;
+	}
+
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType>& Vector<2, TValueType>::operator/=(TValueType _rhs)
+	{
+		_rhs = 1.f / _rhs;
+
+		m_x *= _rhs;
+		m_y *= _rhs;
+
+		return *this;
+	}
+
+	// !Component-wise operators
+
+
+	// Constants
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Vector<2, TValueType>::Zero(void)
+	{
+		return Vector<2, TValueType>();
+	}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Vector<2, TValueType>::One(void)
+	{
+		return Vector<2, TValueType>(1.f, 1.f);
+	}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Vector<2, TValueType>::Up(void)
+	{
+		return Vector<2, TValueType>(0.f, 1.f);
+	}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Vector<2, TValueType>::Down(void)
+	{
+		return Vector<2, TValueType>(0.f, -1.f);
+	}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Vector<2, TValueType>::Left(void)
+	{
+		return Vector<2, TValueType>(-1.f, 0.f);
+	}
+
+
+	template <CScalarType TValueType> inline
+	Vector<2, TValueType> Vector<2, TValueType>::Right(void)
+	{
+		return Vector<2, TValueType>(1.f, 0.f);
+	}
+
+	// !Constants
+
+
+	template <CScalarType TValueType> inline
+	std::ostream& operator<<(std::ostream& _os, Vector<2, TValueType> const& _vector)
+	{
+		// Pass components to stream
+		_os << '{' << _vector.GetX() << ',' << _vector.GetY() << '}';
+
+		return _os;
+	}
+
+
+	template <CScalarType TValueType> inline
+	std::istream& operator>>(std::istream& _is, Vector<2, TValueType>& _vector)
+	{
+		char	discard;
+
+		// Get input from stream
+		_is >> discard >> _vector.X() >> discard >> _vector.Y() >> discard;
+
+		return _is;
+	}
+
 }
 
 namespace LibMath = ion::math;
