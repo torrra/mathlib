@@ -1,10 +1,38 @@
-#pragma once
+/*
+
+ _____                               _
+|_   _|                             (_)
+  | |  ___  _ __     ___ _ __   __ _ _ _ __   ___
+  | | / _ \| '_ \   / _ \ '_ \ / _` | | '_ \ / _ \
+ _| || (_) | | | | |  __/ | | | (_| | | | | |  __/
+ \___/\___/|_| |_|  \___|_| |_|\__, |_|_| |_|\___|
+								__/ |
+							   |___/
+
+
+NAME: Angle.hpp
+
+DESCTIPTION: Radian and Degree class to make angle operations easier
+
+AUTHOR: Noah de Pischof | @torrra on GitHub
+
+TEMPLATES:
+
+CScalarType is a template constraint that only accepts numeric data types
+
+*/
+
+
+
+#ifndef __ANGLE_H__
+#define __ANGLE_H__
+
 
 #include "MathGeneric.hpp"
 #include "Arithmetic.h"
 
-#define MTH_PI				3.141592653589f
 
+#define MTH_PI				3.141592653589f
 
 #define RAD_CIRCLE			6.283185307179f
 #define PI_OVER_FOUR		0.785398163397f
@@ -26,70 +54,80 @@ namespace ion::math
 	template <CScalarType TValueType = float>
 	class Radian;
 
+
+
+	template <CScalarType TValueType = float>
 	class Degree
 	{
 	public:
 
 		// Constructors / Destructors
 
-		Degree(void) = default;
-		explicit	Degree(float _val);
-		Degree(const Degree& _other);
-		~Degree(void) = default;
+	inline		Degree(void) = default;
 
-		operator Radian<float>(void)							const;
+	explicit
+	inline	    Degree(TValueType _val);
+
+	inline		Degree(const Degree& _other);
+	inline		~Degree(void) = default;
+
+	inline		operator Radian<TValueType>(void)			const;
 
 
 		// Accessors
-		float		Deg(bool _wrap180 = false)				const;
-		float		Rad(bool _wrapPi = true)				const;
-		float		Raw()									const;
+	inline		TValueType		Deg(bool _wrap180 = false)				const;
+	inline		TValueType		Rad(bool _wrapPi = true)				const;
+	inline		TValueType		Raw()									const;
 
 		// Wrap around unit circle
-		void		Wrap(bool _wrap180 = false);
+	inline		void			Wrap(bool _wrap180 = false);
 
 		// Copy assignment
-		Degree& operator=(const Degree& _rhs);
-		Degree& operator=(float _rhs);
+	inline		Degree&			operator=(const Degree<TValueType>& _rhs);
+	inline		Degree&			operator=(TValueType _rhs);
 
 		// Arithmetic operators
-		Degree		operator+(const Degree& _rhs)			const;
-		Degree		operator-(const Degree& _rhs)			const;
-		Degree		operator*(const Degree& _rhs)			const;
-		Degree		operator/(const Degree& _rhs)			const;
+	inline		Degree			operator+(const Degree& _rhs)				const;
+	inline		Degree			operator-(const Degree& _rhs)				const;
+	inline		Degree			operator*(const Degree& _rhs)				const;
+	inline		Degree			operator/(const Degree& _rhs)				const;
 
-		Degree		operator+(float _rhs)					const;
-		Degree		operator-(float _rhs)					const;
-		Degree		operator*(float _rhs)					const;
-		Degree		operator/(float _rhs)					const;
+	inline		Degree			operator+(TValueType _rhs)					const;
+	inline		Degree			operator-(TValueType _rhs)					const;
+	inline		Degree			operator*(TValueType _rhs)					const;
+	inline		Degree			operator/(TValueType _rhs)					const;
 
 		// Arithmetic assignment operators
-		Degree& operator+=(const Degree& _rhs);
-		Degree& operator-=(const Degree& _rhs);
-		Degree& operator*=(const Degree& _rhs);
-		Degree& operator/=(const Degree& _rhs);
+	inline		Degree&			operator+=(const Degree& _rhs);
+	inline		Degree&			operator-=(const Degree& _rhs);
+	inline		Degree&			operator*=(const Degree& _rhs);
+	inline		Degree&			operator/=(const Degree& _rhs);
 
 
-		Degree& operator+=(float _rhs);
-		Degree& operator-=(float _rhs);
-		Degree& operator*=(float _rhs);
-		Degree& operator/=(float _rhs);
+	inline		Degree&			operator+=(TValueType _rhs);
+	inline		Degree&			operator-=(TValueType _rhs);
+	inline		Degree&			operator*=(TValueType _rhs);
+	inline		Degree&			operator/=(TValueType _rhs);
 
 		// Negation operators
-		Degree		operator-(void)							const;
+	inline		Degree			operator-(void)								const;
 
 		// Equality operators
-		bool		operator==(const Degree& _rhs)			const;
-		bool		operator!=(const Degree& _rhs)			const;
+	inline		bool			operator==(const Degree& _rhs)				const;
+	inline		bool			operator!=(const Degree& _rhs)				const;
 
-		bool		operator==(float _rhs)					const;
-		bool		operator!=(float _rhs)					const;
+	inline		bool			operator==(TValueType _rhs)					const;
+	inline		bool			operator!=(TValueType _rhs)					const;
 
 
 	private:
 
-		float	m_value = 0.f;
+		TValueType	m_value = static_cast<TValueType>(0);
 	};
+
+
+
+
 
 	template <CScalarType TValueType>
 	class Radian
@@ -105,7 +143,7 @@ namespace ion::math
 				~Radian(void) = default;
 
 				// Implicit cast operator
-	inline		operator Degree(void)										const;
+	inline		operator Degree<TValueType>(void)										const;
 
 				// Accessors
 	inline		TValueType		Rad(bool _wrapPi = true)					const;
@@ -157,15 +195,15 @@ namespace ion::math
 
 	private:
 
-		TValueType	m_value = 0.f;
+		TValueType	m_value = static_cast<TValueType>(0);
 
 	};
 
 	// Angle literals
 	inline namespace Literal
 	{
-		Degree						operator""_deg(long double _val);
-		Degree						operator""_deg(unsigned long long int _val);
+		inline Degree<float>		operator""_deg(long double _val);
+		inline Degree<float>		operator""_deg(unsigned long long int _val);
 
 		inline Radian<float>		operator""_rad(long double _val);
 		inline Radian<float>		operator""_rad(unsigned long long int _val);
@@ -173,6 +211,332 @@ namespace ion::math
 	}
 
 
+
+
+
+// ---- Degree implementation
+
+	template <CScalarType TValueType>
+	Degree<TValueType>::Degree(TValueType _val)
+		: m_value(_val) {}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType>::Degree(const Degree<TValueType>& _other)
+		: m_value(_other.m_value) {}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType>::operator Radian<TValueType>() const
+	{
+		// Convert deg value to rad
+		return Radian<TValueType>(Rad(false));
+	}
+
+	template <CScalarType TValueType>
+	TValueType Degree<TValueType>::Deg(bool _wrap180) const
+	{
+		// Wrap value depending on argument
+
+		if (_wrap180)
+			return ion::math::Wrap(m_value, -HALF_CIRCLE_DEG, HALF_CIRCLE_DEG);
+
+		else
+			return ion::math::Wrap(m_value, 0.f, FULL_CIRCLE_DEG);
+	}
+
+
+
+	template <CScalarType TValueType>
+	TValueType Degree<TValueType>::Rad(bool _wrapPi) const
+	{
+		// Wrap value depending on argument
+
+		if (_wrapPi)
+			return ion::math::Wrap(m_value * DEG2RAD, -MTH_PI, MTH_PI);
+
+		else
+			return ion::math::Wrap(m_value * DEG2RAD, 0.f, RAD_CIRCLE);
+	}
+
+
+
+	template <CScalarType TValueType>
+	TValueType Degree<TValueType>::Raw(void) const
+	{
+		return m_value;
+	}
+
+
+
+	template <CScalarType TValueType>
+	void Degree<TValueType>::Wrap(bool _wrap180)
+	{
+		// Assign wrapped value to raw value
+		m_value = Deg(_wrap180);
+	}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType>& Degree<TValueType>::operator=(const Degree& _rhs)
+	{
+		// Copy assignment
+
+		m_value = _rhs.m_value;
+
+		return *this;
+	}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType>& Degree<TValueType>::operator=(TValueType _rhs)
+	{
+		// Copy assignment
+
+		m_value = _rhs;
+
+		return *this;
+	}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType> Degree<TValueType>::operator+(const Degree& _rhs) const
+	{
+		// Addition
+
+		return Degree<TValueType>(m_value + _rhs.m_value);
+	}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType> Degree<TValueType>::operator-(const Degree<TValueType>& _rhs) const
+	{
+		// Subtraction
+
+		return Degree<TValueType>(m_value - _rhs.m_value);
+	}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType> Degree<TValueType>::operator*(const Degree<TValueType>& _rhs) const
+	{
+		// Multiplication
+
+		return Degree(m_value * _rhs.m_value);
+	}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType> Degree<TValueType>::operator/(const Degree<TValueType>& _rhs) const
+	{
+		// Division
+
+		return Degree(m_value / _rhs.m_value);
+	}
+
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType> Degree<TValueType>::operator+(TValueType _rhs) const
+	{
+		// Addition
+
+		return Degree<TValueType>(m_value + _rhs);
+	}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType> Degree<TValueType>::operator-(TValueType _rhs) const
+	{
+		// Subtraction
+
+		return Degree<TValueType>(m_value - _rhs);
+	}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType> Degree<TValueType>::operator*(TValueType _rhs) const
+	{
+		// Multiplication
+		return Degree<TValueType>(m_value * _rhs);
+	}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType> Degree<TValueType>::operator/(TValueType _rhs) const
+	{
+		// Division
+		return Degree<TValueType>(m_value / _rhs);
+	}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType>& Degree<TValueType>::operator+=(const Degree& _rhs)
+	{
+		// Addition assignment
+
+		m_value += _rhs.m_value;
+
+		return *this;
+	}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType>& Degree<TValueType>::operator-=(const Degree& _rhs)
+	{
+		// Subtraction assignment
+
+		m_value -= _rhs.m_value;
+
+		return *this;
+	}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType>& Degree<TValueType>::operator*=(const Degree& _rhs)
+	{
+		// Multiplication assignment
+
+		m_value *= _rhs.m_value;
+
+		return *this;
+	}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType>& Degree<TValueType>::operator/=(const Degree& _rhs)
+	{
+		// Division assignment
+
+		m_value /= _rhs.m_value;
+
+		return *this;
+	}
+
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType>& Degree<TValueType>::operator+=(TValueType _rhs)
+	{
+		// Addition assignment
+
+		m_value += _rhs;
+
+		return *this;
+	}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType>& Degree<TValueType>::operator-=(TValueType _rhs)
+	{
+		// Subtraction assignment
+
+		m_value -= _rhs;
+
+		return *this;
+	}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType>& Degree<TValueType>::operator*=(TValueType _rhs)
+	{
+		// Multiplication assignment
+
+		m_value *= _rhs;
+
+		return *this;
+	}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType>& Degree<TValueType>::operator/=(TValueType _rhs)
+	{
+		// Division assignment
+
+		m_value /= _rhs;
+
+		return *this;
+	}
+
+
+
+	template <CScalarType TValueType>
+	Degree<TValueType> Degree<TValueType>::operator-(void) const
+	{
+		// Flip sign
+		return Degree<TValueType>(-m_value);
+	}
+
+
+
+	template <CScalarType TValueType>
+	bool Degree<TValueType>::operator==(const Degree<TValueType>& _rhs) const
+	{
+		return AlmostEqual
+		(
+			Deg(false),
+			_rhs.Deg(false),
+			DEG_PRECISION
+		);
+	}
+
+
+
+	template <CScalarType TValueType>
+	bool Degree<TValueType>::operator!=(const Degree& _rhs) const
+	{
+		// Not equal
+		return !(*this == _rhs);
+	}
+
+
+
+	template <CScalarType TValueType>
+	bool Degree<TValueType>::operator==(TValueType _rhs) const
+	{
+		return AlmostEqual<TValueType>
+		(
+			Deg(false),
+			_rhs,
+			DEG_PRECISION
+		);
+	}
+
+
+
+	template <CScalarType TValueType>
+	bool Degree<TValueType>::operator!=(TValueType _rhs) const
+	{
+		// Not equal
+		return !(*this == _rhs);
+	}
+
+
+
+
+
+
+// !Degree implementation
 
 
 
@@ -193,10 +557,10 @@ namespace ion::math
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType>::operator Degree(void) const
+	Radian<TValueType>::operator Degree<TValueType>(void) const
 	{
 		// Converti value to radians and construct object
-		return Degree(Deg(false));
+		return Degree<TValueType>(Deg(false));
 	}
 
 
@@ -479,6 +843,12 @@ namespace ion::math
 	}
 
 
+// !Radian implementation
+
+
+
+
+// ---- Literal operators implementation ----
 
 	template <CScalarType TValueType> inline
 	bool Radian<TValueType>::operator!=(TValueType _rhs) const
@@ -503,11 +873,26 @@ namespace ion::math
 	}
 
 
+	inline Degree<float> ion::math::Literal::operator""_deg(long double _val)
+	{
+		// Get numeric value from literal
+		return Degree<float>(static_cast<float>(_val));
+	}
 
-// !Radian implementation
+	inline Degree<float> Literal::operator""_deg(unsigned long long int _val)
+	{
+		// Get numeric value from literal
+		return Degree<float>(static_cast<float>(_val));
+	}
 
 
 }
 
+
+// !Literal operators implementation
+
 namespace	LibMath = ion::math;
 namespace	lm = ion::math;
+
+
+#endif
