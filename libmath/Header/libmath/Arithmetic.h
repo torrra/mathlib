@@ -10,7 +10,7 @@
                                |___/
 
 
-NAME: ArithmeticGenerics.hpp
+NAME: Arithmetic.hpp
 
 DESCTIPTION: Basic arithmetic function templates. Implementation below
 
