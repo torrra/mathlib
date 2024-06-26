@@ -125,6 +125,7 @@ TEST_CASE("Trigonometry - my tests", "[all]")
 		RECORD_FUNC(stopwatch, std::cos(sixtyDeg), stdCos);
 
 		CHECK(ion::math::AlmostEqual(myCos, glmCos));
+		CHECK(ion::math::AlmostEqual(myCos, stdCos));
 
 
 		RECORD_FUNC(stopwatch, ion::math::Sin(myRad), mySin);
@@ -132,6 +133,7 @@ TEST_CASE("Trigonometry - my tests", "[all]")
 		RECORD_FUNC(stopwatch, std::sin(sixtyDeg), stdSin);
 
 		CHECK(ion::math::AlmostEqual(mySin, glmSin));
+		CHECK(ion::math::AlmostEqual(mySin, stdSin));
 
 
 		RECORD_FUNC(stopwatch, ion::math::Tan(myRad), myTan);
@@ -139,6 +141,7 @@ TEST_CASE("Trigonometry - my tests", "[all]")
 		RECORD_FUNC(stopwatch, std::tan(sixtyDeg), stdTan);
 
 		CHECK(ion::math::AlmostEqual(myTan, glmTan));
+		CHECK(ion::math::AlmostEqual(myTan, stdTan));
 
 		long long		avg;
 		int				iterations = (int) 1e4;
