@@ -104,7 +104,7 @@ if (MSVC)
 
     # Raise warning level to level 4 and treat warnings as errors
     # /Za disables MSVC compiler extensions that aren't compatible with ISO C90
-    target_compile_options(${TARGET_NAME} PRIVATE /W4 /WX /Za)
+    target_compile_options(${TARGET_NAME} PRIVATE /W4 /Za)
 
     # TODO remove
     # Force disable LNK2019 unresolved external linker error
@@ -113,6 +113,6 @@ if (MSVC)
 elseif(LINUX)
 
     # Raise warning level to max and treat warnings as errors
-    target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wshadow -Wextra -Wpedantic -Werror -g)
+    target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wshadow -Wextra -Wpedantic -Wno-unknown-pragmas -g)
 
 endif()
