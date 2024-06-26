@@ -145,20 +145,20 @@ namespace ion::math
 
 					OBBCollider3D
 					(const Vector3& _pos, const Vector3& _extents,
-					 Radian _angleX, Radian _angleY, Radian _angleZ);
+					 Radian<float> _angleX, Radian<float> _angleY, Radian<float> _angleZ);
 
 					OBBCollider3D(const OBBCollider3D& _other) = default;
 					~OBBCollider3D(void) = default;
 
 		// Accessors
 
-		Radian&		RotationX(void);
-		Radian&		RotationY(void);
-		Radian&		RotationZ(void);
+		Radian<float>&		RotationX(void);
+		Radian<float>&		RotationY(void);
+		Radian<float>&		RotationZ(void);
 
-		Radian		GetRotationX(void);
-		Radian		GetRotationY(void);
-		Radian		GetRotationZ(void);
+		Radian<float>		GetRotationX(void) const;
+		Radian<float>		GetRotationY(void) const;
+		Radian<float>		GetRotationZ(void) const;
 
 		Vector3&	Position(void);
 		Vector3&	Extents(void);
@@ -179,7 +179,7 @@ namespace ion::math
 
 		Vector3		m_position;
 		Vector3		m_extents;
-		Radian		m_rotation[3];
+		Radian<float>		m_rotation[3];
 	};
 
 	// 3D line segment

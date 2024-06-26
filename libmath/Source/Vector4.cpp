@@ -30,7 +30,7 @@ namespace ion::math
 		: m_x(_other.m_x), m_y(_other.m_y), m_z(_other.m_z), m_w(_other.m_w)
 	{}
 
-	Radian Vector4::AngleFrom(const Vector4 & _other) const
+	Radian<float> Vector4::AngleFrom(const Vector4 & _other) const
 	{
 		float		magnitudes = MagnitudeSquared() * _other.MagnitudeSquared();
 
@@ -42,7 +42,7 @@ namespace ion::math
 		return Acos(Dot(_other) / magnitudes);
 	}
 
-	Radian Vector4::AngleFromUnit(const Vector4& _other) const
+	Radian<float> Vector4::AngleFromUnit(const Vector4& _other) const
 	{
 		// Clamp dot to avoid acos domain error (NaN result)
 		// and call acos as both vectors are assumed to be
@@ -193,7 +193,7 @@ namespace ion::math
 		*this -= _axis * (Dot(_axis) * 2.f);
 	}
 
-	void Vector4::Rotate(Radian _angleX, Radian _angleY, Radian _angleZ)
+	void Vector4::Rotate(Radian<float> _angleX, Radian<float> _angleY, Radian<float> _angleZ)
 	{
 		Vector4		copy = *this;
 
@@ -236,7 +236,7 @@ namespace ion::math
 		*this = rotMatrix * copy;
 	}
 
-	void Vector4::Rotate(Radian _angle, const Vector3& _axis)
+	void Vector4::Rotate(Radian<float> _angle, const Vector3& _axis)
 	{
 		// Ignore w axis
 		Vector3		self3D = { m_x, m_y, m_z };
@@ -593,7 +593,7 @@ namespace ion::math
 		return _start.DistanceSquaredFrom(_end);
 	}
 
-	Vector4 Rotate(const Vector4& _target, Radian _angleX, Radian _angleY, Radian _angleZ)
+	Vector4 Rotate(const Vector4& _target, Radian<float> _angleX, Radian<float> _angleY, Radian<float> _angleZ)
 	{
 		Vector4		copy = _target;
 
@@ -603,7 +603,7 @@ namespace ion::math
 		return copy;
 	}
 
-	Vector4 Rotate(const Vector4& _target, Radian _angle, const Vector3& _axis)
+	Vector4 Rotate(const Vector4& _target, Radian<float> _angle, const Vector3& _axis)
 	{
 		Vector4		copy = _target;
 

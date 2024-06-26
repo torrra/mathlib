@@ -52,7 +52,7 @@ namespace ion::math
 	}
 
 
-	float Cos(const Radian& _rad)
+	float Cos(const Radian<float>& _rad)
 	{
 		// Wrap angle between -pi and pi as 6 iterations of
 		// Taylor's series get less accurate as the angle approaches
@@ -81,7 +81,7 @@ namespace ion::math
 		// TODO: implement a more standard algorithm, maybe degree 14 instead of 6 ?
 	}
 
-	float Sin(const Radian& _rad)
+	float Sin(const Radian<float>& _rad)
 	{
 		// Apply 90 degree offset
 		// See: https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Sine_cosine_one_period.svg/1920px-Sine_cosine_one_period.svg.png
@@ -101,7 +101,7 @@ namespace ion::math
 		// TODO: optimize
 	}
 
-	float Tan(const Radian& _rad)
+	float Tan(const Radian<float>& _rad)
 	{
 		// tan x = sin x / cos x
 		return Sin(_rad) / Cos(_rad);
@@ -111,22 +111,22 @@ namespace ion::math
 
 	// TODO: re-implement my own inverse trig functions
 
-	Radian Acos(float _cosine)
+	Radian<float> Acos(float _cosine)
 	{
 		return Radian(acosf(_cosine));
 	}
 
-	Radian Asin(float _sine)
+	Radian<float> Asin(float _sine)
 	{
 		return Radian(asinf(_sine));
 	}
 
-	Radian Atan(float _tangent)
+	Radian<float> Atan(float _tangent)
 	{
 		return Radian(atanf(_tangent));
 	}
 
-	Radian Atan2(float _y, float _x)
+	Radian<float> Atan2(float _y, float _x)
 	{
 		// Handle x == 0 case
 		if (AlmostEqual(_x, 0.0f))

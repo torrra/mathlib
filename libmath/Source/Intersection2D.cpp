@@ -407,7 +407,7 @@ namespace ion::math
 
 
 	OBBCollider2D::OBBCollider2D
-	(const Vector2& _pos, const Vector2& _extents, Radian _angle)
+	(const Vector2& _pos, const Vector2& _extents, Radian<float> _angle)
 		: m_position(_pos), m_extents(_extents), m_rotation(_angle)
 	{
 	}
@@ -429,7 +429,7 @@ namespace ion::math
 		return m_extents;
 	}
 
-	Radian& OBBCollider2D::Rotation(void)
+	Radian<float>& OBBCollider2D::Rotation(void)
 	{
 		return m_rotation;
 	}
@@ -444,7 +444,7 @@ namespace ion::math
 		return m_extents;
 	}
 
-	Radian OBBCollider2D::GetRotation(void) const
+	Radian<float> OBBCollider2D::GetRotation(void) const
 	{
 		return m_rotation;
 	}

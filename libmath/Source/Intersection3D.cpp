@@ -234,7 +234,7 @@ namespace ion::math
 
 	OBBCollider3D::OBBCollider3D
 	(const Vector3& _pos, const Vector3& _extents,
-	 Radian _angleX, Radian _angleY, Radian _angleZ)
+	 Radian<float> _angleX, Radian<float> _angleY, Radian<float> _angleZ)
 		: m_position(_pos), m_extents(_extents)
 	{
 		m_rotation[0] = _angleX;
@@ -242,32 +242,32 @@ namespace ion::math
 		m_rotation[2] = _angleZ;
 	}
 
-	Radian& OBBCollider3D::RotationX(void)
+	Radian<float>& OBBCollider3D::RotationX(void)
 	{
 		return m_rotation[0];
 	}
 
-	Radian& OBBCollider3D::RotationY(void)
+	Radian<float>& OBBCollider3D::RotationY(void)
 	{
 		return m_rotation[1];
 	}
 
-	Radian& OBBCollider3D::RotationZ(void)
+	Radian<float>& OBBCollider3D::RotationZ(void)
 	{
 		return m_rotation[2];
 	}
 
-	Radian OBBCollider3D::GetRotationX(void)
+	Radian<float> OBBCollider3D::GetRotationX(void) const
 	{
 		return m_rotation[0];
 	}
 
-	Radian OBBCollider3D::GetRotationY(void)
+	Radian<float> OBBCollider3D::GetRotationY(void) const
 	{
 		return m_rotation[1];
 	}
 
-	Radian OBBCollider3D::GetRotationZ(void)
+	Radian<float> OBBCollider3D::GetRotationZ(void) const
 	{
 		return m_rotation[2];
 	}

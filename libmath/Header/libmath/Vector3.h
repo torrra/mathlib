@@ -20,12 +20,12 @@ namespace ion::math
 						~Vector3(void) = default;
 
 		// Get angle from this vector to another
-		Radian			AngleFrom(const Vector3& _other)					const;
+		Radian<float>			AngleFrom(const Vector3& _other)					const;
 
 		// Get angle from this vector to another unit vector
 		// Should be used if this vector and the other are both
 		// unit vectors
-		Radian			AngleFromUnit(const Vector3& _other)				const;
+		Radian<float>			AngleFromUnit(const Vector3& _other)				const;
 
 		// Compute cross product with another
 		// this x other
@@ -74,10 +74,10 @@ namespace ion::math
 		void			ReflectOntoUnit(const Vector3& _axis);
 
 		// Rotate this vector around the all 3 axes
-		void			Rotate(Radian _angleX, Radian _angleY, Radian _angleZ);
+		void			Rotate(Radian<float> _angleX, Radian<float> _angleY, Radian<float> _angleZ);
 
 		// Rotate this vector around an arbitrary axis
-		void			Rotate(Radian _angle, const Vector3& _axis);
+		void			Rotate(Radian<float> _angle, const Vector3& _axis);
 
 		// Multiply this vector's components by another's
 		void			Scale(const Vector3& _other);
@@ -179,12 +179,12 @@ namespace ion::math
 
 	Vector3				Rotate
 	(
-		const Vector3& _target, Radian _angleX, Radian _angleY, Radian _angleZ
+		const Vector3& _target, Radian<float> _angleX, Radian<float> _angleY, Radian<float> _angleZ
 	);
 
 	Vector3				Rotate
 	(
-		const Vector3& _target, Radian _angle, const Vector3& _axis
+		const Vector3& _target, Radian<float> _angle, const Vector3& _axis
 	);
 
 	// Send a vector's components to an output stream

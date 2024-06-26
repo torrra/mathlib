@@ -60,7 +60,7 @@ namespace ion::math
         float const*    operator[](int _index)              const;
 
         // Get a 2x2 rotation matrix from an angle in radians
-        static Matrix2  Rotate(Radian _angle);
+        static Matrix2  Rotate(Radian<float> _angle);
 
     private:
 

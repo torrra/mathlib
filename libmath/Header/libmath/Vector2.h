@@ -20,12 +20,12 @@ namespace ion::math
 						~Vector2(void) = default;
 
 		// Get angle from this vector to another
-		Radian			AngleFrom(const Vector2& _other)					const;
+		Radian<float>			AngleFrom(const Vector2& _other)					const;
 
 		// Get angle from this vector to another unit vector
 		// Should be used if this vector and the other are both
 		// unit vectors
-		Radian			AngleFromUnit(const Vector2& _other)				const;
+		Radian<float>			AngleFromUnit(const Vector2& _other)				const;
 
 		// Compute cross product with another
 		// this x other
@@ -71,7 +71,7 @@ namespace ion::math
 		void			ReflectOntoUnit(const Vector2& _axis);
 
 		// Rotate this point around the z axis
-		void			Rotate(Radian _angle);
+		void			Rotate(Radian<float> _angle);
 
 		// Multiply this vector's components by another's
 		void			Scale(const Vector2& _other);
@@ -166,7 +166,7 @@ namespace ion::math
 	float				Distance(const Vector2& _start, const Vector2& _end);
 	float				DistanceSquared(const Vector2& _start, const Vector2& _end);
 
-	Vector2				Rotate(const Vector2& _target, Radian _angle);
+	Vector2				Rotate(const Vector2& _target, Radian<float> _angle);
 
 	// Send a vector's components to an output stream
 	std::ostream&		operator<<(std::ostream& _os, Vector2 const& _vector);

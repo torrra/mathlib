@@ -22,12 +22,12 @@ namespace ion::math
 						~Vector4(void) = default;
 
 		// Get angle from this vector to another
-		Radian			AngleFrom(const Vector4& _other)					const;
+		Radian<float>			AngleFrom(const Vector4& _other)					const;
 
 		// Get angle from this vector to another unit vector
 		// Should be used if this vector and the other are both
 		// unit vectors
-		Radian			AngleFromUnit(const Vector4& _other)				const;
+		Radian<float>			AngleFromUnit(const Vector4& _other)				const;
 
 		// Get distance between 2 points
 		float			DistanceFrom(const Vector4& _other)					const;
@@ -79,10 +79,10 @@ namespace ion::math
 		void			ReflectOntoUnit(const Vector4& _axis);
 
 		// Rotate this vector around the all 3 axes (not w)
-		void			Rotate(Radian _angleX, Radian _angleY, Radian _angleZ);
+		void			Rotate(Radian<float> _angleX, Radian<float> _angleY, Radian<float> _angleZ);
 
 		// Rotate this vector around an arbitrary 3D axis
-		void			Rotate(Radian _angle, const Vector3& _axis);
+		void			Rotate(Radian<float> _angle, const Vector3& _axis);
 
 		// Multiply this vector's components by another's
 		void			Scale(const Vector4& _other);
@@ -189,12 +189,12 @@ namespace ion::math
 
 	Vector4				Rotate
 	(
-		const Vector4& _target, Radian _angleX, Radian _angleY, Radian _angleZ
+		const Vector4& _target, Radian<float> _angleX, Radian<float> _angleY, Radian<float> _angleZ
 	);
 
 	Vector4				Rotate
 	(
-		const Vector4& _target, Radian _angle, const Vector3& _axis
+		const Vector4& _target, Radian<float> _angle, const Vector3& _axis
 	);
 
 	// Send a vector's components to an output stream

@@ -184,7 +184,7 @@ namespace ion::math
     }
 
 
-    Matrix2 Matrix2::Rotate(Radian _angle)
+    Matrix2 Matrix2::Rotate(Radian<float> _angle)
     {
         float   cosAngle = Cos(_angle), sinAngle = Sin(_angle);
 

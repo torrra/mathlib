@@ -236,7 +236,7 @@ TEST_CASE("Radian", "[all][angle]")
 		literal = 1_rad;
 		CHECK(literal.Raw() == 1.f);
 
-		CHECK(sizeof(LibMath::Radian) == sizeof(float));
+		CHECK(sizeof(LibMath::Radian<float>) == sizeof(float));
 	}
 
 	SECTION("Accessor")
@@ -407,7 +407,7 @@ TEST_CASE("Radian", "[all][angle]")
 
 	SECTION("Conversion")
 	{
-		LibMath::Radian radian{ LibMath::Degree{ 60.f } };
+		LibMath::Radian<float> radian{ LibMath::Degree{ 60.f } };
 		CHECK(radian.Raw() == Catch::Approx(glm::radians(60.f)));
 
 		LibMath::Degree degree{ LibMath::Radian{ 1.2f } };

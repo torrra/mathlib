@@ -25,7 +25,7 @@ namespace ion::math
 	Vector2::Vector2(const Vector2& _other)
 		: m_x(_other.m_x), m_y(_other.m_y) {}
 
-	Radian Vector2::AngleFrom(const Vector2& _other) const
+	Radian<float> Vector2::AngleFrom(const Vector2& _other) const
 	{
 		float		magnitudes = MagnitudeSquared() * _other.MagnitudeSquared();
 
@@ -37,7 +37,7 @@ namespace ion::math
 		return Acos(Dot(_other) / magnitudes);
 	}
 
-	Radian Vector2::AngleFromUnit(const Vector2& _other) const
+	Radian<float> Vector2::AngleFromUnit(const Vector2& _other) const
 	{
 		// Clamp dot to avoid acos domain error (NaN result)
 		// and call acos as both vectors are assumed to be
@@ -169,7 +169,7 @@ namespace ion::math
 	}
 
 
-	void Vector2::Rotate(Radian _angle)
+	void Vector2::Rotate(Radian<float> _angle)
 	{
 		float		cosAngle = Cos(_angle),
 					sinAngle = Sin(_angle);
@@ -360,7 +360,7 @@ namespace ion::math
 		return _start.DistanceSquaredFrom(_end);
 	}
 
-	Vector2 Rotate(const Vector2& _target, Radian _angle)
+	Vector2 Rotate(const Vector2& _target, Radian<float> _angle)
 	{
 		Vector2		result = _target;
 
