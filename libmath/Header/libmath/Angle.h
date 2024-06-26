@@ -28,8 +28,8 @@ CScalarType is a template constraint that only accepts numeric data types
 #define __ANGLE_H__
 
 
-#include "MathGeneric.hpp"
-#include "Arithmetic.h"
+#include "libmath/MathGeneric.hpp"
+#include "libmath/Arithmetic.h"
 
 
 #define MTH_PI				3.141592653589f
