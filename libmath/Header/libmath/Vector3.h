@@ -38,10 +38,6 @@ CScalarType is a template constraint that only accepts numeric data types
 #include "libmath/Vector2.h"
 
 
-#ifndef FLT_EPSILON
-#include <limits>
-#define FLT_EPSILON 	std::numeric_limits<TValueType>::epsilon()
-#endif
 
 namespace ion::math
 {
@@ -451,7 +447,7 @@ namespace ion::math
 	{
 		TValueType		invMagnitude = Magnitude();
 
-		if (AlmostEqual(invMagnitude, 0.f, FLT_EPSILON))
+		if (AlmostEqual(invMagnitude, 0.f, std::numeric_limits<float>::epsilon()))
 		{
 			throw std::logic_error("Cannot divide by zero magnitude");
 		}
