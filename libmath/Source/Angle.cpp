@@ -16,10 +16,10 @@ namespace ion::math
 	Degree::Degree(const Degree& _other)
 		: m_value(_other.m_value) {}
 
-	Degree::operator Radian() const
+	Degree::operator Radian<float>() const
 	{
 		// Convert deg value to rad
-		return Radian(Rad(false));
+		return Radian<float>(Rad(false));
 	}
 
 	float Degree::Deg(bool _wrap180) const
@@ -250,258 +250,258 @@ namespace ion::math
 		return Degree(static_cast<float>(_val));
 	}
 
-	Radian Literal::operator""_rad(long double _val)
-	{
-		// Get numeric value from literal
-		return Radian(static_cast<float>(_val));
-	}
+	//Radian Literal::operator""_rad(long double _val)
+	//{
+	//	// Get numeric value from literal
+	//	return Radian(static_cast<float>(_val));
+	//}
 
-	Radian Literal::operator""_rad(unsigned long long int _val)
-	{
-		// Get numeric value from literal
-		return Radian(static_cast<float>(_val));
-	}
+	//Radian Literal::operator""_rad(unsigned long long int _val)
+	//{
+	//	// Get numeric value from literal
+	//	return Radian(static_cast<float>(_val));
+	//}
 
-	Radian::Radian(float _val)
-		: m_value(_val) {}
+	//Radian::Radian(float _val)
+	//	: m_value(_val) {}
 
-	Radian::Radian(const Radian & _other)
-	: m_value(_other.m_value) {}
+	//Radian::Radian(const Radian & _other)
+	//: m_value(_other.m_value) {}
 
-	Radian::operator Degree(void) const
-	{
-		// Converti value to radians and construct object
-		return Degree(Deg(false));
-	}
+	//Radian::operator Degree(void) const
+	//{
+	//	// Converti value to radians and construct object
+	//	return Degree(Deg(false));
+	//}
 
-	float Radian::Deg(bool _wrap180) const
-	{
-		// Wrap value depending on argument
-		if (_wrap180)
-			return ion::math::Wrap(m_value * RAD2DEG, -HALF_CIRCLE_DEG, HALF_CIRCLE_DEG);
+	//float Radian::Deg(bool _wrap180) const
+	//{
+	//	// Wrap value depending on argument
+	//	if (_wrap180)
+	//		return ion::math::Wrap(m_value * RAD2DEG, -HALF_CIRCLE_DEG, HALF_CIRCLE_DEG);
 
-		else
-			return ion::math::Wrap(m_value * RAD2DEG, 0.f, FULL_CIRCLE_DEG);
-	}
+	//	else
+	//		return ion::math::Wrap(m_value * RAD2DEG, 0.f, FULL_CIRCLE_DEG);
+	//}
 
-	float Radian::Rad(bool _wrapPi) const
-	{
-		// Use custom wrap as libmath wrap is not precise enough
+	//float Radian::Rad(bool _wrapPi) const
+	//{
+	//	// Use custom wrap as libmath wrap is not precise enough
 
-		// Treat value as positive
-		float			absValue = Absolute(m_value);
+	//	// Treat value as positive
+	//	float			absValue = Absolute(m_value);
 
-		// Wrap around unit circle
-		if (absValue >= RAD_CIRCLE)
-		{
-			float	circleCount = Floor(absValue / RAD_CIRCLE);
+	//	// Wrap around unit circle
+	//	if (absValue >= RAD_CIRCLE)
+	//	{
+	//		float	circleCount = Floor(absValue / RAD_CIRCLE);
 
-			absValue -= circleCount * RAD_CIRCLE;
-		}
+	//		absValue -= circleCount * RAD_CIRCLE;
+	//	}
 
-		// Wrap again if range is -pi, pi
-		if (_wrapPi)
-		{
-			if (absValue >= MTH_PI)
-				absValue -= RAD_CIRCLE;
+	//	// Wrap again if range is -pi, pi
+	//	if (_wrapPi)
+	//	{
+	//		if (absValue >= MTH_PI)
+	//			absValue -= RAD_CIRCLE;
 
-			// Restore sign
-			if (m_value < 0.f && absValue > 0.f)
-				absValue = -absValue;
+	//		// Restore sign
+	//		if (m_value < 0.f && absValue > 0.f)
+	//			absValue = -absValue;
 
-		}
+	//	}
 
-		// Add negative value to circle if range is 0, 2pi
-		else if (m_value < 0.f)
-		{
-			absValue = RAD_CIRCLE - absValue;
-		}
+	//	// Add negative value to circle if range is 0, 2pi
+	//	else if (m_value < 0.f)
+	//	{
+	//		absValue = RAD_CIRCLE - absValue;
+	//	}
 
-		return absValue;
-
-
-	}
-
-	float Radian::Raw() const
-	{
-		return m_value;
-	}
-
-	void Radian::Wrap(bool _wrap180)
-	{
-		// Set raw value to wrapped value
-		m_value = Rad(_wrap180);
-	}
-
-	Radian& Radian::operator=(const Radian& _rhs)
-	{
-		// Copy assignment
-
-		m_value = _rhs.m_value;
-
-		return *this;
-	}
-
-	Radian& Radian::operator=(float _rhs)
-	{
-		// Copy assignment
-
-		m_value = _rhs;
-
-		return *this;
-	}
-
-	Radian Radian::operator+(const Radian& _rhs) const
-	{
-		// Addition
-
-		return Radian(m_value + _rhs.m_value);
-	}
-
-	Radian Radian::operator-(const Radian& _rhs) const
-	{
-		// Subtraction
-		return Radian(m_value - _rhs.m_value);
-	}
-
-	Radian Radian::operator*(const Radian& _rhs) const
-	{
-		// Multiplication
-		return Radian(m_value * _rhs.m_value);
-	}
-
-	Radian Radian::operator/(const Radian& _rhs) const
-	{
-		// Division
-		return Radian(m_value / _rhs.m_value);
-	}
-
-	Radian& Radian::operator+=(const Radian& _rhs)
-	{
-		// Addition assignment
-		m_value += _rhs.m_value;
-
-		return *this;
-	}
-
-	Radian& Radian::operator-=(const Radian& _rhs)
-	{
-		// Subtraction assignment
-		m_value -= _rhs.m_value;
-
-		return *this;
-	}
-
-	Radian& Radian::operator*=(const Radian& _rhs)
-	{
-		// Multiplication assignment
-		m_value *= _rhs.m_value;
-
-		return *this;
-	}
-
-	Radian& Radian::operator/=(const Radian& _rhs)
-	{
-		// Division assignment
-		m_value /= _rhs.m_value;
-
-		return *this;
-	}
-
-	Radian Radian::operator+(float _rhs) const
-	{
-		// Addition
-		return Radian(m_value + _rhs);
-	}
-
-	Radian Radian::operator-(float _rhs) const
-	{
-		// Subtraction
-		return Radian(m_value - _rhs);
-	}
-
-	Radian Radian::operator*(float _rhs) const
-	{
-		// Multiplication
-		return Radian(m_value * _rhs);
-	}
-
-	Radian Radian::operator/(float _rhs) const
-	{
-		// Divition
-		return Radian(m_value / _rhs);
-	}
-
-	Radian& Radian::operator+=(float _rhs)
-	{
-		// Addition assignment
-		m_value += _rhs;
-
-		return *this;
-	}
-
-	Radian& Radian::operator-=(float _rhs)
-	{
-		// Subtrction assignment
-		m_value -= _rhs;
-
-		return *this;
-	}
-
-	Radian& Radian::operator*=(float _rhs)
-	{
-		// Multiplication assignment
-		m_value *= _rhs;
-
-		return *this;
-	}
-
-	Radian& Radian::operator/=(float _rhs)
-	{
-		// Division assignment
-		m_value /= _rhs;
-
-		return *this;
-	}
-
-	Radian Radian::operator-(void) const
-	{
-		// Flip sign
-		return Radian(-m_value);
-	}
-
-	bool Radian::operator==(const Radian& _rhs) const
-	{
-		return AlmostEqual
-		(
-			Rad(false),
-			_rhs.Rad(false),
-			RAD_PRECISION
-		);
-	}
+	//	return absValue;
 
 
-	bool Radian::operator!=(const Radian& _rhs) const
-	{
-		// Not equal
-		return !(*this == _rhs);
-	}
+	//}
 
-	bool Radian::operator==(float _rhs) const
-	{
-		return AlmostEqual
-		(
-			Rad(false),
-			_rhs,
-			RAD_PRECISION
-		);
-	}
+	//float Radian::Raw() const
+	//{
+	//	return m_value;
+	//}
 
-	bool Radian::operator!=(float _rhs) const
-	{
-		// Not equal
-		return !(*this == _rhs);
-	}
+	//void Radian::Wrap(bool _wrap180)
+	//{
+	//	// Set raw value to wrapped value
+	//	m_value = Rad(_wrap180);
+	//}
+
+	//Radian& Radian::operator=(const Radian& _rhs)
+	//{
+	//	// Copy assignment
+
+	//	m_value = _rhs.m_value;
+
+	//	return *this;
+	//}
+
+	//Radian& Radian::operator=(float _rhs)
+	//{
+	//	// Copy assignment
+
+	//	m_value = _rhs;
+
+	//	return *this;
+	//}
+
+	//Radian Radian::operator+(const Radian& _rhs) const
+	//{
+	//	// Addition
+
+	//	return Radian(m_value + _rhs.m_value);
+	//}
+
+	//Radian Radian::operator-(const Radian& _rhs) const
+	//{
+	//	// Subtraction
+	//	return Radian(m_value - _rhs.m_value);
+	//}
+
+	//Radian Radian::operator*(const Radian& _rhs) const
+	//{
+	//	// Multiplication
+	//	return Radian(m_value * _rhs.m_value);
+	//}
+
+	//Radian Radian::operator/(const Radian& _rhs) const
+	//{
+	//	// Division
+	//	return Radian(m_value / _rhs.m_value);
+	//}
+
+	//Radian& Radian::operator+=(const Radian& _rhs)
+	//{
+	//	// Addition assignment
+	//	m_value += _rhs.m_value;
+
+	//	return *this;
+	//}
+
+	//Radian& Radian::operator-=(const Radian& _rhs)
+	//{
+	//	// Subtraction assignment
+	//	m_value -= _rhs.m_value;
+
+	//	return *this;
+	//}
+
+	//Radian& Radian::operator*=(const Radian& _rhs)
+	//{
+	//	// Multiplication assignment
+	//	m_value *= _rhs.m_value;
+
+	//	return *this;
+	//}
+
+	//Radian& Radian::operator/=(const Radian& _rhs)
+	//{
+	//	// Division assignment
+	//	m_value /= _rhs.m_value;
+
+	//	return *this;
+	//}
+
+	//Radian Radian::operator+(float _rhs) const
+	//{
+	//	// Addition
+	//	return Radian(m_value + _rhs);
+	//}
+
+	//Radian Radian::operator-(float _rhs) const
+	//{
+	//	// Subtraction
+	//	return Radian(m_value - _rhs);
+	//}
+
+	//Radian Radian::operator*(float _rhs) const
+	//{
+	//	// Multiplication
+	//	return Radian(m_value * _rhs);
+	//}
+
+	//Radian Radian::operator/(float _rhs) const
+	//{
+	//	// Divition
+	//	return Radian(m_value / _rhs);
+	//}
+
+	//Radian& Radian::operator+=(float _rhs)
+	//{
+	//	// Addition assignment
+	//	m_value += _rhs;
+
+	//	return *this;
+	//}
+
+	//Radian& Radian::operator-=(float _rhs)
+	//{
+	//	// Subtrction assignment
+	//	m_value -= _rhs;
+
+	//	return *this;
+	//}
+
+	//Radian& Radian::operator*=(float _rhs)
+	//{
+	//	// Multiplication assignment
+	//	m_value *= _rhs;
+
+	//	return *this;
+	//}
+
+	//Radian& Radian::operator/=(float _rhs)
+	//{
+	//	// Division assignment
+	//	m_value /= _rhs;
+
+	//	return *this;
+	//}
+
+	//Radian Radian::operator-(void) const
+	//{
+	//	// Flip sign
+	//	return Radian(-m_value);
+	//}
+
+	//bool Radian::operator==(const Radian& _rhs) const
+	//{
+	//	return AlmostEqual
+	//	(
+	//		Rad(false),
+	//		_rhs.Rad(false),
+	//		RAD_PRECISION
+	//	);
+	//}
+
+
+	//bool Radian::operator!=(const Radian& _rhs) const
+	//{
+	//	// Not equal
+	//	return !(*this == _rhs);
+	//}
+
+	//bool Radian::operator==(float _rhs) const
+	//{
+	//	return AlmostEqual
+	//	(
+	//		Rad(false),
+	//		_rhs,
+	//		RAD_PRECISION
+	//	);
+	//}
+
+	//bool Radian::operator!=(float _rhs) const
+	//{
+	//	// Not equal
+	//	return !(*this == _rhs);
+	//}
 
 
 }
