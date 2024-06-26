@@ -236,7 +236,7 @@ namespace ion::math
 		*this = rotMatrix * copy;
 	}
 
-	void Vector4::Rotate(Radian<float> _angle, const Vector3& _axis)
+	void Vector4::Rotate(Radian<float> _angle, const Vector3<float>& _axis)
 	{
 		// Ignore w axis
 		Vector3		self3D = { m_x, m_y, m_z };
@@ -603,7 +603,7 @@ namespace ion::math
 		return copy;
 	}
 
-	Vector4 Rotate(const Vector4& _target, Radian<float> _angle, const Vector3& _axis)
+	Vector4 Rotate(const Vector4& _target, Radian<float> _angle, const Vector3<float>& _axis)
 	{
 		Vector4		copy = _target;
 

@@ -19,7 +19,7 @@ namespace ion::math
 
 						AABBCollider3D(void) = default;
 
-						AABBCollider3D(const Vector3& _pos, const Vector3& _size);
+						AABBCollider3D(const Vector3<float>& _pos, const Vector3<float>& _size);
 						AABBCollider3D(const AABBCollider3D& _other) = default;
 
 						~AABBCollider3D(void) = default;
@@ -30,26 +30,26 @@ namespace ion::math
 			bool		CheckCollision(const AABBCollider3D& _other)	const;
 			bool		CheckCollision (const SphereCollider3D& _other)	const;
 
-			bool		PointInBox(const Vector3& _point)				const;
+			bool		PointInBox(const Vector3<float>& _point)				const;
 
 			// Accessors
 
-			Vector3&	Position(void);
-			Vector3&	Extents(void);
+			Vector3<float>&	Position(void);
+			Vector3<float>&	Extents(void);
 
-			Vector3		GetPosition(void)								const;
-			Vector3		GetExtents(void)								const;
+			Vector3<float>		GetPosition(void)								const;
+			Vector3<float>		GetExtents(void)								const;
 
 			// Calculate min and max vertex coords.
 
-			Vector3		GetMin(void)									const;
-			Vector3		GetMax(void)									const;
+			Vector3<float>		GetMin(void)									const;
+			Vector3<float>		GetMax(void)									const;
 
 
 	private:
 
-		Vector3		m_position;
-		Vector3		m_extents;
+		Vector3<float>		m_position;
+		Vector3<float>		m_extents;
 
 	};
 
@@ -61,7 +61,7 @@ namespace ion::math
 		// Constructors / destructor
 
 					SphereCollider3D(void) = default;
-					SphereCollider3D(const Vector3& _pos, float _radius);
+					SphereCollider3D(const Vector3<float>& _pos, float _radius);
 
 					SphereCollider3D
 					(const SphereCollider3D& _other) = default;
@@ -74,21 +74,21 @@ namespace ion::math
 		bool		CheckCollision(const SphereCollider3D& _other)	const;
 
 		// Point vs sphere
-		bool		PointInSphere(const Vector3& _point)			const;
+		bool		PointInSphere(const Vector3<float>& _point)			const;
 
 
 		// Accessors
 
-		Vector3&	Position(void);
+		Vector3<float>&	Position(void);
 		float&		Radius(void);
 
-		Vector3		GetPosition(void)								const;
+		Vector3<float>		GetPosition(void)								const;
 		float		GetRadius(void)									const;
 		float		GetRadiusSquared(void)							const;
 
 	private:
 
-		Vector3 m_position;
+		Vector3<float> m_position{};
 		float	m_radius = 0.f;
 	};
 
@@ -99,7 +99,7 @@ namespace ion::math
 		// Constructors / destructor
 
 					Ray3D(void) = delete;
-					Ray3D(const Vector3& _pos, const Vector3& _dir);
+					Ray3D(const Vector3<float>& _pos, const Vector3<float>& _dir);
 					Ray3D(const Ray3D& _other) = default;
 
 					~Ray3D(void) = default;
@@ -114,23 +114,23 @@ namespace ion::math
 
 		// Accessors
 
-		Vector3&	Origin(void);
-		Vector3&	Direction(void);
+		Vector3<float>&	Origin(void);
+		Vector3<float>&	Direction(void);
 
-		Vector3		GetOrigin(void)									 const;
-		Vector3		GetDirection(void)								 const;
-		Vector3		GetInverseDir(void)								 const;
+		Vector3<float>		GetOrigin(void)									 const;
+		Vector3<float>		GetDirection(void)								 const;
+		Vector3<float>		GetInverseDir(void)								 const;
 
 
 	private:
 		// Origin of ray
-		Vector3    m_origin;
+		Vector3<float>    m_origin;
 
 		// Direction unit vector
-		Vector3    m_direction;
+		Vector3<float>    m_direction;
 
 		// 1 / direction
-		Vector3    m_inverseDir;
+		Vector3<float>    m_inverseDir;
 	};
 
 
@@ -144,7 +144,7 @@ namespace ion::math
 					OBBCollider3D(void) = default;
 
 					OBBCollider3D
-					(const Vector3& _pos, const Vector3& _extents,
+					(const Vector3<float>& _pos, const Vector3<float>& _extents,
 					 Radian<float> _angleX, Radian<float> _angleY, Radian<float> _angleZ);
 
 					OBBCollider3D(const OBBCollider3D& _other) = default;
@@ -160,25 +160,25 @@ namespace ion::math
 		Radian<float>		GetRotationY(void) const;
 		Radian<float>		GetRotationZ(void) const;
 
-		Vector3&	Position(void);
-		Vector3&	Extents(void);
+		Vector3<float>&	Position(void);
+		Vector3<float>&	Extents(void);
 
 		// Calculate rotation matrix from 3 object's 3 angles
 		Matrix3 	RotationMatrix(void)							const;
 
-		Vector3		GetPosition(void)								const;
-		Vector3		GetExtents(void)								const;
+		Vector3<float>		GetPosition(void)								const;
+		Vector3<float>		GetExtents(void)								const;
 
 		// Calculate rotated min and max vertices
 
-		Vector3		GetMin(void)									const;
-		Vector3		GetMax(void)									const;
+		Vector3<float>		GetMin(void)									const;
+		Vector3<float>		GetMax(void)									const;
 
 
 	private:
 
-		Vector3		m_position;
-		Vector3		m_extents;
+		Vector3<float>		m_position;
+		Vector3<float>		m_extents;
 		Radian<float>		m_rotation[3];
 	};
 
@@ -189,16 +189,16 @@ namespace ion::math
 		// Constructors / destructor
 
 					Line3D(void) = default;
-					Line3D(const Vector3& _start, const Vector3& _end);
+					Line3D(const Vector3<float>& _start, const Vector3<float>& _end);
 					Line3D(const Line3D& _other) = default;
 
 		// Accessors
 
-		Vector3&	Start(void);
-		Vector3&	End(void);
+		Vector3<float>&	Start(void);
+		Vector3<float>&	End(void);
 
-		Vector3		GetStart(void)												const;
-		Vector3		GetEnd(void)												const;
+		Vector3<float>		GetStart(void)												const;
+		Vector3<float>		GetEnd(void)												const;
 
 		// Intersection checks
 
@@ -212,15 +212,15 @@ namespace ion::math
 
 	private:
 
-		Vector3		m_start;
-		Vector3		m_end;
+		Vector3<float>		m_start;
+		Vector3<float>		m_end;
 	};
 
 
 	using Box = AABBCollider3D;
 	using OrientedBox = OBBCollider3D;
 
-	using Point3D = Vector3;
+	using Point3D = Vector3<float>;
 	using Sphere = SphereCollider3D;
 
 }

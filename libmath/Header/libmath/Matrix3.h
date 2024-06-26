@@ -55,7 +55,7 @@ namespace ion::math
         Matrix3         operator-(const Matrix3& _rhs)      const;
         Matrix3         operator*(const Matrix3& _rhs)      const;
 
-        Vector3         operator*(const Vector3& _rhs)      const;
+        Vector3<float>         operator*(const Vector3<float>& _rhs)      const;
 
         // Multiply all numbers of a copy of this matrix by a scalar factor
         Matrix3         operator*(float _factor)            const;

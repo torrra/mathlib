@@ -82,7 +82,7 @@ namespace ion::math
 		void			Rotate(Radian<float> _angleX, Radian<float> _angleY, Radian<float> _angleZ);
 
 		// Rotate this vector around an arbitrary 3D axis
-		void			Rotate(Radian<float> _angle, const Vector3& _axis);
+		void			Rotate(Radian<float> _angle, const Vector3<float>& _axis);
 
 		// Multiply this vector's components by another's
 		void			Scale(const Vector4& _other);
@@ -194,7 +194,7 @@ namespace ion::math
 
 	Vector4				Rotate
 	(
-		const Vector4& _target, Radian<float> _angle, const Vector3& _axis
+		const Vector4& _target, Radian<float> _angle, const Vector3<float>& _axis
 	);
 
 	// Send a vector's components to an output stream

@@ -353,10 +353,10 @@ namespace ion::math
 	}
 
 
-	Vector3  Matrix3::operator*(const Vector3& _rhs) const
+	Vector3<float>  Matrix3::operator*(const Vector3<float>& _rhs) const
 	{
-		Vector3		result;
-		float		num;
+		Vector3<float>		result(0.f);
+		float				num;
 
 		// Multiply vector by *this object
 		for (int row = 0; row < 3; ++row)

@@ -24,17 +24,18 @@ CHECK(vector[0] == Catch::Approx(vectorGlm[0]));\
 CHECK(vector[1] == Catch::Approx(vectorGlm[1]));\
 CHECK(vector[2] == Catch::Approx(vectorGlm[2]))
 
-TEST_CASE("Vector3", "[.all][vector][Vector3]")
+TEST_CASE("Vector3", "[all][vector][Vector3]")
 {
 	SECTION("Instantiation")
 	{
 		// destructor
 		{
+			[[maybe_unused]]
 			LibMath::Vector3 temp;
 		}
 
 		// default constructor
-		LibMath::Vector3 empty;
+		LibMath::Vector3 empty{};
 		glm::vec3 emptyGlm{};
 		CHECK_VECTOR3(empty, emptyGlm);
 
@@ -58,8 +59,8 @@ TEST_CASE("Vector3", "[.all][vector][Vector3]")
 		CHECK_VECTOR3(empty, emptyGlm);
 
 		// OpenGL compatibility
-		CHECK(sizeof(LibMath::Vector3) == sizeof(glm::vec3));
-		CHECK(memcmp(&allParam, &allParamGlm, sizeof(LibMath::Vector3)) == 0);
+		CHECK(sizeof(LibMath::Vector3<float>) == sizeof(glm::vec3));
+		CHECK(memcmp(&allParam, &allParamGlm, sizeof(LibMath::Vector3<float>)) == 0);
 	}
 
 	SECTION("Accessor")
@@ -70,7 +71,7 @@ TEST_CASE("Vector3", "[.all][vector][Vector3]")
 		LibMath::Vector3 vector{ x, y, z };
 
 		{
-			LibMath::Vector3 const& vectorConst = vector;
+			LibMath::Vector3<float> const& vectorConst = vector;
 			CHECK(vectorConst[0] == x);
 			CHECK(vectorConst[1] == y);
 			CHECK(vectorConst[2] == z);
@@ -131,21 +132,21 @@ TEST_CASE("Vector3", "[.all][vector][Vector3]")
 
 	SECTION("Constant")
 	{
-		CHECK_VECTOR3(LibMath::Vector3::Back(), glm::vec3(0.f, 0.f, -1.f));
+		CHECK_VECTOR3(LibMath::Vector3<float>::Back(), glm::vec3(0.f, 0.f, -1.f));
 
-		CHECK_VECTOR3(LibMath::Vector3::Down(), glm::vec3(0.f, -1.f, 0.f));
+		CHECK_VECTOR3(LibMath::Vector3<float>::Down(), glm::vec3(0.f, -1.f, 0.f));
 
-		CHECK_VECTOR3(LibMath::Vector3::Front(), glm::vec3(0.f, 0.f, 1.f));
+		CHECK_VECTOR3(LibMath::Vector3<float>::Front(), glm::vec3(0.f, 0.f, 1.f));
 
-		CHECK_VECTOR3(LibMath::Vector3::Left(), glm::vec3(-1.f, 0.f, 0.f));
+		CHECK_VECTOR3(LibMath::Vector3<float>::Left(), glm::vec3(-1.f, 0.f, 0.f));
 
-		CHECK_VECTOR3(LibMath::Vector3::One(), glm::vec3(1.f, 1.f, 1.f));
+		CHECK_VECTOR3(LibMath::Vector3<float>::One(), glm::vec3(1.f, 1.f, 1.f));
 
-		CHECK_VECTOR3(LibMath::Vector3::Right(), glm::vec3(1.f, 0.f, 0.f));
+		CHECK_VECTOR3(LibMath::Vector3<float>::Right(), glm::vec3(1.f, 0.f, 0.f));
 
-		CHECK_VECTOR3(LibMath::Vector3::Up(), glm::vec3(0.f, 1.f, 0.f));
+		CHECK_VECTOR3(LibMath::Vector3<float>::Up(), glm::vec3(0.f, 1.f, 0.f));
 
-		CHECK_VECTOR3(LibMath::Vector3::Zero(), glm::vec3(0.f, 0.f, 0.f));
+		CHECK_VECTOR3(LibMath::Vector3<float>::Zero(), glm::vec3(0.f, 0.f, 0.f));
 	}
 
 	SECTION("Arithmetic")

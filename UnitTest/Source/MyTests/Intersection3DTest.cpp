@@ -21,7 +21,9 @@ TEST_CASE("Intersection3D", "[all][intersection]")
 
 		// Constructor / destructor
 		{
+			[[maybe_unused]]
 			ion::math::AABBCollider3D		discard;
+
 			ion::math::AABBCollider3D		copy = controlAABB;
 
 
@@ -132,7 +134,7 @@ TEST_CASE("Intersection3D", "[all][intersection]")
 		{
 			ion::math::Ray3D	copy = ray;
 
-			ion::math::Vector3	origin{ 4.f, 3.f, 2.f }, direction = ion::math::Normalize({ 2.f, 3.f, 2.f }),
+			ion::math::Vector3<float>	origin{ 4.f, 3.f, 2.f }, direction = ion::math::Normalize<float>({ 2.f, 3.f, 2.f }),
 				invDir{ 1.f / direction.X(), 1.f / direction.Y(), 1.f / direction.Z() };
 
 			CHECK(copy.Direction() == direction);
