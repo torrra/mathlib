@@ -20,7 +20,7 @@ namespace ion::math
 
 						AABBCollider2D(void) = default;
 
-						AABBCollider2D(const Vector2& _pos, const Vector2& _size);
+						AABBCollider2D(const Vector2<float>& _pos, const Vector2<float>& _size);
 						AABBCollider2D(const AABBCollider2D& _other) = default;
 
 						~AABBCollider2D(void) = default;
@@ -32,26 +32,26 @@ namespace ion::math
 			bool		CheckCollision (const CircleCollider2D& _other)	const;
 			bool		CheckCollision(const PolygonCollider2D& _other)	const;
 
-			bool		PointInBox(const Vector2& _point)				const;
+			bool		PointInBox(const Vector2<float>& _point)				const;
 
 			// Accessors
 
-			Vector2&	Position(void);
-			Vector2&	Extents(void);
+			Vector2<float>&	Position(void);
+			Vector2<float>&	Extents(void);
 
-			Vector2		GetPosition(void)								const;
-			Vector2		GetExtents(void)								const;
+			Vector2<float>		GetPosition(void)								const;
+			Vector2<float>		GetExtents(void)								const;
 
 			// Calculate min and max vertices
 
-			Vector2		GetMin(void)									const;
-			Vector2		GetMax(void)									const;
+			Vector2<float>		GetMin(void)									const;
+			Vector2<float>		GetMax(void)									const;
 
 
 	private:
 
-		Vector2		m_position;
-		Vector2		m_extents;
+		Vector2<float>		m_position;
+		Vector2<float>		m_extents;
 
 	};
 
@@ -63,7 +63,7 @@ namespace ion::math
 		// Constructors / destructors
 
 					CircleCollider2D(void) = default;
-					CircleCollider2D(const Vector2& _pos, float _radius);
+					CircleCollider2D(const Vector2<float>& _pos, float _radius);
 
 					CircleCollider2D
 					(const CircleCollider2D& _other) = default;
@@ -74,19 +74,19 @@ namespace ion::math
 		bool		CheckCollision(const OBBCollider2D& _other)		const;
 		bool		CheckCollision(const CircleCollider2D& _other)	const;
 
-		bool		PointInCircle(const Vector2& _point)			const;
+		bool		PointInCircle(const Vector2<float>& _point)			const;
 
 
-		Vector2&	Position(void);
+		Vector2<float>&	Position(void);
 		float&		Radius(void);
 
-		Vector2		GetPosition(void)								const;
+		Vector2<float>		GetPosition(void)								const;
 		float		GetRadius(void)									const;
 		float		GetRadiusSquared(void)							const;
 
 	private:
 
-		Vector2		m_position;
+		Vector2<float>		m_position;
 		float		m_radius = 0.f;
 	};
 
@@ -97,7 +97,7 @@ namespace ion::math
 		// Constructors / destructor
 
 					Ray2D(void) = delete;
-					Ray2D(const Vector2& _pos, const Vector2& _dir);
+					Ray2D(const Vector2<float>& _pos, const Vector2<float>& _dir);
 					Ray2D(const Ray2D& _other) = default;
 
 					~Ray2D(void) = default;
@@ -109,23 +109,23 @@ namespace ion::math
 
 		// Accessors
 
-		Vector2&	Origin(void);
-		Vector2&	Direction(void);
+		Vector2<float>&	Origin(void);
+		Vector2<float>&	Direction(void);
 
-		Vector2		GetOrigin(void)									 const;
-		Vector2		GetDirection(void)								 const;
-		Vector2		GetInverseDir(void)								 const;
+		Vector2<float>		GetOrigin(void)									 const;
+		Vector2<float>		GetDirection(void)								 const;
+		Vector2<float>		GetInverseDir(void)								 const;
 
 
 	private:
 		// Origin of ray
-		Vector2    m_origin;
+		Vector2<float>    m_origin;
 
 		// Direction unit vector
-		Vector2    m_direction;
+		Vector2<float>    m_direction;
 
 		// 1 / direction
-		Vector2    m_inverseDir;
+		Vector2<float>    m_inverseDir;
 	};
 
 	class PolygonCollider2D
@@ -135,7 +135,7 @@ namespace ion::math
 		// Constructors / destructor
 
 						PolygonCollider2D(void) = default;
-						PolygonCollider2D(Vector2 _vertices[], int _count);
+						PolygonCollider2D(Vector2<float> _vertices[], int _count);
 						PolygonCollider2D(const PolygonCollider2D& _other);
 						~PolygonCollider2D(void);
 
@@ -150,8 +150,8 @@ namespace ion::math
 		(const OBBCollider2D& _other)										const;
 
 
-		Vector2&		operator[](int _index);
-		Vector2			operator[](int _index)								const;
+		Vector2<float>&		operator[](int _index);
+		Vector2<float>			operator[](int _index)								const;
 
 	private:
 
@@ -162,12 +162,12 @@ namespace ion::math
 
 
 		void			MinMaxProjection
-		(const Vector2& _normal, float& _min, float& _max)					const;
+		(const Vector2<float>& _normal, float& _min, float& _max)					const;
 
 
 		bool			InternalSAT(const PolygonCollider2D& _poly2)		const;
 
-		Vector2*		m_vertices = nullptr;
+		Vector2<float>*		m_vertices = nullptr;
 		unsigned int	m_vertexCount = 0;
 
 
@@ -186,7 +186,7 @@ namespace ion::math
 					OBBCollider2D(void) = default;
 
 					OBBCollider2D
-					(const Vector2& _pos, const Vector2& _extents, Radian<float> _angle);
+					(const Vector2<float>& _pos, const Vector2<float>& _extents, Radian<float> _angle);
 
 					OBBCollider2D(const OBBCollider2D& _other) = default;
 					~OBBCollider2D(void) = default;
@@ -201,24 +201,24 @@ namespace ion::math
 
 		// Accessors
 
-		Vector2&	Position(void);
-		Vector2&	Extents(void);
+		Vector2<float>&	Position(void);
+		Vector2<float>&	Extents(void);
 
 		Radian<float>&		Rotation(void);
 
-		Vector2		GetPosition(void)									const;
-		Vector2		GetExtents(void)									const;
+		Vector2<float>		GetPosition(void)									const;
+		Vector2<float>		GetExtents(void)									const;
 
 		Radian<float>		GetRotation(void)									const;
 
-		Vector2		GetMin(void)										const;
-		Vector2		GetMax(void)										const;
+		Vector2<float>		GetMin(void)										const;
+		Vector2<float>		GetMax(void)										const;
 
 
 	private:
 
-		Vector2		m_position;
-		Vector2		m_extents;
+		Vector2<float>		m_position;
+		Vector2<float>		m_extents;
 		Radian<float>		m_rotation;
 	};
 
@@ -231,7 +231,7 @@ namespace ion::math
 		// Constructor / destructor
 
 					Line2D(void) = default;
-					Line2D(const Vector2& _start, const Vector2& _end);
+					Line2D(const Vector2<float>& _start, const Vector2<float>& _end);
 					Line2D(const Line2D& _other) = default;
 
 					~Line2D(void) = default;
@@ -239,11 +239,11 @@ namespace ion::math
 
 		// Accessors
 
-		Vector2&	Start(void);
-		Vector2&	End(void);
+		Vector2<float>&	Start(void);
+		Vector2<float>&	End(void);
 
-		Vector2		GetStart(void)												const;
-		Vector2		GetEnd(void)												const;
+		Vector2<float>		GetStart(void)												const;
+		Vector2<float>		GetEnd(void)												const;
 
 		// Intersection checks
 
@@ -257,14 +257,14 @@ namespace ion::math
 
 	private:
 
-		Vector2		m_start;
-		Vector2		m_end;
+		Vector2<float>		m_start;
+		Vector2<float>		m_end;
 	};
 
 	using Rectangle				= AABBCollider2D;
 	using OrientedRectangle		= OBBCollider2D;
 
-	using Point2D				= Vector2;
+	using Point2D				= Vector2<float>;
 	using Circle				= CircleCollider2D;
 
 }

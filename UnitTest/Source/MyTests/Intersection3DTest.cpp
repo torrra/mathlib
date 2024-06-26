@@ -27,7 +27,7 @@ TEST_CASE("Intersection3D", "[all][intersection]")
 			ion::math::AABBCollider3D		copy = controlAABB;
 
 
-			ion::math::Vector3			position{ 4.f, 6.f, 1.f }, extents{ 1.f, 3.f, 2.f };
+			ion::math::Vector3<float>			position{ 4.f, 6.f, 1.f }, extents{ 1.f, 3.f, 2.f };
 
 			// Accessor
 			CHECK(copy.GetMax() == controlAABB.GetPosition() + controlAABB.GetExtents());
@@ -83,7 +83,7 @@ TEST_CASE("Intersection3D", "[all][intersection]")
 			ion::math::SphereCollider3D		discard;
 			ion::math::SphereCollider3D		copy = controlSphere;
 
-			ion::math::Vector3				position{ 4.f, 6.f, 1.f };
+			ion::math::Vector3<float>				position{ 4.f, 6.f, 1.f };
 			float						radius = 3.f;
 
 			// Accessor

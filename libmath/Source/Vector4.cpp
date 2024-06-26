@@ -64,8 +64,8 @@ namespace ion::math
 	float Vector4::Distance2DFrom(Vector4 const& _other) const
 	{
 		// Ignore z and w axes
-		Vector2		self2D = { m_x, m_y };
-		Vector2		other2D = { _other.m_x, _other.m_y};
+		Vector2<float>		self2D = { m_x, m_y };
+		Vector2<float>		other2D = { _other.m_x, _other.m_y};
 
 
 		return self2D.DistanceFrom(other2D);
@@ -74,8 +74,8 @@ namespace ion::math
 	float Vector4::Distance2DSquaredFrom(Vector4 const& _other) const
 	{
 		// Ignore z and w axes
-		Vector2		self2D = { m_x, m_y };
-		Vector2		other2D = { _other.m_x, _other.m_y };
+		Vector2<float>		self2D = { m_x, m_y };
+		Vector2<float>		other2D = { _other.m_x, _other.m_y };
 
 
 		return self2D.DistanceSquaredFrom(other2D);
@@ -84,8 +84,8 @@ namespace ion::math
 	float Vector4::Distance3DFrom(Vector4 const& _other) const
 	{
 		// Ignore w axis
-		Vector3		self3D = { m_x, m_y, m_z };
-		Vector3		other3D = { _other.m_x, _other.m_y, _other.m_z };
+		Vector3<float>		self3D = { m_x, m_y, m_z };
+		Vector3<float>		other3D = { _other.m_x, _other.m_y, _other.m_z };
 
 
 		return self3D.DistanceFrom(other3D);
@@ -94,8 +94,8 @@ namespace ion::math
 	float Vector4::Distance3DSquaredFrom(Vector4 const& _other) const
 	{
 		// Ignore w axis
-		Vector3		self3D = { m_x, m_y, m_z };
-		Vector3		other3D = { _other.m_x, _other.m_y, _other.m_z };
+		Vector3<float>		self3D = { m_x, m_y, m_z };
+		Vector3<float>		other3D = { _other.m_x, _other.m_y, _other.m_z };
 
 
 		return self3D.DistanceSquaredFrom(other3D);
@@ -239,7 +239,7 @@ namespace ion::math
 	void Vector4::Rotate(Radian<float> _angle, const Vector3<float>& _axis)
 	{
 		// Ignore w axis
-		Vector3		self3D = { m_x, m_y, m_z };
+		Vector3<float>		self3D = { m_x, m_y, m_z };
 
 		// Rotate without w
 		self3D.Rotate(_angle, _axis);

@@ -10,39 +10,39 @@ namespace ion::math
 {
 
 
-	AABBCollider2D::AABBCollider2D(const Vector2& _pos, const Vector2& _size)
+	AABBCollider2D::AABBCollider2D(const Vector2<float>& _pos, const Vector2<float>& _size)
 		: m_position(_pos), m_extents(_size)
 	{
 
 	}
 
 
-	Vector2& AABBCollider2D::Position(void)
+	Vector2<float>& AABBCollider2D::Position(void)
 	{
 		return m_position;
 	}
 
-	Vector2& AABBCollider2D::Extents(void)
+	Vector2<float>& AABBCollider2D::Extents(void)
 	{
 		return m_extents;
 	}
 
-	Vector2 AABBCollider2D::GetPosition(void) const
+	Vector2<float> AABBCollider2D::GetPosition(void) const
 	{
 		return m_position;
 	}
 
-	Vector2 AABBCollider2D::GetExtents(void) const
+	Vector2<float> AABBCollider2D::GetExtents(void) const
 	{
 		return m_extents;
 	}
 
 	bool AABBCollider2D::CheckCollision(const AABBCollider2D& _other) const
 	{
-		Vector2		selfMin = GetMin(),
+		Vector2<float>		selfMin = GetMin(),
 					selfMax = GetMax();
 
-		Vector2		otherMin = _other.GetMin(),
+		Vector2<float>		otherMin = _other.GetMin(),
 					otherMax = _other.GetMax();
 
 
@@ -63,7 +63,7 @@ namespace ion::math
 		PolygonCollider2D    selfPoly, otherPoly;
 
 		// Get AABB vertices
-		Vector2				 selfVertices[4] =
+		Vector2<float>				 selfVertices[4] =
 		{
 			GetMax(),
 			GetMin(),
@@ -79,11 +79,11 @@ namespace ion::math
 			},
 		};
 
-		Vector2				otherRotated =
+		Vector2<float>				otherRotated =
 		Rotate(_other.GetExtents(), _other.GetRotation());
 
 		// Get OBB rotated vertices
-		Vector2				otherVertices[4] =
+		Vector2<float>				otherVertices[4] =
 		{
 			_other.GetPosition() + otherRotated,
 			_other.GetPosition() - otherRotated,
@@ -120,16 +120,16 @@ namespace ion::math
 
 	bool AABBCollider2D::CheckCollision(const CircleCollider2D& _other) const
 	{
-		Vector2		minVertex = GetMin(), maxVertex = GetMax();
+		Vector2<float>		minVertex = GetMin(), maxVertex = GetMax();
 
 		// Get closest point
-		Vector2		closestPoint
+		Vector2<float>		closestPoint
 		{
 			Max(minVertex.GetX(), Min(_other.GetPosition().GetX(), maxVertex.GetX())),
 			Max(minVertex.GetY(), Min(_other.GetPosition().GetY(), maxVertex.GetY()))
 		};
 
-		Vector2		distance = closestPoint - _other.GetPosition();
+		Vector2<float>		distance = closestPoint - _other.GetPosition();
 
 		// Point closer than end of radius = intersection
 		return distance.MagnitudeSquared() <= _other.GetRadiusSquared();
@@ -141,7 +141,7 @@ namespace ion::math
 		PolygonCollider2D	selfPoly;
 
 		// Get AABB vertices
-		Vector2				selfVertices[4] =
+		Vector2<float>				selfVertices[4] =
 		{
 			GetMax(),
 			GetMin(),
@@ -161,9 +161,9 @@ namespace ion::math
 		return intersection;
 	}
 
-	bool AABBCollider2D::PointInBox(const Vector2& _point) const
+	bool AABBCollider2D::PointInBox(const Vector2<float>& _point) const
 	{
-		Vector2		min = GetMin(), max = GetMax();
+		Vector2<float>		min = GetMin(), max = GetMax();
 
 		// Check if point is within AABB bounds
 
@@ -177,7 +177,7 @@ namespace ion::math
 	}
 
 
-	Ray2D::Ray2D(const Vector2& _pos, const Vector2& _dir)
+	Ray2D::Ray2D(const Vector2<float>& _pos, const Vector2<float>& _dir)
 		: m_origin(_pos)
 	{
 		m_direction = Normalize(_dir);
@@ -196,7 +196,7 @@ namespace ion::math
 	{
 		float   maxIntersect = FLT_MAX, minIntersect = -FLT_MAX;
 
-		Vector2 minVertex = _box.GetMin(), maxVertex = _box.GetMax();
+		Vector2<float> minVertex = _box.GetMin(), maxVertex = _box.GetMax();
 
 		// x plane = 0, y plane = 1, z plane = 2
 		for (int axis = 0; axis < 2; ++axis)
@@ -222,37 +222,37 @@ namespace ion::math
 		return intersection;
 	}
 
-    Vector2 &Ray2D::Origin(void)
+    Vector2<float> &Ray2D::Origin(void)
     {
        return m_origin;
     }
 
-    Vector2 &Ray2D::Direction(void)
+    Vector2<float> &Ray2D::Direction(void)
     {
         return m_direction;
     }
 
-    Vector2 Ray2D::GetOrigin(void) const
+    Vector2<float> Ray2D::GetOrigin(void) const
     {
         return m_origin;
     }
 
-    Vector2 Ray2D::GetDirection(void) const
+    Vector2<float> Ray2D::GetDirection(void) const
     {
         return m_direction;
     }
 
-    Vector2 Ray2D::GetInverseDir(void) const
+    Vector2<float> Ray2D::GetInverseDir(void) const
     {
         return m_inverseDir;
     }
 
-    PolygonCollider2D::PolygonCollider2D(Vector2 _vertices[], int _count)
+    PolygonCollider2D::PolygonCollider2D(Vector2<float> _vertices[], int _count)
         : m_vertexCount(_count)
     {
 		// Allocate space for vertices
 		if (!m_vertices)
-			m_vertices = new Vector2[_count];
+			m_vertices = new Vector2<float>[_count];
 
 
 		for (int vertex = 0; vertex < _count; ++vertex)
@@ -267,7 +267,7 @@ namespace ion::math
 	{
 		// Allocate vertices for deep copy
 		if (_other.m_vertexCount)
-			m_vertices = new Vector2[_other.m_vertexCount];
+			m_vertices = new Vector2<float>[_other.m_vertexCount];
 
 		// Copy vertices into new array
 		for (unsigned int vert = 0; vert < _other.m_vertexCount; ++vert)
@@ -283,13 +283,13 @@ namespace ion::math
 	}
 
 
-	Vector2& PolygonCollider2D::operator[](int _index)
+	Vector2<float>& PolygonCollider2D::operator[](int _index)
 	{
 		return m_vertices[_index];
 	}
 
 
-	Vector2 PolygonCollider2D::operator[](int _index) const
+	Vector2<float> PolygonCollider2D::operator[](int _index) const
 	{
 		return m_vertices[_index];
 	}
@@ -302,7 +302,7 @@ namespace ion::math
 	}
 
 	void PolygonCollider2D::MinMaxProjection
-	(const Vector2& _normal, float& _min, float& _max) const
+	(const Vector2<float>& _normal, float& _min, float& _max) const
 	{
 		// Find min and max projections by testing each vertex against normal
 		for (unsigned int vertex = 0; vertex < m_vertexCount; ++vertex)
@@ -343,7 +343,7 @@ namespace ion::math
 			min1 = FLT_MAX, max1 = -FLT_MAX;
 			min2 = FLT_MAX, max2 = -FLT_MAX;
 
-			Vector2		normal;
+			Vector2<float>		normal;
 
 			if (0 == side)
 				normal = (m_vertices[side] - m_vertices[m_vertexCount - 1])
@@ -377,37 +377,37 @@ namespace ion::math
 
 
 
-	Vector2 AABBCollider2D::GetMin(void) const
+	Vector2<float> AABBCollider2D::GetMin(void) const
 	{
 		return m_position - m_extents;
 	}
 
 
-	Vector2 AABBCollider2D::GetMax(void) const
+	Vector2<float> AABBCollider2D::GetMax(void) const
 	{
 		return m_position + m_extents;
 	}
 
 
-	Vector2 OBBCollider2D::GetMin(void) const
+	Vector2<float> OBBCollider2D::GetMin(void) const
 	{
 		// Rotate BEFORE translating
-		Vector2		rotated = Rotate(m_extents, m_rotation);
+		Vector2<float>		rotated = Rotate(m_extents, m_rotation);
 
 		return m_position - rotated;
 	}
 
-	Vector2 OBBCollider2D::GetMax(void) const
+	Vector2<float> OBBCollider2D::GetMax(void) const
 	{
 		// Rotate BEFORE translating
-		Vector2		rotated = Rotate(m_extents, m_rotation);
+		Vector2<float>		rotated = Rotate(m_extents, m_rotation);
 
 		return rotated + m_position;
 	}
 
 
 	OBBCollider2D::OBBCollider2D
-	(const Vector2& _pos, const Vector2& _extents, Radian<float> _angle)
+	(const Vector2<float>& _pos, const Vector2<float>& _extents, Radian<float> _angle)
 		: m_position(_pos), m_extents(_extents), m_rotation(_angle)
 	{
 	}
@@ -419,12 +419,12 @@ namespace ion::math
 	}
 
 
-	Vector2& OBBCollider2D::Position(void)
+	Vector2<float>& OBBCollider2D::Position(void)
 	{
 		return m_position;
 	}
 
-	Vector2& OBBCollider2D::Extents(void)
+	Vector2<float>& OBBCollider2D::Extents(void)
 	{
 		return m_extents;
 	}
@@ -434,12 +434,12 @@ namespace ion::math
 		return m_rotation;
 	}
 
-	Vector2 OBBCollider2D::GetPosition(void) const
+	Vector2<float> OBBCollider2D::GetPosition(void) const
 	{
 		return m_position;
 	}
 
-	Vector2 OBBCollider2D::GetExtents(void) const
+	Vector2<float> OBBCollider2D::GetExtents(void) const
 	{
 		return m_extents;
 	}
@@ -455,12 +455,12 @@ namespace ion::math
 		// Turn both OBBs into polygons
 		PolygonCollider2D	selfPoly, otherPoly;
 
-		Vector2				selfRotated = Rotate(m_extents, m_rotation);
-		Vector2				otherRotated = Rotate(_other.m_extents,
+		Vector2<float>				selfRotated = Rotate(m_extents, m_rotation);
+		Vector2<float>				otherRotated = Rotate(_other.m_extents,
 												  _other.m_rotation);
 
 		// Rotate vertices
-		Vector2				selfVertices[4] =
+		Vector2<float>				selfVertices[4] =
 		{
 			m_position + selfRotated,
 			m_position - selfRotated,
@@ -477,7 +477,7 @@ namespace ion::math
 		};
 
 		// Rotate vertices
-		Vector2				otherVertices[4] =
+		Vector2<float>				otherVertices[4] =
 		{
 			_other.GetPosition() + otherRotated,
 			_other.GetPosition() - otherRotated,
@@ -512,9 +512,9 @@ namespace ion::math
 
 	bool OBBCollider2D::CheckCollision(const CircleCollider2D& _other) const
 	{
-		Vector2		 minVertex = GetMin(), maxVertex = GetMax();
+		Vector2<float>		 minVertex = GetMin(), maxVertex = GetMax();
 
-		Vector2		closestPoint
+		Vector2<float>		closestPoint
 		{
 			Max(minVertex.GetX(), Min(_other.GetPosition().GetX(), maxVertex.GetX())),
 			Max(minVertex.GetY(), Min(_other.GetPosition().GetY(), maxVertex.GetY()))
@@ -522,7 +522,7 @@ namespace ion::math
 
 		// Check if closest point is within the circle's range
 
-		Vector2		distance = closestPoint - _other.GetPosition();
+		Vector2<float>		distance = closestPoint - _other.GetPosition();
 
 
 		return distance.MagnitudeSquared() <= _other.GetRadiusSquared();
@@ -533,9 +533,9 @@ namespace ion::math
 		// Turn OBB into polygon collider
 		PolygonCollider2D	selfPoly;
 
-		Vector2				selfRotated = Rotate(m_extents, m_rotation);
+		Vector2<float>				selfRotated = Rotate(m_extents, m_rotation);
 
-		Vector2				selfVertices[4] =
+		Vector2<float>				selfVertices[4] =
 		{
 			m_position + selfRotated,
 			m_position - selfRotated,
@@ -565,7 +565,7 @@ namespace ion::math
 		return intersection;
 	}
 
-	Vector2& CircleCollider2D::Position(void)
+	Vector2<float>& CircleCollider2D::Position(void)
 	{
 		return m_position;
 	}
@@ -575,7 +575,7 @@ namespace ion::math
 		return m_radius;
 	}
 
-	Vector2 CircleCollider2D::GetPosition(void) const
+	Vector2<float> CircleCollider2D::GetPosition(void) const
 	{
 		return m_position;
 	}
@@ -590,7 +590,7 @@ namespace ion::math
 		return m_radius * m_radius;
 	}
 
-	CircleCollider2D::CircleCollider2D(const Vector2& _pos, float _radius)
+	CircleCollider2D::CircleCollider2D(const Vector2<float>& _pos, float _radius)
 		: m_position(_pos), m_radius(_radius)
 	{
 	}
@@ -617,35 +617,35 @@ namespace ion::math
 		return distance <= GetRadiusSquared() + _other.GetRadiusSquared();
 	}
 
-	bool CircleCollider2D::PointInCircle(const Vector2& _point) const
+	bool CircleCollider2D::PointInCircle(const Vector2<float>& _point) const
 	{
-		Vector2		distance = _point - m_position;
+		Vector2<float>		distance = _point - m_position;
 
 		// Check if distance is shorter than circle radius
 		return distance.MagnitudeSquared() <= m_radius * m_radius;
 	}
 
-	Line2D::Line2D(const Vector2& _start, const Vector2& _end)
+	Line2D::Line2D(const Vector2<float>& _start, const Vector2<float>& _end)
 		: m_start(_start), m_end(_end)
 	{
 	}
 
-    Vector2 &Line2D::Start(void)
+    Vector2<float> &Line2D::Start(void)
     {
        return m_start;
     }
 
-    Vector2 &Line2D::End(void)
+    Vector2<float> &Line2D::End(void)
     {
         return m_end;
     }
 
-    Vector2 Line2D::GetStart(void) const
+    Vector2<float> Line2D::GetStart(void) const
     {
         return m_start;
     }
 
-    Vector2 Line2D::GetEnd(void) const
+    Vector2<float> Line2D::GetEnd(void) const
     {
         return m_end;
     }
@@ -658,7 +658,7 @@ namespace ion::math
 		float 		distanceToBox = 1e10f;
 
 
-		Vector2		direction = m_end - m_start;
+		Vector2<float>		direction = m_end - m_start;
 
 		// Turn segment into ray to use already defined raycast algorithm
 		Ray2D		lineRay(m_start, direction);
@@ -678,8 +678,8 @@ namespace ion::math
     {
 		// Apply quadratic formula to find whether there is an intersection
 
-		Vector2		circleToLineStart = m_start - _circle.GetPosition();
-		Vector2		lineDirection = m_end - m_start;
+		Vector2<float>		circleToLineStart = m_start - _circle.GetPosition();
+		Vector2<float>		lineDirection = m_end - m_start;
 
 		// Compute b^2
 		float		quadraticDelta =

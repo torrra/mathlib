@@ -10,7 +10,7 @@
                                |___/
 
 
-NAME: MathGenerics.hpp
+NAME: MathGeneric.hpp
 
 DESCTIPTION: Template definitions for mathematical classes
 

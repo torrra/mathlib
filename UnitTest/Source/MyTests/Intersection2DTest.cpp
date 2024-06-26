@@ -25,7 +25,7 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 			ion::math::AABBCollider2D		copy = controlAABB;
 
 
-			ion::math::Vector2			position{ 4.f, 6.f }, extents{ 1.f, 3.f};
+			ion::math::Vector2<float>			position{ 4.f, 6.f }, extents{ 1.f, 3.f};
 
 			// Accessor
 			CHECK(copy.GetMax() == controlAABB.GetPosition() + controlAABB.GetExtents());
@@ -93,14 +93,14 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 		SECTION("AABB / Polygon")
 		{
-			ion::math::Vector2 noColVertices[3] =
+			ion::math::Vector2<float> noColVertices[3] =
 			{
 				{0.f, 0.f},
 				{4.5f, 4.f},
 				{1.3f, 5.3f}
 			};
 
-			ion::math::Vector2	collideVertices[3] =
+			ion::math::Vector2<float>	collideVertices[3] =
 			{
 				{16.f, 8.f},
 				{16.f, 4.f},
@@ -134,9 +134,9 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 			ion::math::OBBCollider2D		discard;
 			ion::math::OBBCollider2D		copy = controlOBB;
 
-			ion::math::Vector2			position{ 4.f, 6.f }, extents{ 1.f, 3.f};
+			ion::math::Vector2<float>			position{ 4.f, 6.f }, extents{ 1.f, 3.f};
 
-			ion::math::Vector2			rotated = ion::math::Rotate
+			ion::math::Vector2<float>			rotated = ion::math::Rotate
 			(
 				controlOBB.GetExtents(),
 				controlOBB.GetRotation()
@@ -206,14 +206,14 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 		SECTION("OBB vs Polygon")
 		{
-			ion::math::Vector2 noColVertices[3] =
+			ion::math::Vector2<float> noColVertices[3] =
 			{
 				{0.f, 0.f},
 				{4.5f, 4.f},
 				{1.3f, 5.3f}
 			};
 
-			ion::math::Vector2	collideVertices[3] =
+			ion::math::Vector2<float>	collideVertices[3] =
 			{
 				{16.f, 8.f},
 				{16.f, 4.f},
@@ -243,7 +243,7 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 			ion::math::CircleCollider2D		discard;
 			ion::math::CircleCollider2D		copy = controlCircle;
 
-			ion::math::Vector2				position{ 4.f, 6.f };
+			ion::math::Vector2<float>				position{ 4.f, 6.f };
 			float						radius = 3.f;
 
 			// Accessor
@@ -297,7 +297,7 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 		{
 			ion::math::Ray2D	copy = ray;
 
-			ion::math::Vector2	origin{4.f, 2.f}, direction = ion::math::Normalize({ 2.f, 3.f }),
+			ion::math::Vector2<float>	origin{4.f, 2.f}, direction = ion::math::Normalize<float>({ 2.f, 3.f }),
 							invDir{ 1.f / direction.X(), 1.f / direction.Y() };
 
 			CHECK(copy.Direction() == direction);

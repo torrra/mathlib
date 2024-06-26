@@ -217,7 +217,7 @@ TEST_CASE("Vector4", "[all][vector]")
 			xRad = -2.f;
 
 			glm::vec3		glmAxis(13.f, 5.f, 5.f);
-			ion::math::Vector3	axis(13.f, 5.f, 5.f);
+			ion::math::Vector3f	axis(13.f, 5.f, 5.f);
 
 			glmAxis = glm::normalize(glmAxis);
 
