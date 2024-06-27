@@ -1,4 +1,31 @@
-#pragma once
+/*
+
+ _____                               _
+|_   _|                             (_)
+  | |  ___  _ __     ___ _ __   __ _ _ _ __   ___
+  | | / _ \| '_ \   / _ \ '_ \ / _` | | '_ \ / _ \
+ _| || (_) | | | | |  __/ | | | (_| | | | | |  __/
+ \___/\___/|_| |_|  \___|_| |_|\__, |_|_| |_|\___|
+								__/ |
+							   |___/
+
+
+NAME: Vector2.hpp
+
+DESCTIPTION: 2D vector class
+
+AUTHOR: Noah de Pischof | @torrra on GitHub
+
+TEMPLATES:
+
+CScalarType is a template constraint that only accepts numeric data types
+
+*/
+
+
+
+#ifndef __VECTOR2_H__
+#define __VECTOR2_H__
 
 #include <string>
 #include <sstream>
@@ -836,3 +863,5 @@ namespace ion::math
 
 namespace LibMath = ion::math;
 namespace lm = LibMath;
+
+#endif
