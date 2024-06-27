@@ -1,74 +1,359 @@
-#pragma once
+/*
+
+ _____                               _
+|_   _|                             (_)
+  | |  ___  _ __     ___ _ __   __ _ _ _ __   ___
+  | | / _ \| '_ \   / _ \ '_ \ / _` | | '_ \ / _ \
+ _| || (_) | | | | |  __/ | | | (_| | | | | |  __/
+ \___/\___/|_| |_|  \___|_| |_|\__, |_|_| |_|\___|
+								__/ |
+							   |___/
+
+
+NAME: Matrix2.hpp
+
+DESCTIPTION: 2x2 matrix class
+
+AUTHOR: Noah de Pischof | @torrra on GitHub
+
+TEMPLATES:
+
+CScalarType is a template constraint that only accepts numeric data types
+
+*/
+
+
+
+#ifndef __MATRIX2_H__
+#define __MATRIX2_H__
+
+#include "IonDebug.hpp"
+
+#include "libmath/MathGeneric.hpp"
+#include "libmath/MatrixGeneric.hpp"
+
+#include "libmath/Vector2.h"
 
 #include "libmath/Angle.h"
 
+#include "libmath/Arithmetic.h"
+#include "libmath/Trigonometry.h"
+
 namespace ion::math
 {
-    class Matrix2
-    {
+    template <CScalarType TValueType>
+    class Matrix<2, TValueType>
+     {
     public:
+        using TRowType = Vector<2, TValueType>;
 
-        // Constructor / destructor
+          // Constructor / destructor
 
-                        Matrix2(void) = default;
-                        Matrix2(const float _diag);
-                        Matrix2(float _a, float _b, float _c, float _d);
-                        Matrix2(const float _vals[]);
-                        Matrix2(const Matrix2& _other);
+        inline          Matrix(void) = default;
+        inline          Matrix(const TValueType _diag);
 
-                        ~Matrix2(void) = default;
+        inline          Matrix(TValueType _a, TValueType _b, TValueType _c, TValueType _d);
+
+        inline          Matrix(const TValueType _vals[]);
+        inline          Matrix(const Matrix& _other);
+
+                        ~Matrix(void) = default;
 
         // Calculate matrix determinant
-        float           Determinant(void)                   const;
+        inline TValueType      Determinant(void)                   const;
 
         // Turn this matrix into an identity matrix of a given diagonal
-        void            Identity(float _diag = 1.f);
+        inline void            Identity(TValueType _diag = static_cast<TValueType>(1));
 
         // Get transposed matrix of cofactors
-        Matrix2         Adjugate(void)                      const;
+        inline Matrix         Adjugate(void)                      const;
 
         // Get inverse of this matrix
-        Matrix2         Inverse(void)                       const;
+        inline Matrix         Inverse(void)                       const;
 
         // Get transposed copy of this matrix
-        Matrix2         Transpose(void)                     const;
+        inline Matrix         Transpose(void)                     const;
 
-        Matrix2&        operator=(const Matrix2& _rhs);
+        inline Matrix&        operator=(const Matrix& _rhs);
 
         // Matrix / matrix operators
 
-        Matrix2         operator+(const Matrix2& _rhs)      const;
-        Matrix2         operator-(const Matrix2& _rhs)      const;
-        Matrix2         operator*(const Matrix2& _rhs)      const;
+        inline Matrix         operator+(const Matrix& _rhs)      const;
+        inline Matrix         operator-(const Matrix& _rhs)      const;
+        inline Matrix         operator*(const Matrix& _rhs)      const;
 
         // Multiply all numbers of a copy of this matrix by a scalar factor
-        Matrix2         operator*(float _factor)            const;
+        inline Matrix         operator*(TValueType _factor)            const;
 
         // Matrix / matrix assignment operators
 
-        Matrix2&        operator+=(const Matrix2& _rhs);
-        Matrix2&        operator-=(const Matrix2& _rhs);
-        Matrix2&        operator*=(const Matrix2& _rhs);
+        inline Matrix&        operator+=(const Matrix& _rhs);
+        inline Matrix&        operator-=(const Matrix& _rhs);
+        inline Matrix&        operator*=(const Matrix& _rhs);
 
-        bool            operator==(const Matrix2& _rhs)     const;
-        bool            operator!=(const Matrix2& _rhs)     const;
-
-        // Access a row (no bound checking)
-        float*          operator[](int _index);
+        inline bool            operator==(const Matrix& _rhs)     const;
+        inline bool            operator!=(const Matrix& _rhs)     const;
 
         // Access a row (no bound checking)
-        float const*    operator[](int _index)              const;
+        inline TRowType&    operator[](int _index);
+
+        // Access a row (no bound checking)
+        inline TRowType    operator[](int _index)              const;
 
         // Get a 2x2 rotation matrix from an angle in radians
-        static Matrix2  Rotate(Radian<float> _angle);
+        inline static Matrix  Rotate(Radian<TValueType> _angle);
+
+
 
     private:
 
-        float       m_values[2][2] = {{0.f}};
+        TRowType     m_values[2];
+     };
 
 
-    };
+    template <CScalarType TValueType> inline
+    Matrix<2, TValueType>::Matrix(TValueType _a, TValueType _b, TValueType _c, TValueType _d)
+    {
+        m_values[0][0] = _a;
+        m_values[0][1] = _b;
+        m_values[1][0] = _c;
+        m_values[1][1] = _d;
+    }
+
+
+    template <CScalarType TValueType> inline
+    Matrix<2, TValueType>::Matrix(const TValueType _diag)
+    {
+        m_values[0][0] = _diag;
+        m_values[1][1] = _diag;
+    }
+
+
+    template <CScalarType TValueType> inline
+    Matrix<2, TValueType>::Matrix(const TValueType _vals[])
+    {
+        m_values[0][0] = _vals[0];
+        m_values[0][1] = _vals[1];
+        m_values[1][0] = _vals[2];
+        m_values[1][1] = _vals[3];
+    }
+
+
+    template <CScalarType TValueType> inline
+    Matrix<2, TValueType>::Matrix(const Matrix<2, TValueType>& _other)
+    {
+        m_values[0][0] = _other.m_values[0][0];
+        m_values[0][1] = _other.m_values[0][1];
+        m_values[1][0] = _other.m_values[1][0];
+        m_values[1][1] = _other.m_values[1][1];
+    }
+
+
+    template <CScalarType TValueType> inline
+    TValueType Matrix<2, TValueType>::Determinant(void)    const
+    {
+        return (m_values[0][0] * m_values[1][1]) -
+	           (m_values[0][1] * m_values[1][0]);
+    }
+
+
+    template <CScalarType TValueType> inline
+    void Matrix<2, TValueType>::Identity(TValueType _diag)
+    {
+        m_values[0][0] = _diag;
+	    m_values[0][1] = 0.f;
+	    m_values[1][0] = 0.f;
+	    m_values[1][1] = _diag;
+    }
+
+
+    template <CScalarType TValueType> inline
+    Matrix<2, TValueType> Matrix<2, TValueType>::Adjugate(void) const
+    {
+        // Transpose cofactors
+        return Matrix<2, TValueType>(m_values[1][1], -m_values[0][1],
+                       -m_values[1][0], m_values[0][0]);
+    }
+
+
+    template <CScalarType TValueType> inline
+    Matrix<2, TValueType> Matrix<2, TValueType>::Inverse(void) const
+    {
+        TValueType       det = Determinant();
+
+        // Divide adjugate by determinant
+        if (det != 0.f)
+            return Adjugate() * (1 / det);
+
+        // Do not devide by zero
+        return Matrix<2, TValueType>();
+    }
+
+
+
+    template <CScalarType TValueType> inline
+    Matrix<2, TValueType> Matrix<2, TValueType>::Transpose(void) const
+    {
+        // Switch non-diagonal values
+        return Matrix<2, TValueType>
+        (
+            m_values[0][0], m_values[1][0],
+            m_values[0][1], m_values[1][1]
+        );
+    }
+
+
+
+    template <CScalarType TValueType> inline
+    Matrix<2, TValueType>& Matrix<2, TValueType>::operator=(const Matrix<2, TValueType>& _rhs)
+    {
+        m_values[0][0] = _rhs[0][0];
+        m_values[0][1] = _rhs[0][1];
+        m_values[1][0] = _rhs[1][0];
+        m_values[1][1] = _rhs[1][1];
+
+        return *this;
+
+    }
+
+
+    template <CScalarType TValueType> inline
+    Matrix<2, TValueType> Matrix<2, TValueType>::operator+(const Matrix<2, TValueType>& _rhs) const
+    {
+        // Add components
+        return Matrix<2, TValueType>
+        (
+            m_values[0][0] + _rhs[0][0], m_values[0][1] + _rhs[0][1],
+            m_values[1][0] + _rhs[1][0], m_values[1][1] + _rhs[1][1]
+        );
+    }
+
+
+
+    template <CScalarType TValueType> inline
+    Matrix<2, TValueType> Matrix<2, TValueType>::operator-(const Matrix<2, TValueType>& _rhs) const
+    {
+        // Subtract components
+        return Matrix<2, TValueType>
+        (
+            m_values[0][0] - _rhs.m_values[0][0], m_values[0][1] - _rhs.m_values[0][1],
+            m_values[1][0] - _rhs.m_values[1][0], m_values[1][1] - _rhs.m_values[1][1]
+        );
+    }
+
+
+
+    template <CScalarType TValueType> inline
+    Matrix<2, TValueType> Matrix<2, TValueType>::operator*(const Matrix<2, TValueType>& _rhs) const
+    {
+        // Multiply components
+        return Matrix<2, TValueType>
+        (
+            m_values[0][0] * _rhs.m_values[0][0] + m_values[1][0] * _rhs.m_values[0][1],
+            m_values[0][1] * _rhs.m_values[0][0] + m_values[1][1] * _rhs.m_values[0][1],
+            m_values[0][0] * _rhs.m_values[1][0] + m_values[1][0] * _rhs.m_values[1][1],
+            m_values[0][1] * _rhs.m_values[1][0] + m_values[1][1] * _rhs.m_values[1][1]
+        );
+    }
+
+
+
+    template <CScalarType TValueType> inline
+    Matrix<2, TValueType> Matrix<2, TValueType>::operator*(TValueType _factor) const
+    {
+        // Multiply by a scalar
+        return Matrix<2, TValueType>(
+                        m_values[0][0] * _factor,
+                        m_values[0][1] * _factor,
+                        m_values[1][0] * _factor,
+                        m_values[1][1] * _factor
+                      );
+    }
+
+
+    template <CScalarType TValueType> inline
+    Matrix<2, TValueType>& Matrix<2, TValueType>::operator+=(const Matrix<2, TValueType>& _rhs)
+    {
+        *this = *this + _rhs;
+
+        return *this;
+    }
+
+
+
+    template <CScalarType TValueType> inline
+    Matrix<2, TValueType>& Matrix<2, TValueType>::operator-=(const Matrix<2, TValueType>& _rhs)
+    {
+        *this = *this - _rhs;
+
+        return *this;
+    }
+
+
+
+    template <CScalarType TValueType> inline
+    Matrix<2, TValueType>& Matrix<2, TValueType>::operator*=(const Matrix<2, TValueType>& _rhs)
+    {
+        *this = *this * _rhs;
+
+        return *this;
+    }
+
+
+
+    template <CScalarType TValueType> inline
+    bool  Matrix<2, TValueType>::operator==(const Matrix<2, TValueType>& _rhs) const
+    {
+        // Check if all componenents are almost equal
+        return ion::math::AlmostEqual(m_values[0][0], _rhs[0][0]) &&
+               ion::math::AlmostEqual(m_values[0][1], _rhs[0][1]) &&
+               ion::math::AlmostEqual(m_values[1][0], _rhs[1][0]) &&
+               ion::math::AlmostEqual(m_values[1][1], _rhs[1][1]);
+    }
+
+
+    template <CScalarType TValueType> inline
+    bool Matrix<2, TValueType>::operator!=(const Matrix<2, TValueType>& _rhs) const
+    {
+        return !(*this == _rhs);
+    }
+
+
+
+    template <CScalarType TValueType> inline
+    Vector2<TValueType>&
+    Matrix<2, TValueType>::operator[](int _index)
+    {
+        ION_ASSERT(_index < 2);
+
+        return m_values[_index];
+    }
+
+
+    template <CScalarType TValueType> inline
+    Vector2<TValueType>
+    Matrix<2, TValueType>::operator[](int _index) const
+    {
+        return m_values[_index];
+    }
+
+
+    template <CScalarType TValueType> inline
+    Matrix<2, TValueType> Matrix<2, TValueType>::Rotate(Radian<TValueType> _angle)
+    {
+        TValueType   cosAngle = Cos(_angle), sinAngle = Sin(_angle);
+
+        // Create z axis rotation matrix (non-homogenized)
+        return Matrix<2, TValueType>
+        (
+            cosAngle, -sinAngle,
+            sinAngle, cosAngle
+        );
+    }
 }
+
 
 namespace LibMath = ion::math;
 namespace lm = ion::math;
+
+#endif
