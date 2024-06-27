@@ -29,11 +29,22 @@ ION_ prefix helps identify macros specific to the project
 #ifndef __ION_ASSERT_H__
 #define __ION_ASSERT_H__
 
+#include "IonCompiler.hpp"
 
 #if (WIN32)
 
+
+// Windows API headers cause truncation warnings.
+// Disable them as they are irrelevant and there
+// is nothing we can do about it :(
+ION_PUSH_WARNINGS()
+ION_DISABLE_WARNING(ION_VALUE_TRUNCATION)
+
 #include <windows.h>
 #include <winuser.h>
+
+ION_POP_WARNINGS()
+
 #include <string>
 
 #else
@@ -50,6 +61,9 @@ namespace internal
             return;
 
 #if (WIN32)
+
+        // Create a popup window on windows
+
         std::string   errorMessage("Assertion failed!\r\nIn file: ");
 
         errorMessage += _file;
@@ -59,14 +73,28 @@ namespace internal
         errorMessage += _exprString;
 
 
-        int boxStatus = MessageBox(NULL, errorMessage.c_str(), "Ion Engine error", MB_OK | MB_ICONSTOP | MB_TASKMODAL);
+        int boxStatus = MessageBox
+        (
+            // No window owns this popup
+            NULL,
 
+            // Popup message
+            errorMessage.c_str(),
+
+            // Popup title
+            "Ion Engine error",
+
+            // OK button | big red icon| user must interact with window to resume execution
+            MB_OK | MB_ICONSTOP | MB_TASKMODAL);
+
+        // OK button (or escape key was pressed)
         if (IDOK == boxStatus)
             exit(-1);
 
 
 #else
 
+        // Show an erroe message on other platforms
 
         std::cerr << "[Ion Engine] Assertion failed!\nIn file: " << _file << ":" << _line <<
             "On line:" << _line << "\nThe following assertion failed:\n" << _exprString << std::endl;
@@ -90,6 +118,7 @@ internal::Assert(static_cast<bool>(_expression), __FILE__, __LINE__, #_expressio
 
 // Compiling in release mode
 
+// Disable assert in release
 #define ION_ASSERT(expression)
 
 # endif // !NDEBUG
