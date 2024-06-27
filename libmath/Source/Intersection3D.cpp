@@ -283,7 +283,7 @@ namespace ion::math
 		return m_extents;
 	}
 
-	Matrix3 OBBCollider3D::RotationMatrix(void) const
+	Matrix3f OBBCollider3D::RotationMatrix(void) const
 	{
 		// Store sines and cosines
 		float		cosYaw = Cos(m_rotation[2]),
@@ -319,7 +319,7 @@ namespace ion::math
 			}
 		};
 
-		return Matrix3(rotation);
+		return Matrix3f(rotation);
 	}
 
 

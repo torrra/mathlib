@@ -50,7 +50,7 @@ namespace ion::math
 
 	float Matrix4::Determinant(void) const
 	{
-		Matrix3     minor;
+		Matrix3f     minor;
 
 		float		result = 0.f, minusOne = -1.f;
 		int			stripedRow = 0;
@@ -176,9 +176,9 @@ namespace ion::math
 
 
 
-	Matrix3 Matrix4::SubMatrix(int _row, int _column) const
+	Matrix3f Matrix4::SubMatrix(int _row, int _column) const
 	{
-		Matrix3 minor;
+		Matrix3f minor;
 
 		for (int thisRow = 0, mat2Row = 0; thisRow < 4; ++thisRow)
 		{

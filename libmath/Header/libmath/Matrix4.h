@@ -43,7 +43,7 @@ namespace ion::math
 		Matrix4         Transpose(void)                     const;
 
 		// Get this matrix stripped of a row and a column
-		Matrix3         SubMatrix(int _row, int _column)    const;
+		Matrix3f         SubMatrix(int _row, int _column)    const;
 
 		Matrix4&		operator=(const Matrix4& _rhs);
 		Matrix4&		operator=(const float _rhs[][4]);

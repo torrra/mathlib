@@ -164,7 +164,7 @@ namespace ion::math
 		Vector3<float>&	Extents(void);
 
 		// Calculate rotation matrix from 3 object's 3 angles
-		Matrix3 	RotationMatrix(void)							const;
+		Matrix3f 	RotationMatrix(void)							const;
 
 		Vector3<float>		GetPosition(void)								const;
 		Vector3<float>		GetExtents(void)								const;

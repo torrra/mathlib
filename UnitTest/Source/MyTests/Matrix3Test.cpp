@@ -117,9 +117,9 @@ TEST_CASE("Matrix 3", "[matrix][all]")
 
 	SECTION("Instanciation")
 	{
-		ion::math::Matrix3	zeroMat;
-		ion::math::Matrix3	doubleArrMat(doubleArr);
-		ion::math::Matrix3	lineArrMat(lineArr);
+		ion::math::Matrix3f	zeroMat(0.f);
+		ion::math::Matrix3f	doubleArrMat(doubleArr);
+		ion::math::Matrix3f	lineArrMat(lineArr);
 
 		glm::mat3		glmZero(0.f);
 		glm::mat3		glmMatrix =
@@ -139,9 +139,9 @@ TEST_CASE("Matrix 3", "[matrix][all]")
 
 	SECTION("Matrix operations")
 	{
-		ion::math::Matrix3	zeroMat;
-		ion::math::Matrix3	doubleArrMat(doubleArr);
-		ion::math::Matrix3	lineArrMat(lineArr);
+		ion::math::Matrix3f	zeroMat(0.f);
+		ion::math::Matrix3f	doubleArrMat(doubleArr);
+		ion::math::Matrix3f	lineArrMat(lineArr);
 
 		glm::mat3		glmZero(0.f);
 		glm::mat3		glmMatrix =
@@ -166,7 +166,7 @@ TEST_CASE("Matrix 3", "[matrix][all]")
 
 
 		// Cofactor
-		ion::math::Matrix3	cofactorsResults = doubleArrMat.Cofactor();
+		ion::math::Matrix3f	cofactorsResults = doubleArrMat.Cofactor();
 		CHECK_MATRIX3(cofactorsResults, expectedCofactors);
 
 
@@ -182,10 +182,10 @@ TEST_CASE("Matrix 3", "[matrix][all]")
 
 	SECTION("Operators")
 	{
-		ion::math::Matrix3    zero;
-		ion::math::Matrix3	mat1;
-		ion::math::Matrix3	doubleArrMat(doubleArr);
-		ion::math::Matrix3	lineArrMat(lineArr);
+		ion::math::Matrix3f		zero(0.f);
+		ion::math::Matrix3f		mat1(0.f);
+		ion::math::Matrix3f		doubleArrMat(doubleArr);
+		ion::math::Matrix3f		lineArrMat(lineArr);
 
 		glm::mat3		glmMatrix =
 		{
@@ -215,7 +215,7 @@ TEST_CASE("Matrix 3", "[matrix][all]")
 
 
 		// Add, subtract and multiply
-		ion::math::Matrix3		result = mat1 + mat1;
+		ion::math::Matrix3f		result = mat1 + mat1;
 		glm::mat3			glmResult = glmMatrix + glmMatrix;
 
 		CHECK_MATRIX3(result, glmResult);
