@@ -65,6 +65,18 @@ namespace ion::math
 	using Vector3i = Vector3<int32_t>;
 	using Vector3d = Vector3<double>;
 
+
+    // Partial specialization for 3D vector
+    template <CScalarType TValueType>
+    using Vector4 = Vector<4, TValueType>;
+
+
+    // Vector4 aliases for quick use
+
+    using Vector4f = Vector4<float>;
+    using Vector4i = Vector4<int32_t>;
+    using Vector4d = Vector4<double>;
+
 }
 
 
