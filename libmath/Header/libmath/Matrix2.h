@@ -111,6 +111,14 @@ namespace ion::math
      };
 
 
+
+
+
+
+
+    // ---- Implementations ----
+
+
     template <CScalarType TValueType> inline
     Matrix<2, TValueType>::Matrix(TValueType _a, TValueType _b, TValueType _c, TValueType _d)
     {
@@ -126,6 +134,9 @@ namespace ion::math
     {
         m_values[0][0] = _diag;
         m_values[1][1] = _diag;
+
+        m_values[0][1] = static_cast<TValueType>(0);
+        m_values[1][0] = static_cast<TValueType>(0);
     }
 
 
@@ -350,6 +361,11 @@ namespace ion::math
             sinAngle, cosAngle
         );
     }
+
+
+// !Implementation
+
+
 }
 
 
