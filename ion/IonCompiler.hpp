@@ -49,6 +49,10 @@ ION_ prefix helps identify macros specific to the project
 // removed from GCC as it was considered unreliable
 #define ION_UNREACHABLE_CODE                    4702
 
+
+// Warning when a value is too large to fit into a type
+#define ION_VALUE_TRUNCATION                    4309
+
 #elif defined(__GNUC__)
 
 // GCC pragma warning directives
