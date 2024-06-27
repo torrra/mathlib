@@ -21,6 +21,7 @@ TEST_CASE("Intersection2D", "[all][intersection]")
 
 		// Constructor / destructor
 		{
+			[[maybe_unused]]
 			ion::math::AABBCollider2D		discard;
 			ion::math::AABBCollider2D		copy = controlAABB;
 

@@ -38,8 +38,8 @@ TEST_CASE("Matrix2", "[matrix][all]")
     SECTION("Instanciation")
     {
         {
-            ion::math::Matrix2    myMat;
-            ion::math::Matrix2    toCopy(3.4f, 1.f, 4.6f, 0.7f);
+            ion::math::Matrix2f    myMat(0.f);
+            ion::math::Matrix2f    toCopy(3.4f, 1.f, 4.6f, 0.7f);
             glm::mat2       glmMat(0.f);
 
             CHECK_MAT2(myMat, glmMat);
@@ -55,7 +55,7 @@ TEST_CASE("Matrix2", "[matrix][all]")
 
     SECTION("Operations")
     {
-        ion::math::Matrix2    myMat(3.4f, 1.f, 4.6f, 0.7f);
+        ion::math::Matrix2f    myMat(3.4f, 1.f, 4.6f, 0.7f);
         glm::mat2       glmMat(3.4f, 1.f, 4.6f, 0.7f);
 
         CHECK(myMat.Determinant() == glm::determinant(glmMat));
@@ -66,12 +66,12 @@ TEST_CASE("Matrix2", "[matrix][all]")
         CHECK_MAT2(myMat.Inverse(), glm::inverse(glmMat));
 
 
-        ion::math::Matrix2   otherMat(1.7f, 3.2f, 4.2f, 6.f);
+        ion::math::Matrix2f   otherMat(1.7f, 3.2f, 4.2f, 6.f);
         glm::mat2      otherGlm(1.7f, 3.2f, 4.2f, 6.f);
 
 
         // Addition
-        ion::math::Matrix2   myResult = myMat + otherMat;
+        ion::math::Matrix2f   myResult = myMat + otherMat;
         glm::mat2      glmResult = glmMat + otherGlm;
 
         CHECK_MAT2(myResult, glmResult);

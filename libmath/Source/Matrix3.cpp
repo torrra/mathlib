@@ -208,9 +208,9 @@ namespace ion::math
 
 
 
-	Matrix2 Matrix3::SubMatrix(int _row, int _column) const
+	Matrix2<float> Matrix3::SubMatrix(int _row, int _column) const
 	{
-		Matrix2		minor;
+		Matrix2<float>		minor;
 
 		// Go through matrix and ignore row argument
 		for (int thisRow = 0, mat2Row = 0; thisRow < 3; ++thisRow)
