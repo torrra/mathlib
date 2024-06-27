@@ -30,6 +30,15 @@ namespace ion::math
     using Matrix3d = Matrix3<double>;
     using Matrix3i = Matrix3<int32_t>;
 
+
+
+    template <CScalarType TValueType>
+    using Matrix4 = Matrix<4, TValueType>;
+
+    using Matrix4f = Matrix4<float>;
+    using Matrix4d = Matrix4<double>;
+    using Matrix4i = Matrix4<int32_t>;
+
 }
 
 #endif
