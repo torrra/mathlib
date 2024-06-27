@@ -590,7 +590,7 @@ namespace ion::math
 		std::stringstream		stream;
 
 		// Pass components to stream
-		stream << "Vector<4, TValueType>{ x:" << m_x << ", y:" << m_y << ", z:"
+		stream << "Vector4{ x:" << m_x << ", y:" << m_y << ", z:"
 			<< m_z << ", w:" << m_w << " }";
 
 		return stream.str();
