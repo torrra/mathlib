@@ -429,7 +429,7 @@ namespace ion::math
 		// Only divide once
 		TValueType		invMagnitude = Magnitude();
 
-		if (AlmostEqual(invMagnitude, 0.f, FLT_EPSILON))
+		if (AlmostEqual(invMagnitude, 0.f, std::numeric_limits<TValueType>::epsilon()))
 		{
 			throw std::logic_error("Cannot divide by zero magnitude");
 		}
