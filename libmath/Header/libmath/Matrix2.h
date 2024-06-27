@@ -44,8 +44,12 @@ namespace ion::math
     template <CScalarType TValueType>
     class Matrix<2, TValueType>
      {
-    public:
-        using TRowType = Vector<2, TValueType>;
+     private:
+
+         using TMatrixType = Matrix<2, TValueType>;
+         using TRowType = Vector<2, TValueType>;
+
+     public:
 
           // Constructor / destructor
 
@@ -66,33 +70,33 @@ namespace ion::math
         inline void            Identity(TValueType _diag = static_cast<TValueType>(1));
 
         // Get transposed matrix of cofactors
-        inline Matrix         Adjugate(void)                      const;
+        inline TMatrixType         Adjugate(void)                      const;
 
         // Get inverse of this matrix
-        inline Matrix         Inverse(void)                       const;
+        inline TMatrixType         Inverse(void)                       const;
 
         // Get transposed copy of this matrix
-        inline Matrix         Transpose(void)                     const;
+        inline TMatrixType         Transpose(void)                     const;
 
-        inline Matrix&        operator=(const Matrix& _rhs);
+        inline TMatrixType&        operator=(const TMatrixType& _rhs);
 
-        // Matrix / matrix operators
+        // TMatrixType / matrix operators
 
-        inline Matrix         operator+(const Matrix& _rhs)      const;
-        inline Matrix         operator-(const Matrix& _rhs)      const;
-        inline Matrix         operator*(const Matrix& _rhs)      const;
+        inline TMatrixType         operator+(const TMatrixType& _rhs)      const;
+        inline TMatrixType         operator-(const TMatrixType& _rhs)      const;
+        inline TMatrixType         operator*(const TMatrixType& _rhs)      const;
 
         // Multiply all numbers of a copy of this matrix by a scalar factor
-        inline Matrix         operator*(TValueType _factor)            const;
+        inline TMatrixType         operator*(TValueType _factor)            const;
 
-        // Matrix / matrix assignment operators
+        // TMatrixType / matrix assignment operators
 
-        inline Matrix&        operator+=(const Matrix& _rhs);
-        inline Matrix&        operator-=(const Matrix& _rhs);
-        inline Matrix&        operator*=(const Matrix& _rhs);
+        inline TMatrixType&        operator+=(const TMatrixType& _rhs);
+        inline TMatrixType&        operator-=(const TMatrixType& _rhs);
+        inline TMatrixType&        operator*=(const TMatrixType& _rhs);
 
-        inline bool            operator==(const Matrix& _rhs)     const;
-        inline bool            operator!=(const Matrix& _rhs)     const;
+        inline bool            operator==(const TMatrixType& _rhs)     const;
+        inline bool            operator!=(const TMatrixType& _rhs)     const;
 
         // Access a row (no bound checking)
         inline TRowType&    operator[](int _index);
@@ -101,7 +105,7 @@ namespace ion::math
         inline TRowType    operator[](int _index)              const;
 
         // Get a 2x2 rotation matrix from an angle in radians
-        inline static Matrix  Rotate(Radian<TValueType> _angle);
+        inline static TMatrixType  Rotate(Radian<TValueType> _angle);
 
 
 

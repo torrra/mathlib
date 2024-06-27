@@ -12,7 +12,7 @@ namespace ion::math
 	class Matrix<3, TValueType>
 	{
     private:
-        using TMatType = Matrix<3, TValueType>;
+        using TMatrixType = Matrix<3, TValueType>;
         using TColumnType = Vector3<TValueType>;
 
     public:
@@ -24,7 +24,7 @@ namespace ion::math
     inline                   Matrix(const TValueType _diag);
     inline                   Matrix(const TValueType _vals[][3]);
     inline                   Matrix(const TValueType _vals[]);
-    inline                   Matrix(const TMatType& _other);
+    inline                   Matrix(const TMatrixType& _other);
 
     inline                   ~Matrix(void) = default;
 
@@ -37,59 +37,59 @@ namespace ion::math
                                        );
 
         // Get this matrix' transposed cofactor matrix
-    inline   TMatType         Adjugate(void)                      const;
+    inline   TMatrixType         Adjugate(void)                      const;
 
         // Get a matrix of all 2x2 submatrices' determinants within
         // this matrix
-    inline   TMatType         Minor(void)                         const;
+    inline   TMatrixType         Minor(void)                         const;
 
         // Get a matrix of this matrix' cofactors taken from all 2x2
         // matrices within it
-    inline   TMatType         Cofactor(void)                      const;
+    inline   TMatrixType         Cofactor(void)                      const;
 
         // Get inverse of this matrix
-    inline   TMatType         Inverse(void)                       const;
+    inline   TMatrixType         Inverse(void)                       const;
 
         // Get a transposed copy of this matrix
-    inline   TMatType         Transpose(void)                     const;
+    inline   TMatrixType         Transpose(void)                     const;
 
         // Get this matrix stripped of a row and a column
     inline
     Matrix2<TValueType>  SubMatrix(int _row, int _column)    const;
 
-    inline   TMatType&        operator=(const TMatType& _rhs);
-    inline   TMatType&        operator=(const TValueType _rhs[][3]);
-    inline   TMatType&        operator=(const TValueType _rhs[9]);
+    inline   TMatrixType&        operator=(const TMatrixType& _rhs);
+    inline   TMatrixType&        operator=(const TValueType _rhs[][3]);
+    inline   TMatrixType&        operator=(const TValueType _rhs[9]);
 
         // Matrix / matrix operators
 
-    inline   TMatType         operator+(const TMatType& _rhs)      const;
-    inline   TMatType         operator-(const TMatType& _rhs)      const;
-    inline   TMatType         operator*(const TMatType& _rhs)      const;
+    inline   TMatrixType         operator+(const TMatrixType& _rhs)      const;
+    inline   TMatrixType         operator-(const TMatrixType& _rhs)      const;
+    inline   TMatrixType         operator*(const TMatrixType& _rhs)      const;
 
     inline    Vector3<TValueType>
     operator*(const Vector3<TValueType>& _rhs)                      const;
 
         // Multiply all numbers of a copy of this matrix by a scalar factor
-    inline   TMatType         operator*(TValueType _factor)         const;
+    inline   TMatrixType         operator*(TValueType _factor)         const;
 
         // Divide all numbers of a copy of this matrix by a scalar factor
-    inline  TMatType         operator/(TValueType _factor)          const;
+    inline  TMatrixType         operator/(TValueType _factor)          const;
 
         // Matrix / matrix assignment operators
 
-     inline   TMatType&        operator+=(const TMatType& _rhs);
-     inline   TMatType&        operator-=(const TMatType& _rhs);
-     inline   TMatType&        operator*=(const TMatType& _rhs);
+     inline   TMatrixType&        operator+=(const TMatrixType& _rhs);
+     inline   TMatrixType&        operator-=(const TMatrixType& _rhs);
+     inline   TMatrixType&        operator*=(const TMatrixType& _rhs);
 
         // Multiply all numbers of a copy of this matrix by a scalar factor
-    inline   TMatType&        operator*=(TValueType _factor);
+    inline   TMatrixType&        operator*=(TValueType _factor);
 
         // Divide all numbers of a copy of this matrix by a scalar factor
-    inline   TMatType&        operator/=(TValueType _factor);
+    inline   TMatrixType&        operator/=(TValueType _factor);
 
-    inline    bool            operator==(const TMatType& _rhs)     const;
-    inline    bool            operator!=(const TMatType& _rhs)     const;
+    inline    bool            operator==(const TMatrixType& _rhs)     const;
+    inline    bool            operator!=(const TMatrixType& _rhs)     const;
 
         // Access a row (no bound checking)
     inline    TColumnType&   operator[](int _index);
