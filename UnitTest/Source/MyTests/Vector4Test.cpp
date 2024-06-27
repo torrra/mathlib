@@ -290,7 +290,7 @@ TEST_CASE("Vector4f", "[all][vector]")
 		CHECK(buffer.str() == "{-1.4,5.6,7.6,4.2}");
 		CHECK(input.String() == "{-1.4,5.6,7.6,4.2}");
 
-		CHECK(input.StringLong() == "Vector4f{ x:-1.4, y:5.6, z:7.6, w:4.2 }");
+		CHECK(input.StringLong() == "Vector4{ x:-1.4, y:5.6, z:7.6, w:4.2 }");
 
 		buffer << " extra";
 
