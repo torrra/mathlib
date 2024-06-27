@@ -18,15 +18,15 @@ for (int iteration = 0; iteration < 4; ++iteration)\
 	CHECK(vec1[iteration] == Catch::Approx(vec2[iteration]))
 
 
-TEST_CASE("Vector4", "[all][vector]")
+TEST_CASE("Vector4f", "[all][vector]")
 {
 	SECTION("Instanciation")
 	{
-		ion::math::Vector4	empty;
-		ion::math::Vector4	vec4Nums(4.f, 6.f, 5.6f, 4.5f);
+		ion::math::Vector4f	empty;
+		ion::math::Vector4f	vec4Nums(4.f, 6.f, 5.6f, 4.5f);
 
-		ion::math::Vector4	vec1Num = ion::math::Vector4::One();
-		ion::math::Vector4	copy(vec4Nums);
+		ion::math::Vector4f	vec1Num = ion::math::Vector4f::One();
+		ion::math::Vector4f	copy(vec4Nums);
 
 		glm::vec4		glmZero(0.f);
 		glm::vec4		glm2Nums(4.f, 6.f, 5.6f, 4.5f);
@@ -47,7 +47,7 @@ TEST_CASE("Vector4", "[all][vector]")
 
 	SECTION("Accessors")
 	{
-		ion::math::Vector4			myVec(4.f, 6.f, 5.6f, 4.5f);
+		ion::math::Vector4f			myVec(4.f, 6.f, 5.6f, 4.5f);
 		glm::vec4				glmVec(4.f, 6.f, 5.6f, 4.5f);
 
 		CHECK(myVec.X() == glmVec.x);
@@ -61,7 +61,7 @@ TEST_CASE("Vector4", "[all][vector]")
 
 
 		// const tests
-		const ion::math::Vector4		vec4(myVec);
+		const ion::math::Vector4f		vec4(myVec);
 
 
 		CHECK(vec4.GetX() == glmVec.x);
@@ -74,13 +74,13 @@ TEST_CASE("Vector4", "[all][vector]")
 
 	SECTION("Magnitude and distance")
 	{
-		ion::math::Vector4	vec4Nums(4.f, 6.f, 5.6f, 4.5f);
+		ion::math::Vector4f	vec4Nums(4.f, 6.f, 5.6f, 4.5f);
 		glm::vec4		glm2Nums(4.f, 6.f, 5.6f, 4.5f);
 
-		ion::math::Vector4	belowOne(0.1f, 0.4f, 0.005f, 0.017f);
+		ion::math::Vector4f	belowOne(0.1f, 0.4f, 0.005f, 0.017f);
 		glm::vec4		glmBelowOne(0.1f, 0.4f, 0.005f, 0.017f);
 
-		ion::math::Vector4	otherBelowOne(0.6f, 0.f, 0.0001f, 0.f);
+		ion::math::Vector4f	otherBelowOne(0.6f, 0.f, 0.0001f, 0.f);
 		glm::vec4		otherGlmBelowOne(0.6f, 0.f, 0.0001f, 0.f);
 
 		CHECK(vec4Nums.Magnitude() == glm::length(glm2Nums));
@@ -97,7 +97,7 @@ TEST_CASE("Vector4", "[all][vector]")
 		CHECK_FALSE(belowOne.IsLongerThan(vec4Nums));
 
 
-		ion::math::Vector4	unit = ion::math::Vector4::Left();
+		ion::math::Vector4f	unit = ion::math::Vector4f::Left();
 
 		CHECK(unit.IsUnitVector());
 
@@ -108,7 +108,7 @@ TEST_CASE("Vector4", "[all][vector]")
 
 		CHECK(belowOne.IsUnitVector());
 
-		ion::math::Vector4	normalized = ion::math::Normalize(vec4Nums);
+		ion::math::Vector4f	normalized = ion::math::Normalize(vec4Nums);
 
 		CHECK(normalized.IsUnitVector());
 
@@ -131,10 +131,10 @@ TEST_CASE("Vector4", "[all][vector]")
 
 	SECTION("Vector operations")
 	{
-		const	  ion::math::Vector4		vecOne(4.f, -6.f, 27.4f, 60.f);
+		const	  ion::math::Vector4f		vecOne(4.f, -6.f, 27.4f, 60.f);
 		constexpr glm::vec4			glmOne(4.f, -6.f, 27.4f, 60.f);
 
-		const	  ion::math::Vector4		vecTwo(3.f, 9.f, 45.6f, 4.f);
+		const	  ion::math::Vector4f		vecTwo(3.f, 9.f, 45.6f, 4.f);
 		constexpr glm::vec4			glmTwo(3.f, 9.f, 45.6f, 4.f);
 
 
@@ -148,7 +148,7 @@ TEST_CASE("Vector4", "[all][vector]")
 			CHECK(objDot == glmDot);
 			CHECK(ion::math::Dot(vecOne, vecTwo) == objDot);
 
-			ion::math::Vector4		result = vecOne;
+			ion::math::Vector4f		result = vecOne;
 
 			result.Translate(vecTwo);
 
@@ -175,8 +175,8 @@ TEST_CASE("Vector4", "[all][vector]")
 
 			CHECK(myAngle == Catch::Approx(glmAngle));
 
-			ion::math::Vector4		normalOne = ion::math::Normalize(vecOne);
-			ion::math::Vector4		normalTwo = ion::math::Normalize(vecTwo);
+			ion::math::Vector4f		normalOne = ion::math::Normalize(vecOne);
+			ion::math::Vector4f		normalTwo = ion::math::Normalize(vecTwo);
 
 			CHECK(normalOne.IsUnitVector());
 			CHECK(normalTwo.IsUnitVector());
@@ -208,7 +208,7 @@ TEST_CASE("Vector4", "[all][vector]")
 
 			ion::math::Radian			xRad{ angleX }, yRad{ angleY }, zRad{ angleZ };
 			glm::vec4			glmRotated = glm::orientate4(rotation) * glmOne;
-			ion::math::Vector4		rotated = ion::math::Rotate(vecOne, xRad, yRad, zRad);
+			ion::math::Vector4f		rotated = ion::math::Rotate(vecOne, xRad, yRad, zRad);
 
 			CHECK_VECTOR4(rotated, glmRotated);
 
@@ -231,7 +231,7 @@ TEST_CASE("Vector4", "[all][vector]")
 
 		SECTION("Projection / reflection")
 		{
-			ion::math::Vector4	result = ion::math::Project(vecOne, vecTwo);
+			ion::math::Vector4f	result = ion::math::Project(vecOne, vecTwo);
 			glm::vec4		glmResult = glm::proj(glmOne, glmTwo);
 
 			CHECK_VECTOR4(result, glmResult);
@@ -262,25 +262,25 @@ TEST_CASE("Vector4", "[all][vector]")
 
 	SECTION("Static vectors")
 	{
-		CHECK_VECTOR4(ion::math::Vector4::One(), glm::vec4(1.f));
-		CHECK_VECTOR4(ion::math::Vector4::Zero(), glm::vec4(0.f));
+		CHECK_VECTOR4(ion::math::Vector4f::One(), glm::vec4(1.f));
+		CHECK_VECTOR4(ion::math::Vector4f::Zero(), glm::vec4(0.f));
 
-		CHECK_VECTOR4(ion::math::Vector4::Left(), glm::vec4(-1.f, 0.f, 0.f, 0.f));
-		CHECK_VECTOR4(ion::math::Vector4::Right(), glm::vec4(1.f, 0.f, 0.f, 0.f));
+		CHECK_VECTOR4(ion::math::Vector4f::Left(), glm::vec4(-1.f, 0.f, 0.f, 0.f));
+		CHECK_VECTOR4(ion::math::Vector4f::Right(), glm::vec4(1.f, 0.f, 0.f, 0.f));
 
-		CHECK_VECTOR4(ion::math::Vector4::Up(), glm::vec4(0.f, 1.f, 0.f, 0.f));
-		CHECK_VECTOR4(ion::math::Vector4::Down(), glm::vec4(0.f, -1.f, 0.f, 0.f));
+		CHECK_VECTOR4(ion::math::Vector4f::Up(), glm::vec4(0.f, 1.f, 0.f, 0.f));
+		CHECK_VECTOR4(ion::math::Vector4f::Down(), glm::vec4(0.f, -1.f, 0.f, 0.f));
 
-		CHECK_VECTOR4(ion::math::Vector4::Back(), glm::vec4(0.f, 0.f, -1.f, 0.f));
-		CHECK_VECTOR4(ion::math::Vector4::Front(), glm::vec4(0.f, 0.f, 1.f, 0.f));
+		CHECK_VECTOR4(ion::math::Vector4f::Back(), glm::vec4(0.f, 0.f, -1.f, 0.f));
+		CHECK_VECTOR4(ion::math::Vector4f::Front(), glm::vec4(0.f, 0.f, 1.f, 0.f));
 	}
 
 
 	SECTION("I/O and strings")
 	{
 
-		ion::math::Vector4		input(-1.4f, 5.6f, 7.6f, 4.2f);
-		ion::math::Vector4		output;
+		ion::math::Vector4f		input(-1.4f, 5.6f, 7.6f, 4.2f);
+		ion::math::Vector4f		output;
 		std::string			extra;
 
 		std::stringstream	buffer;
@@ -290,7 +290,7 @@ TEST_CASE("Vector4", "[all][vector]")
 		CHECK(buffer.str() == "{-1.4,5.6,7.6,4.2}");
 		CHECK(input.String() == "{-1.4,5.6,7.6,4.2}");
 
-		CHECK(input.StringLong() == "Vector4{ x:-1.4, y:5.6, z:7.6, w:4.2 }");
+		CHECK(input.StringLong() == "Vector4f{ x:-1.4, y:5.6, z:7.6, w:4.2 }");
 
 		buffer << " extra";
 
@@ -308,10 +308,10 @@ TEST_CASE("Vector4", "[all][vector]")
 
 	SECTION("Operators")
 	{
-		ion::math::Vector4	vecOne(4.1f, 3.7f, 45.3f, 5.f), vecTwo(1.1f, 5.1f, 22.f, 14.f);
+		ion::math::Vector4f	vecOne(4.1f, 3.7f, 45.3f, 5.f), vecTwo(1.1f, 5.1f, 22.f, 14.f);
 		glm::vec4		glmOne(4.1f, 3.7f, 45.3f, 5.f), glmTwo(1.1f, 5.1f, 22.f, 14.f);
 
-		ion::math::Vector4	result = vecOne + vecTwo;
+		ion::math::Vector4f	result = vecOne + vecTwo;
 		glm::vec4		glmResult = glmOne + glmTwo;
 
 		float			scalar = 3.5f;
@@ -382,7 +382,7 @@ TEST_CASE("Vector4", "[all][vector]")
 
 		CHECK(result == result);
 
-		ion::math::Vector4			vecThree(154.f, 0.f, 50.f, 45.f);
+		ion::math::Vector4f			vecThree(154.f, 0.f, 50.f, 45.f);
 
 		CHECK(vecThree != result);
 		CHECK_FALSE(vecOne == vecThree);

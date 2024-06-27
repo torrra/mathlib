@@ -5,7 +5,7 @@
 
 namespace ion::math
 {
-	Matrix4::Matrix4(const float _diag)
+	/*Matrix4::Matrix4(const float _diag)
 	{
 		Identity(_diag);
 	}
@@ -437,6 +437,6 @@ namespace ion::math
 	float const* Matrix4::operator[](int _index) const
 	{
 		return m_values[_index];
-	}
+	}*/
 
 }
