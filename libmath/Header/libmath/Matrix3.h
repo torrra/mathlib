@@ -1,4 +1,31 @@
-#pragma once
+/*
+
+ _____                               _
+|_   _|                             (_)
+  | |  ___  _ __     ___ _ __   __ _ _ _ __   ___
+  | | / _ \| '_ \   / _ \ '_ \ / _` | | '_ \ / _ \
+ _| || (_) | | | | |  __/ | | | (_| | | | | |  __/
+ \___/\___/|_| |_|  \___|_| |_|\__, |_|_| |_|\___|
+								__/ |
+							   |___/
+
+
+NAME: Matrix3.hpp
+
+DESCTIPTION: 3x3 matrix class
+
+AUTHOR: Noah de Pischof | @torrra on GitHub
+
+TEMPLATES:
+
+CScalarType is a template constraint that only accepts numeric data types
+
+*/
+
+
+#ifndef __MATRIX3_H__
+#define __MATRIX3_H__
+
 
 #include "libmath/MathGeneric.hpp"
 #include "libmath/MatrixGeneric.hpp"
@@ -684,3 +711,5 @@ namespace ion::math
 
 namespace lm = ion::math;
 namespace LibMath = ion::math;
+
+#endif
