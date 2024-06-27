@@ -11,7 +11,7 @@
 
 #include "Timer.h"
 
-#include "libmath/Vector4.h"
+#include "libmath/Vector4.hpp"
 
 #define CHECK_VECTOR4(vec1, vec2)\
 for (int iteration = 0; iteration < 4; ++iteration)\

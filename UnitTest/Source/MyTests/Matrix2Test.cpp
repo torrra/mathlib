@@ -8,8 +8,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/matrix_operation.hpp>
 
-#include "libmath/Arithmetic.h"
-#include "libmath/Matrix2.h"
+#include "libmath/Arithmetic.hpp"
+#include "libmath/Matrix2.hpp"
 
 // Display any matrix' content
 #define DISPLAY_MAT2(obj, title)\

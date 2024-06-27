@@ -6,8 +6,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 
-#include "libmath/Arithmetic.h"
-#include "libmath/Angle.h"
+#include "libmath/Arithmetic.hpp"
+#include "libmath/Angle.hpp"
 
 
 using namespace ion::math::Literal;

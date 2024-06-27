@@ -1,5 +1,5 @@
 #include "libmath/Trigonometry.h"
-#include "libmath/Arithmetic.h"
+#include "libmath/Arithmetic.hpp"
 
 #include <cmath>
 

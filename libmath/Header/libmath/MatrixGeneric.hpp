@@ -4,9 +4,9 @@
 #include <inttypes.h>
 
 #include "libmath/MathGeneric.hpp"
-#include "libmath/Vector2.h"
-#include "libmath/Vector3.h"
-#include "libmath/Vector4.h"
+#include "libmath/Vector2.hpp"
+#include "libmath/Vector3.hpp"
+#include "libmath/Vector4.hpp"
 
 
 namespace ion::math

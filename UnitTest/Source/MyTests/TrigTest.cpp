@@ -7,7 +7,7 @@
 #include <glm/gtc/constants.hpp>
 
 #include "libmath/Trigonometry.h"
-#include "libmath/Arithmetic.h"
+#include "libmath/Arithmetic.hpp"
 
 #include "Timer.h"
 

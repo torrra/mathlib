@@ -8,8 +8,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/matrix_operation.hpp>
 
-#include "libmath/Arithmetic.h"
-#include "libmath/Matrix3.h"
+#include "libmath/Arithmetic.hpp"
+#include "libmath/Matrix3.hpp"
 
 #include "Timer.h"
 

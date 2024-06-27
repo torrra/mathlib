@@ -1,6 +1,6 @@
 #pragma once
 
-#include "libmath/Angle.h"
+#include "libmath/Angle.hpp"
 
 #define MIN_COS		-1.f
 #define MAX_COS		1.f

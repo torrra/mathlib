@@ -1,7 +1,7 @@
 #include <iostream>
 #include <sstream>
 
-#include <libmath/Vector3.h>
+#include <libmath/Vector3.hpp>
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/catch_approx.hpp>

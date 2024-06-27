@@ -1,8 +1,8 @@
 #pragma once
 
-#include "libmath/Vector3.h"
-#include "libmath/Matrix3.h"
-#include "libmath/Arithmetic.h"
+#include "libmath/Vector3.hpp"
+#include "libmath/Matrix3.hpp"
+#include "libmath/Arithmetic.hpp"
 
 namespace ion::math
 {

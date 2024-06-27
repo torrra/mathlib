@@ -1,7 +1,7 @@
 #pragma once
 
-#include "libmath/Vector3.h"
-#include "libmath/Vector2.h"
+#include "libmath/Vector3.hpp"
+#include "libmath/Vector2.hpp"
 
 namespace ion::math
 {
