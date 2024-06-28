@@ -9,7 +9,7 @@
 #include <glm/ext.hpp>
 #include <glm/gtx/norm.hpp>
 
-#include "math/Interpolation.h"
+#include "math/Interpolation.hpp"
 
 TEST_CASE("Interpolation", "[all]")
 {

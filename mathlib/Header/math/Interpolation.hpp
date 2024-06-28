@@ -1,4 +1,26 @@
-#pragma once
+/*
+
+ _____                               _
+|_   _|                             (_)
+  | |  ___  _ __     ___ _ __   __ _ _ _ __   ___
+  | | / _ \| '_ \   / _ \ '_ \ / _` | | '_ \ / _ \
+ _| || (_) | | | | |  __/ | | | (_| | | | | |  __/
+ \___/\___/|_| |_|  \___|_| |_|\__, |_|_| |_|\___|
+								__/ |
+							   |___/
+
+
+NAME: Interpolation.hpp
+
+DESCTIPTION: Interpolation functions
+
+AUTHOR: Noah de Pischof | @torrra on GitHub
+
+
+*/
+
+#ifndef __INTERPOLATION_H__
+#define __INTERPOLATION_H__
 
 #include "math/MathGeneric.hpp"
 
@@ -47,3 +69,6 @@ namespace ion::math
 	}
 
 }
+
+
+#endif

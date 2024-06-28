@@ -1,4 +1,26 @@
-#pragma once
+/*
+
+ _____                               _
+|_   _|                             (_)
+  | |  ___  _ __     ___ _ __   __ _ _ _ __   ___
+  | | / _ \| '_ \   / _ \ '_ \ / _` | | '_ \ / _ \
+ _| || (_) | | | | |  __/ | | | (_| | | | | |  __/
+ \___/\___/|_| |_|  \___|_| |_|\__, |_|_| |_|\___|
+								__/ |
+							   |___/
+
+
+NAME: Trigonometry.hpp
+
+DESCTIPTION: Trigonometry functions (sin, cos, acos...)
+
+AUTHOR: Noah de Pischof | @torrra on GitHub
+
+
+*/
+
+#ifndef __TRIGONOMETRY_H__
+#define __TRIGONOMETRY_H__
 
 #include <cmath>
 
@@ -239,3 +261,5 @@ namespace ion::math
 
 namespace LibMath = ion::math;
 namespace lm = ion::math;
+
+#endif
