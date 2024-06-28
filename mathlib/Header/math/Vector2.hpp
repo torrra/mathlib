@@ -30,11 +30,11 @@ CScalarType is a template constraint that only accepts numeric data types
 #include <string>
 #include <sstream>
 
-#include "libmath/MathGeneric.hpp"
-#include "libmath/VectorGeneric.hpp"
+#include "math/MathGeneric.hpp"
+#include "math/VectorGeneric.hpp"
 
 
-#include "libmath/Angle.hpp"
+#include "math/Angle.hpp"
 #include "Trigonometry.h"
 
 

@@ -9,7 +9,7 @@
 #include <glm/glm.hpp>
 
 
-#include "libmath/Intersection2D.h"
+#include "math/Intersection2D.h"
 
 #include <iostream>
 

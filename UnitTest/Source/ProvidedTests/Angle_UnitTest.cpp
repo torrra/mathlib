@@ -1,4 +1,4 @@
-#include <libmath/Angle.hpp>
+#include <math/Angle.hpp>
 
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>

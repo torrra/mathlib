@@ -3,10 +3,10 @@
 
 #include <inttypes.h>
 
-#include "libmath/MathGeneric.hpp"
-#include "libmath/Vector2.hpp"
-#include "libmath/Vector3.hpp"
-#include "libmath/Vector4.hpp"
+#include "math/MathGeneric.hpp"
+#include "math/Vector2.hpp"
+#include "math/Vector3.hpp"
+#include "math/Vector4.hpp"
 
 
 namespace ion::math

@@ -1,4 +1,4 @@
-#include <libmath/Trigonometry.h>
+#include <math/Trigonometry.h>
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/catch_approx.hpp>

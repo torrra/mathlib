@@ -1,4 +1,4 @@
-#include "libmath/Intersection2D.h"
+#include "math/Intersection2D.h"
 
 
 #ifndef  FLT_MAX

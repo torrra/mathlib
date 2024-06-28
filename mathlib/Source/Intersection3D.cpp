@@ -1,5 +1,5 @@
-#include "libmath/Intersection3D.h"
-#include "libmath/Trigonometry.h"
+#include "math/Intersection3D.h"
+#include "math/Trigonometry.h"
 
 
 #ifndef  FLT_MAX

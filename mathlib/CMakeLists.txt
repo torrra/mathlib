@@ -1,4 +1,4 @@
-# libmath static lib CMake
+# math static lib CMake
 
 # Do not attempt to compile with an older version of CMake
 cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
@@ -43,11 +43,11 @@ file(GLOB_RECURSE TARGET_DOC_FILES
 # Put target all files together in a variable
 set(TARGET_FILES ${TARGET_HEADER_FILES} ${TARGET_SOURCE_FILES} ${TARGET_DOC_FILES})
 
-# Generate Visual Studio filter without the extra "libmath" folder in Header
+# Generate Visual Studio filter without the extra "math" folder in Header
 source_group("Source" ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TARGET_SOURCE_FILES})
 source_group("Header" ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TARGET_HEADER_FILES})
 
-# Create variable for header directory (will still require to put libmath/)
+# Create variable for header directory (will still require to put math/)
 set(TARGET_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Header)
 
 

@@ -28,8 +28,8 @@ CScalarType is a template constraint that only accepts numeric data types
 #define __ANGLE_H__
 
 
-#include "libmath/MathGeneric.hpp"
-#include "libmath/Arithmetic.hpp"
+#include "math/MathGeneric.hpp"
+#include "math/Arithmetic.hpp"
 
 
 #define MTH_PI				3.141592653589f
@@ -580,7 +580,7 @@ namespace ion::math
 	template <CScalarType TValueType> inline
 	TValueType Radian<TValueType>::Rad(bool _wrapPi) const
 	{
-		// Use custom wrap as libmath wrap is not precise enough
+		// Use custom wrap as math wrap is not precise enough
 
 		// Treat value as positive
 		float			absValue = Absolute(m_value);

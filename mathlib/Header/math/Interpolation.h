@@ -1,9 +1,9 @@
 #pragma once
 
-#include "libmath/MathGeneric.hpp"
+#include "math/MathGeneric.hpp"
 
-#include "libmath/Vector3.hpp"
-#include "libmath/Vector2.hpp"
+#include "math/Vector3.hpp"
+#include "math/Vector2.hpp"
 
 namespace ion::math
 {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "libmath/Vector2.hpp"
-#include "libmath/Arithmetic.hpp"
+#include "math/Vector2.hpp"
+#include "math/Arithmetic.hpp"
 
 namespace ion::math
 {

@@ -20,14 +20,14 @@ if (${CMAKE_CURRENT_SOURCE_DIR} PATH_EQUAL ${CMAKE_SOURCE_DIR})
 
 # If this script is ran from add_subdirectory()
 else()
-    
+
     # Place targets build from this file in a folder named after this directory
     set(CMAKE_FOLDER ${PROJECT_NAME})
 
 endif()
 
 # Build libmath static lib
-add_subdirectory(libmath)
+add_subdirectory(mathlib)
 
 # Build executable with unit tests
 if (${UNIT_TESTS})

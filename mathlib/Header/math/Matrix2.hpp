@@ -29,15 +29,15 @@ CScalarType is a template constraint that only accepts numeric data types
 
 #include "IonDebug.hpp"
 
-#include "libmath/MathGeneric.hpp"
-#include "libmath/MatrixGeneric.hpp"
+#include "math/MathGeneric.hpp"
+#include "math/MatrixGeneric.hpp"
 
-#include "libmath/Vector2.hpp"
+#include "math/Vector2.hpp"
 
-#include "libmath/Angle.hpp"
+#include "math/Angle.hpp"
 
-#include "libmath/Arithmetic.hpp"
-#include "libmath/Trigonometry.h"
+#include "math/Arithmetic.hpp"
+#include "math/Trigonometry.h"
 
 namespace ion::math
 {

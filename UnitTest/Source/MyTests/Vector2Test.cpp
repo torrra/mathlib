@@ -9,8 +9,8 @@
 #include <glm/ext.hpp>
 #include <glm/gtx/norm.hpp>
 
-#include "libmath/Arithmetic.hpp"
-#include "libmath/Vector2.hpp"
+#include "math/Arithmetic.hpp"
+#include "math/Vector2.hpp"
 
 #include "Timer.h"
 

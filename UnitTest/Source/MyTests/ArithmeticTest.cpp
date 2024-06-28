@@ -4,7 +4,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/catch_approx.hpp>
 
-#include "libmath/Arithmetic.hpp"
+#include "math/Arithmetic.hpp"
 
 TEST_CASE("Arithmetic", "[all]")
 {

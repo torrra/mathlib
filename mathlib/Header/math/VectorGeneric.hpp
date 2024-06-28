@@ -33,7 +33,7 @@ Type suffix: Generic type, goes with T prefix
 
 #include <inttypes.h>
 
-#include "libmath/MathGeneric.hpp"
+#include "math/MathGeneric.hpp"
 
 namespace ion::math
 {

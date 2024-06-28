@@ -8,15 +8,15 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/matrix_operation.hpp>
 
-#include "libmath/Arithmetic.hpp"
-#include "libmath/Matrix2.hpp"
+#include "math/Arithmetic.hpp"
+#include "math/Matrix2.hpp"
 
 // Display any matrix' content
 #define DISPLAY_MAT2(obj, title)\
 std::cout << title << ":\n" << obj[0][0] << ' ' << obj[0][1]\
 << '\n' << obj[1][0] << ' ' << obj[1][1] << '\n';
 
-// Comparison compatible with both my libmath and glm
+// Comparison compatible with both my math and glm
 #define CHECK_MAT2(mat1, mat2)\
 CHECK(ion::math::AlmostEqual(mat1[0][0], mat2[0][0]));\
 CHECK(ion::math::AlmostEqual(mat1[0][1], mat2[0][1]));\

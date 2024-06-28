@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-#include "libmath/Angle.hpp"
+#include "math/Angle.hpp"
 
 // Number of times cos should run its loop
 #define COS_IT		6u
