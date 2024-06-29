@@ -96,7 +96,7 @@ target_include_directories(${TARGET_NAME}
 
 # Link necessary static libs
 target_link_libraries(${TARGET_NAME}
-    PRIVATE ${LIBMATH_LIB}
+    PRIVATE ${MATHLIB_LIB}
     PRIVATE Catch2::Catch2
 )
 

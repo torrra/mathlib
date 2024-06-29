@@ -78,5 +78,5 @@ endif()
 
 
 # Make library available to other projects (as long as they are built after this)
-set(LIBMATH_LIB ${TARGET_NAME} PARENT_SCOPE)
+set(MATHLIB_LIB ${TARGET_NAME} PARENT_SCOPE)
 
