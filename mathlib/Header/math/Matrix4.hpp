@@ -79,6 +79,14 @@ namespace math
 		// Get this matrix stripped of a row and a column
 	inline	Matrix3<TValueType>         SubMatrix(int _row, int _column)    const;
 
+
+	// Get rotation matrix from three angles (column-major)
+	static inline TMatrixType			RotationMatrix(
+			Radian<TValueType> _angleX,
+			Radian<TValueType> _angleY,
+			Radian<TValueType> _angle
+	);
+
 	inline	TMatrixType&		operator=(const TMatrixType& _rhs);
 	inline	TMatrixType&		operator=(const TValueType _rhs[][4]);
 	inline	TMatrixType&		operator=(const TValueType _rhs[16]);
@@ -346,6 +354,47 @@ namespace math
 
 		return minor;
 	}
+
+	template<CScalarType TValueType>
+	inline Matrix<4, TValueType> Matrix<4, TValueType>::RotationMatrix(
+		Radian<TValueType> _angleX,
+		Radian<TValueType> _angleY,
+		Radian<TValueType> _angleZ
+	)
+	{
+		TValueType				cosYaw = Cos(_angleZ), sinYaw = Sin(_angleZ);
+		TValueType				cosPitch = Cos(_angleX), sinPitch = Sin(_angleX);
+		TValueType				cosRoll = Cos(_angleY), sinRoll = Sin(_angleY);
+
+		TMatrixType				rotationMatrix;
+
+		// Assign COLUMN-MAJOR rotation matrix
+
+		rotationMatrix[0][0] = cosYaw * cosRoll + sinYaw * sinPitch * sinRoll;
+		rotationMatrix[1][0] = -cosYaw * sinRoll + sinYaw * sinPitch * cosRoll;
+		rotationMatrix[2][0] = sinYaw * cosPitch;
+		rotationMatrix[3][0] = static_cast<TValueType>(0);
+
+		rotationMatrix[0][1] = sinRoll * cosPitch;
+		rotationMatrix[1][1] = cosRoll * cosPitch;
+		rotationMatrix[2][1] = -sinPitch;
+		rotationMatrix[3][1] = static_cast<TValueType>(0);
+
+		rotationMatrix[0][2] = -sinYaw * cosRoll + cosYaw * sinPitch * sinRoll;
+		rotationMatrix[1][2] = sinRoll * sinYaw + cosYaw * sinPitch * cosRoll;
+		rotationMatrix[2][2] = cosYaw * cosPitch;
+		rotationMatrix[3][2] = static_cast<TValueType>(0);
+
+		rotationMatrix[0][3] = static_cast<TValueType>(0);
+		rotationMatrix[1][3] = static_cast<TValueType>(0);
+		rotationMatrix[2][3] = static_cast<TValueType>(0);
+		rotationMatrix[3][3] = static_cast<TValueType>(1);
+
+		return rotationMatrix;
+
+	}
+
+
 
 	template <CScalarType TValueType> inline
 	Matrix<4, TValueType>& Matrix<4, TValueType>::operator=(const Matrix<4, TValueType>& _rhs)
