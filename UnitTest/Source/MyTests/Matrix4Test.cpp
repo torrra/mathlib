@@ -3,6 +3,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/catch_approx.hpp>
 
+
 #define GLM_ENABLE_EXPERIMENTAL
 #define GLM_FORCE_SILENT_WARNINGS
 #include <glm/glm.hpp>
@@ -155,6 +156,7 @@ TEST_CASE("Matrix 4", "[matrix][all]")
 	{
 		math::Radian			rotationX(45.f), rotationY(56.f), rotationZ(4.f);
 		glm::vec3				glmRotation(45.f, 56.f, 4.f);
+		math::Vector3f			rotationVector(45.f, 56.f, 4.f);
 
 		math::Matrix4<float>	zeroMat;
 		math::Matrix4<float>	doubleArrMat(doubleArr);
@@ -201,6 +203,12 @@ TEST_CASE("Matrix 4", "[matrix][all]")
 			(
 				rotationX, rotationY, rotationZ
 			),
+			glm::orientate4(glmRotation)
+		);
+
+		CHECK_MATRIX4
+		(
+			math::Matrix4f::RotationMatrix(rotationVector),
 			glm::orientate4(glmRotation)
 		);
 
