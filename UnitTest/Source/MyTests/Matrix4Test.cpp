@@ -6,6 +6,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #define GLM_FORCE_SILENT_WARNINGS
 #include <glm/glm.hpp>
+#include <glm/ext.hpp>
 #include <glm/gtx/matrix_operation.hpp>
 
 #include "math/Arithmetic.hpp"
@@ -152,6 +153,9 @@ TEST_CASE("Matrix 4", "[matrix][all]")
 
 	SECTION("Matrix operations")
 	{
+		math::Radian			rotationX(45.f), rotationY(56.f), rotationZ(4.f);
+		glm::vec3				glmRotation(45.f, 56.f, 4.f);
+
 		math::Matrix4<float>	zeroMat;
 		math::Matrix4<float>	doubleArrMat(doubleArr);
 		math::Matrix4<float>	lineArrMat(lineArr);
@@ -190,6 +194,15 @@ TEST_CASE("Matrix 4", "[matrix][all]")
 
 		// Inverse
 		CHECK_MATRIX4(doubleArrMat.Inverse(), glm::inverse(glmMatrix));
+
+		CHECK_MATRIX4
+		(
+			math::Matrix4f::RotationMatrix
+			(
+				rotationX, rotationY, rotationZ
+			),
+			glm::orientate4(glmRotation)
+		);
 
 	}
 
