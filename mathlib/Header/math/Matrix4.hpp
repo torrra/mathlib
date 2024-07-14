@@ -31,7 +31,7 @@ CScalarType is a template constraint that only accepts numeric data types
 #include "math/Matrix3.hpp"
 #include "math/Vector4.hpp"
 
-namespace ion::math
+namespace math
 {
 	template <CScalarType TValueType>
 	class Matrix<4, TValueType>
@@ -494,7 +494,7 @@ namespace ion::math
 
 
 	template <CScalarType TValueType> inline
-	Matrix<4, TValueType>& ion::math::Matrix<4, TValueType>::operator+=(const Matrix<4, TValueType>& _rhs)
+	Matrix<4, TValueType>& math::Matrix<4, TValueType>::operator+=(const Matrix<4, TValueType>& _rhs)
 	{
 		for (int row = 0; row < 4; ++row)
 		{
@@ -509,7 +509,7 @@ namespace ion::math
 
 
 	template <CScalarType TValueType> inline
-	Matrix<4, TValueType>& ion::math::Matrix<4, TValueType>::operator-=(const Matrix<4, TValueType>& _rhs)
+	Matrix<4, TValueType>& math::Matrix<4, TValueType>::operator-=(const Matrix<4, TValueType>& _rhs)
 	{
 		for (int row = 0; row < 4; ++row)
 		{
@@ -580,7 +580,7 @@ namespace ion::math
 		{
 			for (int column = 0; column < 4; ++column)
 			{
-				if (!ion::math::AlmostEqual(m_values[row][column],
+				if (!math::AlmostEqual(m_values[row][column],
 					_rhs.m_values[row][column]))
 					return false;
 			}
@@ -610,7 +610,7 @@ namespace ion::math
 	}
 }
 
-namespace lm = ion::math;
+namespace lm = math;
 namespace LibMath = lm;
 
 #endif

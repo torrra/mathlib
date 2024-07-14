@@ -86,11 +86,11 @@ TEST_CASE("Vector 2", "[all][vector]")
 {
 	SECTION("Instanciation")
 	{
-		ion::math::Vector2f	empty{};
-		ion::math::Vector2f	vec2Nums(4.f, 6.f);
+		math::Vector2f	empty{};
+		math::Vector2f	vec2Nums(4.f, 6.f);
 
-		ion::math::Vector2f	vec1Num = ion::math::Vector2f::One();
-		ion::math::Vector2f	copy(vec2Nums);
+		math::Vector2f	vec1Num = math::Vector2f::One();
+		math::Vector2f	copy(vec2Nums);
 
 		glm::vec2		glmZero(0.f);
 		glm::vec2		glm2Nums(4.f, 6.f);
@@ -111,7 +111,7 @@ TEST_CASE("Vector 2", "[all][vector]")
 
 	SECTION("Accessors")
 	{
-		ion::math::Vector2f			myVec(4.f, 6.f);
+		math::Vector2f			myVec(4.f, 6.f);
 		glm::vec2				glmVec(4.f, 6.f);
 
 		CHECK(myVec.X() == glmVec.x);
@@ -125,7 +125,7 @@ TEST_CASE("Vector 2", "[all][vector]")
 
 
 		// const tests
-		const ion::math::Vector2f		vec2(myVec);
+		const math::Vector2f		vec2(myVec);
 
 		// Must NOT compile
 		// CHECK(vec2.X() == glmVec.x);
@@ -141,13 +141,13 @@ TEST_CASE("Vector 2", "[all][vector]")
 
 	SECTION("Magnitude and distance")
 	{
-		ion::math::Vector2f	vec2Nums(4.f, 6.f);
+		math::Vector2f	vec2Nums(4.f, 6.f);
 		glm::vec2		glm2Nums(4.f, 6.f);
 
-		ion::math::Vector2f	belowOne(0.1f, 0.4f);
+		math::Vector2f	belowOne(0.1f, 0.4f);
 		glm::vec2		glmBelowOne(0.1f, 0.4f);
 
-		ion::math::Vector2f	otherBelowOne(0.6f, 0.f);
+		math::Vector2f	otherBelowOne(0.6f, 0.f);
 		glm::vec2		otherGlmBelowOne(0.6f, 0.f);
 
 		CHECK(vec2Nums.Magnitude() == glm::length(glm2Nums));
@@ -164,7 +164,7 @@ TEST_CASE("Vector 2", "[all][vector]")
 		CHECK_FALSE(belowOne.IsLongerThan(vec2Nums));
 
 
-		ion::math::Vector2f	unit = ion::math::Vector2f::Left();
+		math::Vector2f	unit = math::Vector2f::Left();
 
 		CHECK(unit.IsUnitVector());
 
@@ -175,7 +175,7 @@ TEST_CASE("Vector 2", "[all][vector]")
 
 		CHECK(belowOne.IsUnitVector());
 
-		ion::math::Vector2f	normalized = ion::math::Normalize(vec2Nums);
+		math::Vector2f	normalized = math::Normalize(vec2Nums);
 
 		CHECK(normalized.IsUnitVector());
 
@@ -189,8 +189,8 @@ TEST_CASE("Vector 2", "[all][vector]")
 
 		CHECK(belowOne.DistanceSquaredFrom(vec2Nums) == distance * distance);
 
-		CHECK(ion::math::Distance(belowOne, vec2Nums) == glmDistance);
-		CHECK(ion::math::DistanceSquared(belowOne, vec2Nums) == glmDistance * glmDistance);
+		CHECK(math::Distance(belowOne, vec2Nums) == glmDistance);
+		CHECK(math::DistanceSquared(belowOne, vec2Nums) == glmDistance * glmDistance);
 
 
 	}
@@ -198,10 +198,10 @@ TEST_CASE("Vector 2", "[all][vector]")
 
 	SECTION("Vector operations")
 	{
-		const	  ion::math::Vector2f		vecOne(4.f, -6.f);
+		const	  math::Vector2f		vecOne(4.f, -6.f);
 		constexpr glm::vec2			glmOne(4.f, -6.f);
 
-		const	  ion::math::Vector2f		vecTwo(3.f, 9.f);
+		const	  math::Vector2f		vecTwo(3.f, 9.f);
 		constexpr glm::vec2			glmTwo(3.f, 9.f);
 
 
@@ -214,16 +214,16 @@ TEST_CASE("Vector 2", "[all][vector]")
 			float				glmDot = glm::dot(glmOne, glmTwo);
 
 			CHECK(objDot == glmDot);
-			CHECK(ion::math::Dot(vecOne, vecTwo) == objDot);
+			CHECK(math::Dot(vecOne, vecTwo) == objDot);
 
 			// Test both from object reference and as function outside of class
 			CHECK(vecOne.Cross(vecTwo) == expectedCrossZ);
-			CHECK(ion::math::Cross(vecOne, vecTwo) == expectedCrossZ);
+			CHECK(math::Cross(vecOne, vecTwo) == expectedCrossZ);
 
 			// Cross product is non-commutative
-			CHECK_FALSE(ion::math::Cross(vecTwo, vecOne) == expectedCrossZ);
+			CHECK_FALSE(math::Cross(vecTwo, vecOne) == expectedCrossZ);
 
-			ion::math::Vector2f		result = vecOne;
+			math::Vector2f		result = vecOne;
 
 			result.Translate(vecTwo);
 
@@ -250,8 +250,8 @@ TEST_CASE("Vector 2", "[all][vector]")
 
 			CHECK(myAngle == Catch::Approx(glmAngle));
 
-			ion::math::Vector2f		normalOne = ion::math::Normalize(vecOne);
-			ion::math::Vector2f		normalTwo = ion::math::Normalize(vecTwo);
+			math::Vector2f		normalOne = math::Normalize(vecOne);
+			math::Vector2f		normalTwo = math::Normalize(vecTwo);
 
 			CHECK(normalOne.IsUnitVector());
 			CHECK(normalTwo.IsUnitVector());
@@ -276,9 +276,9 @@ TEST_CASE("Vector 2", "[all][vector]")
 			// Rotate with a positive angle
 			float				angleF = 35 * DEG2RAD;
 
-			ion::math::Radian			angleRad{ 35.f * DEG2RAD };
+			math::Radian			angleRad{ 35.f * DEG2RAD };
 			glm::vec2			glmRotated = glm::rotate(glmOne, angleF);
-			ion::math::Vector2f		rotated = ion::math::Rotate(vecOne, angleRad);
+			math::Vector2f		rotated = math::Rotate(vecOne, angleRad);
 
 			CHECK_VECTOR2(rotated, glmRotated);
 
@@ -287,7 +287,7 @@ TEST_CASE("Vector 2", "[all][vector]")
 			angleRad = -2.f;
 
 			glmRotated = glm::rotate(glmOne, angleF);
-			rotated = ion::math::Rotate(vecOne, angleRad);
+			rotated = math::Rotate(vecOne, angleRad);
 
 			CHECK_VECTOR2(rotated, glmRotated);
 		}
@@ -296,25 +296,25 @@ TEST_CASE("Vector 2", "[all][vector]")
 
 		SECTION("Projection / reflection")
 		{
-			ion::math::Vector2f	result = ion::math::Project(vecOne, vecTwo);
+			math::Vector2f	result = math::Project(vecOne, vecTwo);
 			glm::vec2		glmResult = glm::proj(glmOne, glmTwo);
 
 			CHECK_VECTOR2(result, glmResult);
 
-			result = ion::math::Project(vecTwo, vecOne);
+			result = math::Project(vecTwo, vecOne);
 			glmResult = glm::proj(glmTwo, glmOne);
 
 			CHECK_VECTOR2(result, glmResult);
 
 
 			// Normalized normal
-			result = ion::math::Reflect(vecOne, vecTwo);
+			result = math::Reflect(vecOne, vecTwo);
 			glmResult = glm::reflect(glmOne, glm::normalize(glmTwo));
 
 			CHECK_VECTOR2(result, glmResult);
 
 			// Non-normalized normal
-			result = ion::math::ReflectUnit(vecOne, vecTwo);
+			result = math::ReflectUnit(vecOne, vecTwo);
 			glmResult = glm::reflect(glmOne, glmTwo);
 
 			CHECK_VECTOR2(result, glmResult);
@@ -327,22 +327,22 @@ TEST_CASE("Vector 2", "[all][vector]")
 
 	SECTION("Static vectors")
 	{
-		CHECK_VECTOR2(ion::math::Vector2f::One(), glm::vec2(1.f));
-		CHECK_VECTOR2(ion::math::Vector2f::Zero(), glm::vec2(0.f));
+		CHECK_VECTOR2(math::Vector2f::One(), glm::vec2(1.f));
+		CHECK_VECTOR2(math::Vector2f::Zero(), glm::vec2(0.f));
 
-		CHECK_VECTOR2(ion::math::Vector2f::Left(), glm::vec2(-1.f, 0.f));
-		CHECK_VECTOR2(ion::math::Vector2f::Right(), glm::vec2(1.f, 0.f));
+		CHECK_VECTOR2(math::Vector2f::Left(), glm::vec2(-1.f, 0.f));
+		CHECK_VECTOR2(math::Vector2f::Right(), glm::vec2(1.f, 0.f));
 
-		CHECK_VECTOR2(ion::math::Vector2f::Up(), glm::vec2(0.f, 1.f));
-		CHECK_VECTOR2(ion::math::Vector2f::Down(), glm::vec2(0.f, -1.f));
+		CHECK_VECTOR2(math::Vector2f::Up(), glm::vec2(0.f, 1.f));
+		CHECK_VECTOR2(math::Vector2f::Down(), glm::vec2(0.f, -1.f));
 	}
 
 
 	SECTION("I/O and strings")
 	{
 
-		ion::math::Vector2f		input(-1.4f, 5.6f);
-		ion::math::Vector2f		output;
+		math::Vector2f		input(-1.4f, 5.6f);
+		math::Vector2f		output;
 		std::string			extra;
 
 		std::stringstream	buffer;
@@ -370,10 +370,10 @@ TEST_CASE("Vector 2", "[all][vector]")
 
 	SECTION("Operators")
 	{
-		ion::math::Vector2f	vecOne(4.1f, 3.7f), vecTwo(1.1f, 5.1f);
+		math::Vector2f	vecOne(4.1f, 3.7f), vecTwo(1.1f, 5.1f);
 		glm::vec2		glmOne(4.1f, 3.7f), glmTwo(1.1f, 5.1f);
 
-		ion::math::Vector2f	result = vecOne + vecTwo;
+		math::Vector2f	result = vecOne + vecTwo;
 		glm::vec2		glmResult = glmOne + glmTwo;
 
 		float			scalar = 3.5f;
@@ -444,7 +444,7 @@ TEST_CASE("Vector 2", "[all][vector]")
 
 		CHECK(result == result);
 
-		ion::math::Vector2f			vecThree(154.f, 0.f);
+		math::Vector2f			vecThree(154.f, 0.f);
 
 		CHECK(vecThree != result);
 		CHECK_FALSE(vecOne == vecThree);
