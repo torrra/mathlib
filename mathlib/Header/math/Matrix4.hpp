@@ -376,23 +376,24 @@ namespace math
 		// Assign COLUMN-MAJOR rotation matrix
 
 		rotationMatrix[0][0] = cosYaw * cosRoll + sinYaw * sinPitch * sinRoll;
-		rotationMatrix[1][0] = -cosYaw * sinRoll + sinYaw * sinPitch * cosRoll;
-		rotationMatrix[2][0] = sinYaw * cosPitch;
-		rotationMatrix[3][0] = static_cast<TValueType>(0);
-
 		rotationMatrix[0][1] = sinRoll * cosPitch;
-		rotationMatrix[1][1] = cosRoll * cosPitch;
-		rotationMatrix[2][1] = -sinPitch;
-		rotationMatrix[3][1] = static_cast<TValueType>(0);
-
 		rotationMatrix[0][2] = -sinYaw * cosRoll + cosYaw * sinPitch * sinRoll;
-		rotationMatrix[1][2] = sinRoll * sinYaw + cosYaw * sinPitch * cosRoll;
-		rotationMatrix[2][2] = cosYaw * cosPitch;
-		rotationMatrix[3][2] = static_cast<TValueType>(0);
-
 		rotationMatrix[0][3] = static_cast<TValueType>(0);
+
+		rotationMatrix[1][0] = -cosYaw * sinRoll + sinYaw * sinPitch * cosRoll;
+		rotationMatrix[1][1] = cosRoll * cosPitch;
+		rotationMatrix[1][2] = sinRoll * sinYaw + cosYaw * sinPitch * cosRoll;
 		rotationMatrix[1][3] = static_cast<TValueType>(0);
+
+		rotationMatrix[2][0] = sinYaw * cosPitch;
+		rotationMatrix[2][1] = -sinPitch;
+		rotationMatrix[2][2] = cosYaw * cosPitch;
 		rotationMatrix[2][3] = static_cast<TValueType>(0);
+
+
+		rotationMatrix[3][0] = static_cast<TValueType>(0);
+		rotationMatrix[3][1] = static_cast<TValueType>(0);
+		rotationMatrix[3][2] = static_cast<TValueType>(0);
 		rotationMatrix[3][3] = static_cast<TValueType>(1);
 
 		return rotationMatrix;
