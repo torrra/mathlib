@@ -85,4 +85,5 @@ endif()
 
 # Make library available to other projects (as long as they are built after this)
 set(MATHLIB_LIB ${TARGET_NAME} PARENT_SCOPE)
+set(MATHLIB_INCLUDE_DIR ${TARGET_INCLUDE_DIR} CACHE PATH "mathlib header directory")
 
