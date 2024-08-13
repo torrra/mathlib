@@ -6,9 +6,9 @@ This was initially a school project, used for computer graphics as well as game 
 
 ## Table of contents 
 
-* [Features]()
+* [Features](https://github.com/torrra/mathlib?tab=readme-ov-file#features)
 * [Branches](https://github.com/torrra/mathlib/new/main?filename=README.md#branches)
-* [Coming soon]()
+* [Coming soon](https://github.com/torrra/mathlib?tab=readme-ov-file#coming-soon)
 
 
 
@@ -90,6 +90,8 @@ In-progress features and refactors with unit tests
 Latest stable update
 
 [View branch](https://github.com/torrra/mathlib/tree/main)  
+
+<br>
 
 ## Coming soon
 * Intersection 2D & 3D rework
