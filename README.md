@@ -7,7 +7,7 @@ This was initially a school project, used for computer graphics as well as game 
 ## Table of contents 
 
 * [Features](https://github.com/torrra/mathlib?tab=readme-ov-file#features)
-* [Branches](https://github.com/torrra/mathlib/new/main?filename=README.md#branches)
+* [Branches](https://github.com/torrra/mathlib?tab=readme-ov-file#branches)
 * [Coming soon](https://github.com/torrra/mathlib?tab=readme-ov-file#coming-soon)
 
 
