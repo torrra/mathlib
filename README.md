@@ -1,13 +1,71 @@
-# Math library project
+# Math library
 
-This was initially a school project, used for computer graphics as well as game development.
-It is also the library used in the Ion engine project.
+This was initially a school project, used for computer graphics as well as game development. It is used in my [3D puzzle game](https://github.com/torrra/spectrum-retreat-clone) as well as my early in development
+[game engine project](https://github.com/TheIonProject/IonEngine)
 
 
 ## Table of contents 
 
+* [Features]()
 * [Branches](https://github.com/torrra/mathlib/new/main?filename=README.md#branches)
+* [Coming soon]()
 
+
+
+<br>
+
+## Features
+
+### Vectors
+
+Mathlib supports 2D, 3D, and 4D vectors and the following operations:
+
+* Basic arithmetic
+* Dot product
+* Cross product
+* Magnitude
+* Normalize
+* Rotation
+* Projection
+* Reflection
+* String convertsion
+* C++ I/O stream input and output
+
+And more
+
+
+### Matrices
+
+2x2, 3x3 and 4x4 matrices are also implemented in this library with:
+
+* Basic arithmetic
+* Determinant
+* Cofactor matrix
+* Adjugate matrix
+* Inverse matrix
+* Minor matrix
+* Transpose
+
+### Angles
+
+Radian and Degree class are available for easier angle manipulations (conversion, wrapping). Vector and Matrix classes use them for rotations.
+
+
+### Trigonometry
+
+Cosine, Sine and Tangent functions are implemented in this library using the Taylor series (inverse trigonometry coming soon).  
+
+### Arithmetic
+
+* Round, ceil, floor
+* Almost equal
+* Wrap, clamp
+* Absolute value
+* Power
+* Factorial
+
+### Interpolation
+* Lerp, inverse lerp
 
 
 <br>
@@ -31,4 +89,9 @@ In-progress features and refactors with unit tests
 
 Latest stable update
 
-[View branch](https://github.com/torrra/mathlib/tree/main)
+[View branch](https://github.com/torrra/mathlib/tree/main)  
+
+## Coming soon
+* Intersection 2D & 3D rework
+* Complex numbers
+* Quaternions
