@@ -1,7 +1,6 @@
 # Math library
 
-This was initially a school project, used for computer graphics as well as game development. It is used in my [3D puzzle game](https://github.com/torrra/spectrum-retreat-clone) as well as my early in development
-[game engine project](https://github.com/TheIonProject/IonEngine)
+This was initially a school project, used for computer graphics as well as game development. It is used for example in my [3D puzzle game](https://github.com/torrra/spectrum-retreat-clone)
 
 
 ## Table of contents 
