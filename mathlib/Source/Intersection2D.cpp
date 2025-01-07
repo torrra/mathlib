@@ -10,40 +10,40 @@ namespace math
 {
 
 
-	AABBCollider2D::AABBCollider2D(const Vector2<float>& _pos, const Vector2<float>& _size)
-		: m_position(_pos), m_extents(_size)
+	AABBCollider2D::AABBCollider2D(const Vector2f& pos, const Vector2f& size)
+		: m_position(pos), m_extents(size)
 	{
 
 	}
 
 
-	Vector2<float>& AABBCollider2D::Position(void)
+	Vector2f& AABBCollider2D::Position(void)
 	{
 		return m_position;
 	}
 
-	Vector2<float>& AABBCollider2D::Extents(void)
+	Vector2f& AABBCollider2D::Extents(void)
 	{
 		return m_extents;
 	}
 
-	Vector2<float> AABBCollider2D::GetPosition(void) const
+	Vector2f AABBCollider2D::GetPosition(void) const
 	{
 		return m_position;
 	}
 
-	Vector2<float> AABBCollider2D::GetExtents(void) const
+	Vector2f AABBCollider2D::GetExtents(void) const
 	{
 		return m_extents;
 	}
 
-	bool AABBCollider2D::CheckCollision(const AABBCollider2D& _other) const
+	bool AABBCollider2D::CheckCollision(const AABBCollider2D& other) const
 	{
-		Vector2<float>		selfMin = GetMin(),
+		Vector2f		selfMin = GetMin(),
 					selfMax = GetMax();
 
-		Vector2<float>		otherMin = _other.GetMin(),
-					otherMax = _other.GetMax();
+		Vector2f		otherMin = other.GetMin(),
+					otherMax = other.GetMax();
 
 
 		// Check min and max vertices on each axis to look for a gap
@@ -57,13 +57,13 @@ namespace math
 		return true;
 	}
 
-	bool AABBCollider2D::CheckCollision(const OBBCollider2D& _other) const
+	bool AABBCollider2D::CheckCollision(const OBBCollider2D& other) const
 	{
-		// Turn this object and _other into polygon colliders
+		// Turn this object and other into polygon colliders
 		PolygonCollider2D    selfPoly, otherPoly;
 
 		// Get AABB vertices
-		Vector2<float>				 selfVertices[4] =
+		Vector2f				 selfVertices[4] =
 		{
 			GetMax(),
 			GetMin(),
@@ -79,25 +79,25 @@ namespace math
 			},
 		};
 
-		Vector2<float>				otherRotated =
-		Rotate(_other.GetExtents(), _other.GetRotation());
+		Vector2f				otherRotated =
+		Rotate(other.GetExtents(), other.GetRotation());
 
 		// Get OBB rotated vertices
-		Vector2<float>				otherVertices[4] =
+		Vector2f				otherVertices[4] =
 		{
-			_other.GetPosition() + otherRotated,
-			_other.GetPosition() - otherRotated,
+			other.GetPosition() + otherRotated,
+			other.GetPosition() - otherRotated,
 
-			_other.GetPosition() + Rotate
+			other.GetPosition() + Rotate
 			(
-				{_other.GetExtents().X(), -_other.GetExtents().Y()},
-				 _other.GetRotation()
+				{other.GetExtents().X(), -other.GetExtents().Y()},
+				 other.GetRotation()
 			),
 
-			_other.GetPosition() + Rotate
+			other.GetPosition() + Rotate
 			(
-				{-_other.GetExtents().X(), _other.GetExtents().Y()},
-				 _other.GetRotation()
+				{-other.GetExtents().X(), other.GetExtents().Y()},
+				 other.GetRotation()
 			),
 		};
 
@@ -118,30 +118,30 @@ namespace math
 
 	}
 
-	bool AABBCollider2D::CheckCollision(const CircleCollider2D& _other) const
+	bool AABBCollider2D::CheckCollision(const CircleCollider2D& other) const
 	{
-		Vector2<float>		minVertex = GetMin(), maxVertex = GetMax();
+		Vector2f		minVertex = GetMin(), maxVertex = GetMax();
 
 		// Get closest point
-		Vector2<float>		closestPoint
+		Vector2f		closestPoint
 		{
-			Max(minVertex.GetX(), Min(_other.GetPosition().GetX(), maxVertex.GetX())),
-			Max(minVertex.GetY(), Min(_other.GetPosition().GetY(), maxVertex.GetY()))
+			Max(minVertex.GetX(), Min(other.GetPosition().GetX(), maxVertex.GetX())),
+			Max(minVertex.GetY(), Min(other.GetPosition().GetY(), maxVertex.GetY()))
 		};
 
-		Vector2<float>		distance = closestPoint - _other.GetPosition();
+		Vector2f		distance = closestPoint - other.GetPosition();
 
 		// Point closer than end of radius = intersection
-		return distance.MagnitudeSquared() <= _other.GetRadiusSquared();
+		return distance.MagnitudeSquared() <= other.GetRadiusSquared();
 	}
 
-	bool AABBCollider2D::CheckCollision(const PolygonCollider2D& _other) const
+	bool AABBCollider2D::CheckCollision(const PolygonCollider2D& other) const
 	{
 		// Turn AABB into polygon collider
 		PolygonCollider2D	selfPoly;
 
 		// Get AABB vertices
-		Vector2<float>				selfVertices[4] =
+		Vector2f				selfVertices[4] =
 		{
 			GetMax(),
 			GetMin(),
@@ -154,33 +154,33 @@ namespace math
 		selfPoly.m_vertexCount = 4;
 
 		// Run SAT algorithm
-		bool		intersection = selfPoly.CheckCollision(_other);
+		bool		intersection = selfPoly.CheckCollision(other);
 
 		selfPoly.m_vertices = nullptr;
 
 		return intersection;
 	}
 
-	bool AABBCollider2D::PointInBox(const Vector2<float>& _point) const
+	bool AABBCollider2D::PointInBox(const Vector2f& point) const
 	{
-		Vector2<float>		min = GetMin(), max = GetMax();
+		Vector2f		min = GetMin(), max = GetMax();
 
 		// Check if point is within AABB bounds
 
-		if (_point.GetX() < min.GetX() || _point.GetX() > max.GetX())
+		if (point.GetX() < min.GetX() || point.GetX() > max.GetX())
 			return false;
 
-		if (_point.GetY() < min.GetY() || _point.GetY() > max.GetY())
+		if (point.GetY() < min.GetY() || point.GetY() > max.GetY())
 			return false;
 
 		return true;
 	}
 
 
-	Ray2D::Ray2D(const Vector2<float>& _pos, const Vector2<float>& _dir)
-		: m_origin(_pos)
+	Ray2D::Ray2D(const Vector2f& pos, const Vector2f& dir)
+		: m_origin(pos)
 	{
-		m_direction = Normalize(_dir);
+		m_direction = Normalize(dir);
 
 		// Pre compute direction divisor
 		m_inverseDir.X() = (m_direction.GetX() != 0.f) ?
@@ -192,11 +192,11 @@ namespace math
 	}
 
 
-	bool Ray2D::Intersect(const AABBCollider2D& _box, float& _distance) const
+	bool Ray2D::Intersect(const AABBCollider2D& box, float& distance) const
 	{
 		float   maxIntersect = FLT_MAX, minIntersect = -FLT_MAX;
 
-		Vector2<float> minVertex = _box.GetMin(), maxVertex = _box.GetMax();
+		Vector2f minVertex = box.GetMin(), maxVertex = box.GetMax();
 
 		// x plane = 0, y plane = 1, z plane = 2
 		for (int axis = 0; axis < 2; ++axis)
@@ -216,62 +216,62 @@ namespace math
 
 		// Write distance into reference argument if intersection is successful
 		if (intersection)
-			_distance = minIntersect;
+			distance = minIntersect;
 
 		// Return intersection status
 		return intersection;
 	}
 
-    Vector2<float> &Ray2D::Origin(void)
+    Vector2f &Ray2D::Origin(void)
     {
        return m_origin;
     }
 
-    Vector2<float> &Ray2D::Direction(void)
+    Vector2f &Ray2D::Direction(void)
     {
         return m_direction;
     }
 
-    Vector2<float> Ray2D::GetOrigin(void) const
+    Vector2f Ray2D::GetOrigin(void) const
     {
         return m_origin;
     }
 
-    Vector2<float> Ray2D::GetDirection(void) const
+    Vector2f Ray2D::GetDirection(void) const
     {
         return m_direction;
     }
 
-    Vector2<float> Ray2D::GetInverseDir(void) const
+    Vector2f Ray2D::GetInverseDir(void) const
     {
         return m_inverseDir;
     }
 
-    PolygonCollider2D::PolygonCollider2D(Vector2<float> _vertices[], int _count)
-        : m_vertexCount(_count)
+    PolygonCollider2D::PolygonCollider2D(Vector2f vertices[], int count)
+        : m_vertexCount(count)
     {
 		// Allocate space for vertices
 		if (!m_vertices)
-			m_vertices = new Vector2<float>[_count];
+			m_vertices = new Vector2f[count];
 
 
-		for (int vertex = 0; vertex < _count; ++vertex)
+		for (int vertex = 0; vertex < count; ++vertex)
 		{
 			// Copy vertices into heap array
-			m_vertices[vertex] = _vertices[vertex];
+			m_vertices[vertex] = vertices[vertex];
 		}
 	}
 
-	PolygonCollider2D::PolygonCollider2D(const PolygonCollider2D& _other)
-		: m_vertexCount(_other.m_vertexCount)
+	PolygonCollider2D::PolygonCollider2D(const PolygonCollider2D& other)
+		: m_vertexCount(other.m_vertexCount)
 	{
 		// Allocate vertices for deep copy
-		if (_other.m_vertexCount)
-			m_vertices = new Vector2<float>[_other.m_vertexCount];
+		if (other.m_vertexCount)
+			m_vertices = new Vector2f[other.m_vertexCount];
 
 		// Copy vertices into new array
-		for (unsigned int vert = 0; vert < _other.m_vertexCount; ++vert)
-			m_vertices[vert] = _other.m_vertices[vert];
+		for (unsigned int vert = 0; vert < other.m_vertexCount; ++vert)
+			m_vertices[vert] = other.m_vertices[vert];
 
 	}
 
@@ -283,56 +283,56 @@ namespace math
 	}
 
 
-	Vector2<float>& PolygonCollider2D::operator[](int _index)
+	Vector2f& PolygonCollider2D::operator[](int index)
 	{
-		return m_vertices[_index];
+		return m_vertices[index];
 	}
 
 
-	Vector2<float> PolygonCollider2D::operator[](int _index) const
+	Vector2f PolygonCollider2D::operator[](int index) const
 	{
-		return m_vertices[_index];
+		return m_vertices[index];
 	}
 
 
 
-	bool PolygonCollider2D::CheckCollision(const PolygonCollider2D& _other) const
+	bool PolygonCollider2D::CheckCollision(const PolygonCollider2D& other) const
 	{
-		return SeparatingAxisTheorem(_other);
+		return SeparatingAxisTheorem(other);
 	}
 
 	void PolygonCollider2D::MinMaxProjection
-	(const Vector2<float>& _normal, float& _min, float& _max) const
+	(const Vector2f& normal, float& min, float& max) const
 	{
 		// Find min and max projections by testing each vertex against normal
 		for (unsigned int vertex = 0; vertex < m_vertexCount; ++vertex)
 		{
-			float	projection = Round(_normal.Dot(m_vertices[vertex]));
+			float	projection = Round(normal.Dot(m_vertices[vertex]));
 
-			if (projection < _min)
-				_min = projection;
+			if (projection < min)
+				min = projection;
 
-			else if (projection > _max)
-				_max = projection;
+			else if (projection > max)
+				max = projection;
 		}
 	}
 
 	bool PolygonCollider2D::
-		SeparatingAxisTheorem(const PolygonCollider2D& _other) const
+		SeparatingAxisTheorem(const PolygonCollider2D& other) const
 	{
 		// Check all of this polygon's axes for a gap
-		if (!InternalSAT(_other))
+		if (!InternalSAT(other))
 			return false;
 
 		// Check all the other polygon's axes if no gap was previously found
-		if (!_other.InternalSAT(*this))
+		if (!other.InternalSAT(*this))
 			return false;
 
 		return true;
 	}
 
 
-	bool PolygonCollider2D::InternalSAT(const PolygonCollider2D& _other) const
+	bool PolygonCollider2D::InternalSAT(const PolygonCollider2D& other) const
 	{
 		float	min1, max1;
 		float   min2, max2;
@@ -343,7 +343,7 @@ namespace math
 			min1 = FLT_MAX, max1 = -FLT_MAX;
 			min2 = FLT_MAX, max2 = -FLT_MAX;
 
-			Vector2<float>		normal;
+			Vector2f		normal;
 
 			if (0 == side)
 				normal = (m_vertices[side] - m_vertices[m_vertexCount - 1])
@@ -354,7 +354,7 @@ namespace math
 
 			// Find min and max projections onot normal for both polygons
 			MinMaxProjection(normal, min1, max1);
-			_other.MinMaxProjection(normal, min2, max2);
+			other.MinMaxProjection(normal, min2, max2);
 
 			if (min2 > max1 || min1 > max2)
 				return false;
@@ -363,68 +363,68 @@ namespace math
 		return true;
 	}
 
-	bool PolygonCollider2D::CheckCollision(const AABBCollider2D& _other) const
+	bool PolygonCollider2D::CheckCollision(const AABBCollider2D& other) const
 	{
 		// Use already defined AABB vs polygon check
-		return _other.CheckCollision(*this);
+		return other.CheckCollision(*this);
 	}
 
-	bool PolygonCollider2D::CheckCollision(const OBBCollider2D& _other) const
+	bool PolygonCollider2D::CheckCollision(const OBBCollider2D& other) const
 	{
 		// Use already define OBB vs polygon check
-		return _other.CheckCollision(*this);
+		return other.CheckCollision(*this);
 	}
 
 
 
-	Vector2<float> AABBCollider2D::GetMin(void) const
+	Vector2f AABBCollider2D::GetMin(void) const
 	{
 		return m_position - m_extents;
 	}
 
 
-	Vector2<float> AABBCollider2D::GetMax(void) const
+	Vector2f AABBCollider2D::GetMax(void) const
 	{
 		return m_position + m_extents;
 	}
 
 
-	Vector2<float> OBBCollider2D::GetMin(void) const
+	Vector2f OBBCollider2D::GetMin(void) const
 	{
 		// Rotate BEFORE translating
-		Vector2<float>		rotated = Rotate(m_extents, m_rotation);
+		Vector2f		rotated = Rotate(m_extents, m_rotation);
 
 		return m_position - rotated;
 	}
 
-	Vector2<float> OBBCollider2D::GetMax(void) const
+	Vector2f OBBCollider2D::GetMax(void) const
 	{
 		// Rotate BEFORE translating
-		Vector2<float>		rotated = Rotate(m_extents, m_rotation);
+		Vector2f		rotated = Rotate(m_extents, m_rotation);
 
 		return rotated + m_position;
 	}
 
 
 	OBBCollider2D::OBBCollider2D
-	(const Vector2<float>& _pos, const Vector2<float>& _extents, Radian<float> _angle)
-		: m_position(_pos), m_extents(_extents), m_rotation(_angle)
+	(const Vector2f& pos, const Vector2f& extents, Radian<float> angle)
+		: m_position(pos), m_extents(extents), m_rotation(angle)
 	{
 	}
 
-	bool OBBCollider2D::CheckCollision(const AABBCollider2D& _other) const
+	bool OBBCollider2D::CheckCollision(const AABBCollider2D& other) const
 	{
 		// Use already defined AABB vs OBB check
-		return _other.CheckCollision(*this);
+		return other.CheckCollision(*this);
 	}
 
 
-	Vector2<float>& OBBCollider2D::Position(void)
+	Vector2f& OBBCollider2D::Position(void)
 	{
 		return m_position;
 	}
 
-	Vector2<float>& OBBCollider2D::Extents(void)
+	Vector2f& OBBCollider2D::Extents(void)
 	{
 		return m_extents;
 	}
@@ -434,12 +434,12 @@ namespace math
 		return m_rotation;
 	}
 
-	Vector2<float> OBBCollider2D::GetPosition(void) const
+	Vector2f OBBCollider2D::GetPosition(void) const
 	{
 		return m_position;
 	}
 
-	Vector2<float> OBBCollider2D::GetExtents(void) const
+	Vector2f OBBCollider2D::GetExtents(void) const
 	{
 		return m_extents;
 	}
@@ -450,17 +450,17 @@ namespace math
 	}
 
 
-	bool OBBCollider2D::CheckCollision(const OBBCollider2D& _other) const
+	bool OBBCollider2D::CheckCollision(const OBBCollider2D& other) const
 	{
 		// Turn both OBBs into polygons
 		PolygonCollider2D	selfPoly, otherPoly;
 
-		Vector2<float>				selfRotated = Rotate(m_extents, m_rotation);
-		Vector2<float>				otherRotated = Rotate(_other.m_extents,
-												  _other.m_rotation);
+		Vector2f				selfRotated = Rotate(m_extents, m_rotation);
+		Vector2f				otherRotated = Rotate(other.m_extents,
+												  other.m_rotation);
 
 		// Rotate vertices
-		Vector2<float>				selfVertices[4] =
+		Vector2f				selfVertices[4] =
 		{
 			m_position + selfRotated,
 			m_position - selfRotated,
@@ -477,21 +477,21 @@ namespace math
 		};
 
 		// Rotate vertices
-		Vector2<float>				otherVertices[4] =
+		Vector2f				otherVertices[4] =
 		{
-			_other.GetPosition() + otherRotated,
-			_other.GetPosition() - otherRotated,
+			other.GetPosition() + otherRotated,
+			other.GetPosition() - otherRotated,
 
-			_other.GetPosition() + Rotate
+			other.GetPosition() + Rotate
 			(
-				{_other.GetExtents().X(), -_other.GetExtents().Y()},
-				 _other.GetRotation()
+				{other.GetExtents().X(), -other.GetExtents().Y()},
+				 other.GetRotation()
 			),
 
-			_other.GetPosition() + Rotate
+			other.GetPosition() + Rotate
 			(
-				{-_other.GetExtents().X(), _other.GetExtents().Y()},
-				 _other.GetRotation()
+				{-other.GetExtents().X(), other.GetExtents().Y()},
+				 other.GetRotation()
 			),
 		};
 
@@ -510,32 +510,32 @@ namespace math
 		return intersection;
 	}
 
-	bool OBBCollider2D::CheckCollision(const CircleCollider2D& _other) const
+	bool OBBCollider2D::CheckCollision(const CircleCollider2D& other) const
 	{
-		Vector2<float>		 minVertex = GetMin(), maxVertex = GetMax();
+		Vector2f		 minVertex = GetMin(), maxVertex = GetMax();
 
-		Vector2<float>		closestPoint
+		Vector2f		closestPoint
 		{
-			Max(minVertex.GetX(), Min(_other.GetPosition().GetX(), maxVertex.GetX())),
-			Max(minVertex.GetY(), Min(_other.GetPosition().GetY(), maxVertex.GetY()))
+			Max(minVertex.GetX(), Min(other.GetPosition().GetX(), maxVertex.GetX())),
+			Max(minVertex.GetY(), Min(other.GetPosition().GetY(), maxVertex.GetY()))
 		};
 
 		// Check if closest point is within the circle's range
 
-		Vector2<float>		distance = closestPoint - _other.GetPosition();
+		Vector2f		distance = closestPoint - other.GetPosition();
 
 
-		return distance.MagnitudeSquared() <= _other.GetRadiusSquared();
+		return distance.MagnitudeSquared() <= other.GetRadiusSquared();
 	}
 
-	bool OBBCollider2D::CheckCollision(const PolygonCollider2D& _other) const
+	bool OBBCollider2D::CheckCollision(const PolygonCollider2D& other) const
 	{
 		// Turn OBB into polygon collider
 		PolygonCollider2D	selfPoly;
 
-		Vector2<float>				selfRotated = Rotate(m_extents, m_rotation);
+		Vector2f				selfRotated = Rotate(m_extents, m_rotation);
 
-		Vector2<float>				selfVertices[4] =
+		Vector2f				selfVertices[4] =
 		{
 			m_position + selfRotated,
 			m_position - selfRotated,
@@ -557,7 +557,7 @@ namespace math
 		selfPoly.m_vertexCount = 4;
 
 		// Run SAT
-		bool	intersection = selfPoly.CheckCollision(_other);
+		bool	intersection = selfPoly.CheckCollision(other);
 
 		// Avoid attempt to free stack in destructor
 		selfPoly.m_vertices = nullptr;
@@ -565,7 +565,7 @@ namespace math
 		return intersection;
 	}
 
-	Vector2<float>& CircleCollider2D::Position(void)
+	Vector2f& CircleCollider2D::Position(void)
 	{
 		return m_position;
 	}
@@ -575,7 +575,7 @@ namespace math
 		return m_radius;
 	}
 
-	Vector2<float> CircleCollider2D::GetPosition(void) const
+	Vector2f CircleCollider2D::GetPosition(void) const
 	{
 		return m_position;
 	}
@@ -590,67 +590,67 @@ namespace math
 		return m_radius * m_radius;
 	}
 
-	CircleCollider2D::CircleCollider2D(const Vector2<float>& _pos, float _radius)
-		: m_position(_pos), m_radius(_radius)
+	CircleCollider2D::CircleCollider2D(const Vector2f& pos, float radius)
+		: m_position(pos), m_radius(radius)
 	{
 	}
 
 
-	bool CircleCollider2D::CheckCollision(const AABBCollider2D& _other) const
+	bool CircleCollider2D::CheckCollision(const AABBCollider2D& other) const
 	{
 		// Use already defined AABB vs circle check
-		return _other.CheckCollision(*this);
+		return other.CheckCollision(*this);
 	}
 
-	bool CircleCollider2D::CheckCollision(const OBBCollider2D& _other) const
+	bool CircleCollider2D::CheckCollision(const OBBCollider2D& other) const
 	{
 		// Use already defined OBB vs circle cleck
-		return _other.CheckCollision(*this);
+		return other.CheckCollision(*this);
 	}
 
-	bool CircleCollider2D::CheckCollision(const CircleCollider2D& _other) const
+	bool CircleCollider2D::CheckCollision(const CircleCollider2D& other) const
 	{
 		// Check if distance between two circles is shorter than their radii
-		float		distance = DistanceSquared(m_position, _other.m_position);
+		float		distance = DistanceSquared(m_position, other.m_position);
 
 		// Use square instead of square root for speed
-		return distance <= GetRadiusSquared() + _other.GetRadiusSquared();
+		return distance <= GetRadiusSquared() + other.GetRadiusSquared();
 	}
 
-	bool CircleCollider2D::PointInCircle(const Vector2<float>& _point) const
+	bool CircleCollider2D::PointInCircle(const Vector2f& point) const
 	{
-		Vector2<float>		distance = _point - m_position;
+		Vector2f		distance = point - m_position;
 
 		// Check if distance is shorter than circle radius
 		return distance.MagnitudeSquared() <= m_radius * m_radius;
 	}
 
-	Line2D::Line2D(const Vector2<float>& _start, const Vector2<float>& _end)
-		: m_start(_start), m_end(_end)
+	Line2D::Line2D(const Vector2f& start, const Vector2f& end)
+		: m_start(start), m_end(end)
 	{
 	}
 
-    Vector2<float> &Line2D::Start(void)
+    Vector2f &Line2D::Start(void)
     {
        return m_start;
     }
 
-    Vector2<float> &Line2D::End(void)
+    Vector2f &Line2D::End(void)
     {
         return m_end;
     }
 
-    Vector2<float> Line2D::GetStart(void) const
+    Vector2f Line2D::GetStart(void) const
     {
         return m_start;
     }
 
-    Vector2<float> Line2D::GetEnd(void) const
+    Vector2f Line2D::GetEnd(void) const
     {
         return m_end;
     }
 
-    bool Line2D::Intersect(const AABBCollider2D &_box) const
+    bool Line2D::Intersect(const AABBCollider2D& box) const
     {
 		// Use huge value (likely smaller than line length)
 		// that can be safely squared without causing
@@ -658,14 +658,14 @@ namespace math
 		float 		distanceToBox = 1e10f;
 
 
-		Vector2<float>		direction = m_end - m_start;
+		Vector2f		direction = m_end - m_start;
 
 		// Turn segment into ray to use already defined raycast algorithm
 		Ray2D		lineRay(m_start, direction);
 
 		// If no intersection or intersection is further than line length,
 		// no line intsersection occurs
-		if(!lineRay.Intersect(_box, distanceToBox) ||
+		if(!lineRay.Intersect(box, distanceToBox) ||
 			distanceToBox * distanceToBox > direction.MagnitudeSquared())
 		{
 			return false;
@@ -674,12 +674,12 @@ namespace math
 		return true;
     }
 
-    bool Line2D::Intersect(const CircleCollider2D &_circle) const
+    bool Line2D::Intersect(const CircleCollider2D& circle) const
     {
 		// Apply quadratic formula to find whether there is an intersection
 
-		Vector2<float>		circleToLineStart = m_start - _circle.GetPosition();
-		Vector2<float>		lineDirection = m_end - m_start;
+		Vector2f		circleToLineStart = m_start - circle.GetPosition();
+		Vector2f		lineDirection = m_end - m_start;
 
 		// Compute b^2
 		float		quadraticDelta =
@@ -690,7 +690,7 @@ namespace math
 		// Find 4ac
 		float		tmpQuadratic = 4.f * lineDirection.MagnitudeSquared() *
 					(circleToLineStart.MagnitudeSquared() -
-					_circle.GetRadiusSquared());
+					circle.GetRadiusSquared());
 
 		// delta = b^2 - 4ac
 		quadraticDelta -= tmpQuadratic;

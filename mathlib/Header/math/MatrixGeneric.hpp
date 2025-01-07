@@ -3,10 +3,10 @@
 
 #include <inttypes.h>
 
-#include "math/MathGeneric.hpp"
-#include "math/Vector2.hpp"
-#include "math/Vector3.hpp"
-#include "math/Vector4.hpp"
+#include "MathGeneric.hpp"
+#include "Vector2.hpp"
+#include "Vector3.hpp"
+#include "Vector4.hpp"
 
 
 namespace math

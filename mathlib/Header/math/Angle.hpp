@@ -1,35 +1,9 @@
-/*
-
- _____                               _
-|_   _|                             (_)
-  | |  ___  _ __     ___ _ __   __ _ _ _ __   ___
-  | | / _ \| '_ \   / _ \ '_ \ / _` | | '_ \ / _ \
- _| || (_) | | | | |  __/ | | | (_| | | | | |  __/
- \___/\___/|_| |_|  \___|_| |_|\__, |_|_| |_|\___|
-								__/ |
-							   |___/
-
-
-NAME: Angle.hpp
-
-DESCTIPTION: Radian and Degree class to make angle operations easier
-
-AUTHOR: Noah de Pischof | @torrra on GitHub
-
-TEMPLATES:
-
-CScalarType is a template constraint that only accepts numeric data types
-
-*/
-
-
-
 #ifndef __ANGLE_H__
 #define __ANGLE_H__
 
 
-#include "math/MathGeneric.hpp"
-#include "math/Arithmetic.hpp"
+#include "MathGeneric.hpp"
+#include "Arithmetic.hpp"
 
 
 #define MTH_PI				3.141592653589f
@@ -66,58 +40,58 @@ namespace math
 	inline		Degree(void) = default;
 
 	explicit
-	inline	    Degree(TValueType _val);
+	inline	    Degree(TValueType val);
 
-	inline		Degree(const Degree& _other);
+	inline		Degree(const Degree& other);
 	inline		~Degree(void) = default;
 
 	inline		operator Radian<TValueType>(void)			const;
 
 
 		// Accessors
-	inline		TValueType		Deg(bool _wrap180 = false)				const;
-	inline		TValueType		Rad(bool _wrapPi = true)				const;
+	inline		TValueType		Deg(bool wrap180 = false)				const;
+	inline		TValueType		Rad(bool wrapPi = true)				const;
 	inline		TValueType		Raw()									const;
 
 		// Wrap around unit circle
-	inline		void			Wrap(bool _wrap180 = false);
+	inline		void			Wrap(bool wrap180 = false);
 
 		// Copy assignment
-	inline		Degree&			operator=(const Degree<TValueType>& _rhs);
-	inline		Degree&			operator=(TValueType _rhs);
+	inline		Degree&			operator=(const Degree<TValueType>& rhs);
+	inline		Degree&			operator=(TValueType rhs);
 
 		// Arithmetic operators
-	inline		Degree			operator+(const Degree& _rhs)				const;
-	inline		Degree			operator-(const Degree& _rhs)				const;
-	inline		Degree			operator*(const Degree& _rhs)				const;
-	inline		Degree			operator/(const Degree& _rhs)				const;
+	inline		Degree			operator+(const Degree& rhs)				const;
+	inline		Degree			operator-(const Degree& rhs)				const;
+	inline		Degree			operator*(const Degree& rhs)				const;
+	inline		Degree			operator/(const Degree& rhs)				const;
 
-	inline		Degree			operator+(TValueType _rhs)					const;
-	inline		Degree			operator-(TValueType _rhs)					const;
-	inline		Degree			operator*(TValueType _rhs)					const;
-	inline		Degree			operator/(TValueType _rhs)					const;
+	inline		Degree			operator+(TValueType rhs)					const;
+	inline		Degree			operator-(TValueType rhs)					const;
+	inline		Degree			operator*(TValueType rhs)					const;
+	inline		Degree			operator/(TValueType rhs)					const;
 
 		// Arithmetic assignment operators
-	inline		Degree&			operator+=(const Degree& _rhs);
-	inline		Degree&			operator-=(const Degree& _rhs);
-	inline		Degree&			operator*=(const Degree& _rhs);
-	inline		Degree&			operator/=(const Degree& _rhs);
+	inline		Degree&			operator+=(const Degree& rhs);
+	inline		Degree&			operator-=(const Degree& rhs);
+	inline		Degree&			operator*=(const Degree& rhs);
+	inline		Degree&			operator/=(const Degree& rhs);
 
 
-	inline		Degree&			operator+=(TValueType _rhs);
-	inline		Degree&			operator-=(TValueType _rhs);
-	inline		Degree&			operator*=(TValueType _rhs);
-	inline		Degree&			operator/=(TValueType _rhs);
+	inline		Degree&			operator+=(TValueType rhs);
+	inline		Degree&			operator-=(TValueType rhs);
+	inline		Degree&			operator*=(TValueType rhs);
+	inline		Degree&			operator/=(TValueType rhs);
 
 		// Negation operators
 	inline		Degree			operator-(void)								const;
 
 		// Equality operators
-	inline		bool			operator==(const Degree& _rhs)				const;
-	inline		bool			operator!=(const Degree& _rhs)				const;
+	inline		bool			operator==(const Degree& rhs)				const;
+	inline		bool			operator!=(const Degree& rhs)				const;
 
-	inline		bool			operator==(TValueType _rhs)					const;
-	inline		bool			operator!=(TValueType _rhs)					const;
+	inline		bool			operator==(TValueType rhs)					const;
+	inline		bool			operator!=(TValueType rhs)					const;
 
 
 	private:
@@ -138,60 +112,60 @@ namespace math
 	inline		Radian(void) = default;
 
 	explicit
-	inline  	Radian(TValueType _val);
-				Radian(const Radian& _other);
+	inline  	Radian(TValueType val);
+				Radian(const Radian& other);
 				~Radian(void) = default;
 
 				// Implicit cast operator
 	inline		operator Degree<TValueType>(void)										const;
 
 				// Accessors
-	inline		TValueType		Rad(bool _wrapPi = true)					const;
-	inline		TValueType		Deg(bool _wrap180 = false)					const;
+	inline		TValueType		Rad(bool wrapPi = true)					const;
+	inline		TValueType		Deg(bool wrap180 = false)					const;
 	inline		TValueType		Raw()										const;
 
 				// Wrap around unit circle
-	inline		void			Wrap(bool _wrap180 = false);
+	inline		void			Wrap(bool wrap180 = false);
 
 
 				// Copy assignment
-	inline		Radian&			operator=(const Radian& _rhs);
-	inline		Radian&			operator=(TValueType _rhs);
+	inline		Radian&			operator=(const Radian& rhs);
+	inline		Radian&			operator=(TValueType rhs);
 
 
 				// Arithmetic operators
-	inline		Radian			operator+(const Radian& _rhs)				const;
-	inline		Radian			operator-(const Radian& _rhs)				const;
-	inline		Radian			operator*(const Radian& _rhs)				const;
-	inline		Radian			operator/(const Radian& _rhs)				const;
+	inline		Radian			operator+(const Radian& rhs)				const;
+	inline		Radian			operator-(const Radian& rhs)				const;
+	inline		Radian			operator*(const Radian& rhs)				const;
+	inline		Radian			operator/(const Radian& rhs)				const;
 
 		        // Arithmetic assignment
-	inline		Radian&			operator+=(const Radian& _rhs);
-	inline		Radian&			operator-=(const Radian& _rhs);
-	inline		Radian&			operator*=(const Radian& _rhs);
-	inline		Radian&			operator/=(const Radian& _rhs);
+	inline		Radian&			operator+=(const Radian& rhs);
+	inline		Radian&			operator-=(const Radian& rhs);
+	inline		Radian&			operator*=(const Radian& rhs);
+	inline		Radian&			operator/=(const Radian& rhs);
 
 				// Arithmetic with scalar
-	inline		Radian			operator+(TValueType _rhs)					const;
-	inline		Radian			operator-(TValueType _rhs)					const;
-	inline		Radian			operator*(TValueType _rhs)					const;
-	inline		Radian			operator/(TValueType _rhs)					const;
+	inline		Radian			operator+(TValueType rhs)					const;
+	inline		Radian			operator-(TValueType rhs)					const;
+	inline		Radian			operator*(TValueType rhs)					const;
+	inline		Radian			operator/(TValueType rhs)					const;
 
 				// Arithmetic assignment with scalar
-	inline		Radian&			operator+=(TValueType _rhs);
-	inline		Radian&			operator-=(TValueType _rhs);
-	inline		Radian&			operator*=(TValueType _rhs);
-	inline		Radian&			operator/=(TValueType _rhs);
+	inline		Radian&			operator+=(TValueType rhs);
+	inline		Radian&			operator-=(TValueType rhs);
+	inline		Radian&			operator*=(TValueType rhs);
+	inline		Radian&			operator/=(TValueType rhs);
 
 				// Negate value
 	inline		Radian			operator-(void)								const;
 
 				// Equality operators
-	inline		bool			operator==(const Radian& _rhs)				const;
-	inline		bool			operator!=(const Radian& _rhs)				const;
+	inline		bool			operator==(const Radian& rhs)				const;
+	inline		bool			operator!=(const Radian& rhs)				const;
 
-	inline		bool			operator==(TValueType _rhs)					const;
-	inline		bool			operator!=(TValueType _rhs)					const;
+	inline		bool			operator==(TValueType rhs)					const;
+	inline		bool			operator!=(TValueType rhs)					const;
 
 	private:
 
@@ -202,11 +176,11 @@ namespace math
 	// Angle literals
 	inline namespace Literal
 	{
-		inline Degree<float>		operator""_deg(long double _val);
-		inline Degree<float>		operator""_deg(unsigned long long int _val);
+		inline Degree<float>		operator""_deg(long double val);
+		inline Degree<float>		operator""_deg(unsigned long long int val);
 
-		inline Radian<float>		operator""_rad(long double _val);
-		inline Radian<float>		operator""_rad(unsigned long long int _val);
+		inline Radian<float>		operator""_rad(long double val);
+		inline Radian<float>		operator""_rad(unsigned long long int val);
 
 	}
 
@@ -217,14 +191,14 @@ namespace math
 // ---- Degree implementation
 
 	template <CScalarType TValueType>
-	Degree<TValueType>::Degree(TValueType _val)
-		: m_value(_val) {}
+	Degree<TValueType>::Degree(TValueType val)
+		: m_value(val) {}
 
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType>::Degree(const Degree<TValueType>& _other)
-		: m_value(_other.m_value) {}
+	Degree<TValueType>::Degree(const Degree<TValueType>& other)
+		: m_value(other.m_value) {}
 
 
 
@@ -236,11 +210,11 @@ namespace math
 	}
 
 	template <CScalarType TValueType>
-	TValueType Degree<TValueType>::Deg(bool _wrap180) const
+	TValueType Degree<TValueType>::Deg(bool wrap180) const
 	{
 		// Wrap value depending on argument
 
-		if (_wrap180)
+		if (wrap180)
 			return math::Wrap(m_value, -HALF_CIRCLE_DEG, HALF_CIRCLE_DEG);
 
 		else
@@ -250,11 +224,11 @@ namespace math
 
 
 	template <CScalarType TValueType>
-	TValueType Degree<TValueType>::Rad(bool _wrapPi) const
+	TValueType Degree<TValueType>::Rad(bool wrapPi) const
 	{
 		// Wrap value depending on argument
 
-		if (_wrapPi)
+		if (wrapPi)
 			return math::Wrap(m_value * DEG2RAD, -MTH_PI, MTH_PI);
 
 		else
@@ -272,20 +246,20 @@ namespace math
 
 
 	template <CScalarType TValueType>
-	void Degree<TValueType>::Wrap(bool _wrap180)
+	void Degree<TValueType>::Wrap(bool wrap180)
 	{
 		// Assign wrapped value to raw value
-		m_value = Deg(_wrap180);
+		m_value = Deg(wrap180);
 	}
 
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType>& Degree<TValueType>::operator=(const Degree& _rhs)
+	Degree<TValueType>& Degree<TValueType>::operator=(const Degree& rhs)
 	{
 		// Copy assignment
 
-		m_value = _rhs.m_value;
+		m_value = rhs.m_value;
 
 		return *this;
 	}
@@ -293,11 +267,11 @@ namespace math
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType>& Degree<TValueType>::operator=(TValueType _rhs)
+	Degree<TValueType>& Degree<TValueType>::operator=(TValueType rhs)
 	{
 		// Copy assignment
 
-		m_value = _rhs;
+		m_value = rhs;
 
 		return *this;
 	}
@@ -305,90 +279,90 @@ namespace math
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType> Degree<TValueType>::operator+(const Degree& _rhs) const
+	Degree<TValueType> Degree<TValueType>::operator+(const Degree& rhs) const
 	{
 		// Addition
 
-		return Degree<TValueType>(m_value + _rhs.m_value);
+		return Degree<TValueType>(m_value + rhs.m_value);
 	}
 
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType> Degree<TValueType>::operator-(const Degree<TValueType>& _rhs) const
+	Degree<TValueType> Degree<TValueType>::operator-(const Degree<TValueType>& rhs) const
 	{
 		// Subtraction
 
-		return Degree<TValueType>(m_value - _rhs.m_value);
+		return Degree<TValueType>(m_value - rhs.m_value);
 	}
 
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType> Degree<TValueType>::operator*(const Degree<TValueType>& _rhs) const
+	Degree<TValueType> Degree<TValueType>::operator*(const Degree<TValueType>& rhs) const
 	{
 		// Multiplication
 
-		return Degree(m_value * _rhs.m_value);
+		return Degree(m_value * rhs.m_value);
 	}
 
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType> Degree<TValueType>::operator/(const Degree<TValueType>& _rhs) const
+	Degree<TValueType> Degree<TValueType>::operator/(const Degree<TValueType>& rhs) const
 	{
 		// Division
 
-		return Degree(m_value / _rhs.m_value);
+		return Degree(m_value / rhs.m_value);
 	}
 
 
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType> Degree<TValueType>::operator+(TValueType _rhs) const
+	Degree<TValueType> Degree<TValueType>::operator+(TValueType rhs) const
 	{
 		// Addition
 
-		return Degree<TValueType>(m_value + _rhs);
+		return Degree<TValueType>(m_value + rhs);
 	}
 
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType> Degree<TValueType>::operator-(TValueType _rhs) const
+	Degree<TValueType> Degree<TValueType>::operator-(TValueType rhs) const
 	{
 		// Subtraction
 
-		return Degree<TValueType>(m_value - _rhs);
+		return Degree<TValueType>(m_value - rhs);
 	}
 
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType> Degree<TValueType>::operator*(TValueType _rhs) const
+	Degree<TValueType> Degree<TValueType>::operator*(TValueType rhs) const
 	{
 		// Multiplication
-		return Degree<TValueType>(m_value * _rhs);
+		return Degree<TValueType>(m_value * rhs);
 	}
 
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType> Degree<TValueType>::operator/(TValueType _rhs) const
+	Degree<TValueType> Degree<TValueType>::operator/(TValueType rhs) const
 	{
 		// Division
-		return Degree<TValueType>(m_value / _rhs);
+		return Degree<TValueType>(m_value / rhs);
 	}
 
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType>& Degree<TValueType>::operator+=(const Degree& _rhs)
+	Degree<TValueType>& Degree<TValueType>::operator+=(const Degree& rhs)
 	{
 		// Addition assignment
 
-		m_value += _rhs.m_value;
+		m_value += rhs.m_value;
 
 		return *this;
 	}
@@ -396,11 +370,11 @@ namespace math
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType>& Degree<TValueType>::operator-=(const Degree& _rhs)
+	Degree<TValueType>& Degree<TValueType>::operator-=(const Degree& rhs)
 	{
 		// Subtraction assignment
 
-		m_value -= _rhs.m_value;
+		m_value -= rhs.m_value;
 
 		return *this;
 	}
@@ -408,11 +382,11 @@ namespace math
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType>& Degree<TValueType>::operator*=(const Degree& _rhs)
+	Degree<TValueType>& Degree<TValueType>::operator*=(const Degree& rhs)
 	{
 		// Multiplication assignment
 
-		m_value *= _rhs.m_value;
+		m_value *= rhs.m_value;
 
 		return *this;
 	}
@@ -420,11 +394,11 @@ namespace math
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType>& Degree<TValueType>::operator/=(const Degree& _rhs)
+	Degree<TValueType>& Degree<TValueType>::operator/=(const Degree& rhs)
 	{
 		// Division assignment
 
-		m_value /= _rhs.m_value;
+		m_value /= rhs.m_value;
 
 		return *this;
 	}
@@ -433,11 +407,11 @@ namespace math
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType>& Degree<TValueType>::operator+=(TValueType _rhs)
+	Degree<TValueType>& Degree<TValueType>::operator+=(TValueType rhs)
 	{
 		// Addition assignment
 
-		m_value += _rhs;
+		m_value += rhs;
 
 		return *this;
 	}
@@ -445,11 +419,11 @@ namespace math
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType>& Degree<TValueType>::operator-=(TValueType _rhs)
+	Degree<TValueType>& Degree<TValueType>::operator-=(TValueType rhs)
 	{
 		// Subtraction assignment
 
-		m_value -= _rhs;
+		m_value -= rhs;
 
 		return *this;
 	}
@@ -457,11 +431,11 @@ namespace math
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType>& Degree<TValueType>::operator*=(TValueType _rhs)
+	Degree<TValueType>& Degree<TValueType>::operator*=(TValueType rhs)
 	{
 		// Multiplication assignment
 
-		m_value *= _rhs;
+		m_value *= rhs;
 
 		return *this;
 	}
@@ -469,11 +443,11 @@ namespace math
 
 
 	template <CScalarType TValueType>
-	Degree<TValueType>& Degree<TValueType>::operator/=(TValueType _rhs)
+	Degree<TValueType>& Degree<TValueType>::operator/=(TValueType rhs)
 	{
 		// Division assignment
 
-		m_value /= _rhs;
+		m_value /= rhs;
 
 		return *this;
 	}
@@ -490,12 +464,12 @@ namespace math
 
 
 	template <CScalarType TValueType>
-	bool Degree<TValueType>::operator==(const Degree<TValueType>& _rhs) const
+	bool Degree<TValueType>::operator==(const Degree<TValueType>& rhs) const
 	{
 		return AlmostEqual
 		(
 			Deg(false),
-			_rhs.Deg(false),
+			rhs.Deg(false),
 			DEG_PRECISION
 		);
 	}
@@ -503,21 +477,21 @@ namespace math
 
 
 	template <CScalarType TValueType>
-	bool Degree<TValueType>::operator!=(const Degree& _rhs) const
+	bool Degree<TValueType>::operator!=(const Degree& rhs) const
 	{
 		// Not equal
-		return !(*this == _rhs);
+		return !(*this == rhs);
 	}
 
 
 
 	template <CScalarType TValueType>
-	bool Degree<TValueType>::operator==(TValueType _rhs) const
+	bool Degree<TValueType>::operator==(TValueType rhs) const
 	{
 		return AlmostEqual<TValueType>
 		(
 			Deg(false),
-			_rhs,
+			rhs,
 			DEG_PRECISION
 		);
 	}
@@ -525,10 +499,10 @@ namespace math
 
 
 	template <CScalarType TValueType>
-	bool Degree<TValueType>::operator!=(TValueType _rhs) const
+	bool Degree<TValueType>::operator!=(TValueType rhs) const
 	{
 		// Not equal
-		return !(*this == _rhs);
+		return !(*this == rhs);
 	}
 
 
@@ -545,14 +519,14 @@ namespace math
 // ---- Radian implementation ----
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType>::Radian(TValueType _val)
-		: m_value(_val) {}
+	Radian<TValueType>::Radian(TValueType val)
+		: m_value(val) {}
 
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType>::Radian(const Radian<TValueType>& _other)
-		: m_value(_other.m_value) {}
+	Radian<TValueType>::Radian(const Radian<TValueType>& other)
+		: m_value(other.m_value) {}
 
 
 
@@ -565,10 +539,10 @@ namespace math
 
 
 	template <CScalarType TValueType> inline
-	TValueType Radian<TValueType>::Radian::Deg(bool _wrap180) const
+	TValueType Radian<TValueType>::Radian::Deg(bool wrap180) const
 	{
 		// Wrap value depending on argument
-		if (_wrap180)
+		if (wrap180)
 			return math::Wrap(m_value * RAD2DEG, -HALF_CIRCLE_DEG, HALF_CIRCLE_DEG);
 
 		else
@@ -578,7 +552,7 @@ namespace math
 
 
 	template <CScalarType TValueType> inline
-	TValueType Radian<TValueType>::Rad(bool _wrapPi) const
+	TValueType Radian<TValueType>::Rad(bool wrapPi) const
 	{
 		// Use custom wrap as math wrap is not precise enough
 
@@ -594,7 +568,7 @@ namespace math
 		}
 
 		// Wrap again if range is -pi, pi
-		if (_wrapPi)
+		if (wrapPi)
 		{
 			if (absValue >= MTH_PI)
 				absValue -= RAD_CIRCLE;
@@ -624,103 +598,103 @@ namespace math
 	}
 
 	template <CScalarType TValueType> inline
-	void Radian<TValueType>::Wrap(bool _wrap180)
+	void Radian<TValueType>::Wrap(bool wrap180)
 	{
 		// Set raw value to wrapped value
-		m_value = Rad(_wrap180);
+		m_value = Rad(wrap180);
 	}
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType>& Radian<TValueType>::operator=(const Radian<TValueType>& _rhs)
+	Radian<TValueType>& Radian<TValueType>::operator=(const Radian<TValueType>& rhs)
 	{
 		// Copy assignment
 
-		m_value = _rhs.m_value;
+		m_value = rhs.m_value;
 
 		return *this;
 	}
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType>& Radian<TValueType>::operator=(TValueType _rhs)
+	Radian<TValueType>& Radian<TValueType>::operator=(TValueType rhs)
 	{
 		// Copy assignment
 
-		m_value = _rhs;
+		m_value = rhs;
 
 		return *this;
 	}
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType> Radian<TValueType>::operator+(const Radian<TValueType>& _rhs) const
+	Radian<TValueType> Radian<TValueType>::operator+(const Radian<TValueType>& rhs) const
 	{
 		// Addition
 
-		return Radian(m_value + _rhs.m_value);
+		return Radian(m_value + rhs.m_value);
 	}
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType> Radian<TValueType>::operator-(const Radian<TValueType>& _rhs) const
+	Radian<TValueType> Radian<TValueType>::operator-(const Radian<TValueType>& rhs) const
 	{
 		// Subtraction
-		return Radian(m_value - _rhs.m_value);
+		return Radian(m_value - rhs.m_value);
 	}
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType> Radian<TValueType>::operator*(const Radian<TValueType>& _rhs) const
+	Radian<TValueType> Radian<TValueType>::operator*(const Radian<TValueType>& rhs) const
 	{
 		// Multiplication
-		return Radian<TValueType>(m_value * _rhs.m_value);
+		return Radian<TValueType>(m_value * rhs.m_value);
 	}
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType> Radian<TValueType>::operator/(const Radian<TValueType>& _rhs) const
+	Radian<TValueType> Radian<TValueType>::operator/(const Radian<TValueType>& rhs) const
 	{
 		// Division
-		return Radian(m_value / _rhs.m_value);
+		return Radian(m_value / rhs.m_value);
 	}
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType>& Radian<TValueType>::operator+=(const Radian<TValueType>& _rhs)
+	Radian<TValueType>& Radian<TValueType>::operator+=(const Radian<TValueType>& rhs)
 	{
 		// Addition assignment
-		m_value += _rhs.m_value;
+		m_value += rhs.m_value;
 
 		return *this;
 	}
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType>& Radian<TValueType>::operator-=(const Radian<TValueType>& _rhs)
+	Radian<TValueType>& Radian<TValueType>::operator-=(const Radian<TValueType>& rhs)
 	{
 		// Subtraction assignment
-		m_value -= _rhs.m_value;
+		m_value -= rhs.m_value;
 
 		return *this;
 	}
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType>& Radian<TValueType>::operator*=(const Radian<TValueType>& _rhs)
+	Radian<TValueType>& Radian<TValueType>::operator*=(const Radian<TValueType>& rhs)
 	{
 		// Multiplication assignment
-		m_value *= _rhs.m_value;
+		m_value *= rhs.m_value;
 
 		return *this;
 	}
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType>& Radian<TValueType>::operator/=(const Radian<TValueType>& _rhs)
+	Radian<TValueType>& Radian<TValueType>::operator/=(const Radian<TValueType>& rhs)
 	{
 		// Division assignment
-		m_value /= _rhs.m_value;
+		m_value /= rhs.m_value;
 
 		return *this;
 	}
@@ -728,43 +702,43 @@ namespace math
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType> Radian<TValueType>::operator+(TValueType _rhs) const
+	Radian<TValueType> Radian<TValueType>::operator+(TValueType rhs) const
 	{
 		// Addition
-		return Radian(m_value + _rhs);
+		return Radian(m_value + rhs);
 	}
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType> Radian<TValueType>::operator-(TValueType _rhs) const
+	Radian<TValueType> Radian<TValueType>::operator-(TValueType rhs) const
 	{
 		// Subtraction
-		return Radian(m_value - _rhs);
+		return Radian(m_value - rhs);
 	}
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType> Radian<TValueType>::operator*(TValueType _rhs) const
+	Radian<TValueType> Radian<TValueType>::operator*(TValueType rhs) const
 	{
 		// Multiplication
-		return Radian(m_value * _rhs);
+		return Radian(m_value * rhs);
 	}
 
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType> Radian<TValueType>::operator/(TValueType _rhs) const
+	Radian<TValueType> Radian<TValueType>::operator/(TValueType rhs) const
 	{
 		// Division
-		return Radian(m_value / _rhs);
+		return Radian(m_value / rhs);
 	}
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType>& Radian<TValueType>::operator+=(TValueType _rhs)
+	Radian<TValueType>& Radian<TValueType>::operator+=(TValueType rhs)
 	{
 		// Addition assignment
-		m_value += _rhs;
+		m_value += rhs;
 
 		return *this;
 	}
@@ -772,10 +746,10 @@ namespace math
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType>& Radian<TValueType>::operator-=(TValueType _rhs)
+	Radian<TValueType>& Radian<TValueType>::operator-=(TValueType rhs)
 	{
 		// Subtraction assignment
-		m_value -= _rhs;
+		m_value -= rhs;
 
 		return *this;
 	}
@@ -783,20 +757,20 @@ namespace math
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType>& Radian<TValueType>::operator*=(TValueType _rhs)
+	Radian<TValueType>& Radian<TValueType>::operator*=(TValueType rhs)
 	{
 		// Multiplication assignment
-		m_value *= _rhs;
+		m_value *= rhs;
 
 		return *this;
 	}
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType>& Radian<TValueType>::operator/=(TValueType _rhs)
+	Radian<TValueType>& Radian<TValueType>::operator/=(TValueType rhs)
 	{
 		// Division assignment
-		m_value /= _rhs;
+		m_value /= rhs;
 
 		return *this;
 	}
@@ -811,33 +785,33 @@ namespace math
 
 
 	template <CScalarType TValueType> inline
-	bool Radian<TValueType>::operator==(const Radian<TValueType>& _rhs) const
+	bool Radian<TValueType>::operator==(const Radian<TValueType>& rhs) const
 	{
 		return AlmostEqual
 		(
 			Rad(false),
-			_rhs.Rad(false),
+			rhs.Rad(false),
 			RAD_PRECISION
 		);
 	}
 
 
 	template <CScalarType TValueType> inline
-	bool Radian<TValueType>::operator!=(const Radian<TValueType>& _rhs) const
+	bool Radian<TValueType>::operator!=(const Radian<TValueType>& rhs) const
 	{
 		// Not equal
-		return !(*this == _rhs);
+		return !(*this == rhs);
 	}
 
 
 
 	template <CScalarType TValueType> inline
-	bool Radian<TValueType>::operator==(TValueType _rhs) const
+	bool Radian<TValueType>::operator==(TValueType rhs) const
 	{
 		return AlmostEqual
 		(
 			Rad(false),
-			_rhs,
+			rhs,
 			RAD_PRECISION
 		);
 	}
@@ -851,38 +825,38 @@ namespace math
 // ---- Literal operators implementation ----
 
 	template <CScalarType TValueType> inline
-	bool Radian<TValueType>::operator!=(TValueType _rhs) const
+	bool Radian<TValueType>::operator!=(TValueType rhs) const
 	{
 		// Not equal
-		return !(*this == _rhs);
+		return !(*this == rhs);
 	}
 
 
 
-	inline Radian<float> math::Literal::operator""_rad(long double _val)
+	inline Radian<float> math::Literal::operator""_rad(long double val)
 	{
 		// Get numeric value from literal
-		return Radian(static_cast<float>(_val));
+		return Radian(static_cast<float>(val));
 	}
 
 
-	inline Radian<float> math::Literal::operator""_rad(unsigned long long int _val)
+	inline Radian<float> math::Literal::operator""_rad(unsigned long long int val)
 	{
 		// Get numeric value from literal
-		return Radian(static_cast<float>(_val));
+		return Radian(static_cast<float>(val));
 	}
 
 
-	inline Degree<float> math::Literal::operator""_deg(long double _val)
+	inline Degree<float> math::Literal::operator""_deg(long double val)
 	{
 		// Get numeric value from literal
-		return Degree<float>(static_cast<float>(_val));
+		return Degree<float>(static_cast<float>(val));
 	}
 
-	inline Degree<float> Literal::operator""_deg(unsigned long long int _val)
+	inline Degree<float> Literal::operator""_deg(unsigned long long int val)
 	{
 		// Get numeric value from literal
-		return Degree<float>(static_cast<float>(_val));
+		return Degree<float>(static_cast<float>(val));
 	}
 
 

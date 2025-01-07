@@ -1,37 +1,12 @@
-/*
-
- _____                               _
-|_   _|                             (_)
-  | |  ___  _ __     ___ _ __   __ _ _ _ __   ___
-  | | / _ \| '_ \   / _ \ '_ \ / _` | | '_ \ / _ \
- _| || (_) | | | | |  __/ | | | (_| | | | | |  __/
- \___/\___/|_| |_|  \___|_| |_|\__, |_|_| |_|\___|
-								__/ |
-							   |___/
-
-
-NAME: Matrix3.hpp
-
-DESCTIPTION: 3x3 matrix class
-
-AUTHOR: Noah de Pischof | @torrra on GitHub
-
-TEMPLATES:
-
-CScalarType is a template constraint that only accepts numeric data types
-
-*/
-
-
 #ifndef __MATRIX3_H__
 #define __MATRIX3_H__
 
 
-#include "math/MathGeneric.hpp"
-#include "math/MatrixGeneric.hpp"
+#include "MathGeneric.hpp"
+#include "MatrixGeneric.hpp"
 
-#include "math/Vector3.hpp"
-#include "math/Matrix2.hpp"
+#include "Vector3.hpp"
+#include "Matrix2.hpp"
 
 namespace math
 {
@@ -48,10 +23,10 @@ namespace math
         // Constructors / destructor
 
     inline                   Matrix(void) = default;
-    inline                   Matrix(const TValueType _diag);
-    inline                   Matrix(const TValueType _vals[][3]);
-    inline                   Matrix(const TValueType _vals[]);
-    inline                   Matrix(const TMatrixType& _other);
+    inline                   Matrix(const TValueType diag);
+    inline                   Matrix(const TValueType vals[][3]);
+    inline                   Matrix(const TValueType vals[]);
+    inline                   Matrix(const TMatrixType& other);
 
     inline                   ~Matrix(void) = default;
 
@@ -59,7 +34,7 @@ namespace math
     inline    TValueType      Determinant(void)                   const;
 
         // Turn this matrix into an identity matrix with a given diagonal
-    inline    void            Identity( TValueType _diag =
+    inline    void            Identity( TValueType diag =
                                         static_cast<TValueType>(1)
                                        );
 
@@ -82,47 +57,47 @@ namespace math
 
         // Get this matrix stripped of a row and a column
     inline
-    Matrix2<TValueType>  SubMatrix(int _row, int _column)    const;
+    Matrix2<TValueType>  SubMatrix(int row, int column)    const;
 
-    inline   TMatrixType&        operator=(const TMatrixType& _rhs);
-    inline   TMatrixType&        operator=(const TValueType _rhs[][3]);
-    inline   TMatrixType&        operator=(const TValueType _rhs[9]);
+    inline   TMatrixType&        operator=(const TMatrixType& rhs);
+    inline   TMatrixType&        operator=(const TValueType rhs[][3]);
+    inline   TMatrixType&        operator=(const TValueType rhs[9]);
 
         // Matrix / matrix operators
 
-    inline   TMatrixType         operator+(const TMatrixType& _rhs)      const;
-    inline   TMatrixType         operator-(const TMatrixType& _rhs)      const;
-    inline   TMatrixType         operator*(const TMatrixType& _rhs)      const;
+    inline   TMatrixType         operator+(const TMatrixType& rhs)      const;
+    inline   TMatrixType         operator-(const TMatrixType& rhs)      const;
+    inline   TMatrixType         operator*(const TMatrixType& rhs)      const;
 
     inline    Vector3<TValueType>
-    operator*(const Vector3<TValueType>& _rhs)                      const;
+    operator*(const Vector3<TValueType>& rhs)                      const;
 
         // Multiply all numbers of a copy of this matrix by a scalar factor
-    inline   TMatrixType         operator*(TValueType _factor)         const;
+    inline   TMatrixType         operator*(TValueType factor)         const;
 
         // Divide all numbers of a copy of this matrix by a scalar factor
-    inline  TMatrixType         operator/(TValueType _factor)          const;
+    inline  TMatrixType         operator/(TValueType factor)          const;
 
         // Matrix / matrix assignment operators
 
-     inline   TMatrixType&        operator+=(const TMatrixType& _rhs);
-     inline   TMatrixType&        operator-=(const TMatrixType& _rhs);
-     inline   TMatrixType&        operator*=(const TMatrixType& _rhs);
+     inline   TMatrixType&        operator+=(const TMatrixType& rhs);
+     inline   TMatrixType&        operator-=(const TMatrixType& rhs);
+     inline   TMatrixType&        operator*=(const TMatrixType& rhs);
 
         // Multiply all numbers of a copy of this matrix by a scalar factor
-    inline   TMatrixType&        operator*=(TValueType _factor);
+    inline   TMatrixType&        operator*=(TValueType factor);
 
         // Divide all numbers of a copy of this matrix by a scalar factor
-    inline   TMatrixType&        operator/=(TValueType _factor);
+    inline   TMatrixType&        operator/=(TValueType factor);
 
-    inline    bool            operator==(const TMatrixType& _rhs)     const;
-    inline    bool            operator!=(const TMatrixType& _rhs)     const;
-
-        // Access a row (no bound checking)
-    inline    TColumnType&   operator[](int _index);
+    inline    bool            operator==(const TMatrixType& rhs)     const;
+    inline    bool            operator!=(const TMatrixType& rhs)     const;
 
         // Access a row (no bound checking)
-    inline    TColumnType    operator[](int _index)                const;
+    inline    TColumnType&   operator[](int index);
+
+        // Access a row (no bound checking)
+    inline    TColumnType    operator[](int index)                const;
 
 
     private:
@@ -147,21 +122,21 @@ namespace math
 
 
     template <CScalarType TValueType> inline
- Matrix<3, TValueType>::Matrix(const TValueType _diag)
+ Matrix<3, TValueType>::Matrix(const TValueType diag)
  {
- 	Identity(_diag);
+ 	Identity(diag);
  }
 
 
  template <CScalarType TValueType> inline
- Matrix<3, TValueType>::Matrix(const TValueType _vals[][3])
+ Matrix<3, TValueType>::Matrix(const TValueType vals[][3])
  {
  	// Copy 3x3 array into matix
  	for (int row = 0; row < 3; ++row)
  	{
  		for (int column = 0; column < 3; ++column)
  		{
- 			m_values[row][column] = _vals[row][column];
+ 			m_values[row][column] = vals[row][column];
  		}
  	}
  }
@@ -169,7 +144,7 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- Matrix<3, TValueType>::Matrix(const TValueType _vals[])
+ Matrix<3, TValueType>::Matrix(const TValueType vals[])
  {
  	int		arrayIndex = 0;
 
@@ -179,7 +154,7 @@ namespace math
  	{
  		for (int column = 0; column < 3; ++column, ++arrayIndex)
  		{
- 			m_values[row][column] = _vals[arrayIndex];
+ 			m_values[row][column] = vals[arrayIndex];
  		}
  	}
  }
@@ -187,7 +162,7 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- Matrix<3, TValueType>::Matrix(const Matrix<3, TValueType>& _other)
+ Matrix<3, TValueType>::Matrix(const Matrix<3, TValueType>& other)
  {
  	int		maxSize = 3;
 
@@ -196,7 +171,7 @@ namespace math
  	{
  		for (int column = 0; column < maxSize; ++column)
  		{
- 			m_values[row][column] = _other[row][column];
+ 			m_values[row][column] = other[row][column];
  		}
  	}
  }
@@ -228,7 +203,7 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- void Matrix<3, TValueType>::Identity(TValueType _diag)
+ void Matrix<3, TValueType>::Identity(TValueType diag)
  {
  	int		maxSize = 3;
 
@@ -237,7 +212,7 @@ namespace math
  	{
  		for (int column = 0; column < maxSize; ++column)
  		{
- 			m_values[row][column] = (row == column) ? _diag : 0.f;
+ 			m_values[row][column] = (row == column) ? diag : 0.f;
  		}
  	}
  }
@@ -373,20 +348,20 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- Matrix2<TValueType> Matrix<3, TValueType>::SubMatrix(int _row, int _column) const
+ Matrix2<TValueType> Matrix<3, TValueType>::SubMatrix(int row, int column) const
  {
  	Matrix2<TValueType>		minor;
 
  	// Go through matrix and ignore row argument
  	for (int thisRow = 0, mat2Row = 0; thisRow < 3; ++thisRow)
  	{
- 		if (_row == thisRow)
+ 		if (row == thisRow)
  			continue;
 
  		for (int thisColumn = 0, mat2Column = 0; thisColumn < 3; ++thisColumn)
  		{
  			// Ignore column parameter
- 			if (_column == thisColumn)
+ 			if (column == thisColumn)
  				continue;
 
  			minor[mat2Row][mat2Column++] = m_values[thisRow][thisColumn];
@@ -402,10 +377,10 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- Matrix<3, TValueType>& Matrix<3, TValueType>::operator=(const Matrix<3, TValueType>& _rhs)
+ Matrix<3, TValueType>& Matrix<3, TValueType>::operator=(const Matrix<3, TValueType>& rhs)
  {
      for (uint8_t row = 0; row < 3; ++row)
-         m_values[row] = _rhs.m_values[row];
+         m_values[row] = rhs.m_values[row];
 
  	return *this;
  }
@@ -413,14 +388,14 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- Matrix<3, TValueType>& Matrix<3, TValueType>::operator=(const TValueType _rhs[][3])
+ Matrix<3, TValueType>& Matrix<3, TValueType>::operator=(const TValueType rhs[][3])
  {
  	// Copy double array
  	for (int row = 0; row < 3; ++row)
  	{
  		for (int column = 0; column < 3; ++column)
  		{
- 			m_values[row][column] = _rhs[row][column];
+ 			m_values[row][column] = rhs[row][column];
  		}
  	}
 
@@ -430,7 +405,7 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- Matrix<3, TValueType>& Matrix<3, TValueType>::operator=(const TValueType _rhs[9])
+ Matrix<3, TValueType>& Matrix<3, TValueType>::operator=(const TValueType rhs[9])
  {
  	int		arrayIndex = 0;
 
@@ -439,7 +414,7 @@ namespace math
  	{
  		for (int column = 0; column < 3; ++column, ++arrayIndex)
  		{
- 			m_values[row][column] = _rhs[arrayIndex];
+ 			m_values[row][column] = rhs[arrayIndex];
  		}
  	}
 
@@ -449,7 +424,7 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- Matrix<3, TValueType> Matrix<3, TValueType>::operator+(const Matrix<3, TValueType>& _rhs) const
+ Matrix<3, TValueType> Matrix<3, TValueType>::operator+(const Matrix<3, TValueType>& rhs) const
  {
  	Matrix<3, TValueType>		result;
 
@@ -459,7 +434,7 @@ namespace math
  		for (int column = 0; column < 3; ++column)
  		{
  			result.m_values[row][column] =
- 			m_values[row][column] + _rhs[row][column];
+ 			m_values[row][column] + rhs[row][column];
  		}
  	}
 
@@ -468,7 +443,7 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- Matrix<3, TValueType> Matrix<3, TValueType>::operator-(const Matrix<3, TValueType>& _rhs) const
+ Matrix<3, TValueType> Matrix<3, TValueType>::operator-(const Matrix<3, TValueType>& rhs) const
  {
  	Matrix<3, TValueType>		result;
 
@@ -478,7 +453,7 @@ namespace math
  		for (int column = 0; column < 3; ++column)
  		{
  			result.m_values[row][column] =
- 			m_values[row][column] - _rhs[row][column];
+ 			m_values[row][column] - rhs[row][column];
  		}
  	}
 
@@ -487,7 +462,7 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- Matrix<3, TValueType> Matrix<3, TValueType>::operator*(const Matrix<3, TValueType>& _rhs) const
+ Matrix<3, TValueType> Matrix<3, TValueType>::operator*(const Matrix<3, TValueType>& rhs) const
  {
  	Matrix<3, TValueType>		result;
 
@@ -504,7 +479,7 @@ namespace math
  			for (int rightRow = 0; rightRow < 3; rightRow++)
  			{
  				currentNum += m_values[thisRow][rightRow] *
- 				_rhs[rightRow][rightColumn];
+ 				rhs[rightRow][rightColumn];
  			}
 
  			result.m_values[thisRow][rightColumn] = currentNum;
@@ -516,7 +491,7 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- Matrix<3, TValueType> Matrix<3, TValueType>::operator*(TValueType _rhs) const
+ Matrix<3, TValueType> Matrix<3, TValueType>::operator*(TValueType rhs) const
  {
  	Matrix<3, TValueType>		result;
 
@@ -525,7 +500,7 @@ namespace math
  	{
  		for (int column = 0; column < 3; ++column)
  		{
- 			result[row][column] = m_values[row][column] * _rhs;
+ 			result[row][column] = m_values[row][column] * rhs;
  		}
  	}
 
@@ -534,7 +509,7 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- Vector3<TValueType>  Matrix<3, TValueType>::operator*(const Vector3<TValueType>& _rhs) const
+ Vector3<TValueType>  Matrix<3, TValueType>::operator*(const Vector3<TValueType>& rhs) const
  {
  	Vector3<TValueType>		result(0.f);
  	TValueType				num;
@@ -547,7 +522,7 @@ namespace math
 
  		for (int column = 0; column < 3; ++column)
  		{
- 			num += m_values[row][column] * _rhs[column];
+ 			num += m_values[row][column] * rhs[column];
  		}
 
  		result[row] = num;
@@ -558,22 +533,22 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- Matrix<3, TValueType> Matrix<3, TValueType>::operator/(TValueType _rhs) const
+ Matrix<3, TValueType> Matrix<3, TValueType>::operator/(TValueType rhs) const
  {
  	// Multiply by one over divisor
- 	return *this * (1.f / _rhs);
+ 	return *this * (1.f / rhs);
  }
 
 
  template <CScalarType TValueType> inline
- Matrix<3, TValueType>& Matrix<3, TValueType>::operator+=(const Matrix<3, TValueType>& _rhs)
+ Matrix<3, TValueType>& Matrix<3, TValueType>::operator+=(const Matrix<3, TValueType>& rhs)
  {
  	// Add and assign
  	for (int row = 0; row < 3; ++row)
  	{
  		for (int column = 0; column < 3; ++column)
  		{
- 			m_values[row][column] += _rhs[row][column];
+ 			m_values[row][column] += rhs[row][column];
  		}
  	}
 
@@ -583,14 +558,14 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- Matrix<3, TValueType>& Matrix<3, TValueType>::operator-=(const Matrix<3, TValueType>& _rhs)
+ Matrix<3, TValueType>& Matrix<3, TValueType>::operator-=(const Matrix<3, TValueType>& rhs)
  {
  	//Subtract and assign
  	for (int row = 0; row < 3; ++row)
  	{
  		for (int column = 0; column < 3; ++column)
  		{
- 			m_values[row][column] -= _rhs[row][column];
+ 			m_values[row][column] -= rhs[row][column];
  		}
  	}
 
@@ -600,7 +575,7 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- Matrix<3, TValueType>& Matrix<3, TValueType>::operator*=(const Matrix<3, TValueType>& _rhs)
+ Matrix<3, TValueType>& Matrix<3, TValueType>::operator*=(const Matrix<3, TValueType>& rhs)
  {
  	Matrix<3, TValueType>		result;
 
@@ -616,7 +591,7 @@ namespace math
  			for (int rightRow = 0; rightRow < 3; rightRow++)
  			{
  				currentNum += m_values[thisRow][rightRow] *
- 				_rhs[rightRow][rightColumn];
+ 				rhs[rightRow][rightColumn];
  			}
 
  			// Store result
@@ -632,14 +607,14 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- Matrix<3, TValueType>& Matrix<3, TValueType>::operator*=(TValueType _rhs)
+ Matrix<3, TValueType>& Matrix<3, TValueType>::operator*=(TValueType rhs)
  {
  	// Multiply by scalar
  	for (int row = 0; row < 3; ++row)
  	{
  		for (int column = 0; column < 3; ++column)
  		{
- 			 m_values[row][column] *= _rhs;
+ 			 m_values[row][column] *= rhs;
  		}
  	}
 
@@ -648,10 +623,10 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- Matrix<3, TValueType>& Matrix<3, TValueType>::operator/=(TValueType _rhs)
+ Matrix<3, TValueType>& Matrix<3, TValueType>::operator/=(TValueType rhs)
  {
  	// Multiply by one over divisor
- 	*this *= (1.f / _rhs);
+ 	*this *= (1.f / rhs);
 
  	return *this;
  }
@@ -659,7 +634,7 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- bool Matrix<3, TValueType>::operator==(const Matrix<3, TValueType>& _rhs) const
+ bool Matrix<3, TValueType>::operator==(const Matrix<3, TValueType>& rhs) const
  {
  	// Check all components for equality
  	for (int row = 0; row < 3; ++row)
@@ -667,7 +642,7 @@ namespace math
  		for (int column = 0; column < 3; ++column)
  		{
  			if (!math::AlmostEqual(m_values[row][column],
- 				_rhs.m_values[row][column]))
+ 				rhs.m_values[row][column]))
  			{
  				return false;
  			}
@@ -680,26 +655,26 @@ namespace math
 
 
  template <CScalarType TValueType> inline
- bool Matrix<3, TValueType>::operator!=(const Matrix<3, TValueType>& _rhs) const
+ bool Matrix<3, TValueType>::operator!=(const Matrix<3, TValueType>& rhs) const
  {
  	// Return opposite of equality
- 	return !(*this == _rhs);
+ 	return !(*this == rhs);
  }
 
 
  template <CScalarType TValueType> inline
- Vector3<TValueType>&    Matrix<3, TValueType>::operator[](int _index)
+ Vector3<TValueType>&    Matrix<3, TValueType>::operator[](int index)
  {
  	// Return row
- 	return m_values[_index];
+ 	return m_values[index];
  }
 
 
  template <CScalarType TValueType> inline
- Vector3<TValueType>  Matrix<3, TValueType>::operator[](int _index) const
+ Vector3<TValueType>  Matrix<3, TValueType>::operator[](int index) const
  {
  	// Return row
- 	return m_values[_index];
+ 	return m_values[index];
  }
 
 

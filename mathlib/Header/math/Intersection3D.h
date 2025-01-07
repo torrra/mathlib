@@ -1,8 +1,8 @@
 #pragma once
 
-#include "math/Vector3.hpp"
-#include "math/Matrix3.hpp"
-#include "math/Arithmetic.hpp"
+#include "Vector3.hpp"
+#include "Matrix3.hpp"
+#include "Arithmetic.hpp"
 
 namespace math
 {
@@ -19,37 +19,37 @@ namespace math
 
 						AABBCollider3D(void) = default;
 
-						AABBCollider3D(const Vector3<float>& _pos, const Vector3<float>& _size);
-						AABBCollider3D(const AABBCollider3D& _other) = default;
+						AABBCollider3D(const Vector3f& pos, const Vector3f& size);
+						AABBCollider3D(const AABBCollider3D& other) = default;
 
 						~AABBCollider3D(void) = default;
 
 
 			// AABB collision checks
 
-			bool		CheckCollision(const AABBCollider3D& _other)	const;
-			bool		CheckCollision (const SphereCollider3D& _other)	const;
+			bool		CheckCollision(const AABBCollider3D& other)	const;
+			bool		CheckCollision (const SphereCollider3D& other)	const;
 
-			bool		PointInBox(const Vector3<float>& _point)				const;
+			bool		PointInBox(const Vector3f& point)				const;
 
 			// Accessors
 
-			Vector3<float>&	Position(void);
-			Vector3<float>&	Extents(void);
+			Vector3f&	Position(void);
+			Vector3f&	Extents(void);
 
-			Vector3<float>		GetPosition(void)								const;
-			Vector3<float>		GetExtents(void)								const;
+			Vector3f		GetPosition(void)								const;
+			Vector3f		GetExtents(void)								const;
 
 			// Calculate min and max vertex coords.
 
-			Vector3<float>		GetMin(void)									const;
-			Vector3<float>		GetMax(void)									const;
+			Vector3f		GetMin(void)									const;
+			Vector3f		GetMax(void)									const;
 
 
 	private:
 
-		Vector3<float>		m_position;
-		Vector3<float>		m_extents;
+		Vector3f		m_position;
+		Vector3f		m_extents;
 
 	};
 
@@ -61,34 +61,34 @@ namespace math
 		// Constructors / destructor
 
 					SphereCollider3D(void) = default;
-					SphereCollider3D(const Vector3<float>& _pos, float _radius);
+					SphereCollider3D(const Vector3f& pos, float radius);
 
 					SphereCollider3D
-					(const SphereCollider3D& _other) = default;
+					(const SphereCollider3D& other) = default;
 
 					~SphereCollider3D(void) = default;
 
 		// Collision checks
 
-		bool		CheckCollision(const AABBCollider3D& _other)	const;
-		bool		CheckCollision(const SphereCollider3D& _other)	const;
+		bool		CheckCollision(const AABBCollider3D& other)	const;
+		bool		CheckCollision(const SphereCollider3D& other)	const;
 
 		// Point vs sphere
-		bool		PointInSphere(const Vector3<float>& _point)			const;
+		bool		PointInSphere(const Vector3f& point)			const;
 
 
 		// Accessors
 
-		Vector3<float>&	Position(void);
+		Vector3f&	Position(void);
 		float&		Radius(void);
 
-		Vector3<float>		GetPosition(void)								const;
+		Vector3f		GetPosition(void)								const;
 		float		GetRadius(void)									const;
 		float		GetRadiusSquared(void)							const;
 
 	private:
 
-		Vector3<float> m_position{};
+		Vector3f m_position{};
 		float	m_radius = 0.f;
 	};
 
@@ -99,38 +99,38 @@ namespace math
 		// Constructors / destructor
 
 					Ray3D(void) = delete;
-					Ray3D(const Vector3<float>& _pos, const Vector3<float>& _dir);
-					Ray3D(const Ray3D& _other) = default;
+					Ray3D(const Vector3f& pos, const Vector3f& dir);
+					Ray3D(const Ray3D& other) = default;
 
 					~Ray3D(void) = default;
 
 		// Intersection with 3D vounding volumes
 
 		bool		Intersect
-		(const AABBCollider3D& _box, float& _distance)				const;
+		(const AABBCollider3D& box, float& distance)				const;
 
 		bool		Intersect
-		(const SphereCollider3D& _sphere, float& _distance)			const;
+		(const SphereCollider3D& sphere, float& distance)			const;
 
 		// Accessors
 
-		Vector3<float>&	Origin(void);
-		Vector3<float>&	Direction(void);
+		Vector3f&	Origin(void);
+		Vector3f&	Direction(void);
 
-		Vector3<float>		GetOrigin(void)									 const;
-		Vector3<float>		GetDirection(void)								 const;
-		Vector3<float>		GetInverseDir(void)								 const;
+		Vector3f		GetOrigin(void)									 const;
+		Vector3f		GetDirection(void)								 const;
+		Vector3f		GetInverseDir(void)								 const;
 
 
 	private:
 		// Origin of ray
-		Vector3<float>    m_origin;
+		Vector3f    m_origin;
 
 		// Direction unit vector
-		Vector3<float>    m_direction;
+		Vector3f    m_direction;
 
 		// 1 / direction
-		Vector3<float>    m_inverseDir;
+		Vector3f    m_inverseDir;
 	};
 
 
@@ -144,10 +144,10 @@ namespace math
 					OBBCollider3D(void) = default;
 
 					OBBCollider3D
-					(const Vector3<float>& _pos, const Vector3<float>& _extents,
-					 Radian<float> _angleX, Radian<float> _angleY, Radian<float> _angleZ);
+					(const Vector3f& pos, const Vector3f& extents,
+					 Radian<float> angleX, Radian<float> angleY, Radian<float> angleZ);
 
-					OBBCollider3D(const OBBCollider3D& _other) = default;
+					OBBCollider3D(const OBBCollider3D& other) = default;
 					~OBBCollider3D(void) = default;
 
 		// Accessors
@@ -160,25 +160,25 @@ namespace math
 		Radian<float>		GetRotationY(void) const;
 		Radian<float>		GetRotationZ(void) const;
 
-		Vector3<float>&	Position(void);
-		Vector3<float>&	Extents(void);
+		Vector3f&	Position(void);
+		Vector3f&	Extents(void);
 
 		// Calculate rotation matrix from 3 object's 3 angles
 		Matrix3f 	RotationMatrix(void)							const;
 
-		Vector3<float>		GetPosition(void)								const;
-		Vector3<float>		GetExtents(void)								const;
+		Vector3f		GetPosition(void)								const;
+		Vector3f		GetExtents(void)								const;
 
 		// Calculate rotated min and max vertices
 
-		Vector3<float>		GetMin(void)									const;
-		Vector3<float>		GetMax(void)									const;
+		Vector3f		GetMin(void)									const;
+		Vector3f		GetMax(void)									const;
 
 
 	private:
 
-		Vector3<float>		m_position;
-		Vector3<float>		m_extents;
+		Vector3f		m_position;
+		Vector3f		m_extents;
 		Radian<float>		m_rotation[3];
 	};
 
@@ -189,21 +189,21 @@ namespace math
 		// Constructors / destructor
 
 					Line3D(void) = default;
-					Line3D(const Vector3<float>& _start, const Vector3<float>& _end);
-					Line3D(const Line3D& _other) = default;
+					Line3D(const Vector3f& start, const Vector3f& end);
+					Line3D(const Line3D& other) = default;
 
 		// Accessors
 
-		Vector3<float>&	Start(void);
-		Vector3<float>&	End(void);
+		Vector3f&	Start(void);
+		Vector3f&	End(void);
 
-		Vector3<float>		GetStart(void)												const;
-		Vector3<float>		GetEnd(void)												const;
+		Vector3f		GetStart(void)												const;
+		Vector3f		GetEnd(void)												const;
 
 		// Intersection checks
 
-		bool		Intersect(const AABBCollider3D& _box)						const;
-		bool		Intersect(const SphereCollider3D& _circle)					const;
+		bool		Intersect(const AABBCollider3D& box)						const;
+		bool		Intersect(const SphereCollider3D& circle)					const;
 
 		// Calculate segment length
 
@@ -212,15 +212,15 @@ namespace math
 
 	private:
 
-		Vector3<float>		m_start;
-		Vector3<float>		m_end;
+		Vector3f		m_start;
+		Vector3f		m_end;
 	};
 
 
 	using Box = AABBCollider3D;
 	using OrientedBox = OBBCollider3D;
 
-	using Point3D = Vector3<float>;
+	using Point3D = Vector3f;
 	using Sphere = SphereCollider3D;
 
 }

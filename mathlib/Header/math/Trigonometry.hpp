@@ -1,30 +1,9 @@
-/*
-
- _____                               _
-|_   _|                             (_)
-  | |  ___  _ __     ___ _ __   __ _ _ _ __   ___
-  | | / _ \| '_ \   / _ \ '_ \ / _` | | '_ \ / _ \
- _| || (_) | | | | |  __/ | | | (_| | | | | |  __/
- \___/\___/|_| |_|  \___|_| |_|\__, |_|_| |_|\___|
-								__/ |
-							   |___/
-
-
-NAME: Trigonometry.hpp
-
-DESCTIPTION: Trigonometry functions (sin, cos, acos...)
-
-AUTHOR: Noah de Pischof | @torrra on GitHub
-
-
-*/
-
 #ifndef __TRIGONOMETRY_H__
 #define __TRIGONOMETRY_H__
 
 #include <cmath>
 
-#include "math/Angle.hpp"
+#include "Angle.hpp"
 
 // Number of times cos should run its loop
 #define COS_IT		6u
@@ -38,31 +17,31 @@ namespace math
 	// Compute cosine of an angle in radians using
 	// 6 iterations of Taylor's series
 	template <CScalarType TValueType> inline
-	TValueType		Cos(const Radian<TValueType>& _rad);
+	TValueType		Cos(const Radian<TValueType>& rad);
 
 	// Compute sine using Cos with a pi / 2 offset
 	template <CScalarType TValueType> inline
-	TValueType		Sin(const Radian<TValueType>& _rad);
+	TValueType		Sin(const Radian<TValueType>& rad);
 
 	// Compute tan using sin / cos
 	template <CScalarType TValueType> inline
-	TValueType		Tan(const Radian<TValueType>& _rad);
+	TValueType		Tan(const Radian<TValueType>& rad);
 
 	// Inverse trigonometry
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType>		Acos(TValueType _cosine);
+	Radian<TValueType>		Acos(TValueType cosine);
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType>		Asin(TValueType _sine);
+	Radian<TValueType>		Asin(TValueType sine);
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType>		Atan(TValueType _tangent);
+	Radian<TValueType>		Atan(TValueType tangent);
 
 	// Compute arctangent by dividing y by x
 	// Note: can handle x being equal to 0
 	template <CScalarType TValueType> inline
-	Radian<TValueType>		Atan2(TValueType _y, TValueType _x);
+	Radian<TValueType>		Atan2(TValueType y, TValueType x);
 
 
 	// Class made to hold factorials for cos
@@ -87,14 +66,14 @@ namespace math
 
 	// Cos specifically made for sin to avoid constructing another Radian object
 	template <CScalarType TValueType> inline
-	static TValueType InternalCos(TValueType _val)
+	static TValueType InternalCos(TValueType val)
 	{
 		TValueType	  powResult, cosResult = 0.f, itResult;
 
 		// Wrap angle between -pi and pi as 6 iterations of
 		// Taylor's series get less accurate as the angle approaches
 		// -2 pi or +2pi
-		TValueType	  radians = Wrap(_val, -MTH_PI, MTH_PI);
+		TValueType	  radians = Wrap(val, -MTH_PI, MTH_PI);
 
 
 		for (unsigned int it = 1; it <= COS_IT; ++it)
@@ -116,14 +95,14 @@ namespace math
 	}
 
 	template <CScalarType TValueType> inline
-	static TValueType AtanZeroX(TValueType _y)
+	static TValueType AtanZeroX(TValueType y)
 	{
-		// Return 90 degrees * sign of _y
+		// Return 90 degrees * sign of y
 
-		if (_y > 0.f)
+		if (y > 0.f)
 			return PI_OVER_TWO;
 
-		else if (_y < 0.f)
+		else if (y < 0.f)
 			return -PI_OVER_TWO;
 
 		return 0.f;
@@ -131,12 +110,12 @@ namespace math
 
 
 	template <CScalarType TValueType> inline
-	TValueType Cos(const Radian<TValueType>& _rad)
+	TValueType Cos(const Radian<TValueType>& rad)
 	{
 		// Wrap angle between -pi and pi as 6 iterations of
 		// Taylor's series get less accurate as the angle approaches
 		// -2 pi or +2pi
-		TValueType	radians = _rad.Rad(true);
+		TValueType	radians = rad.Rad(true);
 		TValueType	powResult, cosResult = 0.f, itResult;
 
 		for (unsigned int it = 1; it <= COS_IT; ++it)
@@ -162,19 +141,19 @@ namespace math
 
 
 	template <CScalarType TValueType> inline
-	TValueType Sin(const Radian<TValueType>& _rad)
+	TValueType Sin(const Radian<TValueType>& rad)
 	{
 		// Apply 90 degree offset
 		// See: https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Sine_cosine_one_period.svg/1920px-Sine_cosine_one_period.svg.png
 		constexpr TValueType		piOverTwo = 1.570796326794896619231f;
 
 		// cos x == cos -x so get absolute value of angle to apply offset easily
-		TValueType				cosine = InternalCos(Absolute(_rad.Raw()) - piOverTwo);
+		TValueType				cosine = InternalCos(Absolute(rad.Raw()) - piOverTwo);
 
 
 		// Restore sign of angle as sine is an odd function,
 		// which means sin -x == -sinx
-		if (_rad.Raw() < 0.f)
+		if (rad.Raw() < 0.f)
 			return -cosine;
 
 		else return cosine;
@@ -184,10 +163,10 @@ namespace math
 
 
 	template <CScalarType TValueType> inline
-	TValueType Tan(const Radian<TValueType>& _rad)
+	TValueType Tan(const Radian<TValueType>& rad)
 	{
 		// tan x = sin x / cos x
-		return Sin(_rad) / Cos(_rad);
+		return Sin(rad) / Cos(rad);
 
 		// TODO: needs to be faster
 	}
@@ -195,46 +174,46 @@ namespace math
 	// TODO: re-implement my own inverse trig functions
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType> Acos(TValueType _cosine)
+	Radian<TValueType> Acos(TValueType cosine)
 	{
-		return Radian(acosf(_cosine));
+		return Radian(acosf(cosine));
 	}
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType> Asin(TValueType _sine)
+	Radian<TValueType> Asin(TValueType sine)
 	{
-		return Radian(asinf(_sine));
+		return Radian(asinf(sine));
 	}
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType> Atan(TValueType _tangent)
+	Radian<TValueType> Atan(TValueType tangent)
 	{
-		return Radian(atanf(_tangent));
+		return Radian(atanf(tangent));
 	}
 
 
 	template <CScalarType TValueType> inline
-	Radian<TValueType> Atan2(TValueType _y, TValueType _x)
+	Radian<TValueType> Atan2(TValueType y, TValueType x)
 	{
 		// Handle x == 0 case
-		if (AlmostEqual(_x, 0.0f))
-			return Radian(AtanZeroX(_y));
+		if (AlmostEqual(x, 0.0f))
+			return Radian(AtanZeroX(y));
 
 
-		Radian		angle = Atan(_y / _x);
+		Radian		angle = Atan(y / x);
 
 		// Find quadrant of point within trigonometric circle
 		// and add offset to get correct angle
 
-		if (_x >= 0.f && _y <= 0.f)
+		if (x >= 0.f && y <= 0.f)
 			angle += RAD_CIRCLE;
 
-		else if (_x < 0.f && _y <= 0.f)
+		else if (x < 0.f && y <= 0.f)
 			angle += MTH_PI;
 
-		else if (_x < 0.f && _y > 0.f)
+		else if (x < 0.f && y > 0.f)
 			angle += MTH_PI;
 
 		return angle;
