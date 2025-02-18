@@ -478,10 +478,10 @@ namespace math
 
 				for (int rightRow = 0; rightRow < 4; rightRow++)
 				{
-					currentNum += m_values[thisRow][rightRow] * rhs[rightRow][rightColumn];
+					currentNum += m_values[rightRow][thisRow] * rhs[rightColumn][rightRow];
 				}
 
-				result.m_values[thisRow][rightColumn] = currentNum;
+				result.m_values[rightColumn][thisRow] = currentNum;
 			}
 		}
 

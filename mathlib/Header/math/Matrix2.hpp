@@ -233,6 +233,7 @@ namespace math
     template <CScalarType TValueType> inline
     Matrix<2, TValueType> Matrix<2, TValueType>::operator*(const Matrix<2, TValueType>& rhs) const
     {
+        // TODO: doule check
         // Multiply components
         return Matrix<2, TValueType>
         (

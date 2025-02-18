@@ -82,7 +82,7 @@ for (int row = 0; row < 3; ++row)\
 {\
 	for (int column = 0; column < 3; ++column)\
 	{\
-		CHECK(math::AlmostEqual(matA[row][column], matB[row][column]));\
+		CHECK(matA[row][column] == Catch::Approx(matB[row][column]));\
 	}\
 }
 
@@ -184,6 +184,15 @@ TEST_CASE("Matrix 3", "[matrix][all]")
 	{
 		math::Matrix3f		zero(0.f);
 		math::Matrix3f		mat1(0.f);
+
+		float mat2Arr[][3] =
+		{
+			{-73.2f, 73.2f, 21.96f },
+			{ 451.5f, -528.9f, 24.51f },
+			{ 24.f, 285.6f, -17.52f }
+		};
+		math::Matrix3f		mat2 = mat2Arr;
+
 		math::Matrix3f		doubleArrMat(doubleArr);
 		math::Matrix3f		lineArrMat(lineArr);
 
@@ -194,6 +203,12 @@ TEST_CASE("Matrix 3", "[matrix][all]")
 			{ 7.1f, 6.2f, 3.f }
 		};
 
+		glm::mat3		glmMatrix2 =
+		{
+			{-73.2f, 73.2f, 21.96f },
+			{ 451.5f, -528.9f, 24.51f },
+			{ 24.f, 285.6f, -17.52f }
+		};
 		// Assignment
 		mat1 = doubleArr;
 
@@ -225,8 +240,8 @@ TEST_CASE("Matrix 3", "[matrix][all]")
 
 		CHECK_MATRIX3(result, glmResult);
 
-		result = mat1 * mat1;
-		glmResult = glmMatrix * glmMatrix;
+		result = mat1 * mat2;
+		glmResult = glmMatrix * glmMatrix2;
 
 		CHECK_MATRIX3(result, glmResult);
 

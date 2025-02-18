@@ -219,6 +219,7 @@ TEST_CASE("Matrix 4", "[matrix][all]")
 	{
 		math::Matrix4<float>    zero;
 		math::Matrix4<float>	mat1;
+		math::Matrix4<float>	mat2;
 		math::Matrix4<float>	doubleArrMat(doubleArr);
 		math::Matrix4<float>	lineArrMat(lineArr);
 
@@ -230,8 +231,26 @@ TEST_CASE("Matrix 4", "[matrix][all]")
 			{ 6.2f, 45.f, 36.f, 11.f}
 		};
 
+
+		float mat2Arr[][4] =
+		{
+			{-73.2f, 73.2f, 21.96f, 6.3f },
+			{ 451.5f, -528.9f, 24.51f, 4.2f },
+			{ 24.f, 285.6f, -17.52f , 9.4f},
+			{ 53.5f, 5.6f, 7.9f, 85.f }
+		};
+
+		glm::mat4		glmMatrix2 =
+		{
+			{-73.2f, 73.2f, 21.96f, 6.3f },
+			{ 451.5f, -528.9f, 24.51f, 4.2f },
+			{ 24.f, 285.6f, -17.52f , 9.4f},
+		    { 53.5f, 5.6f, 7.9f, 85.f }
+		};
+
 		// Assignment
 		mat1 = doubleArr;
+		mat2 = mat2Arr;
 
 		CHECK_MATRIX4(mat1, doubleArrMat);
 
@@ -261,8 +280,8 @@ TEST_CASE("Matrix 4", "[matrix][all]")
 
 		CHECK_MATRIX4(result, glmResult);
 
-		result = mat1 * mat1;
-		glmResult = glmMatrix * glmMatrix;
+		result = mat1 * mat2;
+		glmResult = glmMatrix * glmMatrix2;
 
 		CHECK_MATRIX4(result, glmResult);
 

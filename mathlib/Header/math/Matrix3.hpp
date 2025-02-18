@@ -478,11 +478,11 @@ namespace math
  			// Go through rhs's columns
  			for (int rightRow = 0; rightRow < 3; rightRow++)
  			{
- 				currentNum += m_values[thisRow][rightRow] *
- 				rhs[rightRow][rightColumn];
+ 				currentNum += m_values[rightRow][thisRow] *
+ 				rhs[rightColumn][rightRow];
  			}
 
- 			result.m_values[thisRow][rightColumn] = currentNum;
+ 			result.m_values[rightColumn][thisRow] = currentNum;
  		}
  	}
 
