@@ -25,6 +25,10 @@ namespace math
     concept CUnsignedType =
     std::is_unsigned<TEvaluatedType>::value;
 
+    template <typename TEvaluatedType>
+    concept CFloatingType =
+    std::is_floating_point<TEvaluatedType>::value;
+
 
     // Constrain type to a type that can be manipulated through addition,
     // subtraction, and multiplication (between two object of this type).
