@@ -1,35 +1,8 @@
-/*
-
- _____                               _
-|_   _|                             (_)
-  | |  ___  _ __     ___ _ __   __ _ _ _ __   ___
-  | | / _ \| '_ \   / _ \ '_ \ / _` | | '_ \ / _ \
- _| || (_) | | | | |  __/ | | | (_| | | | | |  __/
- \___/\___/|_| |_|  \___|_| |_|\__, |_|_| |_|\___|
-                                __/ |
-                               |___/
-
-
-NAME: MathGeneric.hpp
-
-DESCTIPTION: Template definitions for mathematical classes
-
-AUTHOR: Noah de Pischof | @torrra on GitHub
-
-
-STYLE:
-
-C prefix: C++20 template concept
-T prefix: Template parameter
-
-Type suffix: Generic type, goes with T prefix
-
-*/
-
 #ifndef __MATH_GENERICS_H__
 #define __MATH_GENERICS_H__
 
 #include <type_traits>
+#include <limits>
 
 namespace math
 {
@@ -51,6 +24,10 @@ namespace math
     template <typename TEvaluatedType>
     concept CUnsignedType =
     std::is_unsigned<TEvaluatedType>::value;
+
+    template <typename TEvaluatedType>
+    concept CFloatingType =
+    std::is_floating_point<TEvaluatedType>::value;
 
 
     // Constrain type to a type that can be manipulated through addition,
@@ -77,6 +54,21 @@ namespace math
     {
       a / b;
     };
+
+
+    template <CUnsignedType TEvaluatedType>
+    bool unsignedAdditionOverflow(TEvaluatedType a, TEvaluatedType b)
+    {
+        return b > std::numeric_limits<TEvaluatedType>::max() - a;
+    }
+
+    template <CUnsignedType TEvaluatedType>
+    bool uSubtractionOverflow(TEvaluatedType a, TEvaluatedType b)
+    {
+        return b < std::numeric_limits<TEvaluatedType>::min() + a;
+    }
+
+
 
 }
 

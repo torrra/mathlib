@@ -1,7 +1,7 @@
 #pragma once
 
-#include "math/Vector2.hpp"
-#include "math/Arithmetic.hpp"
+#include "Vector2.hpp"
+#include "Arithmetic.hpp"
 
 namespace math
 {
@@ -20,38 +20,38 @@ namespace math
 
 						AABBCollider2D(void) = default;
 
-						AABBCollider2D(const Vector2<float>& _pos, const Vector2<float>& _size);
-						AABBCollider2D(const AABBCollider2D& _other) = default;
+						AABBCollider2D(const Vector2f& pos, const Vector2f& size);
+						AABBCollider2D(const AABBCollider2D& other) = default;
 
 						~AABBCollider2D(void) = default;
 
 			// Collision checks
 
-			bool		CheckCollision(const AABBCollider2D& _other)	const;
-			bool		CheckCollision(const OBBCollider2D& _other)		const;
-			bool		CheckCollision (const CircleCollider2D& _other)	const;
-			bool		CheckCollision(const PolygonCollider2D& _other)	const;
+			bool		CheckCollision(const AABBCollider2D& other)	const;
+			bool		CheckCollision(const OBBCollider2D& other)		const;
+			bool		CheckCollision (const CircleCollider2D& other)	const;
+			bool		CheckCollision(const PolygonCollider2D& other)	const;
 
-			bool		PointInBox(const Vector2<float>& _point)				const;
+			bool		PointInBox(const Vector2f& point)				const;
 
 			// Accessors
 
-			Vector2<float>&	Position(void);
-			Vector2<float>&	Extents(void);
+			Vector2f&	Position(void);
+			Vector2f&	Extents(void);
 
-			Vector2<float>		GetPosition(void)								const;
-			Vector2<float>		GetExtents(void)								const;
+			Vector2f		GetPosition(void)								const;
+			Vector2f		GetExtents(void)								const;
 
 			// Calculate min and max vertices
 
-			Vector2<float>		GetMin(void)									const;
-			Vector2<float>		GetMax(void)									const;
+			Vector2f		GetMin(void)									const;
+			Vector2f		GetMax(void)									const;
 
 
 	private:
 
-		Vector2<float>		m_position;
-		Vector2<float>		m_extents;
+		Vector2f		m_position;
+		Vector2f		m_extents;
 
 	};
 
@@ -63,30 +63,30 @@ namespace math
 		// Constructors / destructors
 
 					CircleCollider2D(void) = default;
-					CircleCollider2D(const Vector2<float>& _pos, float _radius);
+					CircleCollider2D(const Vector2f& pos, float radius);
 
 					CircleCollider2D
-					(const CircleCollider2D& _other) = default;
+					(const CircleCollider2D& other) = default;
 
 		// Collision checks
 
-		bool		CheckCollision(const AABBCollider2D& _other)	const;
-		bool		CheckCollision(const OBBCollider2D& _other)		const;
-		bool		CheckCollision(const CircleCollider2D& _other)	const;
+		bool		CheckCollision(const AABBCollider2D& other)	const;
+		bool		CheckCollision(const OBBCollider2D& other)		const;
+		bool		CheckCollision(const CircleCollider2D& other)	const;
 
-		bool		PointInCircle(const Vector2<float>& _point)			const;
+		bool		PointInCircle(const Vector2f& point)			const;
 
 
-		Vector2<float>&	Position(void);
+		Vector2f&	Position(void);
 		float&		Radius(void);
 
-		Vector2<float>		GetPosition(void)								const;
+		Vector2f		GetPosition(void)								const;
 		float		GetRadius(void)									const;
 		float		GetRadiusSquared(void)							const;
 
 	private:
 
-		Vector2<float>		m_position;
+		Vector2f		m_position;
 		float		m_radius = 0.f;
 	};
 
@@ -97,35 +97,35 @@ namespace math
 		// Constructors / destructor
 
 					Ray2D(void) = delete;
-					Ray2D(const Vector2<float>& _pos, const Vector2<float>& _dir);
-					Ray2D(const Ray2D& _other) = default;
+					Ray2D(const Vector2f& pos, const Vector2f& dir);
+					Ray2D(const Ray2D& other) = default;
 
 					~Ray2D(void) = default;
 
 		// AABB intersection check
 
 		bool		Intersect
-		(const AABBCollider2D& _box, float& _distance)				 const;
+		(const AABBCollider2D& box, float& distance)				 const;
 
 		// Accessors
 
-		Vector2<float>&	Origin(void);
-		Vector2<float>&	Direction(void);
+		Vector2f&	Origin(void);
+		Vector2f&	Direction(void);
 
-		Vector2<float>		GetOrigin(void)									 const;
-		Vector2<float>		GetDirection(void)								 const;
-		Vector2<float>		GetInverseDir(void)								 const;
+		Vector2f		GetOrigin(void)									 const;
+		Vector2f		GetDirection(void)								 const;
+		Vector2f		GetInverseDir(void)								 const;
 
 
 	private:
 		// Origin of ray
-		Vector2<float>    m_origin;
+		Vector2f    m_origin;
 
 		// Direction unit vector
-		Vector2<float>    m_direction;
+		Vector2f    m_direction;
 
 		// 1 / direction
-		Vector2<float>    m_inverseDir;
+		Vector2f    m_inverseDir;
 	};
 
 	class PolygonCollider2D
@@ -135,39 +135,39 @@ namespace math
 		// Constructors / destructor
 
 						PolygonCollider2D(void) = default;
-						PolygonCollider2D(Vector2<float> _vertices[], int _count);
-						PolygonCollider2D(const PolygonCollider2D& _other);
+						PolygonCollider2D(Vector2f vertices[], int count);
+						PolygonCollider2D(const PolygonCollider2D& other);
 						~PolygonCollider2D(void);
 
 		// Collisions checks
 
 		bool			CheckCollision
-		(const PolygonCollider2D& _other)									const;
+		(const PolygonCollider2D& other)									const;
 		bool			CheckCollision
-		(const AABBCollider2D& _other)										const;
+		(const AABBCollider2D& other)										const;
 
 		bool			CheckCollision
-		(const OBBCollider2D& _other)										const;
+		(const OBBCollider2D& other)										const;
 
 
-		Vector2<float>&		operator[](int _index);
-		Vector2<float>			operator[](int _index)								const;
+		Vector2f&		operator[](int index);
+		Vector2f			operator[](int index)								const;
 
 	private:
 
 		// Internal SAT functions
 
 		bool			SeparatingAxisTheorem
-		(const PolygonCollider2D& _other)									const;
+		(const PolygonCollider2D& other)									const;
 
 
 		void			MinMaxProjection
-		(const Vector2<float>& _normal, float& _min, float& _max)					const;
+		(const Vector2f& normal, float& min, float& max)					const;
 
 
-		bool			InternalSAT(const PolygonCollider2D& _poly2)		const;
+		bool			InternalSAT(const PolygonCollider2D& poly2)		const;
 
-		Vector2<float>*		m_vertices = nullptr;
+		Vector2f*		m_vertices = nullptr;
 		unsigned int	m_vertexCount = 0;
 
 
@@ -186,39 +186,39 @@ namespace math
 					OBBCollider2D(void) = default;
 
 					OBBCollider2D
-					(const Vector2<float>& _pos, const Vector2<float>& _extents, Radian<float> _angle);
+					(const Vector2f& pos, const Vector2f& extents, Radian<float> angle);
 
-					OBBCollider2D(const OBBCollider2D& _other) = default;
+					OBBCollider2D(const OBBCollider2D& other) = default;
 					~OBBCollider2D(void) = default;
 
 		// Collision checks
 
-		bool		CheckCollision(const AABBCollider2D& _other)		const;
-		bool		CheckCollision(const OBBCollider2D& _other)			const;
-		bool		CheckCollision(const CircleCollider2D& _other)		const;
-		bool		CheckCollision(const PolygonCollider2D& _other)		const;
+		bool		CheckCollision(const AABBCollider2D& other)		const;
+		bool		CheckCollision(const OBBCollider2D& other)			const;
+		bool		CheckCollision(const CircleCollider2D& other)		const;
+		bool		CheckCollision(const PolygonCollider2D& other)		const;
 
 
 		// Accessors
 
-		Vector2<float>&	Position(void);
-		Vector2<float>&	Extents(void);
+		Vector2f&	Position(void);
+		Vector2f&	Extents(void);
 
 		Radian<float>&		Rotation(void);
 
-		Vector2<float>		GetPosition(void)									const;
-		Vector2<float>		GetExtents(void)									const;
+		Vector2f		GetPosition(void)									const;
+		Vector2f		GetExtents(void)									const;
 
 		Radian<float>		GetRotation(void)									const;
 
-		Vector2<float>		GetMin(void)										const;
-		Vector2<float>		GetMax(void)										const;
+		Vector2f		GetMin(void)										const;
+		Vector2f		GetMax(void)										const;
 
 
 	private:
 
-		Vector2<float>		m_position;
-		Vector2<float>		m_extents;
+		Vector2f		m_position;
+		Vector2f		m_extents;
 		Radian<float>		m_rotation;
 	};
 
@@ -231,24 +231,24 @@ namespace math
 		// Constructor / destructor
 
 					Line2D(void) = default;
-					Line2D(const Vector2<float>& _start, const Vector2<float>& _end);
-					Line2D(const Line2D& _other) = default;
+					Line2D(const Vector2f& start, const Vector2f& end);
+					Line2D(const Line2D& other) = default;
 
 					~Line2D(void) = default;
 
 
 		// Accessors
 
-		Vector2<float>&	Start(void);
-		Vector2<float>&	End(void);
+		Vector2f&	Start(void);
+		Vector2f&	End(void);
 
-		Vector2<float>		GetStart(void)												const;
-		Vector2<float>		GetEnd(void)												const;
+		Vector2f		GetStart(void)												const;
+		Vector2f		GetEnd(void)												const;
 
 		// Intersection checks
 
-		bool		Intersect(const AABBCollider2D& _box)						const;
-		bool		Intersect(const CircleCollider2D& _circle)					const;
+		bool		Intersect(const AABBCollider2D& box)						const;
+		bool		Intersect(const CircleCollider2D& circle)					const;
 
 		// Calculate segment length
 
@@ -257,14 +257,14 @@ namespace math
 
 	private:
 
-		Vector2<float>		m_start;
-		Vector2<float>		m_end;
+		Vector2f		m_start;
+		Vector2f		m_end;
 	};
 
 	using Rectangle				= AABBCollider2D;
 	using OrientedRectangle		= OBBCollider2D;
 
-	using Point2D				= Vector2<float>;
+	using Point2D				= Vector2f;
 	using Circle				= CircleCollider2D;
 
 }

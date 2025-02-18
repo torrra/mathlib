@@ -1,41 +1,15 @@
-/*
-
- _____                               _
-|_   _|                             (_)
-  | |  ___  _ __     ___ _ __   __ _ _ _ __   ___
-  | | / _ \| '_ \   / _ \ '_ \ / _` | | '_ \ / _ \
- _| || (_) | | | | |  __/ | | | (_| | | | | |  __/
- \___/\___/|_| |_|  \___|_| |_|\__, |_|_| |_|\___|
-								__/ |
-							   |___/
-
-
-NAME: Matrix2.hpp
-
-DESCTIPTION: 2x2 matrix class
-
-AUTHOR: Noah de Pischof | @torrra on GitHub
-
-TEMPLATES:
-
-CScalarType is a template constraint that only accepts numeric data types
-
-*/
-
-
-
 #ifndef __MATRIX2_H__
 #define __MATRIX2_H__
 
-#include "math/MathGeneric.hpp"
-#include "math/MatrixGeneric.hpp"
+#include "MathGeneric.hpp"
+#include "MatrixGeneric.hpp"
 
-#include "math/Vector2.hpp"
+#include "Vector2.hpp"
 
-#include "math/Angle.hpp"
+#include "Angle.hpp"
 
-#include "math/Arithmetic.hpp"
-#include "math/Trigonometry.hpp"
+#include "Arithmetic.hpp"
+#include "Trigonometry.hpp"
 
 namespace math
 {
@@ -52,12 +26,12 @@ namespace math
           // Constructor / destructor
 
         inline          Matrix(void) = default;
-        inline          Matrix(const TValueType _diag);
+        inline          Matrix(const TValueType diag);
 
-        inline          Matrix(TValueType _a, TValueType _b, TValueType _c, TValueType _d);
+        inline          Matrix(TValueType a, TValueType b, TValueType c, TValueType d);
 
-        inline          Matrix(const TValueType _vals[]);
-        inline          Matrix(const Matrix& _other);
+        inline          Matrix(const TValueType vals[]);
+        inline          Matrix(const Matrix& other);
 
                         ~Matrix(void) = default;
 
@@ -65,7 +39,7 @@ namespace math
         inline TValueType      Determinant(void)                   const;
 
         // Turn this matrix into an identity matrix of a given diagonal
-        inline void            Identity(TValueType _diag = static_cast<TValueType>(1));
+        inline void            Identity(TValueType diag = static_cast<TValueType>(1));
 
         // Get transposed matrix of cofactors
         inline TMatrixType         Adjugate(void)                      const;
@@ -76,34 +50,34 @@ namespace math
         // Get transposed copy of this matrix
         inline TMatrixType         Transpose(void)                     const;
 
-        inline TMatrixType&        operator=(const TMatrixType& _rhs);
+        inline TMatrixType&        operator=(const TMatrixType& rhs);
 
         // TMatrixType / matrix operators
 
-        inline TMatrixType         operator+(const TMatrixType& _rhs)      const;
-        inline TMatrixType         operator-(const TMatrixType& _rhs)      const;
-        inline TMatrixType         operator*(const TMatrixType& _rhs)      const;
+        inline TMatrixType         operator+(const TMatrixType& rhs)      const;
+        inline TMatrixType         operator-(const TMatrixType& rhs)      const;
+        inline TMatrixType         operator*(const TMatrixType& rhs)      const;
 
         // Multiply all numbers of a copy of this matrix by a scalar factor
-        inline TMatrixType         operator*(TValueType _factor)            const;
+        inline TMatrixType         operator*(TValueType factor)            const;
 
         // TMatrixType / matrix assignment operators
 
-        inline TMatrixType&        operator+=(const TMatrixType& _rhs);
-        inline TMatrixType&        operator-=(const TMatrixType& _rhs);
-        inline TMatrixType&        operator*=(const TMatrixType& _rhs);
+        inline TMatrixType&        operator+=(const TMatrixType& rhs);
+        inline TMatrixType&        operator-=(const TMatrixType& rhs);
+        inline TMatrixType&        operator*=(const TMatrixType& rhs);
 
-        inline bool            operator==(const TMatrixType& _rhs)     const;
-        inline bool            operator!=(const TMatrixType& _rhs)     const;
-
-        // Access a row (no bound checking)
-        inline TRowType&    operator[](int _index);
+        inline bool            operator==(const TMatrixType& rhs)     const;
+        inline bool            operator!=(const TMatrixType& rhs)     const;
 
         // Access a row (no bound checking)
-        inline TRowType    operator[](int _index)              const;
+        inline TRowType&    operator[](int index);
+
+        // Access a row (no bound checking)
+        inline TRowType    operator[](int index)              const;
 
         // Get a 2x2 rotation matrix from an angle in radians
-        inline static TMatrixType  Rotate(Radian<TValueType> _angle);
+        inline static TMatrixType  Rotate(Radian<TValueType> angle);
 
 
 
@@ -122,20 +96,20 @@ namespace math
 
 
     template <CScalarType TValueType> inline
-    Matrix<2, TValueType>::Matrix(TValueType _a, TValueType _b, TValueType _c, TValueType _d)
+    Matrix<2, TValueType>::Matrix(TValueType a, TValueType b, TValueType c, TValueType d)
     {
-        m_values[0][0] = _a;
-        m_values[0][1] = _b;
-        m_values[1][0] = _c;
-        m_values[1][1] = _d;
+        m_values[0][0] = a;
+        m_values[0][1] = b;
+        m_values[1][0] = c;
+        m_values[1][1] = d;
     }
 
 
     template <CScalarType TValueType> inline
-    Matrix<2, TValueType>::Matrix(const TValueType _diag)
+    Matrix<2, TValueType>::Matrix(const TValueType diag)
     {
-        m_values[0][0] = _diag;
-        m_values[1][1] = _diag;
+        m_values[0][0] = diag;
+        m_values[1][1] = diag;
 
         m_values[0][1] = static_cast<TValueType>(0);
         m_values[1][0] = static_cast<TValueType>(0);
@@ -143,22 +117,22 @@ namespace math
 
 
     template <CScalarType TValueType> inline
-    Matrix<2, TValueType>::Matrix(const TValueType _vals[])
+    Matrix<2, TValueType>::Matrix(const TValueType vals[])
     {
-        m_values[0][0] = _vals[0];
-        m_values[0][1] = _vals[1];
-        m_values[1][0] = _vals[2];
-        m_values[1][1] = _vals[3];
+        m_values[0][0] = vals[0];
+        m_values[0][1] = vals[1];
+        m_values[1][0] = vals[2];
+        m_values[1][1] = vals[3];
     }
 
 
     template <CScalarType TValueType> inline
-    Matrix<2, TValueType>::Matrix(const Matrix<2, TValueType>& _other)
+    Matrix<2, TValueType>::Matrix(const Matrix<2, TValueType>& other)
     {
-        m_values[0][0] = _other.m_values[0][0];
-        m_values[0][1] = _other.m_values[0][1];
-        m_values[1][0] = _other.m_values[1][0];
-        m_values[1][1] = _other.m_values[1][1];
+        m_values[0][0] = other.m_values[0][0];
+        m_values[0][1] = other.m_values[0][1];
+        m_values[1][0] = other.m_values[1][0];
+        m_values[1][1] = other.m_values[1][1];
     }
 
 
@@ -171,12 +145,12 @@ namespace math
 
 
     template <CScalarType TValueType> inline
-    void Matrix<2, TValueType>::Identity(TValueType _diag)
+    void Matrix<2, TValueType>::Identity(TValueType diag)
     {
-        m_values[0][0] = _diag;
+        m_values[0][0] = diag;
 	    m_values[0][1] = 0.f;
 	    m_values[1][0] = 0.f;
-	    m_values[1][1] = _diag;
+	    m_values[1][1] = diag;
     }
 
 
@@ -218,12 +192,12 @@ namespace math
 
 
     template <CScalarType TValueType> inline
-    Matrix<2, TValueType>& Matrix<2, TValueType>::operator=(const Matrix<2, TValueType>& _rhs)
+    Matrix<2, TValueType>& Matrix<2, TValueType>::operator=(const Matrix<2, TValueType>& rhs)
     {
-        m_values[0][0] = _rhs[0][0];
-        m_values[0][1] = _rhs[0][1];
-        m_values[1][0] = _rhs[1][0];
-        m_values[1][1] = _rhs[1][1];
+        m_values[0][0] = rhs[0][0];
+        m_values[0][1] = rhs[0][1];
+        m_values[1][0] = rhs[1][0];
+        m_values[1][1] = rhs[1][1];
 
         return *this;
 
@@ -231,63 +205,64 @@ namespace math
 
 
     template <CScalarType TValueType> inline
-    Matrix<2, TValueType> Matrix<2, TValueType>::operator+(const Matrix<2, TValueType>& _rhs) const
+    Matrix<2, TValueType> Matrix<2, TValueType>::operator+(const Matrix<2, TValueType>& rhs) const
     {
         // Add components
         return Matrix<2, TValueType>
         (
-            m_values[0][0] + _rhs[0][0], m_values[0][1] + _rhs[0][1],
-            m_values[1][0] + _rhs[1][0], m_values[1][1] + _rhs[1][1]
+            m_values[0][0] + rhs[0][0], m_values[0][1] + rhs[0][1],
+            m_values[1][0] + rhs[1][0], m_values[1][1] + rhs[1][1]
         );
     }
 
 
 
     template <CScalarType TValueType> inline
-    Matrix<2, TValueType> Matrix<2, TValueType>::operator-(const Matrix<2, TValueType>& _rhs) const
+    Matrix<2, TValueType> Matrix<2, TValueType>::operator-(const Matrix<2, TValueType>& rhs) const
     {
         // Subtract components
         return Matrix<2, TValueType>
         (
-            m_values[0][0] - _rhs.m_values[0][0], m_values[0][1] - _rhs.m_values[0][1],
-            m_values[1][0] - _rhs.m_values[1][0], m_values[1][1] - _rhs.m_values[1][1]
+            m_values[0][0] - rhs.m_values[0][0], m_values[0][1] - rhs.m_values[0][1],
+            m_values[1][0] - rhs.m_values[1][0], m_values[1][1] - rhs.m_values[1][1]
         );
     }
 
 
 
     template <CScalarType TValueType> inline
-    Matrix<2, TValueType> Matrix<2, TValueType>::operator*(const Matrix<2, TValueType>& _rhs) const
+    Matrix<2, TValueType> Matrix<2, TValueType>::operator*(const Matrix<2, TValueType>& rhs) const
     {
+        // TODO: doule check
         // Multiply components
         return Matrix<2, TValueType>
         (
-            m_values[0][0] * _rhs.m_values[0][0] + m_values[1][0] * _rhs.m_values[0][1],
-            m_values[0][1] * _rhs.m_values[0][0] + m_values[1][1] * _rhs.m_values[0][1],
-            m_values[0][0] * _rhs.m_values[1][0] + m_values[1][0] * _rhs.m_values[1][1],
-            m_values[0][1] * _rhs.m_values[1][0] + m_values[1][1] * _rhs.m_values[1][1]
+            m_values[0][0] * rhs.m_values[0][0] + m_values[1][0] * rhs.m_values[0][1],
+            m_values[0][1] * rhs.m_values[0][0] + m_values[1][1] * rhs.m_values[0][1],
+            m_values[0][0] * rhs.m_values[1][0] + m_values[1][0] * rhs.m_values[1][1],
+            m_values[0][1] * rhs.m_values[1][0] + m_values[1][1] * rhs.m_values[1][1]
         );
     }
 
 
 
     template <CScalarType TValueType> inline
-    Matrix<2, TValueType> Matrix<2, TValueType>::operator*(TValueType _factor) const
+    Matrix<2, TValueType> Matrix<2, TValueType>::operator*(TValueType factor) const
     {
         // Multiply by a scalar
         return Matrix<2, TValueType>(
-                        m_values[0][0] * _factor,
-                        m_values[0][1] * _factor,
-                        m_values[1][0] * _factor,
-                        m_values[1][1] * _factor
+                        m_values[0][0] * factor,
+                        m_values[0][1] * factor,
+                        m_values[1][0] * factor,
+                        m_values[1][1] * factor
                       );
     }
 
 
     template <CScalarType TValueType> inline
-    Matrix<2, TValueType>& Matrix<2, TValueType>::operator+=(const Matrix<2, TValueType>& _rhs)
+    Matrix<2, TValueType>& Matrix<2, TValueType>::operator+=(const Matrix<2, TValueType>& rhs)
     {
-        *this = *this + _rhs;
+        *this = *this + rhs;
 
         return *this;
     }
@@ -295,9 +270,9 @@ namespace math
 
 
     template <CScalarType TValueType> inline
-    Matrix<2, TValueType>& Matrix<2, TValueType>::operator-=(const Matrix<2, TValueType>& _rhs)
+    Matrix<2, TValueType>& Matrix<2, TValueType>::operator-=(const Matrix<2, TValueType>& rhs)
     {
-        *this = *this - _rhs;
+        *this = *this - rhs;
 
         return *this;
     }
@@ -305,9 +280,9 @@ namespace math
 
 
     template <CScalarType TValueType> inline
-    Matrix<2, TValueType>& Matrix<2, TValueType>::operator*=(const Matrix<2, TValueType>& _rhs)
+    Matrix<2, TValueType>& Matrix<2, TValueType>::operator*=(const Matrix<2, TValueType>& rhs)
     {
-        *this = *this * _rhs;
+        *this = *this * rhs;
 
         return *this;
     }
@@ -315,44 +290,44 @@ namespace math
 
 
     template <CScalarType TValueType> inline
-    bool  Matrix<2, TValueType>::operator==(const Matrix<2, TValueType>& _rhs) const
+    bool  Matrix<2, TValueType>::operator==(const Matrix<2, TValueType>& rhs) const
     {
         // Check if all componenents are almost equal
-        return math::AlmostEqual(m_values[0][0], _rhs[0][0]) &&
-               math::AlmostEqual(m_values[0][1], _rhs[0][1]) &&
-               math::AlmostEqual(m_values[1][0], _rhs[1][0]) &&
-               math::AlmostEqual(m_values[1][1], _rhs[1][1]);
+        return math::AlmostEqual(m_values[0][0], rhs[0][0]) &&
+               math::AlmostEqual(m_values[0][1], rhs[0][1]) &&
+               math::AlmostEqual(m_values[1][0], rhs[1][0]) &&
+               math::AlmostEqual(m_values[1][1], rhs[1][1]);
     }
 
 
     template <CScalarType TValueType> inline
-    bool Matrix<2, TValueType>::operator!=(const Matrix<2, TValueType>& _rhs) const
+    bool Matrix<2, TValueType>::operator!=(const Matrix<2, TValueType>& rhs) const
     {
-        return !(*this == _rhs);
+        return !(*this == rhs);
     }
 
 
 
     template <CScalarType TValueType> inline
     Vector2<TValueType>&
-    Matrix<2, TValueType>::operator[](int _index)
+    Matrix<2, TValueType>::operator[](int index)
     {
-        return m_values[_index];
+        return m_values[index];
     }
 
 
     template <CScalarType TValueType> inline
     Vector2<TValueType>
-    Matrix<2, TValueType>::operator[](int _index) const
+    Matrix<2, TValueType>::operator[](int index) const
     {
-        return m_values[_index];
+        return m_values[index];
     }
 
 
     template <CScalarType TValueType> inline
-    Matrix<2, TValueType> Matrix<2, TValueType>::Rotate(Radian<TValueType> _angle)
+    Matrix<2, TValueType> Matrix<2, TValueType>::Rotate(Radian<TValueType> angle)
     {
-        TValueType   cosAngle = Cos(_angle), sinAngle = Sin(_angle);
+        TValueType   cosAngle = Cos(angle), sinAngle = Sin(angle);
 
         // Create z axis rotation matrix (non-homogenized)
         return Matrix<2, TValueType>

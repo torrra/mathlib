@@ -1,110 +1,85 @@
-/*
-
- _____                               _
-|_   _|                             (_)
-  | |  ___  _ __     ___ _ __   __ _ _ _ __   ___
-  | | / _ \| '_ \   / _ \ '_ \ / _` | | '_ \ / _ \
- _| || (_) | | | | |  __/ | | | (_| | | | | |  __/
- \___/\___/|_| |_|  \___|_| |_|\__, |_|_| |_|\___|
-                                __/ |
-                               |___/
-
-
-NAME: Arithmetic.hpppp
-
-DESCTIPTION: Basic arithmetic function templates. Implementation below
-
-AUTHOR: Noah de Pischof | @torrra on GitHub
-
-TEMPLATES:
-
-CScalarType is a template constraint that only accepts numeric data types
-CIntegralType only accepts integral numeric types
-
-*/
-
 #ifndef __ARITHMETIC_H__
 #define __ARITHMETIC_H__
 
 #include <cmath>
 #include <limits>
 
-#include "math/MathGeneric.hpp"
+#include "MathGeneric.hpp"
 
 namespace math
 {
 
     // Absolute value
     template <CScalarType TValueType> inline
-    TValueType       Absolute(TValueType _val)                          noexcept;
+    TValueType       Absolute(TValueType val)                          noexcept;
 
 
     // Epsilon test
     template <CScalarType TValueType> inline
     bool             AlmostEqual
     (
-        TValueType _a, TValueType _b,
-        TValueType _epsilon = static_cast<TValueType>(1e-4)
+        TValueType a, TValueType b,
+        TValueType epsilon = static_cast<TValueType>(1e-4)
     )                                                                   noexcept;
 
 
     // Round to the nearest integral value
     template <CScalarType TValueType> inline
-    TValueType       Round(TValueType _val)                             noexcept;
+    TValueType       Round(TValueType val)                             noexcept;
 
 
     // Round to the nearest integral value (greater or equal)
     template <CScalarType TValueType> inline
-    TValueType       Ceil(TValueType _val)                              noexcept;
+    TValueType       Ceil(TValueType val)                              noexcept;
 
 
 
     // Round to the nearest integral value (smaller or equal)
     template <CScalarType TValueType> inline
-    TValueType       Floor(TValueType _val)                             noexcept;
+    TValueType       Floor(TValueType val)                             noexcept;
 
 
     // Wrap value around a set of limits
     template <CScalarType TValueType> inline
     TValueType       Wrap
     (
-        TValueType _val, TValueType _low, TValueType _high
+        TValueType val, TValueType low, TValueType high
     )                                                                   noexcept;
 
     // Get value within a range without wrapping
     template <CScalarType TValueType> inline
     TValueType       Clamp
     (
-        TValueType _val, TValueType _low, TValueType _high
+        TValueType val, TValueType low, TValueType high
     )                                                                   noexcept;
 
 
     // Raise number to an integral power
     template <CScalarType TValueType, CUnsignedType TPowerType> inline
-    TValueType       Pow(TValueType _val, TPowerType _power)            noexcept;
+    TValueType       Pow(TValueType val, TPowerType power)            noexcept;
 
 
     //TODO: Re-implement our own function
     template <CScalarType TValueType> inline
-    TValueType       SquareRoot(TValueType _val)                        noexcept;
+    TValueType       SquareRoot(TValueType val)                        noexcept;
 
     // Get smallest value
     template <CScalarType TValueType> inline
-    TValueType       Min(TValueType _a, TValueType _b)                  noexcept;
+    TValueType       Min(TValueType a, TValueType b)                  noexcept;
 
     // Get largest value
     template <CScalarType TValueType> inline
-    TValueType       Max(TValueType _a, TValueType _b)                  noexcept;
+    TValueType       Max(TValueType a, TValueType b)                  noexcept;
 
 
 
     // Get factorial of an unsigned integral value
     template <CIntegralType TValueType> inline
-    TValueType      Factorial(TValueType _val)                          noexcept;
+    TValueType      Factorial(TValueType val)                          noexcept;
 
 
     template <CScalarType TValueType> inline
-    TValueType      Modulus(TValueType _toDivide, TValueType _divisor)  noexcept;
+    TValueType      Modulus(TValueType toDivide, TValueType divisor)  noexcept;
 
 
 
@@ -115,59 +90,59 @@ namespace math
 
 
     template <CScalarType TValueType> inline
-    TValueType Absolute(TValueType _val) noexcept
+    TValueType Absolute(TValueType val) noexcept
     {
         // Unsigned types cannot be negative
         if constexpr (std::is_unsigned<TValueType>::value)
-            return _val;
+            return val;
 
         else
             // Multiply by -1 if negative
-            return (_val < static_cast<TValueType>(0)) ? -_val : _val;
+            return (val < static_cast<TValueType>(0)) ? -val : val;
     }
 
 
     template <CScalarType TValueType> inline
-    bool  AlmostEqual(TValueType _a, TValueType _b, TValueType _epsilon) noexcept
+    bool  AlmostEqual(TValueType a, TValueType b, TValueType epsilon) noexcept
     {
         // Cannot use negative differences with unsigned types,
         // ensure difference will be positive
         if constexpr (std::is_unsigned<TValueType>::value)
         {
-            return Max(_a, _b) - Min(_a, _b) <= _epsilon;
+            return Max(a, b) - Min(a, b) <= epsilon;
         }
 
         // Check if difference is smaller than epsilon
-        return Absolute(_a - _b) <= _epsilon;
+        return Absolute(a - b) <= epsilon;
     }
 
     template <CScalarType TValueType> inline
-    TValueType Modulus(TValueType _toDivide, TValueType _divisor) noexcept
+    TValueType Modulus(TValueType toDivide, TValueType divisor) noexcept
     {
         // Integral modulo, floating point types
         // are handled below
-        return _toDivide % _divisor;
+        return toDivide % divisor;
     }
 
 
 // ---- Modulus specializations ----
 
     template<> inline
-    double Modulus<double>(double _toDivide, double _divisor) noexcept
+    double Modulus<double>(double toDivide, double divisor) noexcept
     {
-        return fmod(_toDivide, _divisor);
+        return fmod(toDivide, divisor);
     }
 
     template <> inline
-    float Modulus<float>(float _toDivide, float _divisor) noexcept
+    float Modulus<float>(float toDivide, float divisor) noexcept
     {
-        return fmodf(_toDivide, _divisor);
+        return fmodf(toDivide, divisor);
     }
 
     template<> inline
-    long double Modulus<long double>(long double _toDivide, long double _divisor) noexcept
+    long double Modulus<long double>(long double toDivide, long double divisor) noexcept
     {
-        return fmodl(_toDivide, _divisor);
+        return fmodl(toDivide, divisor);
     }
 
 
@@ -175,11 +150,11 @@ namespace math
 
 
     template <CScalarType TValueType> inline
-    TValueType Floor(TValueType _val) noexcept
+    TValueType Floor(TValueType val) noexcept
     {
         // Integral types do not need to be manipulated.
         // Floating point cases handled below
-        return _val;
+        return val;
     }
 
 
@@ -188,33 +163,33 @@ namespace math
     // Strip down decimal part and match size if possible
 
     template <> inline
-    float Floor(float _val) noexcept
+    float Floor(float val) noexcept
     {
         return static_cast<float>
         (
-            static_cast<int32_t>(_val)
+            static_cast<int32_t>(val)
         );
     }
 
 
     template <> inline
-    double Floor(double _val) noexcept
+    double Floor(double val) noexcept
     {
         return static_cast<double>
         (
-            static_cast<int64_t>(_val)
+            static_cast<int64_t>(val)
         );
     }
 
 
     template <> inline
-    long double Floor(long double _val) noexcept
+    long double Floor(long double val) noexcept
     {
         return static_cast<long double>
         (
             // No standard 128 bit integer
             // available, so resort to 64
-            static_cast<int64_t>(_val)
+            static_cast<int64_t>(val)
         );
     }
 
@@ -222,22 +197,22 @@ namespace math
 
 
     template <CScalarType TValueType> inline
-    TValueType Round(TValueType _val) noexcept
+    TValueType Round(TValueType val) noexcept
     {
-        return _val;
+        return val;
     }
 
 
 // ---- Round specializations ----
 
     template <> inline
-    float Round(float _val) noexcept
+    float Round(float val) noexcept
     {
 
-        float      floored = Floor<float>(_val);
+        float      floored = Floor<float>(val);
 
         // Round up if decimal part >= .5
-        if (_val - floored >= 0.5f)
+        if (val - floored >= 0.5f)
             return floored + 1.f;
 
         // Round down if not
@@ -248,13 +223,13 @@ namespace math
 
 
     template <> inline
-    double Round(double _val) noexcept
+    double Round(double val) noexcept
     {
 
-        double      floored = Floor<double>(_val);
+        double      floored = Floor<double>(val);
 
         // Round up if decimal part >= .5
-        if (_val - floored >= 0.5)
+        if (val - floored >= 0.5)
             return floored + 1.0;
 
         // Round down if not
@@ -264,13 +239,13 @@ namespace math
     }
 
     template <> inline
-    long double Round(long double _val) noexcept
+    long double Round(long double val) noexcept
     {
 
-        long double      floored = Floor<long double>(_val);
+        long double      floored = Floor<long double>(val);
 
         // Round up if decimal part >= .5
-        if (_val - floored >= 0.5l)
+        if (val - floored >= 0.5l)
             return floored + 1.0l;
 
         // Round down if not
@@ -283,21 +258,21 @@ namespace math
 // !Round specializations
 
     template <CScalarType TValueType> inline
-    TValueType Ceil(TValueType _val) noexcept
+    TValueType Ceil(TValueType val) noexcept
     {
         // No need to round integral values.
         // Floating point types handled below
-        return _val;
+        return val;
     }
 
 // ---- Ceil specializations ----
 
     template <> inline
-    float Ceil(float _val) noexcept
+    float Ceil(float val) noexcept
     {
-        float      floored = Floor<float>(_val);
+        float      floored = Floor<float>(val);
 
-        if (AlmostEqual<float>(_val, floored))
+        if (AlmostEqual<float>(val, floored))
             return floored;
 
 
@@ -308,11 +283,11 @@ namespace math
 
 
     template <> inline
-    double Ceil(double _val) noexcept
+    double Ceil(double val) noexcept
     {
-        double      floored = Floor<double>(_val);
+        double      floored = Floor<double>(val);
 
-        if (AlmostEqual<double>(_val, floored))
+        if (AlmostEqual<double>(val, floored))
             return floored;
 
 
@@ -323,11 +298,11 @@ namespace math
 
 
     template <> inline
-    long double Ceil(long double _val) noexcept
+    long double Ceil(long double val) noexcept
     {
-        long double      floored = Floor<long double>(_val);
+        long double      floored = Floor<long double>(val);
 
-        if (AlmostEqual<long double>(_val, floored))
+        if (AlmostEqual<long double>(val, floored))
             return floored;
 
 
@@ -342,65 +317,65 @@ namespace math
 
    // Get value within a range without wrapping
    template <CScalarType TValueType> inline
-   TValueType Clamp(TValueType _val, TValueType _low, TValueType _high) noexcept
+   TValueType Clamp(TValueType val, TValueType low, TValueType high) noexcept
    {
        // Return highest of low values
-       if (_val < _low)
-           return _low;
+       if (val < low)
+           return low;
 
        // Return lowest of high values
-       if (_val > _high)
-           return _high;
+       if (val > high)
+           return high;
 
-       return _val;
+       return val;
    }
 
 
 
    template <CScalarType TValueType> inline
-   TValueType Wrap(TValueType _val, TValueType _low, TValueType _high) noexcept
+   TValueType Wrap(TValueType val, TValueType low, TValueType high) noexcept
    {
-       if (-_val > _high)
-           _val = _high + Modulus(_val - _high, _low - _high);
+       if (-val > high)
+           val = high + Modulus(val - high, low - high);
 
        else
-           _val = _low + Modulus(_val - _low, _high - _low);
+           val = low + Modulus(val - low, high - low);
 
-       if (_val < _low)
-           _val += _high;
+       if (val < low)
+           val += high;
 
-       return _val;
+       return val;
    }
 
 
 
    template <CScalarType TValueType, CUnsignedType TPowerType> inline
-   TValueType Pow(TValueType _val, TPowerType _power) noexcept
+   TValueType Pow(TValueType val, TPowerType power) noexcept
    {
-       if (static_cast<TPowerType>(0) == _power)
+       if (static_cast<TPowerType>(0) == power)
            return static_cast<TValueType>(1);
 
-       if (static_cast<TPowerType>(1) == _power)
-           return _val;
+       if (static_cast<TPowerType>(1) == power)
+           return val;
 
 
-       TValueType       valCopy = _val;
+       TValueType       valCopy = val;
 
-       // Multiply value by itself _power times
-       for (TPowerType iteration = static_cast<TPowerType>(1); iteration < _power; ++iteration)
-           _val *= valCopy;
+       // Multiply value by itself power times
+       for (TPowerType iteration = static_cast<TPowerType>(1); iteration < power; ++iteration)
+           val *= valCopy;
 
-       return _val;
+       return val;
    }
 
 
 
    template <CScalarType TValueType> inline
-   TValueType SquareRoot(TValueType _val) noexcept
+   TValueType SquareRoot(TValueType val) noexcept
    {
        return static_cast<TValueType>
        (
-           sqrt(static_cast<double>(_val))
+           sqrt(static_cast<double>(val))
        );
    }
 
@@ -409,16 +384,16 @@ namespace math
    // ---- SquareRoot specializations ----
 
    template<> inline
-   float SquareRoot<float>(float _val) noexcept
+   float SquareRoot<float>(float val) noexcept
    {
-       return sqrtf(_val);
+       return sqrtf(val);
    }
 
 
    template<> inline
-   long double SquareRoot<long double>(long double _val) noexcept
+   long double SquareRoot<long double>(long double val) noexcept
    {
-       return sqrtl(_val);
+       return sqrtl(val);
    }
 
 
@@ -428,45 +403,45 @@ namespace math
 
 
    template <CScalarType TValueType> inline
-   TValueType Min(TValueType _a, TValueType _b) noexcept
+   TValueType Min(TValueType a, TValueType b) noexcept
    {
        // Return smallest
-       return (_a < _b) ? _a : _b;
+       return (a < b) ? a : b;
    }
 
 
    template <CScalarType TValueType> inline
-   TValueType Max(TValueType _a, TValueType _b) noexcept
+   TValueType Max(TValueType a, TValueType b) noexcept
    {
        // Return largest
-       return (_a > _b) ? _a : _b;
+       return (a > b) ? a : b;
    }
 
 
    template <CIntegralType TValueType> inline
-   TValueType Factorial(TValueType _val) noexcept
+   TValueType Factorial(TValueType val) noexcept
    {
        TValueType       zero = static_cast<TValueType>(0),
                         one = static_cast<TValueType>(1);
 
 
-       if (zero == _val || one == _val)
+       if (zero == val || one == val)
            return one;
 
-       if (static_cast<TValueType>(2) == _val)
-           return _val;
+       if (static_cast<TValueType>(2) == val)
+           return val;
 
-       TValueType     result = Absolute(_val),
+       TValueType     result = Absolute(val),
            valCopy = result - one;
 
 
-       // Multiply _val by numbers smaller than itself going all the way down to 1
+       // Multiply val by numbers smaller than itself going all the way down to 1
        while (valCopy > zero)
            result *= valCopy--;
 
        // Restore negative sign if type permits it and value is < 0
        if constexpr (!std::is_unsigned<TValueType>::value)
-           result *= (_val < static_cast<TValueType>(0)) ? -one : one;
+           result *= (val < static_cast<TValueType>(0)) ? -one : one;
 
        return result;
    }

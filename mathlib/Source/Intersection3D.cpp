@@ -11,40 +11,40 @@ namespace math
 {
 
 
-	AABBCollider3D::AABBCollider3D(const Vector3<float>& _pos, const Vector3<float>& _size)
-		: m_position(_pos), m_extents(_size)
+	AABBCollider3D::AABBCollider3D(const Vector3f& pos, const Vector3f& size)
+		: m_position(pos), m_extents(size)
 	{
 
 	}
 
 
-	Vector3<float>& AABBCollider3D::Position(void)
+	Vector3f& AABBCollider3D::Position(void)
 	{
 		return m_position;
 	}
 
-	Vector3<float>& AABBCollider3D::Extents(void)
+	Vector3f& AABBCollider3D::Extents(void)
 	{
 		return m_extents;
 	}
 
-	Vector3<float> AABBCollider3D::GetPosition(void) const
+	Vector3f AABBCollider3D::GetPosition(void) const
 	{
 		return m_position;
 	}
 
-	Vector3<float> AABBCollider3D::GetExtents(void) const
+	Vector3f AABBCollider3D::GetExtents(void) const
 	{
 		return m_extents;
 	}
 
-	bool AABBCollider3D::CheckCollision(const AABBCollider3D& _other) const
+	bool AABBCollider3D::CheckCollision(const AABBCollider3D& other) const
 	{
-		Vector3<float>		selfMin = GetMin(),
+		Vector3f		selfMin = GetMin(),
 					selfMax = GetMax();
 
-		Vector3<float>		otherMin = _other.GetMin(),
-					otherMax = _other.GetMax();
+		Vector3f		otherMin = other.GetMin(),
+					otherMax = other.GetMax();
 
 		// Check min and max vertices on each axis to look for a gap
 
@@ -63,37 +63,37 @@ namespace math
 
 
 
-	bool AABBCollider3D::CheckCollision(const SphereCollider3D& _other) const
+	bool AABBCollider3D::CheckCollision(const SphereCollider3D& other) const
 	{
-		Vector3<float> minVertex = GetMin(), maxVertex = GetMax();
+		Vector3f minVertex = GetMin(), maxVertex = GetMax();
 
 		// Get closest point
-		Vector3<float>		closestPoint
+		Vector3f		closestPoint
 		{
-			Max(minVertex.GetX(), Min(_other.GetPosition().GetX(), maxVertex.GetX())),
-			Max(minVertex.GetY(), Min(_other.GetPosition().GetY(), maxVertex.GetY())),
-			Max(minVertex.GetZ(), Min(_other.GetPosition().GetZ(), maxVertex.GetZ()))
+			Max(minVertex.GetX(), Min(other.GetPosition().GetX(), maxVertex.GetX())),
+			Max(minVertex.GetY(), Min(other.GetPosition().GetY(), maxVertex.GetY())),
+			Max(minVertex.GetZ(), Min(other.GetPosition().GetZ(), maxVertex.GetZ()))
 		};
 
-		Vector3<float>		distance = closestPoint - _other.GetPosition();
+		Vector3f		distance = closestPoint - other.GetPosition();
 
 		// Point closer than end of radius = intersection
-		return distance.MagnitudeSquared() <= _other.GetRadius() * _other.GetRadius();
+		return distance.MagnitudeSquared() <= other.GetRadius() * other.GetRadius();
 	}
 
-	bool AABBCollider3D::PointInBox(const Vector3<float>& _point) const
+	bool AABBCollider3D::PointInBox(const Vector3f& point) const
 	{
-		Vector3<float>		min = GetMin(), max = GetMax();
+		Vector3f		min = GetMin(), max = GetMax();
 
 		// Check if point is within AABB bounds
 
-		if (_point.GetX() < min.GetX() || _point.GetX() > max.GetX())
+		if (point.GetX() < min.GetX() || point.GetX() > max.GetX())
 			return false;
 
-		if (_point.GetY() < min.GetY() || _point.GetY() > max.GetY())
+		if (point.GetY() < min.GetY() || point.GetY() > max.GetY())
 			return false;
 
-		if (_point.GetZ() < min.GetZ() || _point.GetZ() > max.GetZ())
+		if (point.GetZ() < min.GetZ() || point.GetZ() > max.GetZ())
 			return false;
 
 		return true;
@@ -102,10 +102,10 @@ namespace math
 
 
 
-	Ray3D::Ray3D(const Vector3<float>& _pos, const Vector3<float>& _dir)
-		: m_origin(_pos)
+	Ray3D::Ray3D(const Vector3f& pos, const Vector3f& dir)
+		: m_origin(pos)
 	{
-		m_direction = Normalize(_dir);
+		m_direction = Normalize(dir);
 
 		// Pre compute direction divisor
 		m_inverseDir.X() = (m_direction.GetX() != 0.f) ? 1.f / m_direction.GetX() : 0.f;
@@ -114,11 +114,11 @@ namespace math
 	}
 
 
-	bool Ray3D::Intersect(const AABBCollider3D& _box, float& _distance) const
+	bool Ray3D::Intersect(const AABBCollider3D& box, float& distance) const
 	{
 		float   maxIntersect = FLT_MAX, minIntersect = -FLT_MAX;
 
-		Vector3<float> minVertex = _box.GetMin(), maxVertex = _box.GetMax();
+		Vector3f minVertex = box.GetMin(), maxVertex = box.GetMax();
 
 		// x plane = 0, y plane = 1, z plane = 3
 		for (int axis = 0; axis < 3; ++axis)
@@ -138,22 +138,22 @@ namespace math
 
 		// Write distance into reference argument if intersection is successful
 		if (intersection)
-			_distance = minIntersect;
+			distance = minIntersect;
 
 		// Return intersection status
 		return intersection;
 	}
 
-	bool Ray3D::Intersect(const SphereCollider3D& _sphere, float& _distance) const
+	bool Ray3D::Intersect(const SphereCollider3D& sphere, float& distance) const
 	{
-		Vector3<float>		sphereToOrigin = GetOrigin() - _sphere.GetPosition();
+		Vector3f		sphereToOrigin = GetOrigin() - sphere.GetPosition();
 
 		float		quadraticA = m_direction.MagnitudeSquared();
 
 		float		quadraticB = 2.f * sphereToOrigin.Dot(m_direction);
 
 		float		quadraticC = sphereToOrigin.MagnitudeSquared() -
-								_sphere.GetRadiusSquared();
+								sphere.GetRadiusSquared();
 
 		// delta = b^2 * 4ac
 		float		quadraticDelta = quadraticB * quadraticB -
@@ -162,55 +162,55 @@ namespace math
 		if (quadraticDelta < 0.f)
 			return false;
 
-		_distance = (-quadraticB * SquareRoot(quadraticDelta)) / (2.f * quadraticA);
+		distance = (-quadraticB * SquareRoot(quadraticDelta)) / (2.f * quadraticA);
 
 		return true;
 
 	}
 
-    Vector3<float> &Ray3D::Origin(void)
+    Vector3f &Ray3D::Origin(void)
     {
        return m_origin;
     }
 
-    Vector3<float> &Ray3D::Direction(void)
+    Vector3f &Ray3D::Direction(void)
     {
         return m_direction;
     }
 
-    Vector3<float> Ray3D::GetOrigin(void) const
+    Vector3f Ray3D::GetOrigin(void) const
     {
         return m_origin;
     }
 
-    Vector3<float> Ray3D::GetDirection(void) const
+    Vector3f Ray3D::GetDirection(void) const
     {
         return m_direction;
     }
 
-    Vector3<float> Ray3D::GetInverseDir(void) const
+    Vector3f Ray3D::GetInverseDir(void) const
     {
         return m_inverseDir;
     }
 
 
 
-	Vector3<float> AABBCollider3D::GetMin(void) const
+	Vector3f AABBCollider3D::GetMin(void) const
 	{
 		return m_position - m_extents;
 	}
 
 
-	Vector3<float> AABBCollider3D::GetMax(void) const
+	Vector3f AABBCollider3D::GetMax(void) const
 	{
 		return m_position + m_extents;
 	}
 
 
-	Vector3<float> OBBCollider3D::GetMin(void) const
+	Vector3f OBBCollider3D::GetMin(void) const
 	{
 		// Rotate BEFORE translating
-		Vector3<float>		rotated = Rotate
+		Vector3f		rotated = Rotate
 		(
 			m_extents, m_rotation[0],
 			m_rotation[1], m_rotation[2]
@@ -219,10 +219,10 @@ namespace math
 		return m_position - rotated;
 	}
 
-	Vector3<float> OBBCollider3D::GetMax(void) const
+	Vector3f OBBCollider3D::GetMax(void) const
 	{
 		// Rotate BEFORE translating
-		Vector3<float>		rotated = Rotate
+		Vector3f		rotated = Rotate
 		(
 			m_extents, m_rotation[0],
 			m_rotation[1], m_rotation[2]
@@ -233,13 +233,13 @@ namespace math
 
 
 	OBBCollider3D::OBBCollider3D
-	(const Vector3<float>& _pos, const Vector3<float>& _extents,
-	 Radian<float> _angleX, Radian<float> _angleY, Radian<float> _angleZ)
-		: m_position(_pos), m_extents(_extents)
+	(const Vector3f& pos, const Vector3f& extents,
+	 Radian<float> angleX, Radian<float> angleY, Radian<float> angleZ)
+		: m_position(pos), m_extents(extents)
 	{
-		m_rotation[0] = _angleX;
-		m_rotation[1] = _angleY;
-		m_rotation[2] = _angleZ;
+		m_rotation[0] = angleX;
+		m_rotation[1] = angleY;
+		m_rotation[2] = angleZ;
 	}
 
 	Radian<float>& OBBCollider3D::RotationX(void)
@@ -273,12 +273,12 @@ namespace math
 	}
 
 
-	Vector3<float>& OBBCollider3D::Position(void)
+	Vector3f& OBBCollider3D::Position(void)
 	{
 		return m_position;
 	}
 
-	Vector3<float>& OBBCollider3D::Extents(void)
+	Vector3f& OBBCollider3D::Extents(void)
 	{
 		return m_extents;
 	}
@@ -323,18 +323,18 @@ namespace math
 	}
 
 
-	Vector3<float> OBBCollider3D::GetPosition(void) const
+	Vector3f OBBCollider3D::GetPosition(void) const
 	{
 		return m_position;
 	}
 
-	Vector3<float> OBBCollider3D::GetExtents(void) const
+	Vector3f OBBCollider3D::GetExtents(void) const
 	{
 		return m_extents;
 	}
 
 
-	Vector3<float>& SphereCollider3D::Position(void)
+	Vector3f& SphereCollider3D::Position(void)
 	{
 		return m_position;
 	}
@@ -344,7 +344,7 @@ namespace math
 		return m_radius;
 	}
 
-	Vector3<float> SphereCollider3D::GetPosition(void) const
+	Vector3f SphereCollider3D::GetPosition(void) const
 	{
 		return m_position;
 	}
@@ -359,83 +359,83 @@ namespace math
 		return m_radius * m_radius;
 	}
 
-	SphereCollider3D::SphereCollider3D(const Vector3<float>& _pos, float _radius)
-		: m_position(_pos), m_radius(_radius)
+	SphereCollider3D::SphereCollider3D(const Vector3f& pos, float radius)
+		: m_position(pos), m_radius(radius)
 	{
 	}
 
 
-	bool SphereCollider3D::CheckCollision(const AABBCollider3D& _other) const
+	bool SphereCollider3D::CheckCollision(const AABBCollider3D& other) const
 	{
-		return _other.CheckCollision(*this);
+		return other.CheckCollision(*this);
 	}
 
 
 
-	bool SphereCollider3D::CheckCollision(const SphereCollider3D& _other) const
+	bool SphereCollider3D::CheckCollision(const SphereCollider3D& other) const
 	{
-		float		distance = DistanceSquared(m_position, _other.m_position);
+		float		distance = DistanceSquared(m_position, other.m_position);
 
-		return distance <= (m_radius * m_radius) + (_other.m_radius * _other.m_radius);
+		return distance <= (m_radius * m_radius) + (other.m_radius * other.m_radius);
 	}
 
-	bool SphereCollider3D::PointInSphere(const Vector3<float>& _point) const
+	bool SphereCollider3D::PointInSphere(const Vector3f& point) const
 	{
-		Vector3<float>		distance = _point - m_position;
+		Vector3f		distance = point - m_position;
 
 		return distance.MagnitudeSquared() <= m_radius * m_radius;
 	}
 
-	Line3D::Line3D(const Vector3<float>& _start, const Vector3<float>& _end)
-		: m_start(_start), m_end(_end)
+	Line3D::Line3D(const Vector3f& start, const Vector3f& end)
+		: m_start(start), m_end(end)
 	{
 	}
 
-	Vector3<float>& Line3D::Start(void)
-	{
-		return m_start;
-	}
-
-	Vector3<float>& Line3D::End(void)
-	{
-		return m_end;
-	}
-
-	Vector3<float> Line3D::GetStart(void) const
+	Vector3f& Line3D::Start(void)
 	{
 		return m_start;
 	}
 
-	Vector3<float> Line3D::GetEnd(void) const
+	Vector3f& Line3D::End(void)
 	{
 		return m_end;
 	}
 
-	bool Line3D::Intersect(const AABBCollider3D& _box) const
+	Vector3f Line3D::GetStart(void) const
+	{
+		return m_start;
+	}
+
+	Vector3f Line3D::GetEnd(void) const
+	{
+		return m_end;
+	}
+
+	bool Line3D::Intersect(const AABBCollider3D& box) const
 	{
 		// Use huge value (likely smaller than line length)
 		// that can be safely squared without causing
 		// 32-bit overflow
 		float 		distanceToBox = 1e10f;
 
-		Vector3<float>		direction = m_end - m_start;
+		Vector3f		direction = m_end - m_start;
 
 		// Turn segment into ray to use already defined raycast algorithm
 		Ray3D		lineRay(m_start, direction);
 
 		// If no intersection or intersection is further than line length,
 		// no line intsersection occurs
-		if (!lineRay.Intersect(_box, distanceToBox) ||
+		if (!lineRay.Intersect(box, distanceToBox) ||
 			distanceToBox * distanceToBox > direction.MagnitudeSquared())
 			return false;
 
 		return true;
 	}
 
-	bool Line3D::Intersect(const SphereCollider3D& _sphere) const
+	bool Line3D::Intersect(const SphereCollider3D& sphere) const
 	{
-		Vector3<float>		circleToLineStart = m_start - _sphere.GetPosition();
-		Vector3<float>		lineDirection = m_end - m_start;
+		Vector3f		circleToLineStart = m_start - sphere.GetPosition();
+		Vector3f		lineDirection = m_end - m_start;
 
 		// Compute b^2
 		float		quadraticDelta = (2.f * lineDirection.Dot(circleToLineStart));
@@ -445,7 +445,7 @@ namespace math
 		// Find 4ac
 		float		tmpQuadratic = 4.f * lineDirection.MagnitudeSquared() *
 			(circleToLineStart.MagnitudeSquared() -
-				_sphere.GetRadiusSquared());
+				sphere.GetRadiusSquared());
 
 		// delta = b^2 - 4ac
 		quadraticDelta -= tmpQuadratic;

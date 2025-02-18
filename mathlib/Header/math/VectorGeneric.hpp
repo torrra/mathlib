@@ -1,39 +1,10 @@
-/*
-
- _____                               _
-|_   _|                             (_)
-  | |  ___  _ __     ___ _ __   __ _ _ _ __   ___
-  | | / _ \| '_ \   / _ \ '_ \ / _` | | '_ \ / _ \
- _| || (_) | | | | |  __/ | | | (_| | | | | |  __/
- \___/\___/|_| |_|  \___|_| |_|\__, |_|_| |_|\___|
-                                __/ |
-                               |___/
-
-
-NAME: VectorGeneric.hpp
-
-DESCTIPTION: Template definitions for Vector mathematical classes
-
-AUTHOR: Noah de Pischof | @torrra on GitHub
-
-
-STYLE:
-
-C prefix: C++20 template concept
-T prefix: Template parameter
-
-Type suffix: Generic type, goes with T prefix
-
-*/
-
-
 #ifndef __VECTOR_GENERIC_H__
 #define __VECTOR_GENERIC_H__
 
 
 #include <inttypes.h>
 
-#include "math/MathGeneric.hpp"
+#include "MathGeneric.hpp"
 
 namespace math
 {
@@ -42,7 +13,7 @@ namespace math
     template <uint8_t TDimensions, CScalarType TValueType>
 	class Vector;
 
-    // Partial Vector specialization for 2D vector 
+    // Partial Vector specialization for 2D vector
     template <CScalarType TValueType>
     using Vector2 = Vector<2, TValueType>;
 
