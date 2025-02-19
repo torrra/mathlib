@@ -25,7 +25,7 @@ namespace math
         inline				Quaternion(TValueType w, TValueType x, TValueType y, TValueType z);
         explicit inline		Quaternion(TValueType value);
         inline				Quaternion(const Vector3<TValueType>& axis, const Radian<TValueType>& angle);
-        inline				Quaternion(const Radian<TValueType>& angleX, const Radian<TValueType>& angleY, const Radian<TValueType>& angleZ);
+        inline				Quaternion(Radian<TValueType> angleX, Radian<TValueType> angleY, Radian<TValueType> angleZ);
 
         ~Quaternion(void) = default;
 
@@ -121,17 +121,21 @@ namespace math
     inline Quaternion<TValueType>::Quaternion(const Vector3<TValueType>& axis, const Radian<TValueType>& angle)
     {
         TValueType angleHalf = angle.Rad() * (TValueType)0.5;
-        TValueType sinAngle = Sin(angleHalf);
+        TValueType sinAngle = sin(angleHalf);
 
-        m_w = Cos(angleHalf);
+        m_w = cos(angleHalf);
         m_x = sinAngle * Cos(axis.AngleFrom(Vector3<TValueType>::Right()));
-        m_x = sinAngle * Cos(axis.AngleFrom(Vector3<TValueType>::Up()));
-        m_x = sinAngle * Cos(axis.AngleFrom(Vector3<TValueType>::Front()));
+        m_y = sinAngle * Cos(axis.AngleFrom(Vector3<TValueType>::Up()));
+        m_z = sinAngle * Cos(axis.AngleFrom(Vector3<TValueType>::Front()));
     }
 
     template<CFloatingType TValueType>
-    inline Quaternion<TValueType>::Quaternion(const Radian<TValueType>& angleX, const Radian<TValueType>& angleY, const Radian<TValueType>& angleZ)
+    inline Quaternion<TValueType>::Quaternion(Radian<TValueType> angleX, Radian<TValueType> angleY, Radian<TValueType> angleZ)
     {
+        angleX *= (TValueType) 0.5;
+        angleY *= (TValueType) 0.5;
+        angleZ *= (TValueType) 0.5;
+
         TValueType cosX = Cos(angleX), sinX = Sin(angleX);
         TValueType cosY = Cos(angleY), sinY = Sin(angleY);
         TValueType cosZ = Cos(angleZ), sinZ = Sin(angleZ);
@@ -235,7 +239,7 @@ namespace math
     //    // x axis
 
     //    TValueType		atan2Y = ((TValueType)(2)) * (m_w * m_x + m_y * m_z);
-    //    TValueType		atan2X = ((TValueType)(1)) - ((TValueType)(2)) * (m_x * m_x + m_y * m_y);
+    //    TValueType		atan2X = m_w * m_w//((TValueType)(1)) - ((TValueType)(2)) * (m_x * m_x + m_y * m_y);
     //    TValueType		x = Atan2(atan2Y, atan2X).Raw();
 
     //    TValueType y = Asin(((TValueType)(2)) * (m_w * m_y - m_x * m_z)).Raw();
