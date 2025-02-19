@@ -47,7 +47,7 @@ namespace math
 
 
         Vector3<TValueType> RotateVector(const Vector3<TValueType>& vector) const;
-        //Vector3<TValueType> EulerAngles(void) const;
+        Vector3<TValueType> EulerAngles(void) const;
 
         inline Quaternion& operator=(const Quaternion& rhs);
 
@@ -230,29 +230,31 @@ namespace math
         return Vector3<TValueType>(resultQuat.m_x, resultQuat.m_y, resultQuat.m_z);
     }
 
-    //template<CFloatingType TValueType>
-    //inline Vector3<TValueType> Quaternion<TValueType>::EulerAngles(void) const
-    //{
-    //    if (!IsUnit())
-    //        return Normalized().EulerAngles();
+    template<CFloatingType TValueType>
+    inline Vector3<TValueType> Quaternion<TValueType>::EulerAngles(void) const
+    {
+        // x axis
+        TValueType		atan2Y = ((TValueType)(2)) * (m_w * m_x + m_y * m_z);
+        TValueType		atan2X = m_w * m_w - m_x * m_x - m_y * m_y + m_z * m_z;
+        TValueType		x = Atan2(atan2Y, atan2X).Raw();
 
-    //    // x axis
+        // y axis
+        TValueType      sine = static_cast<TValueType>(2) * (m_w * m_y - m_x * m_z);
 
-    //    TValueType		atan2Y = ((TValueType)(2)) * (m_w * m_x + m_y * m_z);
-    //    TValueType		atan2X = m_w * m_w//((TValueType)(1)) - ((TValueType)(2)) * (m_x * m_x + m_y * m_y);
-    //    TValueType		x = Atan2(atan2Y, atan2X).Raw();
+        // avoid domain errors
+        sine = Clamp(sine, static_cast<TValueType>(-1), static_cast<TValueType>(1));
 
-    //    TValueType y = Asin(((TValueType)(2)) * (m_w * m_y - m_x * m_z)).Raw();
+        TValueType      y = Asin(sine).Raw();
 
 
-    //    // z axis
-    //    atan2Y = ((TValueType)(2)) * (m_w * m_z + m_x * m_y);
-    //    atan2X = ((TValueType)(1)) - ((TValueType)(2)) * (m_y * m_y + m_z * m_z);
+        // z axis
+        atan2Y = ((TValueType)(2)) * (m_w * m_z + m_x * m_y);
+        atan2X = m_w * m_w + m_x * m_x - m_y * m_y - m_z * m_z;
 
-    //    TValueType		z = Atan2(atan2Y, atan2X).Raw();
+        TValueType	    z = Atan2(atan2Y, atan2X).Raw();
 
-    //    return Vector3<TValueType>(x, y, z);
-    //}
+        return Vector3<TValueType>(x, y, z);
+    }
 
     template<CFloatingType TValueType>
     inline TValueType Quaternion<TValueType>::Length(void) const
