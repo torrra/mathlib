@@ -148,8 +148,8 @@ namespace math
     void Matrix<2, TValueType>::Identity(TValueType diag)
     {
         m_values[0][0] = diag;
-	    m_values[0][1] = 0.f;
-	    m_values[1][0] = 0.f;
+	    m_values[0][1] = static_cast<TValueType>(0);
+	    m_values[1][0] = static_cast<TValueType>(0);
 	    m_values[1][1] = diag;
     }
 
@@ -157,9 +157,15 @@ namespace math
     template <CScalarType TValueType> inline
     Matrix<2, TValueType> Matrix<2, TValueType>::Adjugate(void) const
     {
+        if constexpr (std::is_unsigned<TValueType>::value)
+            throw std::logic_error("Cannot compute adjugate matrix for unsigned type");
+
         // Transpose cofactors
-        return Matrix<2, TValueType>(m_values[1][1], -m_values[0][1],
-                       -m_values[1][0], m_values[0][0]);
+        else
+        {
+            return Matrix<2, TValueType>(m_values[1][1], -m_values[0][1],
+                                        -m_values[1][0], m_values[0][0]);
+        }
     }
 
 
@@ -169,7 +175,7 @@ namespace math
         TValueType       det = Determinant();
 
         // Divide adjugate by determinant
-        if (det != 0.f)
+        if (det != static_cast<TValueType>(0))
             return Adjugate() * (1 / det);
 
         // Do not devide by zero
@@ -327,14 +333,20 @@ namespace math
     template <CScalarType TValueType> inline
     Matrix<2, TValueType> Matrix<2, TValueType>::Rotate(Radian<TValueType> angle)
     {
-        TValueType   cosAngle = Cos(angle), sinAngle = Sin(angle);
+        if constexpr (std::is_unsigned<TValueType>::value)
+            throw std::logic_error("Cannot compute unsigned rotation matrix");
 
-        // Create z axis rotation matrix (non-homogenized)
-        return Matrix<2, TValueType>
-        (
-            cosAngle, -sinAngle,
-            sinAngle, cosAngle
-        );
+        else
+        {
+            TValueType   cosAngle = Cos(angle), sinAngle = Sin(angle);
+
+            // Create z axis rotation matrix (non-homogenized)
+            return Matrix<2, TValueType>
+                (
+                    cosAngle, -sinAngle,
+                    sinAngle, cosAngle
+                );
+        }
     }
 
 

@@ -34,7 +34,7 @@ namespace math
 	inline	TValueType           Determinant(void)                   const;
 
 		// Turn this matrix into an identity matrix with a given diagonal
-	inline	void            Identity(TValueType diag = 1.f);
+	inline	void            Identity(TValueType diag = static_cast<TValueType>(1));
 
 		// Get this matrix' transposed cofactor matrix
 	inline	TMatrixType         Adjugate(void)                      const;
@@ -182,8 +182,8 @@ namespace math
 	{
 		Matrix3<TValueType>     minor;
 
-		TValueType		result = 0.f, minusOne = -1.f;
-		int			stripedRow = 0;
+		TValueType		result = static_cast<TValueType>(0), minusOne = static_cast<TValueType>(-1);
+		int				stripedRow = 0;
 
 		for (unsigned int cofactor = 0; cofactor < 4; ++cofactor)
 		{
@@ -206,7 +206,7 @@ namespace math
 		{
 			for (int column = 0; column < maxSize; ++column)
 			{
-				m_values[row][column] = (row == column) ? diag : 0.f;
+				m_values[row][column] = (row == column) ? diag : static_cast<TValueType>(0);
 			}
 		}
 	}
@@ -215,21 +215,27 @@ namespace math
 	template <CScalarType TValueType> inline
 	Matrix<4, TValueType> Matrix<4, TValueType>::Adjugate(void) const
 	{
-		Matrix<4, TValueType>			result;
+		if constexpr (std::is_unsigned<TValueType>::value)
+			throw std::logic_error("Cannot compute unsigned adjugate matrix");
 
-		TValueType			minusOne = -1;
-
-		for (unsigned int row = 0; row < 4; ++row)
+		else
 		{
-			for (unsigned int column = 0; column < 4; ++column)
+			Matrix<4, TValueType>			result;
+
+			TValueType			minusOne = -1;
+
+			for (unsigned int row = 0; row < 4; ++row)
 			{
-				result[column][row] = SubMatrix(row, column).Determinant();
+				for (unsigned int column = 0; column < 4; ++column)
+				{
+					result[column][row] = SubMatrix(row, column).Determinant();
 
-				result[column][row] *= Pow(minusOne, row + column);
+					result[column][row] *= Pow(minusOne, row + column);
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 
@@ -253,44 +259,56 @@ namespace math
 	template <CScalarType TValueType> inline
 	Matrix<4, TValueType> Matrix<4, TValueType>::Cofactor(void) const
 	{
-		Matrix<4, TValueType>			result;
+		if constexpr (std::is_unsigned<TValueType>::value)
+			throw std::logic_error("Cannot compute unsigned cofactor matrix");
 
-		TValueType			minusOne = -1;
-
-		for (unsigned int row = 0; row < 4; ++row)
+		else
 		{
-			for (unsigned int column = 0; column < 4; ++column)
+			Matrix<4, TValueType>			result;
+
+			TValueType			minusOne = -1;
+
+			for (unsigned int row = 0; row < 4; ++row)
 			{
-				result[row][column] = SubMatrix(row, column).Determinant();
+				for (unsigned int column = 0; column < 4; ++column)
+				{
+					result[row][column] = SubMatrix(row, column).Determinant();
 
-				result[row][column] *= Pow(minusOne, row + column);
+					result[row][column] *= Pow(minusOne, row + column);
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 
 	template <CScalarType TValueType> inline
 	Matrix<4, TValueType> Matrix<4, TValueType>::Inverse(void) const
 	{
-		TValueType			invDeterminant = 1.f / Determinant();
-		Matrix<4, TValueType>			result;
-		TValueType			minusOne = -1;
+		if constexpr (std::is_unsigned<TValueType>::value)
+			throw std::logic_error("Cannot compute unsigned inverse matrix");
 
-		for (unsigned int row = 0; row < 4; ++row)
+		else
 		{
-			for (unsigned int column = 0; column < 4; ++column)
+			TValueType						invDeterminant = static_cast<TValueType>(1) / Determinant();
+			Matrix<4, TValueType>			result;
+			TValueType						minusOne = -1;
+
+			for (unsigned int row = 0; row < 4; ++row)
 			{
-				result[column][row] = SubMatrix(row, column).Determinant();
+				for (unsigned int column = 0; column < 4; ++column)
+				{
+					result[column][row] = SubMatrix(row, column).Determinant();
 
-				result[column][row] *= Pow(minusOne, row + column);
-				result[column][row] *= invDeterminant;
+					result[column][row] *= Pow(minusOne, row + column);
+					result[column][row] *= invDeterminant;
 
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
 
@@ -343,36 +361,43 @@ namespace math
 		Radian<TValueType> angleZ
 	)
 	{
-		TValueType				cosYaw = Cos(angleZ), sinYaw = Sin(angleZ);
-		TValueType				cosPitch = Cos(angleX), sinPitch = Sin(angleX);
-		TValueType				cosRoll = Cos(angleY), sinRoll = Sin(angleY);
-
-		TMatrixType				rotationMatrix;
-
-		// Assign COLUMN-MAJOR rotation matrix
-
-		rotationMatrix[0][0] = cosYaw * cosRoll + sinYaw * sinPitch * sinRoll;
-		rotationMatrix[0][1] = sinRoll * cosPitch;
-		rotationMatrix[0][2] = -sinYaw * cosRoll + cosYaw * sinPitch * sinRoll;
-		rotationMatrix[0][3] = static_cast<TValueType>(0);
-
-		rotationMatrix[1][0] = -cosYaw * sinRoll + sinYaw * sinPitch * cosRoll;
-		rotationMatrix[1][1] = cosRoll * cosPitch;
-		rotationMatrix[1][2] = sinRoll * sinYaw + cosYaw * sinPitch * cosRoll;
-		rotationMatrix[1][3] = static_cast<TValueType>(0);
-
-		rotationMatrix[2][0] = sinYaw * cosPitch;
-		rotationMatrix[2][1] = -sinPitch;
-		rotationMatrix[2][2] = cosYaw * cosPitch;
-		rotationMatrix[2][3] = static_cast<TValueType>(0);
+		if constexpr (std::is_unsigned_v<TValueType> || std::is_integral_v<TValueType>)
+			throw std::logic_error("Cannot compute unsigned or integral rotation matrix");
 
 
-		rotationMatrix[3][0] = static_cast<TValueType>(0);
-		rotationMatrix[3][1] = static_cast<TValueType>(0);
-		rotationMatrix[3][2] = static_cast<TValueType>(0);
-		rotationMatrix[3][3] = static_cast<TValueType>(1);
+		else
+		{
+			TValueType				cosYaw = Cos(angleZ), sinYaw = Sin(angleZ);
+			TValueType				cosPitch = Cos(angleX), sinPitch = Sin(angleX);
+			TValueType				cosRoll = Cos(angleY), sinRoll = Sin(angleY);
 
-		return rotationMatrix;
+			TMatrixType				rotationMatrix;
+
+			// Assign COLUMN-MAJOR rotation matrix
+
+			rotationMatrix[0][0] = cosYaw * cosRoll + sinYaw * sinPitch * sinRoll;
+			rotationMatrix[0][1] = sinRoll * cosPitch;
+			rotationMatrix[0][2] = -sinYaw * cosRoll + cosYaw * sinPitch * sinRoll;
+			rotationMatrix[0][3] = static_cast<TValueType>(0);
+
+			rotationMatrix[1][0] = -cosYaw * sinRoll + sinYaw * sinPitch * cosRoll;
+			rotationMatrix[1][1] = cosRoll * cosPitch;
+			rotationMatrix[1][2] = sinRoll * sinYaw + cosYaw * sinPitch * cosRoll;
+			rotationMatrix[1][3] = static_cast<TValueType>(0);
+
+			rotationMatrix[2][0] = sinYaw * cosPitch;
+			rotationMatrix[2][1] = -sinPitch;
+			rotationMatrix[2][2] = cosYaw * cosPitch;
+			rotationMatrix[2][3] = static_cast<TValueType>(0);
+
+
+			rotationMatrix[3][0] = static_cast<TValueType>(0);
+			rotationMatrix[3][1] = static_cast<TValueType>(0);
+			rotationMatrix[3][2] = static_cast<TValueType>(0);
+			rotationMatrix[3][3] = static_cast<TValueType>(1);
+
+			return rotationMatrix;
+		}
 
 	}
 
@@ -474,7 +499,7 @@ namespace math
 		{
 			for (int rightColumn = 0; rightColumn < 4; rightColumn++)
 			{
-				TValueType	currentNum = 0.f;
+				TValueType	currentNum = static_cast<TValueType>(0);
 
 				for (int rightRow = 0; rightRow < 4; rightRow++)
 				{
@@ -497,7 +522,7 @@ namespace math
 
 		for (int row = 0; row < 4; ++row)
 		{
-			num = 0.f;
+			num = static_cast<TValueType>(0);
 
 			for (int column = 0; column < 4; ++column)
 			{
@@ -531,7 +556,7 @@ namespace math
 	template <CScalarType TValueType> inline
 	Matrix<4, TValueType> Matrix<4, TValueType>::operator/(TValueType rhs) const
 	{
-		return *this * (1.f / rhs);
+		return *this * (static_cast<TValueType>(1) / rhs);
 	}
 
 
@@ -574,7 +599,7 @@ namespace math
 		{
 			for (int rightColumn = 0; rightColumn < 4; rightColumn++)
 			{
-				TValueType	currentNum = 0.f;
+				TValueType	currentNum = static_cast<TValueType>(0);
 
 				for (int rightRow = 0; rightRow < 4; rightRow++)
 				{
@@ -609,7 +634,7 @@ namespace math
 	template <CScalarType TValueType> inline
 	Matrix<4, TValueType>& Matrix<4, TValueType>::operator/=(TValueType rhs)
 	{
-		*this *= (1.f / rhs);
+		*this *= (static_cast<TValueType>(1) / rhs);
 
 		return *this;
 	}

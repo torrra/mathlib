@@ -183,19 +183,19 @@ namespace math
  {
  	// Add multiplied left-right diagonals together
  	TValueType		positiveDiags
- 	{
+ 	(
  		m_values[0][0] * m_values[1][1] * m_values[2][2] +
  		m_values[0][1] * m_values[1][2] * m_values[2][0] +
  		m_values[0][2] * m_values[1][0] * m_values[2][1]
- 	};
+ 	);
 
  	// Add multiplied right-left diagonals together
  	TValueType		negativeDiags
- 	{
+ 	(
  		m_values[0][2] * m_values[1][1] * m_values[2][0] +
  		m_values[0][1] * m_values[1][0] * m_values[2][2] +
  		m_values[0][0] * m_values[1][2] * m_values[2][1]
- 	};
+ 	);
 
  	// Subtract negative diagonals from positive diagnonals
  	return positiveDiags - negativeDiags;
@@ -212,7 +212,7 @@ namespace math
  	{
  		for (int column = 0; column < maxSize; ++column)
  		{
- 			m_values[row][column] = (row == column) ? diag : 0.f;
+ 			m_values[row][column] = (row == column) ? diag : static_cast<TValueType>(0);
  		}
  	}
  }
@@ -239,7 +239,7 @@ namespace math
  			result[column][row] *= sign;
 
  			// Flip sign (instead of calling pow(-1, row + colum))
- 			sign *= -1;
+ 			sign *= static_cast<TValueType>(-1);
  		}
  	}
 
@@ -273,7 +273,7 @@ namespace math
  {
  	Matrix<3, TValueType>			result;
 
- 	TValueType			sign = 1;
+ 	TValueType			sign = static_cast<TValueType>(1);
 
  	for (int row = 0; row < 3; ++row)
  	{
@@ -286,7 +286,7 @@ namespace math
  			// Minot to cofactor
  			result[row][column] *= sign;
 
- 			sign *= -1;
+ 			sign *= static_cast<TValueType>(-1);
  		}
  	}
 
@@ -299,9 +299,9 @@ namespace math
  Matrix<3, TValueType> Matrix<3, TValueType>::Inverse(void) const
  {
  	// Perform only one division
- 	TValueType			invDeterminant = 1.f / Determinant();
+ 	TValueType			            invDeterminant = static_cast<TValueType>(1) / Determinant();
  	Matrix<3, TValueType>			result;
- 	TValueType			sign = 1;
+ 	TValueType			            sign = static_cast<TValueType>(1);
 
  	for (int row = 0; row < 3; ++row)
  	{
@@ -318,7 +318,7 @@ namespace math
  			result[column][row] *= invDeterminant;
 
  			// Flip next sign
- 			sign *= -1;
+ 			sign *= static_cast<TValueType>(-1);
  		}
  	}
 
@@ -473,7 +473,7 @@ namespace math
  		for (int rightColumn = 0; rightColumn < 3; rightColumn++)
  		{
  			// Row * column accumulator
- 			TValueType	currentNum = 0.f;
+ 			TValueType	currentNum = static_cast<TValueType>(0);
 
  			// Go through rhs's columns
  			for (int rightRow = 0; rightRow < 3; rightRow++)
@@ -511,14 +511,14 @@ namespace math
  template <CScalarType TValueType> inline
  Vector3<TValueType>  Matrix<3, TValueType>::operator*(const Vector3<TValueType>& rhs) const
  {
- 	Vector3<TValueType>		result(0.f);
+ 	Vector3<TValueType>		result(static_cast<TValueType>(0));
  	TValueType				num;
 
  	// Multiply vector by *this object
  	for (int row = 0; row < 3; ++row)
  	{
  		// Accumulator
- 		num = 0.f;
+ 		num = static_cast<TValueType>(0);
 
  		for (int column = 0; column < 3; ++column)
  		{
@@ -536,7 +536,7 @@ namespace math
  Matrix<3, TValueType> Matrix<3, TValueType>::operator/(TValueType rhs) const
  {
  	// Multiply by one over divisor
- 	return *this * (1.f / rhs);
+ 	return *this * (static_cast<TValueType>(1) / rhs);
  }
 
 
@@ -585,7 +585,7 @@ namespace math
  		// Go through rhs object's rows
  		for (int rightColumn = 0; rightColumn < 3; rightColumn++)
  		{
- 			TValueType	currentNum = 0.f;
+ 			TValueType	currentNum = static_cast<TValueType>(0);
 
  			// Go through rhs object's column
  			for (int rightRow = 0; rightRow < 3; rightRow++)
@@ -626,7 +626,7 @@ namespace math
  Matrix<3, TValueType>& Matrix<3, TValueType>::operator/=(TValueType rhs)
  {
  	// Multiply by one over divisor
- 	*this *= (1.f / rhs);
+ 	*this *= (static_cast<TValueType>(1) / rhs);
 
  	return *this;
  }
@@ -676,12 +676,6 @@ namespace math
  	// Return row
  	return m_values[index];
  }
-
-
-
-
-
-
 }
 
 namespace lm = math;
