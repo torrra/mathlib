@@ -113,7 +113,8 @@ namespace math
         }
 
         // Check if difference is smaller than epsilon
-        return Absolute(a - b) <= epsilon;
+        else
+            return Absolute(a - b) <= epsilon;
     }
 
     template <CScalarType TValueType> inline
