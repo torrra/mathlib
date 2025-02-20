@@ -36,20 +36,23 @@ namespace math
         inline Quaternion	Inverse(void)			const;
 
         inline Quaternion	Normalized(void)		const;
-        inline bool			IsUnit(void)					  const;
-        //inline bool			IsPure(void)								  const;
-        //inline bool			IsReal(void)								  const;
+        inline bool			IsUnit(void)			const;
+        inline bool			IsPure(void)			const;
+        inline bool			IsReal(void)			const;
 
         inline void			Normalize(void);
 
         inline
-            Matrix4<TValueType> RotationMatrix(void)	const;
+        Matrix4<TValueType> RotationMatrix(void)	const;
 
 
-        Vector3<TValueType> RotateVector(const Vector3<TValueType>& vector) const;
+        Vector3<TValueType> Rotate(const Vector3<TValueType>& vector)   const;
         Vector3<TValueType> EulerAngles(void) const;
 
         inline Quaternion& operator=(const Quaternion& rhs);
+
+        inline
+       Vector3<TValueType>	operator*(const Vector3<TValueType>& rhs) const;
 
         inline Quaternion	operator*(TValueType rhs) const;
         inline Quaternion	operator/(TValueType rhs) const;
@@ -215,20 +218,25 @@ namespace math
         return mat;
     }
 
+
+
     template<CFloatingType TValueType>
-    inline Vector3<TValueType> Quaternion<TValueType>::RotateVector(const Vector3<TValueType>& vector) const
+    inline Vector3<TValueType> Quaternion<TValueType>::Rotate(const Vector3<TValueType>& vector) const
     {
-        Quaternion<TValueType>	vectorQuat((TValueType)0, vector.GetX(), vector.GetY(), vector.GetZ());
-        Quaternion<TValueType>  resultQuat;
+        Vector3<TValueType>     quatVector(m_x, m_y, m_z);
 
-        if (IsUnit())
-            resultQuat = ((*this) * vectorQuat) * Conjugate();
+        Vector3<TValueType>     doubleCross = Cross(quatVector, vector) * (TValueType) 2;
 
-        else
-            resultQuat = ((*this) * vectorQuat) * Inverse();
-
-        return Vector3<TValueType>(resultQuat.m_x, resultQuat.m_y, resultQuat.m_z);
+        return vector + (doubleCross * m_w) + Cross(quatVector, doubleCross);
     }
+
+
+    template<CFloatingType TValueType>
+    inline Vector3<TValueType> Quaternion<TValueType>::operator*(const Vector3<TValueType>& vector) const
+    {
+        return Rotate(vector);
+    }
+
 
     template<CFloatingType TValueType>
     inline Vector3<TValueType> Quaternion<TValueType>::EulerAngles(void) const
@@ -318,6 +326,19 @@ namespace math
         return AlmostEqual(LengthSquared(), static_cast<TValueType>(1));
     }
 
+    template<CFloatingType TValueType>
+    inline bool Quaternion<TValueType>::IsPure(void) const
+    {
+        return AlmostEqual(m_w, static_cast<TValueType>(0));
+    }
+
+    template<CFloatingType TValueType>
+    inline bool Quaternion<TValueType>::IsReal(void) const
+    {
+        return AlmostEqual(m_x, static_cast<TValueType>(0)) &&
+               AlmostEqual(m_y, static_cast<TValueType>(0)) &&
+               AlmostEqual(m_z, static_cast<TValueType>(0));
+    }
 
     template<CFloatingType TValueType>
     inline Quaternion<TValueType>& Quaternion<TValueType>::operator=(const Quaternion<TValueType>& rhs)
