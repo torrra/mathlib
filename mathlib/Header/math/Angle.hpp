@@ -176,11 +176,11 @@ namespace math
 	// Angle literals
 	inline namespace Literal
 	{
-		inline Degree<float>		operator""_deg(long double val);
-		inline Degree<float>		operator""_deg(unsigned long long int val);
+		inline Degree<float>			operator""_deg(long double val);
+		inline Degree<float>			operator""_deg(unsigned long long int val);
 
-		inline Radian<float>		operator""_rad(long double val);
-		inline Radian<float>		operator""_rad(unsigned long long int val);
+		inline Radian<float>			operator""_rad(long double val);
+		inline Radian<float>			operator""_rad(unsigned long long int val);
 
 	}
 
@@ -557,12 +557,12 @@ namespace math
 		// Use custom wrap as math wrap is not precise enough
 
 		// Treat value as positive
-		float			absValue = Absolute(m_value);
+		TValueType			absValue = Absolute(m_value);
 
 		// Wrap around unit circle
 		if (absValue >= RAD_CIRCLE)
 		{
-			float	circleCount = Floor(absValue / RAD_CIRCLE);
+			TValueType	circleCount = Floor(absValue / RAD_CIRCLE);
 
 			absValue -= circleCount * RAD_CIRCLE;
 		}
@@ -850,13 +850,13 @@ namespace math
 	inline Degree<float> math::Literal::operator""_deg(long double val)
 	{
 		// Get numeric value from literal
-		return Degree<float>(static_cast<float>(val));
+		return Degree(static_cast<float>(val));
 	}
 
 	inline Degree<float> Literal::operator""_deg(unsigned long long int val)
 	{
 		// Get numeric value from literal
-		return Degree<float>(static_cast<float>(val));
+		return Degree(static_cast<float>(val));
 	}
 
 
