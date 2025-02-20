@@ -3,10 +3,10 @@
 
 #include <numeric>
 
+#include "Vector3.hpp"
 #include "MathGeneric.hpp"
 #include "Arithmetic.hpp"
 #include "Matrix4.hpp"
-#include "Vector3.hpp"
 #include "Trigonometry.hpp"
 #include "Interpolation.hpp"
 
@@ -355,11 +355,11 @@ namespace math
     inline Quaternion<TValueType>	 Quaternion<TValueType>::operator*(TValueType rhs) const
     {
         // Product of real parts - dot product of vector parts
-        float w = this->m_w * rhs;
+        TValueType w = this->m_w * rhs;
 
-        float x = this->m_x * rhs;
-        float y = this->m_y * rhs;
-        float z = this->m_z * rhs;
+        TValueType x = this->m_x * rhs;
+        TValueType y = this->m_y * rhs;
+        TValueType z = this->m_z * rhs;
 
         return Quaternion<TValueType>(w, x, y, z);
 
@@ -378,11 +378,11 @@ namespace math
     inline Quaternion<TValueType>	 Quaternion<TValueType>::operator*(const Quaternion<TValueType>& rhs) const
     {
         // Product of real parts - dot product of vector parts
-        float w = this->m_w * rhs.m_w - this->m_x * rhs.m_x - this->m_y * rhs.m_y - this->m_z * rhs.m_z;
+        TValueType w = this->m_w * rhs.m_w - this->m_x * rhs.m_x - this->m_y * rhs.m_y - this->m_z * rhs.m_z;
 
-        float x = this->m_w * rhs.m_x + this->m_x * rhs.m_w + this->m_y * rhs.m_z - this->m_z * rhs.m_y;
-        float y = this->m_w * rhs.m_y - this->m_x * rhs.m_z + this->m_y * rhs.m_w + this->m_z * rhs.m_x;
-        float z = this->m_w * rhs.m_z + this->m_x * rhs.m_y - this->m_y * rhs.m_x + this->m_z * rhs.m_w;
+        TValueType x = this->m_w * rhs.m_x + this->m_x * rhs.m_w + this->m_y * rhs.m_z - this->m_z * rhs.m_y;
+        TValueType y = this->m_w * rhs.m_y - this->m_x * rhs.m_z + this->m_y * rhs.m_w + this->m_z * rhs.m_x;
+        TValueType z = this->m_w * rhs.m_z + this->m_x * rhs.m_y - this->m_y * rhs.m_x + this->m_z * rhs.m_w;
 
         return Quaternion<TValueType>(w, x, y, z);
     }
@@ -399,10 +399,10 @@ namespace math
     template<CFloatingType TValueType>
     inline Quaternion<TValueType>	 Quaternion<TValueType>::operator+(const Quaternion<TValueType>& rhs) const
     {
-        float x = this->m_w + rhs.m_w;
-        float y = this->m_x + rhs.m_x;
-        float z = this->m_y + rhs.m_y;
-        float w = this->m_z + rhs.m_z;
+        TValueType x = this->m_w + rhs.m_w;
+        TValueType y = this->m_x + rhs.m_x;
+        TValueType z = this->m_y + rhs.m_y;
+        TValueType w = this->m_z + rhs.m_z;
 
         return Quaternion<TValueType>(x, y, z, w);
     }
@@ -411,10 +411,10 @@ namespace math
     template<CFloatingType TValueType>
     inline Quaternion<TValueType>	 Quaternion<TValueType>::operator-(const Quaternion<TValueType>& rhs) const
     {
-        float x = this->m_w - rhs.m_w;
-        float y = this->m_x - rhs.m_x;
-        float z = this->m_y - rhs.m_y;
-        float w = this->m_z - rhs.m_z;
+        TValueType x = this->m_w - rhs.m_w;
+        TValueType y = this->m_x - rhs.m_x;
+        TValueType z = this->m_y - rhs.m_y;
+        TValueType w = this->m_z - rhs.m_z;
 
         return Quaternion<TValueType>(x, y, z, w);
     }

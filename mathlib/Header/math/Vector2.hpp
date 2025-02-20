@@ -233,24 +233,34 @@ namespace math
 	template <CScalarType TValueType> inline
 	Radian<TValueType> Vector<2, TValueType>::AngleFrom(const Vector<2, TValueType>& other) const
 	{
-		TValueType		magnitudes = MagnitudeSquared() * other.MagnitudeSquared();
+		if constexpr (std::is_integral<TValueType>::value)
+			throw std::logic_error("cannot find angle between vectors of integral types");
+	
+		else
+		{
+			TValueType		magnitudes = MagnitudeSquared() * other.MagnitudeSquared();
 
-		// Only run square root once
-		magnitudes = SquareRoot(magnitudes);
+			// Only run square root once
+			magnitudes = SquareRoot(magnitudes);
 
-		// Transform dot product equation to get cos angle,
-		// then run acos
-		return Acos(Dot(other) / magnitudes);
+			// Transform dot product equation to get cos angle,
+			// then run acos
+			return Acos(Dot(other) / magnitudes);
+		}
 	}
 
 
 	template <CScalarType TValueType> inline
 	Radian<TValueType> Vector<2, TValueType>::AngleFromUnit(const Vector<2, TValueType>& other) const
 	{
+		if constexpr (std::is_integral<TValueType>::value)
+			throw std::logic_error("cannot find angle between vectors of integral types");
+
 		// Clamp dot to avoid acos domain error (NaN result)
 		// and call acos as both vectors are assumed to be
 		// unit vectors
-		return Acos(Clamp(Dot(other), MIN_COS, MAX_COS));
+		else
+			return Acos(Clamp(Dot(other), static_cast<TValueType>(MIN_COS), static_cast<TValueType>(MAX_COS)));
 	}
 
 
@@ -306,7 +316,7 @@ namespace math
 	bool Vector<2, TValueType>::IsUnitVector() const
 	{
 		// 1 squared == 1 so avoiding sqrt call is possible
-		return AlmostEqual(MagnitudeSquared(), 1.f);
+		return AlmostEqual(MagnitudeSquared(), static_cast<TValueType>(1));
 	}
 
 
@@ -329,14 +339,14 @@ namespace math
 	{
 		TValueType		invMagnitude = Magnitude();
 
-		if (AlmostEqual(invMagnitude, 0.f, std::numeric_limits<float>::epsilon()))
+		if (AlmostEqual(invMagnitude, static_cast<TValueType>(0), std::numeric_limits<TValueType>::epsilon()))
 		{
 			throw std::logic_error("Cannot divide by zero magnitude");
 		}
 
 		// Only divide once
 		else
-			invMagnitude = 1.f / invMagnitude;
+			invMagnitude = static_cast<TValueType>(1) / invMagnitude;
 
 		m_x *= invMagnitude;
 		m_y *= invMagnitude;
@@ -358,8 +368,12 @@ namespace math
 	template <CScalarType TValueType> inline
 	Vector<2, TValueType> Vector<2, TValueType>::Normal(void) const
 	{
+		if constexpr (std::is_unsigned<TValueType>::value)
+			return *this;
+
 		// Swap x and y and flip one sign (y here)
-		return Vector<2, TValueType>(-m_y, m_x);
+		else
+			return Vector<2, TValueType>(-m_y, m_x);
 	}
 
 
@@ -385,7 +399,7 @@ namespace math
 		Vector<2, TValueType>		normal = math::Normalize(axis);
 
 		// Apply reflection formula
-		*this -= normal * (Dot(normal) * 2.f);
+		*this -= normal * (Dot(normal) * static_cast<TValueType>(2));
 	}
 
 
@@ -393,7 +407,7 @@ namespace math
 	void Vector<2, TValueType>::ReflectOntoUnit(const Vector<2, TValueType>& axis)
 	{
 		// Assume normal is already unit vector and skip normalize call
-		*this -= axis * (Dot(axis) * 2.f);
+		*this -= axis * (Dot(axis) * static_cast<TValueType>(2));
 	}
 
 
@@ -683,7 +697,7 @@ namespace math
 	template <CScalarType TValueType> inline
 	Vector<2, TValueType> Vector<2, TValueType>::operator/(TValueType rhs) const
 	{
-		rhs = 1.f / rhs;
+		rhs = static_cast<TValueType>(1) / rhs;
 
 		return Vector<2, TValueType>(m_x * rhs, m_y * rhs);
 	}
@@ -693,7 +707,11 @@ namespace math
 	template <CScalarType TValueType> inline
 	Vector<2, TValueType> Vector<2, TValueType>::operator-(void) const
 	{
-		return Vector<2, TValueType>(-m_x, -m_y);
+		if constexpr (std::is_unsigned<TValueType>::value)
+			return *this;
+
+		else
+			return Vector<2, TValueType>(-m_x, -m_y);
 	}
 
 
@@ -754,7 +772,7 @@ namespace math
 	template <CScalarType TValueType> inline
 	Vector<2, TValueType>& Vector<2, TValueType>::operator/=(TValueType rhs)
 	{
-		rhs = 1.f / rhs;
+		rhs = static_cast<TValueType>(1) / rhs;
 
 		m_x *= rhs;
 		m_y *= rhs;
@@ -778,35 +796,35 @@ namespace math
 	template <CScalarType TValueType> inline
 	Vector<2, TValueType> Vector<2, TValueType>::One(void)
 	{
-		return Vector<2, TValueType>(1.f, 1.f);
+		return Vector<2, TValueType>(static_cast<TValueType>(1), static_cast<TValueType>(1));
 	}
 
 
 	template <CScalarType TValueType> inline
 	Vector<2, TValueType> Vector<2, TValueType>::Up(void)
 	{
-		return Vector<2, TValueType>(0.f, 1.f);
+		return Vector<2, TValueType>(static_cast<TValueType>(0), static_cast<TValueType>(1));
 	}
 
 
 	template <CScalarType TValueType> inline
 	Vector<2, TValueType> Vector<2, TValueType>::Down(void)
 	{
-		return Vector<2, TValueType>(0.f, -1.f);
+		return Vector<2, TValueType>(static_cast<TValueType>(0), static_cast<TValueType>(-1));
 	}
 
 
 	template <CScalarType TValueType> inline
 	Vector<2, TValueType> Vector<2, TValueType>::Left(void)
 	{
-		return Vector<2, TValueType>(-1.f, 0.f);
+		return Vector<2, TValueType>(static_cast<TValueType>(-1), static_cast<TValueType>(0));
 	}
 
 
 	template <CScalarType TValueType> inline
 	Vector<2, TValueType> Vector<2, TValueType>::Right(void)
 	{
-		return Vector<2, TValueType>(1.f, 0.f);
+		return Vector<2, TValueType>(static_cast<TValueType>(1), static_cast<TValueType>(0));
 	}
 
 	// !Constants

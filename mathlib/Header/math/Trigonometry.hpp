@@ -2,6 +2,7 @@
 #define __TRIGONOMETRY_H__
 
 #include <cmath>
+#include <stdexcept>
 
 #include "Angle.hpp"
 
@@ -136,7 +137,7 @@ namespace math
 
 		return cosResult;
 #else
-		return cos(rad.Raw());
+		return static_cast<TValueType>(cos(rad.Raw()));
 #endif
 	}
 
@@ -162,7 +163,7 @@ namespace math
 
 		// TODO: optimize
 #else
-		return sin(rad.Raw());
+		return static_cast<TValueType>(sin(rad.Raw()));
 #endif
 	}
 
@@ -174,7 +175,7 @@ namespace math
 		// tan x = sin x / cos x
 		return Sin(rad) / Cos(rad);
 #else
-		return tan(rad.Raw());
+		return static_cast<TValueType>(tan(rad.Raw()));
 #endif
 		// TODO: needs to be faster
 	}
@@ -184,7 +185,11 @@ namespace math
 	template <CScalarType TValueType> inline
 	Radian<TValueType> Acos(TValueType cosine)
 	{
-		return Radian(acos(cosine));
+		if constexpr (std::is_integral<TValueType>::value)
+			throw std::logic_error("cannot compute acos for an integral type");
+
+		else
+			return Radian(acos(cosine));
 	}
 
 
@@ -206,7 +211,7 @@ namespace math
 	Radian<TValueType> Atan2(TValueType y, TValueType x)
 	{
 		// Handle x == 0 case
-		if (AlmostEqual(x, 0.0f))
+		if (AlmostEqual(x, static_cast<TValueType>(0)))
 			return Radian(AtanZeroX(y));
 
 
@@ -227,6 +232,7 @@ namespace math
 		return angle;
 	}
 
+#ifdef MY_TRIG_IMPL
 
 	template <CScalarType TValueType> inline
 	const TValueType math::Factorials<TValueType>::m_evenFacts[] =
@@ -241,7 +247,7 @@ namespace math
 		-1.f / static_cast<TValueType>(Factorial(12))
 	};
 
-
+#endif
 
 
 }
