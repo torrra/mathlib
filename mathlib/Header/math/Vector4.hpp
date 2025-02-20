@@ -184,10 +184,10 @@ namespace math
 
 	private:
 
-		TValueType				m_x = 0.f;
-		TValueType				m_y = 0.f;
-		TValueType				m_z = 0.f;
-		TValueType				m_w = 0.f;
+		TValueType				m_x = static_cast<TValueType>(0);
+		TValueType				m_y = static_cast<TValueType>(0);
+		TValueType				m_z = static_cast<TValueType>(0);
+		TValueType				m_w = static_cast<TValueType>(0);
 	};
 
 	// Non-member functions (similar to member functions but provided for readability)
@@ -266,24 +266,36 @@ namespace math
 	template <CScalarType TValueType> inline
 	Radian<TValueType> Vector<4, TValueType>::AngleFrom(const Vector<4, TValueType>& other) const
 	{
-		TValueType		magnitudes = MagnitudeSquared() * other.MagnitudeSquared();
+		if constexpr (std::is_integral<TValueType>::value)
+			throw std::logic_error("cannot find angle between vectors of integral types");
 
-		// Only run square root once
-		magnitudes = SquareRoot(magnitudes);
+		else
+		{
+			TValueType		magnitudes = MagnitudeSquared() * other.MagnitudeSquared();
 
-		// Transform dot product equation to get cos angle,
-		// then run acos
-		return Acos(Dot(other) / magnitudes);
+			// Only run square root once
+			magnitudes = SquareRoot(magnitudes);
+
+			// Transform dot product equation to get cos angle,
+			// then run acos
+			return Acos(Dot(other) / magnitudes);
+		}
 	}
 
 
 	template <CScalarType TValueType> inline
 	Radian<TValueType> Vector<4, TValueType>::AngleFromUnit(const Vector<4, TValueType>& other) const
 	{
+
+		if constexpr (std::is_integral<TValueType>::value)
+			throw std::logic_error("cannot find angle between vectors of integral types");
+
 		// Clamp dot to avoid acos domain error (NaN result)
 		// and call acos as both vectors are assumed to be
 		// unit vectors
-		return Acos(Clamp(Dot(other), MIN_COS, MAX_COS));
+		else
+			return Acos(Clamp(Dot(other), static_cast<TValueType>(MIN_COS),
+										 static_cast<TValueType>(MAX_COS)));
 	}
 
 
@@ -379,7 +391,7 @@ namespace math
 	bool Vector<4, TValueType>::IsUnitVector(void) const
 	{
 		// 1 squared == 1 so avoiding sqrt call is possible
-		return AlmostEqual(MagnitudeSquared(), 1.f);
+		return AlmostEqual(MagnitudeSquared(), static_cast<TValueType>(1));
 	}
 
 
@@ -404,13 +416,13 @@ namespace math
 		// Only divide once
 		TValueType		invMagnitude = Magnitude();
 
-		if (AlmostEqual(invMagnitude, 0.f, std::numeric_limits<TValueType>::epsilon()))
+		if (AlmostEqual(invMagnitude, static_cast<TValueType>(0), std::numeric_limits<TValueType>::epsilon()))
 		{
 			throw std::logic_error("Cannot divide by zero magnitude");
 		}
 
 		else
-			invMagnitude = 1.f / invMagnitude;
+			invMagnitude = static_cast<TValueType>(1) / invMagnitude;
 
 
 		m_x *= invMagnitude;
@@ -452,7 +464,7 @@ namespace math
 		// Only reflect onto unit vector
 		Vector<4, TValueType>		normal = math::Normalize(axis);
 
-		*this -= normal * (Dot(normal) * 2.f);
+		*this -= normal * (Dot(normal) * static_cast<TValueType>(2));
 	}
 
 
@@ -460,7 +472,7 @@ namespace math
 	void Vector<4, TValueType>::ReflectOntoUnit(const Vector<4, TValueType>& axis)
 	{
 		// Assume normal is already unit vector and skip normalize call
-		*this -= axis * (Dot(axis) * 2.f);
+		*this -= axis * (Dot(axis) * static_cast<TValueType>(2));
 	}
 
 
@@ -468,53 +480,61 @@ namespace math
 	template <CScalarType TValueType> inline
 	void Vector<4, TValueType>::Rotate(Radian<TValueType> angleX, Radian<TValueType> angleY, Radian<TValueType> angleZ)
 	{
-		Vector<4, TValueType>		copy = *this;
+		if constexpr (std::is_unsigned_v<TValueType> || std::is_integral_v<TValueType>)
+			throw std::logic_error("Cannot rotate unsigned or integral vector");
 
-		TValueType		cosYaw = Cos(angleZ), sinYaw = Sin(angleZ);
-		TValueType		cosPitch = Cos(angleX), sinPitch = Sin(angleX);
-		TValueType		cosRoll = Cos(angleY), sinRoll = Sin(angleY);
-		TValueType		rowResult;
 
-		// Create rotation matrix
-		TValueType		rotation[][4] =
+		else
 		{
+			Vector<4, TValueType>		copy = *this;
+
+			TValueType		cosYaw = Cos(angleZ), sinYaw = Sin(angleZ);
+			TValueType		cosPitch = Cos(angleX), sinPitch = Sin(angleX);
+			TValueType		cosRoll = Cos(angleY), sinRoll = Sin(angleY);
+			TValueType		rowResult;
+
+			// Create rotation matrix
+			TValueType		rotation[][4] =
 			{
-				cosYaw * cosRoll + sinYaw * sinPitch * sinRoll,
-				-cosYaw * sinRoll + sinYaw * sinPitch * cosRoll,
-				sinYaw * cosPitch,
-				0.f
-			},
+				{
+					cosYaw * cosRoll + sinYaw * sinPitch * sinRoll,
+					-cosYaw * sinRoll + sinYaw * sinPitch * cosRoll,
+					sinYaw * cosPitch,
+					static_cast<TValueType>(0)
+				},
 
 
+				{
+					sinRoll * cosPitch,
+					cosRoll * cosPitch,
+					-sinPitch,
+					static_cast<TValueType>(0)
+				},
+
+
+				{
+					-sinYaw * cosRoll + cosYaw * sinPitch * sinRoll,
+					sinRoll * sinYaw + cosYaw * sinPitch * cosRoll,
+					cosYaw * cosPitch,
+					static_cast<TValueType>(0)
+				},
+
+				{ static_cast<TValueType>(0), static_cast<TValueType>(0),
+				 static_cast<TValueType>(0), static_cast<TValueType>(1)}
+			};
+
+
+			for (int row = 0; row < 4; ++row)
 			{
-				sinRoll * cosPitch,
-				cosRoll * cosPitch,
-				-sinPitch,
-				0.f
-			},
+				rowResult = static_cast<TValueType>(0);
 
+				for (int column = 0; column < 4; ++column)
+				{
+					rowResult += rotation[row][column] * copy[column];
+				}
 
-			{
-				-sinYaw * cosRoll + cosYaw * sinPitch * sinRoll,
-				sinRoll * sinYaw + cosYaw * sinPitch * cosRoll,
-				cosYaw * cosPitch,
-				0.f
-			},
-
-			{ 0.f, 0.f, 0.f, 1.f}
-		};
-
-
-		for (int row = 0; row < 4; ++row)
-		{
-			rowResult = 0.f;
-
-			for (int column = 0; column < 4; ++column)
-			{
-				rowResult += rotation[row][column] * copy[column];
+				(*this)[row] = rowResult;
 			}
-
-			(*this)[row] = rowResult;
 		}
 
 
@@ -759,7 +779,7 @@ namespace math
 	template <CScalarType TValueType> inline
 	Vector<4, TValueType> Vector<4, TValueType>::operator/(TValueType rhs) const
 	{
-		rhs = 1.f / rhs;
+		rhs = static_cast<TValueType>(1) / rhs;
 
 		return Vector<4, TValueType>(m_x * rhs, m_y * rhs, m_z * rhs, m_w * rhs);
 	}
@@ -768,7 +788,11 @@ namespace math
 	template <CScalarType TValueType> inline
 	Vector<4, TValueType> Vector<4, TValueType>::operator-(void) const
 	{
-		return Vector<4, TValueType>(-m_x, -m_y, -m_z, -m_w);
+		if constexpr (std::is_unsigned<TValueType>::value)
+			throw std::logic_error("Cannot negate unsigned vector");
+
+		else
+			return Vector<4, TValueType>(-m_x, -m_y, -m_z, -m_w);
 	}
 
 
@@ -835,7 +859,7 @@ namespace math
 	template <CScalarType TValueType> inline
 	Vector<4, TValueType>& Vector<4, TValueType>::operator/=(TValueType rhs)
 	{
-		rhs = 1.f / rhs;
+		rhs = static_cast<TValueType>(1) / rhs;
 
 		m_x *= rhs;
 		m_y *= rhs;
@@ -862,49 +886,56 @@ namespace math
 	template <CScalarType TValueType> inline
 	Vector<4, TValueType> Vector<4, TValueType>::One(void)
 	{
-		return Vector<4, TValueType>(1.f, 1.f, 1.f, 1.f);
+		return Vector<4, TValueType>(static_cast<TValueType>(1), static_cast<TValueType>(1),
+								     static_cast<TValueType>(1), static_cast<TValueType>(1));
 	}
 
 
 	template <CScalarType TValueType> inline
 	Vector<4, TValueType> Vector<4, TValueType>::Up(void)
 	{
-		return Vector<4, TValueType>(0.f, 1.f, 0.f, 0.f);
+		return Vector<4, TValueType>(static_cast<TValueType>(0), static_cast<TValueType>(1),
+									 static_cast<TValueType>(0), static_cast<TValueType>(0));
 	}
 
 
 	template <CScalarType TValueType> inline
 	Vector<4, TValueType> Vector<4, TValueType>::Down(void)
 	{
-		return Vector<4, TValueType>(0.f, -1.f, 0.f, 0.f);
+		return Vector<4, TValueType>(static_cast<TValueType>(0), static_cast<TValueType>(-1),
+									static_cast<TValueType>(0), static_cast<TValueType>(0));
 	}
 
 
 	template <CScalarType TValueType> inline
 	Vector<4, TValueType> Vector<4, TValueType>::Left(void)
 	{
-		return Vector<4, TValueType>(-1.f, 0.f, 0.f, 0.f);
+		return Vector<4, TValueType>(static_cast<TValueType>(-1), static_cast<TValueType>(0),
+									 static_cast<TValueType>(0), static_cast<TValueType>(0));
 	}
 
 
 	template <CScalarType TValueType> inline
 	Vector<4, TValueType> Vector<4, TValueType>::Right(void)
 	{
-		return Vector<4, TValueType>(1.f, 0.f, 0.f, 0.f);
+		return Vector<4, TValueType>(static_cast<TValueType>(1), static_cast<TValueType>(0),
+									 static_cast<TValueType>(0), static_cast<TValueType>(0));
 	}
 
 
 	template <CScalarType TValueType> inline
 	Vector<4, TValueType> Vector<4, TValueType>::Back(void)
 	{
-		return Vector<4, TValueType>(0.f, 0.f, -1.f, 0.f);
+		return Vector<4, TValueType>(static_cast<TValueType>(0), static_cast<TValueType>(0),
+									 static_cast<TValueType>(-1), static_cast<TValueType>(0));
 	}
 
 
 	template <CScalarType TValueType> inline
 	Vector<4, TValueType> Vector<4, TValueType>::Front(void)
 	{
-		return Vector<4, TValueType>(0.f, 0.f, 1.f, 0.f);
+		return Vector<4, TValueType>(static_cast<TValueType>(0), static_cast<TValueType>(0),
+									static_cast<TValueType>(1), static_cast<TValueType>(0));
 	}
 
 
