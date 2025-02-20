@@ -112,6 +112,7 @@ namespace math
 	template <CScalarType TValueType> inline
 	TValueType Cos(const Radian<TValueType>& rad)
 	{
+#ifdef MY_TRIG_IMPL
 		// Wrap angle between -pi and pi as 6 iterations of
 		// Taylor's series get less accurate as the angle approaches
 		// -2 pi or +2pi
@@ -134,15 +135,16 @@ namespace math
 		cosResult = 1.f - cosResult;
 
 		return cosResult;
-
-		// TODO: use local vars instead of static (cache locality)
-		// TODO: implement a more standard algorithm, maybe degree 14 instead of 6 ?
+#else
+		return cos(rad.Raw());
+#endif
 	}
 
 
 	template <CScalarType TValueType> inline
 	TValueType Sin(const Radian<TValueType>& rad)
 	{
+#ifdef MY_TRIG_IMPL
 		// Apply 90 degree offset
 		// See: https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Sine_cosine_one_period.svg/1920px-Sine_cosine_one_period.svg.png
 		constexpr TValueType		piOverTwo = 1.570796326794896619231f;
@@ -159,15 +161,21 @@ namespace math
 		else return cosine;
 
 		// TODO: optimize
+#else
+		return sin(rad.Raw());
+#endif
 	}
 
 
 	template <CScalarType TValueType> inline
 	TValueType Tan(const Radian<TValueType>& rad)
 	{
+#ifdef MY_TRIG_IMPL
 		// tan x = sin x / cos x
 		return Sin(rad) / Cos(rad);
-
+#else
+		return tan(rad.Raw());
+#endif
 		// TODO: needs to be faster
 	}
 
@@ -176,21 +184,21 @@ namespace math
 	template <CScalarType TValueType> inline
 	Radian<TValueType> Acos(TValueType cosine)
 	{
-		return Radian(acosf(cosine));
+		return Radian(acos(cosine));
 	}
 
 
 	template <CScalarType TValueType> inline
 	Radian<TValueType> Asin(TValueType sine)
 	{
-		return Radian(asinf(sine));
+		return Radian(asin(sine));
 	}
 
 
 	template <CScalarType TValueType> inline
 	Radian<TValueType> Atan(TValueType tangent)
 	{
-		return Radian(atanf(tangent));
+		return Radian(atan(tangent));
 	}
 
 

@@ -25,7 +25,7 @@ namespace math
         inline				Quaternion(TValueType w, TValueType x, TValueType y, TValueType z);
         explicit inline		Quaternion(TValueType value);
         inline				Quaternion(const Vector3<TValueType>& axis, const Radian<TValueType>& angle);
-        inline				Quaternion(const Radian<TValueType>& angleX, const Radian<TValueType>& angleY, const Radian<TValueType>& angleZ);
+        inline				Quaternion(Radian<TValueType> angleX, Radian<TValueType> angleY, Radian<TValueType> angleZ);
 
         ~Quaternion(void) = default;
 
@@ -36,20 +36,23 @@ namespace math
         inline Quaternion	Inverse(void)			const;
 
         inline Quaternion	Normalized(void)		const;
-        inline bool			IsUnit(void)					  const;
-        //inline bool			IsPure(void)								  const;
-        //inline bool			IsReal(void)								  const;
+        inline bool			IsUnit(void)			const;
+        inline bool			IsPure(void)			const;
+        inline bool			IsReal(void)			const;
 
         inline void			Normalize(void);
 
         inline
-            Matrix4<TValueType> RotationMatrix(void)	const;
+        Matrix4<TValueType> RotationMatrix(void)	const;
 
 
-        Vector3<TValueType> RotateVector(const Vector3<TValueType>& vector) const;
-        //Vector3<TValueType> EulerAngles(void) const;
+        Vector3<TValueType> Rotate(const Vector3<TValueType>& vector)   const;
+        Vector3<TValueType> EulerAngles(void) const;
 
         inline Quaternion& operator=(const Quaternion& rhs);
+
+        inline
+       Vector3<TValueType>	operator*(const Vector3<TValueType>& rhs) const;
 
         inline Quaternion	operator*(TValueType rhs) const;
         inline Quaternion	operator/(TValueType rhs) const;
@@ -121,17 +124,21 @@ namespace math
     inline Quaternion<TValueType>::Quaternion(const Vector3<TValueType>& axis, const Radian<TValueType>& angle)
     {
         TValueType angleHalf = angle.Rad() * (TValueType)0.5;
-        TValueType sinAngle = Sin(angleHalf);
+        TValueType sinAngle = sin(angleHalf);
 
-        m_w = Cos(angleHalf);
+        m_w = cos(angleHalf);
         m_x = sinAngle * Cos(axis.AngleFrom(Vector3<TValueType>::Right()));
-        m_x = sinAngle * Cos(axis.AngleFrom(Vector3<TValueType>::Up()));
-        m_x = sinAngle * Cos(axis.AngleFrom(Vector3<TValueType>::Front()));
+        m_y = sinAngle * Cos(axis.AngleFrom(Vector3<TValueType>::Up()));
+        m_z = sinAngle * Cos(axis.AngleFrom(Vector3<TValueType>::Front()));
     }
 
     template<CFloatingType TValueType>
-    inline Quaternion<TValueType>::Quaternion(const Radian<TValueType>& angleX, const Radian<TValueType>& angleY, const Radian<TValueType>& angleZ)
+    inline Quaternion<TValueType>::Quaternion(Radian<TValueType> angleX, Radian<TValueType> angleY, Radian<TValueType> angleZ)
     {
+        angleX *= (TValueType) 0.5;
+        angleY *= (TValueType) 0.5;
+        angleZ *= (TValueType) 0.5;
+
         TValueType cosX = Cos(angleX), sinX = Sin(angleX);
         TValueType cosY = Cos(angleY), sinY = Sin(angleY);
         TValueType cosZ = Cos(angleZ), sinZ = Sin(angleZ);
@@ -211,44 +218,51 @@ namespace math
         return mat;
     }
 
+
+
     template<CFloatingType TValueType>
-    inline Vector3<TValueType> Quaternion<TValueType>::RotateVector(const Vector3<TValueType>& vector) const
+    inline Vector3<TValueType> Quaternion<TValueType>::Rotate(const Vector3<TValueType>& vector) const
     {
-        Quaternion<TValueType>	vectorQuat((TValueType)0, vector.GetX(), vector.GetY(), vector.GetZ());
-        Quaternion<TValueType>  resultQuat;
+        Vector3<TValueType>     quatVector(m_x, m_y, m_z);
 
-        if (IsUnit())
-            resultQuat = ((*this) * vectorQuat) * Conjugate();
+        Vector3<TValueType>     doubleCross = Cross(quatVector, vector) * (TValueType) 2;
 
-        else
-            resultQuat = ((*this) * vectorQuat) * Inverse();
-
-        return Vector3<TValueType>(resultQuat.m_x, resultQuat.m_y, resultQuat.m_z);
+        return vector + (doubleCross * m_w) + Cross(quatVector, doubleCross);
     }
 
-    //template<CFloatingType TValueType>
-    //inline Vector3<TValueType> Quaternion<TValueType>::EulerAngles(void) const
-    //{
-    //    if (!IsUnit())
-    //        return Normalized().EulerAngles();
 
-    //    // x axis
-
-    //    TValueType		atan2Y = ((TValueType)(2)) * (m_w * m_x + m_y * m_z);
-    //    TValueType		atan2X = ((TValueType)(1)) - ((TValueType)(2)) * (m_x * m_x + m_y * m_y);
-    //    TValueType		x = Atan2(atan2Y, atan2X).Raw();
-
-    //    TValueType y = Asin(((TValueType)(2)) * (m_w * m_y - m_x * m_z)).Raw();
+    template<CFloatingType TValueType>
+    inline Vector3<TValueType> Quaternion<TValueType>::operator*(const Vector3<TValueType>& vector) const
+    {
+        return Rotate(vector);
+    }
 
 
-    //    // z axis
-    //    atan2Y = ((TValueType)(2)) * (m_w * m_z + m_x * m_y);
-    //    atan2X = ((TValueType)(1)) - ((TValueType)(2)) * (m_y * m_y + m_z * m_z);
+    template<CFloatingType TValueType>
+    inline Vector3<TValueType> Quaternion<TValueType>::EulerAngles(void) const
+    {
+        // x axis
+        TValueType		atan2Y = ((TValueType)(2)) * (m_w * m_x + m_y * m_z);
+        TValueType		atan2X = m_w * m_w - m_x * m_x - m_y * m_y + m_z * m_z;
+        TValueType		x = Atan2(atan2Y, atan2X).Raw();
 
-    //    TValueType		z = Atan2(atan2Y, atan2X).Raw();
+        // y axis
+        TValueType      sine = static_cast<TValueType>(2) * (m_w * m_y - m_x * m_z);
 
-    //    return Vector3<TValueType>(x, y, z);
-    //}
+        // avoid domain errors
+        sine = Clamp(sine, static_cast<TValueType>(-1), static_cast<TValueType>(1));
+
+        TValueType      y = Asin(sine).Raw();
+
+
+        // z axis
+        atan2Y = ((TValueType)(2)) * (m_w * m_z + m_x * m_y);
+        atan2X = m_w * m_w + m_x * m_x - m_y * m_y - m_z * m_z;
+
+        TValueType	    z = Atan2(atan2Y, atan2X).Raw();
+
+        return Vector3<TValueType>(x, y, z);
+    }
 
     template<CFloatingType TValueType>
     inline TValueType Quaternion<TValueType>::Length(void) const
@@ -312,6 +326,19 @@ namespace math
         return AlmostEqual(LengthSquared(), static_cast<TValueType>(1));
     }
 
+    template<CFloatingType TValueType>
+    inline bool Quaternion<TValueType>::IsPure(void) const
+    {
+        return AlmostEqual(m_w, static_cast<TValueType>(0));
+    }
+
+    template<CFloatingType TValueType>
+    inline bool Quaternion<TValueType>::IsReal(void) const
+    {
+        return AlmostEqual(m_x, static_cast<TValueType>(0)) &&
+               AlmostEqual(m_y, static_cast<TValueType>(0)) &&
+               AlmostEqual(m_z, static_cast<TValueType>(0));
+    }
 
     template<CFloatingType TValueType>
     inline Quaternion<TValueType>& Quaternion<TValueType>::operator=(const Quaternion<TValueType>& rhs)
