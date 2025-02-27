@@ -56,6 +56,12 @@ namespace math
 		// Get this matrix stripped of a row and a column
 	inline	Matrix3<TValueType>         SubMatrix(int row, int column)    const;
 
+		// Change the position to a matrix
+	inline Matrix4<TValueType>	PositionToMatrix4(const Vector3<TValueType>& position) const;
+
+		// Change the scale to a matrix
+	inline Matrix4<TValueType>	ScaleToMatrix4(const Vector3<TValueType>& scale) const;
+
 
 	// Get rotation matrix from three angles (column-major)
 	static inline TMatrixType			RotationMatrix(
@@ -352,6 +358,34 @@ namespace math
 		}
 
 		return minor;
+	}
+
+	template<CScalarType TValueType>
+	inline Matrix<4, TValueType> Matrix<4, TValueType>::PositionToMatrix4(const Vector3<TValueType>& position) const
+	{
+		TMatrixType positionMatrix;
+
+		positionMatrix.Identity();
+
+		positionMatrix[0][3] = position.X();
+		positionMatrix[1][3] = position.Y();
+		positionMatrix[2][3] = position.Z();
+
+		return positionMatrix;
+	}
+
+	template<CScalarType TValueType>
+	inline Matrix < 4, TValueType > Matrix<4, TValueType>::ScaleToMatrix4(const Vector3<TValueType>& scale) const
+	{
+		TMatrixType scaleMatrix;
+
+		scaleMatrix.Identity();
+
+		scaleMatrix[0][0] = scale.X();
+		scaleMatrix[1][1] = scale.Y();
+		scaleMatrix[2][2] = scale.Z();
+
+		return scaleMatrix;
 	}
 
 	template<CScalarType TValueType>
