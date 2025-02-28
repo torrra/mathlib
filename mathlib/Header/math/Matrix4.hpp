@@ -57,10 +57,10 @@ namespace math
 	inline	Matrix3<TValueType>         SubMatrix(int row, int column)    const;
 
 		// Change the position to a matrix
-	inline Matrix4<TValueType>	PositionToMatrix4(const Vector3<TValueType>& position) const;
+	inline Matrix4<TValueType>	PositionMatrix(Vector3<TValueType>& position);	
 
 		// Change the scale to a matrix
-	inline Matrix4<TValueType>	ScaleToMatrix4(const Vector3<TValueType>& scale) const;
+	inline Matrix4<TValueType>	ScaleMatrix(Vector3<TValueType>& scale);
 
 
 	// Get rotation matrix from three angles (column-major)
@@ -361,7 +361,8 @@ namespace math
 	}
 
 	template<CScalarType TValueType>
-	inline Matrix<4, TValueType> Matrix<4, TValueType>::PositionToMatrix4(const Vector3<TValueType>& position) const
+	inline Matrix4<TValueType> 
+	Matrix<4, TValueType>::PositionMatrix(Vector3<TValueType>& position)
 	{
 		TMatrixType positionMatrix;
 
@@ -375,7 +376,8 @@ namespace math
 	}
 
 	template<CScalarType TValueType>
-	inline Matrix < 4, TValueType > Matrix<4, TValueType>::ScaleToMatrix4(const Vector3<TValueType>& scale) const
+	inline Matrix <4, TValueType> 
+	Matrix<4, TValueType>::ScaleMatrix(Vector3<TValueType>& scale)
 	{
 		TMatrixType scaleMatrix;
 
