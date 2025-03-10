@@ -178,6 +178,7 @@ namespace math
 		inline static Vector	Right(void);
 		inline static Vector	Back(void);
 		inline static Vector	Front(void);
+		inline static Vector	Lerp(const Vector& start, const Vector& end, TValueType time);
 
 
 	private:
@@ -1112,6 +1113,12 @@ namespace math
 
 
 	
+	template<CScalarType TValueType>
+	Vector<3, TValueType> Vector<3, TValueType>::Lerp(const Vector& start, const Vector& end, TValueType time)
+	{
+		return (end - start) * time + start;
+	}
+
 }
 
 namespace LibMath = math;
