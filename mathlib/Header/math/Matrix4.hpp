@@ -57,10 +57,10 @@ namespace math
 	inline	Matrix3<TValueType>         SubMatrix(int row, int column)    const;
 
 		// Change the position to a matrix
-	inline Matrix4<TValueType>	PositionMatrix(Vector3<TValueType>& position);	
+	static inline Matrix4<TValueType>	PositionMatrix(Vector3<TValueType>& position);	
 
 		// Change the scale to a matrix
-	inline Matrix4<TValueType>	ScaleMatrix(Vector3<TValueType>& scale);
+	static inline Matrix4<TValueType>	ScaleMatrix(Vector3<TValueType>& scale);
 
 
 	// Get rotation matrix from three angles (column-major)
