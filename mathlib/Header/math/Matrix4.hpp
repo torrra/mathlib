@@ -28,6 +28,8 @@ namespace math
 	inline					Matrix(const TValueType vals[]);
 	inline					Matrix(const Matrix<4, TValueType>& other);
 
+	explicit				Matrix(const Matrix3<TValueType>& mat3);
+
 	inline					~Matrix(void) = default;
 
 		// Get this matrix' determinant
@@ -118,6 +120,8 @@ namespace math
 		// Access a row (no bound checking)
 	inline	TRowType		operator[](int index)              const;
 
+	operator Matrix3<TValueType>(void)		const;
+
 
 	private:
 
@@ -180,6 +184,30 @@ namespace math
 				m_values[row][column] = other[row][column];
 			}
 		}
+	}
+
+	template<CScalarType TValueType>
+	inline Matrix<4, TValueType>::Matrix(const Matrix3<TValueType>& mat3)
+	{
+		m_values[0][0] = mat3[0][0];
+		m_values[0][1] = mat3[0][1];
+		m_values[0][2] = mat3[0][2];
+		m_values[0][3] = static_cast<TValueType>(0);
+
+		m_values[1][0] = mat3[1][0];
+		m_values[1][1] = mat3[1][1];
+		m_values[1][2] = mat3[1][2];
+		m_values[1][3] = static_cast<TValueType>(0);
+
+		m_values[2][0] = mat3[2][0];
+		m_values[2][1] = mat3[2][1];
+		m_values[2][2] = mat3[2][2];
+		m_values[2][3] = static_cast<TValueType>(0);
+
+		m_values[3][0] = static_cast<TValueType>(0);
+		m_values[3][1] = static_cast<TValueType>(0);
+		m_values[3][2] = static_cast<TValueType>(0);
+		m_values[3][3] = static_cast<TValueType>(1);
 	}
 
 
@@ -711,6 +739,28 @@ namespace math
 	{
 		return m_values[index];
 	}
+
+
+	template<CScalarType TValueType>
+	inline  Matrix<4, TValueType>::operator Matrix3<TValueType>(void) const
+	{
+		Matrix3<TValueType> mat3;
+
+		mat3[0][0] = m_values[0][0];
+		mat3[0][1] = m_values[0][1];
+		mat3[0][2] = m_values[0][2];
+
+		mat3[1][0] = m_values[1][0];
+		mat3[1][1] = m_values[1][1];
+		mat3[1][2] = m_values[1][2];
+
+		mat3[2][0] = m_values[2][0];
+		mat3[2][1] = m_values[2][1];
+		mat3[2][2] = m_values[2][2];
+
+		return mat3;
+	}
+
 }
 
 namespace lm = math;
