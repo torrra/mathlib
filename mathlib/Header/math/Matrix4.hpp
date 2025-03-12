@@ -59,10 +59,10 @@ namespace math
 	inline	Matrix3<TValueType>         SubMatrix(int row, int column)    const;
 
 		// Change the position to a matrix
-	static inline Matrix4<TValueType>	PositionMatrix(Vector3<TValueType>& position);	
+	static inline Matrix4<TValueType>	PositionMatrix(const Vector3<TValueType>& position);	
 
 		// Change the scale to a matrix
-	static inline Matrix4<TValueType>	ScaleMatrix(Vector3<TValueType>& scale);
+	static inline Matrix4<TValueType>	ScaleMatrix(const Vector3<TValueType>& scale);
 
 
 	// Get rotation matrix from three angles (column-major)
@@ -390,30 +390,30 @@ namespace math
 
 	template<CScalarType TValueType>
 	inline Matrix4<TValueType> 
-	Matrix<4, TValueType>::PositionMatrix(Vector3<TValueType>& position)
+	Matrix<4, TValueType>::PositionMatrix(const Vector3<TValueType>& position)
 	{
 		TMatrixType positionMatrix;
 
 		positionMatrix.Identity();
 
-		positionMatrix[0][3] = position.X();
-		positionMatrix[1][3] = position.Y();
-		positionMatrix[2][3] = position.Z();
+		positionMatrix[0][3] = position.GetX();
+		positionMatrix[1][3] = position.GetY();
+		positionMatrix[2][3] = position.GetZ();
 
 		return positionMatrix;
 	}
 
 	template<CScalarType TValueType>
 	inline Matrix <4, TValueType> 
-	Matrix<4, TValueType>::ScaleMatrix(Vector3<TValueType>& scale)
+	Matrix<4, TValueType>::ScaleMatrix(const Vector3<TValueType>& scale)
 	{
 		TMatrixType scaleMatrix;
 
 		scaleMatrix.Identity();
 
-		scaleMatrix[0][0] = scale.X();
-		scaleMatrix[1][1] = scale.Y();
-		scaleMatrix[2][2] = scale.Z();
+		scaleMatrix[0][0] = scale.GetX();
+		scaleMatrix[1][1] = scale.GetY();
+		scaleMatrix[2][2] = scale.GetZ();
 
 		return scaleMatrix;
 	}
