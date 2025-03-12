@@ -96,8 +96,8 @@ namespace math
     template <CFloatingType TValueType>
     Matrix4<TValueType> TransformMatrix(const Quaternion<TValueType>& rotation, const Vector3<TValueType>& translation);
 
-    //template <CFloatingType TValueType>
-    //Matrix4<TValueType> TransformMatrix(const Quaternion<TValueType>& rotation, const Vector3<TValueType>& translation, const Vector3<TValueType>& scale);
+    template <CFloatingType TValueType>
+    Matrix4<TValueType> TransformMatrix(const Quaternion<TValueType>& rotation, const Vector3<TValueType>& translation, const Vector3<TValueType>& scale);
 
     template <CFloatingType TValueType>
     TValueType			Dot(const Quaternion<TValueType>& q1, const Quaternion<TValueType>& q2);
@@ -448,9 +448,19 @@ namespace math
         matrix[1][3] = translation.GetY();
         matrix[2][3] = translation.GetZ();
 
-        matrix *= rotation.RotationMatrix() /** matrix*/;
+        matrix *= rotation.RotationMatrix();
 
         return matrix;
+    }
+
+    template<CFloatingType TValueType>
+    Matrix4<TValueType> TransformMatrix(const Quaternion<TValueType>& rotation, const Vector3<TValueType>& translation, const Vector3<TValueType>& scale)
+    {
+        math::Matrix4f positionMatrix = math::Matrix4f::PositionMatrix(translation);
+        math::Matrix4f rotationMatrix = rotation.RotationMatrix();
+        math::Matrix4f scaleMatrix = math::Matrix4f::ScaleMatrix(scale);
+
+        return (scaleMatrix * rotationMatrix) * positionMatrix;
     }
 
     template<CFloatingType TValueType>
