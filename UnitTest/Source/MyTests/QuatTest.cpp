@@ -92,5 +92,23 @@ TEST_CASE("Quaternion", "[all]")
 		CHECK(math::Dot(quat1, quat2) == Catch::Approx(glm::dot(q1, q2)));
 
 		CHECK_QUAT_EQUAL((math::Quatf::Slerp(quat1.Normalized(), quat2.Normalized(), slerpT)), (glm::slerp(glm::normalize(q1), glm::normalize(q2), slerpT)));
+
+		constexpr float x = 0.f, y = 15.f * DEG2RAD, z = 6.f * DEG2RAD;
+		constexpr float x2 = 20.f * DEG2RAD, y2 = 35.f * DEG2RAD, z2 = 45.f * DEG2RAD;
+
+		math::Quatf rot1 = math::Quatf(math::Radian(x), math::Radian(y), math::Radian(z));
+		math::Quatf rot2 = math::Quatf(math::Radian(x2), math::Radian(y2), math::Radian(z2));
+		glm::quat rotglm1 = glm::quat(glm::vec3{ x, y, z });
+		glm::quat rotglm2 = glm::quat(glm::vec3{ x2, y2, z2 });
+
+		CHECK_QUAT_EQUAL(rot1, rotglm1);
+
+		CHECK_QUAT_EQUAL((rot1 * rot2), (rotglm1 * rotglm2));
+
+		CHECK_VECTOR3(((rot1 * rot2).EulerAngles()), (glm::eulerAngles(rotglm1 * rotglm2)));
+
+		std::cout << ((rot1 * rot2).EulerAngles()) * RAD2DEG << '\n' << glm::degrees(glm::eulerAngles(rotglm1 * rotglm2).x) << ' ' <<
+			glm::degrees(glm::eulerAngles(rotglm1 * rotglm2).y) << ' ' << glm::degrees(glm::eulerAngles(rotglm1 * rotglm2).z) << '\n';
+
 	}
 }
