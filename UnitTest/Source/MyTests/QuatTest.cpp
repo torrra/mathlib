@@ -47,6 +47,7 @@ TEST_CASE("Quaternion", "[all]")
 {
 	SECTION("Instanciation")
 	{
+
 		math::Quaternion<float> quat1(3.5f, 4.f, 5.8f, 5.f);
 		math::Quaternion<float> quat2(1.5f, 4.7f, .8f, 56.f);
 
@@ -54,9 +55,9 @@ TEST_CASE("Quaternion", "[all]")
 		glm::f32quat q2(1.5f, 4.7f, .8f, 56.f);
 
 		math::Vector3f vec1(7.5f, 5.6f, 5.f);
-		math::Vector3f vec2;
+		//math::Vector3f vec2;
 		glm::vec3 v1(7.5f, 5.6f, 5.f);
-		glm::vec3 v2;
+		//glm::vec3 v2;
 
 		math::Quatf res = quat1 * quat2;
 		glm::f32quat r = q1 * q2;
