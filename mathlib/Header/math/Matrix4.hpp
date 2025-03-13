@@ -396,9 +396,9 @@ namespace math
 
 		positionMatrix.Identity();
 
-		positionMatrix[0][3] = position.GetX();
-		positionMatrix[1][3] = position.GetY();
-		positionMatrix[2][3] = position.GetZ();
+		positionMatrix[3][0] = position.GetX();
+		positionMatrix[3][1] = position.GetY();
+		positionMatrix[3][2] = position.GetZ();
 
 		return positionMatrix;
 	}
