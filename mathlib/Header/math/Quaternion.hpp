@@ -92,6 +92,12 @@ namespace math
 
     };
 
+    template <CFloatingType TValueType>
+    std::ostream& operator<<(std::ostream& os, Quaternion<TValueType> const& vector);
+
+    template <CFloatingType TValueType>
+    std::istream& operator>>(std::istream& is, Quaternion<TValueType>& vector);
+
 
     template <CFloatingType TValueType>
     Matrix4<TValueType> TransformMatrix(const Quaternion<TValueType>& rotation, const Vector3<TValueType>& translation);
@@ -468,6 +474,30 @@ namespace math
     {
         return q1.GetX() * q2.GetX() + q1.GetY() * q2.GetY() + q1.GetZ() * q2.GetZ() + q1.GetW() * q2.GetW();
     }
+
+
+    template <CFloatingType TValueType> inline
+    std::ostream& operator<<(std::ostream& os, Quaternion<TValueType> const& vector)
+    {
+        // Pass components to stream
+        os << '{' <<  vector.GetW() << ',' << vector.GetX() << ',' << vector.GetY()
+            << ',' << vector.GetZ()  << '}';
+
+        return os;
+    }
+
+    template <CFloatingType TValueType> inline
+    std::istream& operator>>(std::istream& is, Quaternion<TValueType>& vector)
+    {
+        char	discard;
+
+        // Get input from stream
+        is >> discard >> vector.W() >> discard >> vector.X() >> discard >> vector.Y()
+            >> discard >> vector.Z()  >> discard;
+
+        return is;
+    }
+
 }
 
 
