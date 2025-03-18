@@ -191,14 +191,14 @@ namespace math
      std::ostream&   operator<<(std::ostream& os, const Radian<TValueType>& rhs);
 
      template <CScalarType TValueType>
-     std::istream&   operator>>(std::istream& is, const Radian<TValueType>& rhs);
+     std::istream&   operator>>(std::istream& is, Radian<TValueType>& rhs);
 
 
      template <CScalarType TValueType>
      std::ostream& operator<<(std::ostream& os, const Degree<TValueType>& rhs);
 
      template <CScalarType TValueType>
-     std::istream& operator>>(std::istream& is, const Degree<TValueType>& rhs);
+     std::istream& operator>>(std::istream& is, Degree<TValueType>& rhs);
 
 
 
@@ -882,7 +882,7 @@ namespace math
     }
 
     template<CScalarType TValueType>
-    std::istream& operator>>(std::istream& is, const Radian<TValueType>& rhs)
+    std::istream& operator>>(std::istream& is, Radian<TValueType>& rhs)
     {
         TValueType val = static_cast<TValueType>(0);
 
@@ -899,7 +899,7 @@ namespace math
     }
 
     template<CScalarType TValueType>
-    std::istream& operator>>(std::istream& is, const Degree<TValueType>& rhs)
+    std::istream& operator>>(std::istream& is, Degree<TValueType>& rhs)
     {
         TValueType val = static_cast<TValueType>(0);
 
