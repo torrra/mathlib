@@ -466,7 +466,7 @@ namespace math
         math::Matrix4f rotationMatrix = rotation.RotationMatrix();
         math::Matrix4f scaleMatrix = math::Matrix4f::ScaleMatrix(scale);
 
-        return (scaleMatrix * rotationMatrix) * positionMatrix;
+        return positionMatrix * (scaleMatrix * rotationMatrix);
     }
 
     template<CFloatingType TValueType>
