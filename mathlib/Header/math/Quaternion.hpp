@@ -202,23 +202,23 @@ namespace math
         TValueType	 wSqr = m_w * m_w;
 
         mat[0][0] = wSqr + xSqr - ySqr - zSqr;
-        mat[1][0] = 2 * (m_x * m_y) + 2 * (m_w * m_z);
-        mat[2][0] = 2 * (m_x * m_z) - 2 * (m_w * m_y);
-        mat[3][0] = 0.f;
-
-        mat[0][1] = 2 * (m_x * m_y) - 2 * (m_w * m_z);
-        mat[1][1] = wSqr - xSqr + ySqr - zSqr;
-        mat[2][1] = 2 * (m_y * m_z) + 2 * (m_w * m_x);
-        mat[3][1] = 0.f;
-
-        mat[0][2] = 2 * (m_x * m_z) + 2 * (m_w * m_y);
-        mat[1][2] = 2 * (m_y * m_z) - 2 * (m_w * m_x);
-        mat[2][2] = wSqr - xSqr - ySqr + zSqr;
-        mat[3][2] = 0.f;
-
+        mat[0][1] = 2 * (m_x * m_y) + 2 * (m_w * m_z);
+        mat[0][2] = 2 * (m_x * m_z) - 2 * (m_w * m_y);
         mat[0][3] = 0.f;
+
+        mat[1][0] = 2 * (m_x * m_y) - 2 * (m_w * m_z);
+        mat[1][1] = wSqr - xSqr + ySqr - zSqr;
+        mat[1][2] = 2 * (m_y * m_z) + 2 * (m_w * m_x);
         mat[1][3] = 0.f;
+
+        mat[2][0] = 2 * (m_x * m_z) + 2 * (m_w * m_y);
+        mat[2][1] = 2 * (m_y * m_z) - 2 * (m_w * m_x);
+        mat[2][2] = wSqr - xSqr - ySqr + zSqr;
         mat[2][3] = 0.f;
+
+        mat[3][0] = 0.f;
+        mat[3][1] = 0.f;
+        mat[3][2] = 0.f;
         mat[3][3] = 1.f;
 
         return mat;
