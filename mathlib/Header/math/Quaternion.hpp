@@ -22,61 +22,62 @@ namespace math
         Quaternion(void) = default;
         Quaternion(const Quaternion&) = default;
 
-        inline				Quaternion(TValueType w, TValueType x, TValueType y, TValueType z);
-        explicit inline		Quaternion(TValueType value);
-        inline				Quaternion(const Vector3<TValueType>& axis, const Radian<TValueType>& angle);
-        inline				Quaternion(Radian<TValueType> angleX, Radian<TValueType> angleY, Radian<TValueType> angleZ);
+                    Quaternion(TValueType w, TValueType x, TValueType y, TValueType z);
+        explicit	Quaternion(TValueType value);
+     				Quaternion(const Vector3<TValueType>& axis, const Radian<TValueType>& angle);
+     				Quaternion(Radian<TValueType> angleX, Radian<TValueType> angleY, Radian<TValueType> angleZ);
 
         ~Quaternion(void) = default;
 
-        inline TValueType	Length(void)			const;
-        inline TValueType	LengthSquared(void)		const;
+        TValueType	Length(void)			const;
+        TValueType	LengthSquared(void)		const;
 
-        inline Quaternion	Conjugate(void)			const;
-        inline Quaternion	Inverse(void)			const;
+        Quaternion	Conjugate(void)			const;
+        Quaternion	Inverse(void)			const;
 
-        inline Quaternion	Normalized(void)		const;
-        inline bool			IsUnit(void)			const;
-        inline bool			IsPure(void)			const;
-        inline bool			IsReal(void)			const;
+        Quaternion	Normalized(void)		const;
+        bool		IsUnit(void)			const;
+        bool		IsPure(void)			const;
+        bool		IsReal(void)			const;
 
-        inline void			Normalize(void);
+        void		Normalize(void);
 
-        inline
+        
         Matrix4<TValueType> RotationMatrix(void)	const;
 
 
         Vector3<TValueType> Rotate(const Vector3<TValueType>& vector)   const;
         Vector3<TValueType> EulerAngles(void) const;
 
-        inline Quaternion& operator=(const Quaternion& rhs);
+        Quaternion& operator=(const Quaternion& rhs);
 
-        inline
-       Vector3<TValueType>	operator*(const Vector3<TValueType>& rhs) const;
+       
+        Vector3<TValueType>	operator*(const Vector3<TValueType>& rhs) const;
 
-        inline Quaternion	operator*(TValueType rhs) const;
-        inline Quaternion	operator/(TValueType rhs) const;
+        Quaternion	operator*(TValueType rhs) const;
+        Quaternion	operator/(TValueType rhs) const;
 
-        inline Quaternion	operator*(const Quaternion& rhs) const;
-        inline Quaternion	operator+(const Quaternion& rhs) const;
-        inline Quaternion	operator-(const Quaternion& rhs) const;
+        Quaternion	operator*(const Quaternion& rhs) const;
+        Quaternion	operator+(const Quaternion& rhs) const;
+        Quaternion	operator-(const Quaternion& rhs) const;
 
-        inline Quaternion& operator*=(const Quaternion& rhs);
-        inline Quaternion& operator+=(const Quaternion& rhs);
-        inline Quaternion& operator-=(const Quaternion& rhs);
+        Quaternion& operator*=(const Quaternion& rhs);
+        Quaternion& operator+=(const Quaternion& rhs);
+        Quaternion& operator-=(const Quaternion& rhs);
 
-        inline bool			operator==(const Quaternion& rhs) const;
-        inline bool			operator!=(const Quaternion& rhs) const;
+        bool		operator==(const Quaternion& rhs) const;
+        bool		operator!=(const Quaternion& rhs) const;
 
-        inline Quaternion	operator-(void)					  const;
+        Quaternion	operator-(void)					  const;
 
-        static Quaternion   Slerp(const Quaternion& q1, const Quaternion& q2, TValueType ration);
+        static Quaternion  Slerp(const Quaternion& q1, const Quaternion& q2, TValueType ration);
+        static Quaternion  Identity(void);
 
 
-        TValueType	        GetW() const { return m_w; }
-        TValueType	        GetX() const { return m_x; }
-        TValueType	        GetY() const { return m_y; }
-        TValueType	        GetZ() const { return m_z; }
+        TValueType	GetW() const { return m_w; }
+        TValueType	GetX() const { return m_x; }
+        TValueType	GetY() const { return m_y; }
+        TValueType	GetZ() const { return m_z; }
 
         TValueType& W() { return m_w; }
         TValueType& X() { return m_x; }
@@ -327,6 +328,12 @@ namespace math
     }
 
     template<CFloatingType TValueType>
+    inline Quaternion<TValueType> Quaternion<TValueType>::Identity(void)
+    {
+        return Quaternion(1.f, 0.f, 0.f, 0.f);
+    }
+
+    template<CFloatingType TValueType>
     inline bool Quaternion<TValueType>::IsUnit(void) const
     {
         return AlmostEqual(LengthSquared(), static_cast<TValueType>(1));
@@ -442,7 +449,7 @@ namespace math
     template<CFloatingType TValueType>
     inline Quaternion<TValueType>	 Quaternion<TValueType>::operator-(void) const
     {
-        return Quaternion<TValueType>(m_x, m_y, m_z, m_w);
+        return Inverse();
     }
 
     template<CFloatingType TValueType>
