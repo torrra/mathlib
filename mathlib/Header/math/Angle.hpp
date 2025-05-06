@@ -5,6 +5,7 @@
 #include "MathGeneric.hpp"
 #include "Arithmetic.hpp"
 
+#include <iostream>
 
 #define MTH_PI				3.141592653589f
 
@@ -227,12 +228,19 @@ namespace math
     TValueType Degree<TValueType>::Deg(bool wrap180) const
     {
         // Wrap value depending on argument
-
         if (wrap180)
-            return math::Wrap(m_value, -HALF_CIRCLE_DEG, HALF_CIRCLE_DEG);
+        {
+            return math::Wrap(m_value,
+                static_cast<TValueType>(-HALF_CIRCLE_DEG),
+                static_cast<TValueType>(HALF_CIRCLE_DEG));
+        }
 
         else
-            return math::Wrap(m_value, 0.f, FULL_CIRCLE_DEG);
+        {
+            return math::Wrap(m_value,
+                static_cast<TValueType>(0.f),
+                static_cast<TValueType>(FULL_CIRCLE_DEG));
+        }
     }
 
 
@@ -243,10 +251,18 @@ namespace math
         // Wrap value depending on argument
 
         if (wrapPi)
-            return math::Wrap(m_value * DEG2RAD, -MTH_PI, MTH_PI);
+        {
+            return math::Wrap(m_value * static_cast<TValueType>(DEG2RAD),
+                              static_cast<TValueType>(-MTH_PI),
+                              static_cast<TValueType>(MTH_PI));
+        }
 
         else
-            return math::Wrap(m_value * DEG2RAD, 0.f, RAD_CIRCLE);
+        {
+            return math::Wrap(m_value * static_cast<TValueType>(DEG2RAD),
+                             static_cast<TValueType>(0.f),
+                             static_cast<TValueType>(RAD_CIRCLE));
+        }
     }
 
 
@@ -484,7 +500,7 @@ namespace math
         (
             Deg(false),
             rhs.Deg(false),
-            DEG_PRECISION
+            static_cast<TValueType>(DEG_PRECISION)
         );
     }
 
@@ -506,7 +522,7 @@ namespace math
         (
             Deg(false),
             rhs,
-            DEG_PRECISION
+            static_cast<TValueType>(DEG_PRECISION)
         );
     }
 
@@ -557,10 +573,18 @@ namespace math
     {
         // Wrap value depending on argument
         if (wrap180)
-            return math::Wrap(m_value * RAD2DEG, -HALF_CIRCLE_DEG, HALF_CIRCLE_DEG);
+        {
+            return math::Wrap(m_value * static_cast<TValueType>(RAD2DEG),
+                static_cast<TValueType>(-HALF_CIRCLE_DEG),
+                static_cast<TValueType>(HALF_CIRCLE_DEG));
+        }
 
         else
-            return math::Wrap(m_value * RAD2DEG, 0.f, FULL_CIRCLE_DEG);
+        {
+            return math::Wrap(m_value * static_cast<TValueType>(RAD2DEG),
+                static_cast<TValueType>(0.f),
+                static_cast<TValueType>(FULL_CIRCLE_DEG));
+        }
     }
 
 
@@ -574,29 +598,29 @@ namespace math
         TValueType			absValue = Absolute(m_value);
 
         // Wrap around unit circle
-        if (absValue >= RAD_CIRCLE)
+        if (absValue >= static_cast<TValueType>(RAD_CIRCLE))
         {
-            TValueType	circleCount = Floor(absValue / RAD_CIRCLE);
+            TValueType	circleCount = Floor(absValue / static_cast<TValueType>(RAD_CIRCLE));
 
-            absValue -= circleCount * RAD_CIRCLE;
+            absValue -= circleCount * static_cast<TValueType>(RAD_CIRCLE);
         }
 
         // Wrap again if range is -pi, pi
         if (wrapPi)
         {
-            if (absValue >= MTH_PI)
-                absValue -= RAD_CIRCLE;
+            if (absValue >= static_cast<TValueType>(MTH_PI))
+                absValue -= static_cast<TValueType>(RAD_CIRCLE);
 
             // Restore sign
-            if (m_value < 0.f && absValue > 0.f)
+            if (m_value < static_cast<TValueType>(0.f) && absValue > static_cast<TValueType>(0.f))
                 absValue = -absValue;
 
         }
 
         // Add negative value to circle if range is 0, 2pi
-        else if (m_value < 0.f)
+        else if (m_value < static_cast<TValueType>(0.f))
         {
-            absValue = RAD_CIRCLE - absValue;
+            absValue = static_cast<TValueType>(RAD_CIRCLE) - absValue;
         }
 
         return absValue;
@@ -805,7 +829,7 @@ namespace math
         (
             Rad(false),
             rhs.Rad(false),
-            RAD_PRECISION
+            static_cast<TValueType>(RAD_PRECISION)
         );
     }
 
@@ -826,7 +850,7 @@ namespace math
         (
             Rad(false),
             rhs,
-            RAD_PRECISION
+            static_cast<TValueType>(RAD_PRECISION)
         );
     }
 
