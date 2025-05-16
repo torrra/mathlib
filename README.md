@@ -32,6 +32,7 @@ Mathlib supports 2D, 3D, and 4D vectors and the following operations:
 
 And more
 
+<br>
 
 ### Matrices
 
@@ -45,14 +46,13 @@ And more
 * Minor matrix
 * Transpose
 
+<br>
+
 ### Angles
 
-Radian and Degree class are available for easier angle manipulations (conversion, wrapping). Vector and Matrix classes use them for rotations.
+Radian and Degree classes are available for easier angle manipulations (conversion, wrapping). Vector, Matrix and Quaternion classes use them for rotations.
 
-
-### Trigonometry
-
-Cosine, Sine and Tangent functions are implemented in this library using the Taylor series (inverse trigonometry coming soon).  
+<br> 
 
 ### Arithmetic
 
@@ -63,9 +63,25 @@ Cosine, Sine and Tangent functions are implemented in this library using the Tay
 * Power
 * Factorial
 
+<br>
+
 ### Interpolation
 * Lerp, inverse lerp
 
+<br>
+
+### Quaternions
+
+* Basic arithmetic
+* Dot product
+* Length
+* Conjugate quaternion
+* Inverse quaternion
+* Euler angles conversion
+* 3D vector rotation
+* Spherical lerp
+* Rotation matrix conversion
+* C++ I/O stream input and output  
 
 <br>
 
@@ -95,4 +111,3 @@ Latest stable update
 ## Coming soon
 * Intersection 2D & 3D rework
 * Complex numbers
-* Quaternions
