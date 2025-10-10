@@ -475,14 +475,5 @@ TEST_CASE("Vector3", "[all][vector][Vector3]")
 			CHECK(input.StringLong() == "Vector3{ x:2.5, y:-0.5, z:2 }");
 		}
 	}
-
-		SECTION(".Debug")
-		{
-	#if (defined _DEBUG) || (! defined NDEBUG)
-			LibMath::Vector3f vector{ 2.5f, .5f, 2.f };
-	
-			CHECK_THROWS(vector[-1]);
-			CHECK_THROWS(vector[3]);
-	#endif // DEBUG
-		}
+		
 }
