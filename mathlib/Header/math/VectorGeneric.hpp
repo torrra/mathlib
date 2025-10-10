@@ -11,42 +11,99 @@ namespace math
     // Generic vector class , TDimentions defines the number of components (x, y, z...)
     // TValueType the type of the data it contains
     template <uint8_t TDimensions, CScalarType TValueType>
-	class Vector;
+    class Vector
+    {
+    public:
+
+        // Constructors / destructor
+        Vector(void) = default;
+
+        inline explicit 
+        Vector(TValueType val);
+
+        inline
+        Vector(const Vector& other);
+
+        ~Vector(void) = default;
+
+
+        inline
+        TValueType& operator[](int index);
+
+
+        inline
+        TValueType operator[](int index)					const;
+
+    protected:
+
+        TValueType m_values[TDimensions]{};
+    };
+
+
+    template <uint8_t TDimensions, CScalarType TValueType>
+    Vector<TDimensions, TValueType>::Vector(TValueType val)
+    {
+        for (uint8_t index = 0; index < TDimensions; ++index)
+            m_values[index] = val;
+    }
+
+
+    template <uint8_t TDimensions, CScalarType TValueType>
+    Vector<TDimensions, TValueType>::Vector(const Vector<TDimensions, TValueType>& other)
+    {
+        for (uint8_t index = 0; index < TDimensions; ++index)
+            m_values[index] = other[index];
+    }
+
+
+    template <uint8_t TDimensions, CScalarType TValueType>
+    TValueType& Vector<TDimensions, TValueType>::operator[](int index)
+    {
+        return m_values[index];
+    }
+
+
+    template <uint8_t TDimensions, CScalarType TValueType>
+    TValueType Vector<TDimensions, TValueType>::operator[](int index) const
+    {
+        return m_values[index];
+    }
 
     // Partial Vector specialization for 2D vector
-    template <CScalarType TValueType>
-    using Vector2 = Vector<2, TValueType>;
+    //template <CScalarType TValueType>
+    //using Vector2 = Vector<2, TValueType>;
+    //class Vector2 : public Vector<2, TValueType>;
 
 
     // Vector2 aliases for quick use
 
-    using Vector2f = Vector2<float>;
+    /*using Vector2f = Vector2<float>;
     using Vector2d = Vector2<double>;
-    using Vector2i = Vector2<int32_t>;
+    using Vector2i = Vector2<int32_t>;*/
 
 
     // Partial specialization for 3D vector
-	template <CScalarType TValueType>
-	using Vector3 = Vector<3, TValueType>;
+	/*template <CScalarType TValueType>
+	using Vector3 = Vector<3, TValueType>;*/
 
 
     // Vector3 aliases for quick use
 
-	using Vector3f = Vector3<float>;
+	/*using Vector3f = Vector3<float>;
 	using Vector3i = Vector3<int32_t>;
-	using Vector3d = Vector3<double>;
+	using Vector3d = Vector3<double>;*/
 
 
     // Partial specialization for 3D vector
-    template <CScalarType TValueType>
-    using Vector4 = Vector<4, TValueType>;
+   /* template <CScalarType TValueType>
+    using Vector4 = Vector<4, TValueType>;*/
 
 
     // Vector4 aliases for quick use
 
-    using Vector4f = Vector4<float>;
+   /* using Vector4f = Vector4<float>;
     using Vector4i = Vector4<int32_t>;
-    using Vector4d = Vector4<double>;
+    using Vector4d = Vector4<double>;*/
 
 }
 

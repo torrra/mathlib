@@ -19,7 +19,7 @@ namespace math
      private:
 
          using TMatrixType = Matrix<2, TValueType>;
-         using TRowType = Vector<2, TValueType>;
+         using TRowType = Vector2<TValueType>;
 
      public:
 

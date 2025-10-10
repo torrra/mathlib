@@ -16,7 +16,7 @@ namespace math
 	private:
 
 		using TMatrixType = Matrix<4, TValueType>;
-		using TRowType = Vector<4, TValueType>;
+		using TRowType = Vector4< TValueType>;
 
 	public:
 
@@ -728,14 +728,14 @@ namespace math
 
 
 	template <CScalarType TValueType> inline
-	Vector<4, TValueType>& Matrix<4, TValueType>::operator[](int index)
+	Vector4<TValueType>& Matrix<4, TValueType>::operator[](int index)
 	{
 		return m_values[index];
 	}
 
 
 	template <CScalarType TValueType> inline
-	Vector<4, TValueType> Matrix<4, TValueType>::operator[](int index) const
+	Vector4< TValueType> Matrix<4, TValueType>::operator[](int index) const
 	{
 		return m_values[index];
 	}
