@@ -1,5 +1,5 @@
 #ifndef __MATRIX_GENERIC_H__
-#define __MATRIX_GENERIX_H__
+#define __MATRIX_GENERIC_H__
 
 #include <inttypes.h>
 
