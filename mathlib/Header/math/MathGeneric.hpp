@@ -6,6 +6,15 @@
 
 namespace math
 {
+    using DimensionType = unsigned int;
+
+    template <DimensionType TEvaluatedDimension>
+    struct IsGreaterThanZero
+    {
+        static constexpr bool value = TEvaluatedDimension > 0;
+    };
+
+
     // Constrain type to a number:
     // int, float, etc... excluding pointers
     template <typename TEvaluatedType>
@@ -57,13 +66,13 @@ namespace math
 
 
     template <CUnsignedType TEvaluatedType>
-    bool unsignedAdditionOverflow(TEvaluatedType a, TEvaluatedType b)
+    constexpr bool unsignedAdditionOverflow(TEvaluatedType a, TEvaluatedType b)
     {
         return b > std::numeric_limits<TEvaluatedType>::max() - a;
     }
 
     template <CUnsignedType TEvaluatedType>
-    bool uSubtractionOverflow(TEvaluatedType a, TEvaluatedType b)
+    constexpr bool uSubtractionOverflow(TEvaluatedType a, TEvaluatedType b)
     {
         return b < std::numeric_limits<TEvaluatedType>::min() + a;
     }
@@ -71,5 +80,8 @@ namespace math
 
 
 }
+
+namespace LibMath = math;
+namespace lm = LibMath;
 
 #endif

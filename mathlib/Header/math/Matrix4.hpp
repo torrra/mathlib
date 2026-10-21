@@ -249,8 +249,9 @@ namespace math
 	template <CScalarType TValueType> inline
 	Matrix<4, TValueType> Matrix<4, TValueType>::Adjugate(void) const
 	{
+		// can't create an unsigned adjugate matrix
 		if constexpr (std::is_unsigned<TValueType>::value)
-			throw std::logic_error("Cannot compute unsigned adjugate matrix");
+			return *this;
 
 		else
 		{
@@ -270,6 +271,7 @@ namespace math
 
 			return result;
 		}
+		
 	}
 
 
@@ -294,8 +296,8 @@ namespace math
 	Matrix<4, TValueType> Matrix<4, TValueType>::Cofactor(void) const
 	{
 		if constexpr (std::is_unsigned<TValueType>::value)
-			throw std::logic_error("Cannot compute unsigned cofactor matrix");
-
+			return *this;
+		
 		else
 		{
 			Matrix<4, TValueType>			result;
@@ -314,14 +316,16 @@ namespace math
 
 			return result;
 		}
+		
 	}
 
 
 	template <CScalarType TValueType> inline
 	Matrix<4, TValueType> Matrix<4, TValueType>::Inverse(void) const
 	{
+		// can't create unsigned inverse matirix
 		if constexpr (std::is_unsigned<TValueType>::value)
-			throw std::logic_error("Cannot compute unsigned inverse matrix");
+			return *this;
 
 		else
 		{
@@ -343,6 +347,7 @@ namespace math
 
 			return result;
 		}
+		
 	}
 
 
@@ -425,10 +430,9 @@ namespace math
 		Radian<TValueType> angleZ
 	)
 	{
-		if constexpr (std::is_unsigned_v<TValueType> || std::is_integral_v<TValueType>)
-			throw std::logic_error("Cannot compute unsigned or integral rotation matrix");
-
-
+		if constexpr (std::is_unsigned<TValueType>::value)
+			return Matrix<4,TValueType>();
+		
 		else
 		{
 			TValueType				cosYaw = Cos(angleZ), sinYaw = Sin(angleZ);
@@ -462,6 +466,7 @@ namespace math
 
 			return rotationMatrix;
 		}
+		
 
 	}
 

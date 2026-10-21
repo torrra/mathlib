@@ -158,13 +158,13 @@ namespace math
     Matrix<2, TValueType> Matrix<2, TValueType>::Adjugate(void) const
     {
         if constexpr (std::is_unsigned<TValueType>::value)
-            throw std::logic_error("Cannot compute adjugate matrix for unsigned type");
+            return *this;
 
-        // Transpose cofactors
         else
         {
+            // Transpose cofactors
             return Matrix<2, TValueType>(m_values[1][1], -m_values[0][1],
-                                        -m_values[1][0], m_values[0][0]);
+                -m_values[1][0], m_values[0][0]);
         }
     }
 
@@ -333,8 +333,9 @@ namespace math
     template <CScalarType TValueType> inline
     Matrix<2, TValueType> Matrix<2, TValueType>::Rotate(Radian<TValueType> angle)
     {
+        // can't create an unsigned rotation matrix
         if constexpr (std::is_unsigned<TValueType>::value)
-            throw std::logic_error("Cannot compute unsigned rotation matrix");
+            return Matrix<2, TValueType>();
 
         else
         {
