@@ -15,7 +15,6 @@ namespace math
 	{
 	private:
 
-		using TMatrixType = Matrix<4, TValueType>;
 		using TRowType = Vector4< TValueType>;
 
 	public:
@@ -39,21 +38,21 @@ namespace math
 	inline	void            Identity(TValueType diag = static_cast<TValueType>(1));
 
 		// Get this matrix' transposed cofactor matrix
-	inline	TMatrixType         Adjugate(void)                      const;
+	inline	Matrix         Adjugate(void)                      const;
 
 		// Get a matrix of all 3x3 submatrices' determinants within
 		// this matrix
-	inline	TMatrixType         Minor(void)                         const;
+	inline	Matrix         Minor(void)                         const;
 
 		// Get a matrix of this matrix' cofactors taken from all 3x3
 		// matrices within it
-	inline	TMatrixType         Cofactor(void)                      const;
+	inline	Matrix         Cofactor(void)                      const;
 
 		// Get inverse of this matrix
-	inline	TMatrixType         Inverse(void)                       const;
+	inline	Matrix         Inverse(void)                       const;
 
 		// Get a transposed copy of this matrix
-	inline	TMatrixType         Transpose(void)                     const;
+	inline	Matrix         Transpose(void)                     const;
 
 		// Get this matrix stripped of a row and a column
 	inline	Matrix3<TValueType>         SubMatrix(int row, int column)    const;
@@ -66,7 +65,7 @@ namespace math
 
 
 	// Get rotation matrix from three angles (column-major)
-	static inline TMatrixType			RotationMatrix(
+	static inline Matrix			RotationMatrix(
 			Radian<TValueType> angleX,
 			Radian<TValueType> angleY,
 			Radian<TValueType> angle
@@ -76,43 +75,43 @@ namespace math
 	// Get rotation matrix from three angles stored in a vector (column-major)
 	static inline Matrix4<TValueType> RotationMatrix(Vector3<TValueType> angles);
 
-	inline	TMatrixType&		operator=(const TMatrixType& rhs);
-	inline	TMatrixType&		operator=(const TValueType rhs[][4]);
-	inline	TMatrixType&		operator=(const TValueType rhs[16]);
+	inline	Matrix&		operator=(const Matrix& rhs);
+	inline	Matrix&		operator=(const TValueType rhs[][4]);
+	inline	Matrix&		operator=(const TValueType rhs[16]);
 
 
 		// Matrix / matrix operators
 
-	inline	TMatrixType         operator+(const TMatrixType& rhs)      const;
-	inline	TMatrixType         operator-(const TMatrixType& rhs)      const;
-	inline	TMatrixType         operator*(const TMatrixType& rhs)      const;
+	inline	Matrix         operator+(const Matrix& rhs)      const;
+	inline	Matrix         operator-(const Matrix& rhs)      const;
+	inline	Matrix         operator*(const Matrix& rhs)      const;
 
 		// Multiply a vector 4D by this matrix
 	inline	Vector4<TValueType>				operator*(const Vector4<TValueType>& rhs)      const;
 
 
 		// Multiply all numbers of a copy of this matrix by a scalar factor
-	inline	TMatrixType         operator*(TValueType factor)            const;
+	inline	Matrix         operator*(TValueType factor)            const;
 
 		// Divide all numbers of a copy of this matrix by a scalar factor
-	inline	TMatrixType         operator/(TValueType factor)            const;
+	inline	Matrix         operator/(TValueType factor)            const;
 
 
 		// Matrix / matrix assignment operators
 
 
-	inline	TMatrixType&		operator+=(const TMatrixType& rhs);
-	inline	TMatrixType&		operator-=(const TMatrixType& rhs);
-	inline	TMatrixType&		operator*=(const TMatrixType& rhs);
+	inline	Matrix&		operator+=(const Matrix& rhs);
+	inline	Matrix&		operator-=(const Matrix& rhs);
+	inline	Matrix&		operator*=(const Matrix& rhs);
 
 		// Multiply all numbers of a copy of this matrix by a scalar factor
-	inline	TMatrixType&		operator*=(TValueType factor);
+	inline	Matrix&		operator*=(TValueType factor);
 
 		// Divide all numbers of a copy of this matrix by a scalar factor
-	inline	TMatrixType&		operator/=(TValueType factor);
+	inline	Matrix&		operator/=(TValueType factor);
 
-	inline	bool				operator==(const TMatrixType& rhs)     const;
-	inline	bool				operator!=(const TMatrixType& rhs)     const;
+	inline	bool				operator==(const Matrix& rhs)     const;
+	inline	bool				operator!=(const Matrix& rhs)     const;
 
 		// Access a row (no bound checking)
 	inline	TRowType&		operator[](int index);
@@ -397,7 +396,7 @@ namespace math
 	inline Matrix4<TValueType> 
 	Matrix<4, TValueType>::PositionMatrix(const Vector3<TValueType>& position)
 	{
-		TMatrixType positionMatrix;
+		Matrix positionMatrix;
 
 		positionMatrix.Identity();
 
@@ -412,7 +411,7 @@ namespace math
 	inline Matrix <4, TValueType> 
 	Matrix<4, TValueType>::ScaleMatrix(const Vector3<TValueType>& scale)
 	{
-		TMatrixType scaleMatrix;
+		Matrix scaleMatrix;
 
 		scaleMatrix.Identity();
 
@@ -439,7 +438,7 @@ namespace math
 			TValueType				cosPitch = Cos(angleX), sinPitch = Sin(angleX);
 			TValueType				cosRoll = Cos(angleY), sinRoll = Sin(angleY);
 
-			TMatrixType				rotationMatrix;
+			Matrix				rotationMatrix;
 
 			// Assign COLUMN-MAJOR rotation matrix
 

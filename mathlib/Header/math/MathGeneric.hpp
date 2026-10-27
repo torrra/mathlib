@@ -8,10 +8,22 @@ namespace math
 {
     using DimensionType = unsigned int;
 
+    template <DimensionType TMinimum, DimensionType TEvaluatedDimension>
+    struct IsGreaterThan
+    {
+        static constexpr bool value = TEvaluatedDimension > TMinimum;
+    };
+
+    template <DimensionType TMaximum, DimensionType TEvaluatedDimension>
+    struct IsSmallerThan
+    {
+        static constexpr bool value = TEvaluatedDimension < TMaximum;
+    };
+
     template <DimensionType TEvaluatedDimension>
     struct IsGreaterThanZero
     {
-        static constexpr bool value = TEvaluatedDimension > 0;
+        static constexpr bool value = IsGreaterThan<0, TEvaluatedDimension>::value;
     };
 
 
