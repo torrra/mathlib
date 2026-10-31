@@ -185,11 +185,8 @@ namespace math
 	template <CScalarType TValueType> inline
 	Radian<TValueType> Acos(TValueType cosine)
 	{
-		if constexpr (std::is_integral<TValueType>::value)
-			throw std::logic_error("cannot compute acos for an integral type");
-
-		else
-			return Radian(acos(cosine));
+		//static_assert(std::is_integral<TValueType>::value, "Cannot compute acos for an integral type");
+		return Radian(acos(cosine));
 	}
 
 

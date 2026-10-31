@@ -4,6 +4,7 @@
 #include <numeric>
 
 #include "Vector3.hpp"
+#include "Vector4.hpp"
 #include "MathGeneric.hpp"
 #include "Arithmetic.hpp"
 #include "Matrix4.hpp"
