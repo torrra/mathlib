@@ -65,6 +65,8 @@ TEST_CASE("Matrix2", "[matrix][all]")
         CHECK_MAT2(myMat.Adjugate(), glm::adjugate(glmMat));
         CHECK_MAT2(myMat.Inverse(), glm::inverse(glmMat));
 
+        CHECK_MAT2(myMat.Cofactor(), glm::transpose(glm::adjugate(glmMat)));
+
 
         math::Matrix2f   otherMat(1.7f, 3.2f, 4.2f, 6.f);
         glm::mat2      otherGlm(1.7f, 3.2f, 4.2f, 6.f);
