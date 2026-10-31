@@ -4,6 +4,33 @@
 #include <type_traits>
 #include <limits>
 
+#define VECTOR_MATRIX_DEFS(baseClass, dimensions)\
+template <CScalarType TValueType>\
+using baseClass##dimensions = baseClass<dimensions, TValueType>;\
+using baseClass##dimensions##f = baseClass##dimensions<float>;\
+using baseClass##dimensions##d = baseClass##dimensions<double>;\
+using baseClass##dimensions##i = baseClass##dimensions<int>
+
+#define VECTOR_MATRIX_EXTENDED(baseClass, dimensions)\
+using baseClass##dimensions##u = baseClass##dimensions<unsigned int>;\
+using baseClass##dimensions##l = baseClass##dimensions<long>;\
+using baseClass##dimensions##ll = baseClass##dimensions<long long>;\
+using baseClass##dimensions##ul = baseClass##dimensions<unsigned long>;\
+using baseClass##dimensions##ull = baseClass##dimensions<unsigned long long>;\
+using baseClass##dimensions##c = baseClass##dimensions<char>;\
+using baseClass##dimensions##uc = baseClass##dimensions<unsigned char>
+
+
+#define VECTOR_MATRIX_FIXED(baseClass, dimensions)\
+using baseClass##dimensions##i8 = baseClass##dimensions<int8_t>;\
+using baseClass##dimensions##u8 = baseClass##dimensions<uint8_t>;\
+using baseClass##dimensions##i16 = baseClass##dimensions<int16_t>;\
+using baseClass##dimensions##u16 = baseClass##dimensions<uint16_t>;\
+using baseClass##dimensions##i32 = baseClass##dimensions<int32_t>;\
+using baseClass##dimensions##u32 = baseClass##dimensions<uint32_t>;\
+using baseClass##dimensions##i64 = baseClass##dimensions<int64_t>;\
+using baseClass##dimensions##u64 = baseClass##dimensions<uint64_t>;\
+
 namespace math
 {
     using DimensionType = unsigned int;
