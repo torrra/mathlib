@@ -249,7 +249,4 @@ namespace math
 
 }
 
-namespace LibMath = math;
-namespace lm = math;
-
 #endif

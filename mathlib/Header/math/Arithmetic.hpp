@@ -450,8 +450,5 @@ namespace math
 // !Implementation
 }
 
-namespace LibMath = math;
-namespace lm = LibMath;
-
 #endif
 
