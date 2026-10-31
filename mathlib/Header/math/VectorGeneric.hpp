@@ -1104,43 +1104,6 @@ namespace math
         is >> discard;
         return is;
     }
-
-    // Partial Vector specialization for 2D vector
-    //template <DimensionType TDimensions, CScalarType TValueType> requires IsGreaterThanZero<TDimensions>::value
-    //using Vector2 = Vector<2, TValueType>;
-    //class Vector2 : public Vector<2, TValueType>;
-
-
-    // Vector2 aliases for quick use
-
-    /*using Vector2f = Vector2<float>;
-    using Vector2d = Vector2<double>;
-    using Vector2i = Vector2<int32_t>;*/
-
-
-    // Partial specialization for 3D vector
-    /*template <DimensionType TDimensions, CScalarType TValueType> requires IsGreaterThanZero<TDimensions>::value
-    using Vector3 = Vector<TDimensions, TValueType>;*/
-
-
-    // Vector3 aliases for quick use
-
-    /*using Vector3f = Vector3<float>;
-    using Vector3i = Vector3<int32_t>;
-    using Vector3d = Vector3<double>;*/
-
-
-    // Partial specialization for 3D vector
-   /* template <DimensionType TDimensions, CScalarType TValueType> requires IsGreaterThanZero<TDimensions>::value
-    using Vector = Vector<4, TValueType>;*/
-
-
-    // Vector aliases for quick use
-
-   /* using Vectorf = Vector<float>;
-    using Vectori = Vector<int32_t>;
-    using Vectord = Vector<double>;*/
-
 }
 
 
