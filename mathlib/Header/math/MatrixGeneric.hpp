@@ -4,12 +4,12 @@
 #include <inttypes.h>
 
 #include "MathGeneric.hpp"
-
+#include "VectorGeneric.hpp"
 
 
 namespace math
 {
-    template <DimensionType TDimensions = 4, CScalarType TValueType> requires IsGreaterThan<1, TDimensions>::value
+    template <DimensionType TDimensions = 4, CScalarType TValueType = float> requires IsGreaterThan<1, TDimensions>::value
     class Matrix
 	{
 	private:
@@ -28,6 +28,9 @@ namespace math
 
 		template <DimensionType TOtherMatrixSize = TDimensions - 1>
 		explicit				Matrix(const Matrix<TOtherMatrixSize, TValueType>& other);
+
+		template <typename... TArgs> explicit
+		Matrix(TArgs... args);
 
 		inline					~Matrix(void) = default;
 
@@ -56,14 +59,14 @@ namespace math
 
 		// Get this matrix stripped of a row and a column
 		// sub-matrix size cannot be greater than origin matrix size - 1
-		template <DimensionType TOtherMatrixSize = TDimensions - 1> requires IsSmallerThan<TDimensions - 1, TOtherMatrixSize>::value
+		template <DimensionType TOtherMatrixSize = TDimensions - 1> requires IsSmallerThan<TDimensions, TOtherMatrixSize>::value
 		inline	Matrix<TOtherMatrixSize, TValueType>  SubMatrix(DimensionType row, DimensionType column)    const;
 
 		// Change the position to a matrix
-		static inline Matrix<4, TValueType>	PositionMatrix(const Vector3<TValueType>& position);
+		static inline Matrix<4, TValueType>	PositionMatrix(const Vector<3, TValueType>& position);
 
 		// Change the scale to a matrix
-		static inline Matrix<4, TValueType>	ScaleMatrix(const Vector3<TValueType>& scale);
+		static inline Matrix<4, TValueType>	ScaleMatrix(const Vector<3, TValueType>& scale);
 
 
 		// Get rotation matrix from three angles (column-major)
@@ -75,7 +78,7 @@ namespace math
 
 
 		// Get rotation matrix from three angles stored in a vector (column-major)
-		static inline Matrix<4, TValueType> RotationMatrix(Vector3<TValueType> angles);
+		static inline Matrix<4, TValueType> RotationMatrix(Vector<3,TValueType> angles);
 
 		inline	Matrix& operator=(const Matrix& rhs);
 		inline	Matrix& operator=(const TValueType rhs[][TDimensions]);
@@ -185,8 +188,29 @@ namespace math
 	}
 
 	template <DimensionType TDimensions, CScalarType TValueType> requires IsGreaterThan<1, TDimensions>::value
+	template<typename ...TArgs> inline
+	Matrix<TDimensions, TValueType>::Matrix(TArgs ...args)
+	{
+		DimensionType rowCounter = 0;
+		DimensionType columnCounter = 0;
+
+		([&]
+			{
+				if (columnCounter < TDimensions)
+					m_values[rowCounter][columnCounter++] = static_cast<TValueType>(args);
+
+				else
+				{
+					columnCounter = 0;
+					m_values[++rowCounter][columnCounter++] = static_cast<TValueType>(args);
+				}
+
+			} (), ...);
+	}
+
+	template <DimensionType TDimensions, CScalarType TValueType> requires IsGreaterThan<1, TDimensions>::value
 	template <DimensionType TOtherMatrixSize>  inline
-	inline Matrix<TDimensions, TValueType>::Matrix(const Matrix<TOtherMatrixSize, TValueType>& other)
+	Matrix<TDimensions, TValueType>::Matrix(const Matrix<TOtherMatrixSize, TValueType>& other)
 	{
 		InitializeFromDifferentSizedArg(other);
 	}
@@ -227,14 +251,15 @@ namespace math
 		{
 			Matrix<TDimensions - 1, TValueType>     minor;
 
-			TValueType		result = static_cast<TValueType>(0), minusOne = static_cast<TValueType>(-1);
+			TValueType		result = static_cast<TValueType>(0);
+			TValueType		sign = static_cast<TValueType>(1);
 			DimensionType	stripedRow = 0;
 
 			for (DimensionType cofactor = 0; cofactor < TDimensions; ++cofactor)
 			{
 				minor = SubMatrix<TDimensions - 1>(stripedRow, cofactor);
-				result += m_values[stripedRow][cofactor] * minor.Determinant() * Pow(minusOne, cofactor);
-
+				result += m_values[stripedRow][cofactor] * minor.Determinant() * sign;
+				sign *= static_cast<TValueType>(-1);
 			}
 
 			return result;
@@ -274,7 +299,7 @@ namespace math
 		{
 			Matrix<TDimensions, TValueType>			result;
 
-			TValueType			minusOne = -1;
+			constexpr TValueType					sign = -1;
 
 			for (DimensionType row = 0; row < TDimensions; ++row)
 			{
@@ -282,10 +307,7 @@ namespace math
 				{
 					result[column][row] = SubMatrix(row, column).Determinant();
 
-					//result[column][row] *= Pow(minusOne, row + column);
-
-					result[row][column] *= minusOne;
-					minusOne *= static_cast<TValueType>(-1);
+					result[column][row] *= Pow(sign, row + column);
 				}
 			}
 
@@ -298,17 +320,23 @@ namespace math
 	template <DimensionType TDimensions, CScalarType TValueType> requires IsGreaterThan<1, TDimensions>::value inline
 		Matrix<TDimensions, TValueType> Matrix<TDimensions, TValueType>::Minor(void) const
 	{
-		Matrix<TDimensions, TValueType>		result;
+		if constexpr (TDimensions < 3)
+			return *this;
 
-		for (DimensionType row = 0; row < TDimensions; ++row)
+		else
 		{
-			for (DimensionType column = 0; column < TDimensions; ++column)
-			{
-				result[row][column] = SubMatrix(row, column).Determinant();
-			}
-		}
+			Matrix<TDimensions, TValueType>		result;
 
-		return result;
+			for (DimensionType row = 0; row < TDimensions; ++row)
+			{
+				for (DimensionType column = 0; column < TDimensions; ++column)
+				{
+					result[row][column] = SubMatrix(row, column).Determinant();
+				}
+			}
+
+			return result;
+		}
 	}
 
 
@@ -318,11 +346,17 @@ namespace math
 		if constexpr (std::is_unsigned<TValueType>::value)
 			return *this;
 
+		else if constexpr (TDimensions == 2)
+		{
+			return Matrix<2, TValueType>(m_values[1][1], -m_values[1][0],
+										-m_values[0][1], m_values[0][0]);
+		}
+
 		else
 		{
 			Matrix<TDimensions, TValueType>			result;
 
-			TValueType			minusOne = -1;
+			constexpr TValueType					sign = -1;
 
 			for (DimensionType row = 0; row < TDimensions; ++row)
 			{
@@ -330,10 +364,7 @@ namespace math
 				{
 					result[row][column] = SubMatrix(row, column).Determinant();
 
-					//result[row][column] *= Pow(minusOne, row + column);
-
-					result[row][column] *= minusOne;
-					minusOne *= static_cast<TValueType>(-1);
+					result[row][column] *= Pow(sign, row + column);
 				}
 			}
 
@@ -349,6 +380,9 @@ namespace math
 		// can't create unsigned inverse matirix
 		if constexpr (std::is_unsigned<TValueType>::value)
 			return *this;
+
+		else if constexpr (TDimensions == 2)
+			return Adjugate() * (1 / Determinant());
 
 		else
 		{
@@ -393,7 +427,7 @@ namespace math
 
 
 	template <DimensionType TDimensions, CScalarType TValueType> requires IsGreaterThan<1, TDimensions>::value
-	template <DimensionType TOtherMatrixSize> requires IsSmallerThan<TDimensions - 1, TOtherMatrixSize>::value
+	template <DimensionType TOtherMatrixSize> requires IsSmallerThan<TDimensions, TOtherMatrixSize>::value
 	Matrix<TOtherMatrixSize, TValueType> Matrix<TDimensions, TValueType>::SubMatrix(DimensionType row, DimensionType column) const
 	{
 		Matrix<TOtherMatrixSize, TValueType> minor;
@@ -419,7 +453,7 @@ namespace math
 
 	template <DimensionType TDimensions, CScalarType TValueType> requires IsGreaterThan<1, TDimensions>::value
 	inline Matrix<4, TValueType>
-	Matrix<TDimensions, TValueType>::PositionMatrix(const Vector3<TValueType>& position)
+	Matrix<TDimensions, TValueType>::PositionMatrix(const Vector<3, TValueType>& position)
 	{
 		Matrix<4, TValueType> positionMatrix;
 
@@ -434,7 +468,7 @@ namespace math
 
 	template <DimensionType TDimensions, CScalarType TValueType> requires IsGreaterThan<1, TDimensions>::value
 	inline Matrix <4, TValueType>
-    Matrix<TDimensions, TValueType>::ScaleMatrix(const Vector3<TValueType>& scale)
+    Matrix<TDimensions, TValueType>::ScaleMatrix(const Vector<3,TValueType>& scale)
 	{
 		Matrix scaleMatrix;
 
@@ -496,7 +530,7 @@ namespace math
 
 	template <DimensionType TDimensions, CScalarType TValueType> requires IsGreaterThan<1, TDimensions>::value
 	inline Matrix <4, TValueType>
-	Matrix<TDimensions, TValueType>::RotationMatrix(Vector3<TValueType> angles)
+	Matrix<TDimensions, TValueType>::RotationMatrix(Vector<3, TValueType> angles)
 	{
 		Radian<TValueType>		angleX(angles.X()),
 			angleY(angles.Y()),
@@ -588,13 +622,13 @@ namespace math
 	{
 		Matrix<TDimensions, TValueType>		result;
 
-		for (int thisRow = 0; thisRow < TDimensions; thisRow++)
+		for (DimensionType thisRow = 0; thisRow < TDimensions; thisRow++)
 		{
-			for (int rightColumn = 0; rightColumn < TDimensions; rightColumn++)
+			for (DimensionType rightColumn = 0; rightColumn < TDimensions; rightColumn++)
 			{
 				TValueType	currentNum = static_cast<TValueType>(0);
 
-				for (int rightRow = 0; rightRow < TDimensions; rightRow++)
+				for (DimensionType rightRow = 0; rightRow < TDimensions; rightRow++)
 				{
 					currentNum += m_values[rightRow][thisRow] * rhs[rightColumn][rightRow];
 				}
@@ -686,26 +720,24 @@ namespace math
 	template <DimensionType TDimensions, CScalarType TValueType> requires IsGreaterThan<1, TDimensions>::value inline
 		Matrix<TDimensions, TValueType>& Matrix<TDimensions, TValueType>::operator*=(const Matrix<TDimensions, TValueType>& rhs)
 	{
-		Matrix<TDimensions, TValueType>		result;
+		Matrix<TDimensions, TValueType>		result(0);
 
-		for (int thisRow = 0; thisRow < TDimensions; thisRow++)
+		for (DimensionType thisRow = 0; thisRow < TDimensions; thisRow++)
 		{
-			for (int rightColumn = 0; rightColumn < TDimensions; rightColumn++)
+			for (DimensionType rightColumn = 0; rightColumn < TDimensions; rightColumn++)
 			{
 				TValueType	currentNum = static_cast<TValueType>(0);
 
-				for (int rightRow = 0; rightRow < TDimensions; rightRow++)
+				for (DimensionType rightRow = 0; rightRow < TDimensions; rightRow++)
 				{
-					currentNum += m_values[thisRow][rightRow] * rhs[rightRow][rightColumn];
+					currentNum += m_values[rightRow][thisRow] * rhs[rightColumn][rightRow];
 				}
 
-				result.m_values[thisRow][rightColumn] = currentNum;
+				result.m_values[rightColumn][thisRow] = currentNum;
 			}
 		}
 
-		*this = result;
-
-		return *this;
+		return *this = result;
 	}
 
 
@@ -773,9 +805,7 @@ namespace math
 	template <DimensionType TOtherMatrixSize> inline
 	Matrix<TDimensions, TValueType>::operator Matrix<TOtherMatrixSize, TValueType>(void) const
 	{
-		Matrix<TOtherMatrixSize, TValueType> otherMatrix;
-
-		otherMatrix.InitializeFromDifferentSizedArg(*this);
+		Matrix<TOtherMatrixSize, TValueType> otherMatrix(*this);
 		return otherMatrix;
 	}
 
@@ -788,7 +818,7 @@ namespace math
 
 		for (DimensionType row = 0; row < maxSize; ++row)
 		{
-			for (DimensionType column = 0; column < max; ++column)
+			for (DimensionType column = 0; column < maxSize; ++column)
 			{
 				m_values[row][column] = other[row][column];
 			}
@@ -812,31 +842,12 @@ namespace math
 		}
 	}
 
-
-
-    template <CScalarType TValueType>
-    using Matrix2 = Matrix<2, TValueType>;
-
-    using Matrix2f = Matrix2<float>;
-    using Matrix2d = Matrix2<double>;
-    using Matrix2i = Matrix2<int32_t>;
-
-
-    template <CScalarType TValueType>
-    using Matrix3 = Matrix<3, TValueType>;
-
-    using Matrix3f = Matrix3<float>;
-    using Matrix3d = Matrix3<double>;
-    using Matrix3i = Matrix3<int32_t>;
-
-
-
     template <CScalarType TValueType>
     using Matrix4 = Matrix<4, TValueType>;
 
-    using MatrixTDimensionsf = Matrix4<float>;
-    using MatrixTDimensionsd = Matrix4<double>;
-    using MatrixTDimensionsi = Matrix4<int32_t>;
+    using Matrix4f = Matrix4<float>;
+    using Matrix4d = Matrix4<double>;
+    using Matrix4i = Matrix4<int32_t>;
 
 }
 
