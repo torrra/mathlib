@@ -312,8 +312,6 @@ namespace math
     template<typename ... TArgs>
     inline Vector<TDimensions, TValueType>::Vector(TArgs... arg)
     {
-        //(InternalVariadicInitializer(0, arg), ...);
-
         DimensionType counter = 0;
 
         ([&]
