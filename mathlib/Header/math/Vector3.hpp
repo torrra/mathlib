@@ -8,24 +8,21 @@
 #include "MathGeneric.hpp"
 #include "VectorGeneric.hpp"
 
-#include "Trigonometry.hpp"
-#include "Arithmetic.hpp"
-#include "Angle.hpp"
-#include "Vector2.hpp"
 //#include "VectorQuatOperations.hpp"
-
 
 
 namespace math
 {
 
-    template <CScalarType TValueType>
-    using Vector3 = Vector<3, TValueType>;
+    VECTOR_MATRIX_DEFS(Vector, 3);
 
-    using Vector3f = Vector3<float>;
-    using Vector3d = Vector3<double>;
-    using Vector3i = Vector3<int32_t>;
+#ifdef DEFINE_VEC_EXTENDED
+    VECTOR_MATRIX_EXTENDED(Vector, 3);
+#endif // DEFINE_VEC_EXTENDED
 
+#ifdef DEFINE_VEC_FIXED
+    VECTOR_MATRIX_FIXED(Vector, 3);
+#endif // DEFINE_VEC_FIXED
 }
 
 #endif

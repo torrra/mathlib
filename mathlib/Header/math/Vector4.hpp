@@ -3,16 +3,18 @@
 
 #include "MathGeneric.hpp"
 #include "VectorGeneric.hpp"
-#include "Vector3.hpp"
 
 namespace math
 {
-	template <CScalarType TValueType>
-	using Vector4 = Vector<4, TValueType>;
+    VECTOR_MATRIX_DEFS(Vector, 4);
 
-	using Vector4f = Vector4<float>;
-	using Vector4d = Vector4<double>;
-	using Vector4i = Vector4<int32_t>;
+#ifdef DEFINE_VEC_EXTENDED
+    VECTOR_MATRIX_EXTENDED(Vector, 4);
+#endif // DEFINE_VEC_EXTENDED
+
+#ifdef DEFINE_VEC_FIXED
+    VECTOR_MATRIX_FIXED(Vector, 4);
+#endif // DEFINE_VEC_FIXED
 }
 
 #endif
