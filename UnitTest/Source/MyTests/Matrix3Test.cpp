@@ -82,7 +82,7 @@ for (int row = 0; row < 3; ++row)\
 {\
 	for (int column = 0; column < 3; ++column)\
 	{\
-		CHECK(math::AlmostEqual(matA[row][column], matB[row][column]));\
+		CHECK(matA[row][column] == Catch::Approx(matB[row][column]));\
 	}\
 }
 
