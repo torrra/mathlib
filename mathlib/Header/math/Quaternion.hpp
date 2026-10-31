@@ -376,8 +376,6 @@ namespace math
         TValueType z = this->m_z * rhs;
 
         return Quaternion<TValueType>(w, x, y, z);
-
-        //return Quaternion<TValueType>(x, y, z, w);
     }
 
     template<CFloatingType TValueType>

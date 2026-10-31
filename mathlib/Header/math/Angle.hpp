@@ -937,8 +937,4 @@ namespace math
 
 // !Literal operators implementation
 
-namespace	LibMath = math;
-namespace	lm = math;
-
-
 #endif
