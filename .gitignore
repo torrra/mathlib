@@ -1,6 +1,7 @@
 # Cmake output folders
 [oO]ut/
 [bB]uild/
+tests/
 
 # Microsoft editor folders
 .vs/

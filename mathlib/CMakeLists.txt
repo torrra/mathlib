@@ -46,8 +46,6 @@ file(GLOB_RECURSE TARGET_DOC_FILES
 # Put target all files together in a variable
 set(TARGET_FILES ${TARGET_HEADER_FILES} ${TARGET_SOURCE_FILES} ${TARGET_DOC_FILES})
 
-message(STATUS ${TARGET_HEADER_FILES})
-
 set(GENERIC_HEADERS ${TARGET_HEADER_FILES})
 set(GENERIC_REGEX "Generic.hpp$")
 
@@ -69,8 +67,6 @@ list(FILTER TARGET_HEADER_FILES EXCLUDE REGEX ${MATRIX_REGEX})
 
 # Create variable for header directory (will still require to put math/)
 set(TARGET_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Header)
-
-message(STATUS ${TARGET_HEADER_FILES})
 
 # Create static lib
 add_library(${TARGET_NAME} STATIC)
