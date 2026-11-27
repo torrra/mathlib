@@ -27,7 +27,7 @@ endif()
 add_subdirectory(mathlib)
 
 # Build executable with unit tests
-if (EXISTS ${CMAKE_SOURCE_DIR}/tests)
+if (EXISTS ${CMAKE_SOURCE_DIR}/tests/CMakeLists.txt)
 
     add_subdirectory(tests)
 
