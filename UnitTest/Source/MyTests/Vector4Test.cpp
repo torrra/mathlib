@@ -12,6 +12,7 @@
 #include "Timer.h"
 
 #include "math/Vector4.hpp"
+#include "math/Vector3.hpp"
 
 #define CHECK_VECTOR4(vec1, vec2)\
 for (int iteration = 0; iteration < 4; ++iteration)\
