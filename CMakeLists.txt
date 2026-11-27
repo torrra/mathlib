@@ -1,39 +1,118 @@
-# libmath project with with unit tests (NOT LIBMATH STATIC LIB CMAKE, see libmath subdirectory)
+# UnitTest CMake
 
-# I am using 3.29 on Ubuntu and 3.27 on Windows, and the most recent
-# features I usually use in CMake were added in 3.25, so allow 3.25 and up
-cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
+# Write current directrory name into a variable to build executable
+get_filename_component(TARGET_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
-# Write directory name into variable to automatically name lib project
-get_filename_component(PROJECT_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+# Run Cmake for packages that will be fetched below
+include(FetchContent)
 
-# Create standalone project if current directory is CMake root folder
-if (${CMAKE_CURRENT_SOURCE_DIR} PATH_EQUAL ${CMAKE_SOURCE_DIR})
+FetchContent_Declare(
+    Catch2
+    GIT_REPOSITORY      https://github.com/catchorg/Catch2.git      # Fetch from github
+    GIT_TAG             v3.5.4                                      # Fetch latest Catch2 release
+    GIT_SHALLOW         ON                                          # Only allow branch name or tag as GIT_TAG argument
+)
 
-    set(CMAKE_CXX_STANDARD 20)
-    set(CMAKE_CXX_STANDARD_REQUIRED True)
+# Do not install documentation and extra files
+set(CATCH_INSTALL_DOCS OFF CACHE BOOL "Install Catch2 documentation" FORCE)
+set(CATCH_INSTALL_EXTRAS OFF CACHE BOOL "Install extra files" FORCE)
 
-    project(${PROJECT_NAME})
+# Temporarily store current CMAKE_FOLDER value
+set(TEMP ${CMAKE_FOLDER})
 
-# If this script is ran from add_subdirectory()
-else()
+# Set new output folder to Catch2
+set(CMAKE_FOLDER Catch2)
 
-    # Place targets build from this file in a folder named after this directory
-    set(CMAKE_FOLDER ${PROJECT_NAME})
+# Populate package into Catch2 and add it to the main build
+FetchContent_MakeAvailable(Catch2)
 
-endif()
+# Restore CMAKE_FOLDER to its previous value
+set(CMAKE_FOLDER ${TEMP})
 
-# Build libmath static lib
-add_subdirectory(mathlib)
 
-# Build executable with unit tests
-if (EXISTS ${CMAKE_SOURCE_DIR}/UnitTest)
+# Fetch glm master branch (no git tag provided)
+FetchContent_Declare(
+	glm
+	GIT_REPOSITORY	https://github.com/g-truc/glm.git
+	GIT_SHALLOW		ON
+)
 
-    add_subdirectory(UnitTest)
+# Populate glm
+FetchContent_MakeAvailable(glm)
 
-    # Set unit test executable as Visual Studio startup project
-    if (MSVC)
-        set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT UnitTest)
-    endif()
+
+# Gather files to build executable
+
+# Headers
+file(GLOB_RECURSE TARGET_HEADER_FILES
+	${CMAKE_CURRENT_SOURCE_DIR}/*.h
+	${CMAKE_CURRENT_SOURCE_DIR}/*.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/*.inl
+)
+
+# Source files
+file(GLOB_RECURSE TARGET_SOURCE_FILES
+	${CMAKE_CURRENT_SOURCE_DIR}/*.c
+	${CMAKE_CURRENT_SOURCE_DIR}/*.cc
+	${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/*.cxx
+	${CMAKE_CURRENT_SOURCE_DIR}/*.c++
+)
+
+# Documentation
+file(GLOB_RECURSE TARGET_DOC_FILES
+	${CMAKE_CURRENT_SOURCE_DIR}/*.txt
+	${CMAKE_CURRENT_SOURCE_DIR}/*.md
+)
+
+# Extras
+file(GLOB TARGET_EXTRA_FILES
+    ${CMAKE_SOURCE_DIR}/.gitignore
+)
+
+# Create variable containing all relevant files
+set(TARGET_FILES ${TARGET_HEADER_FILES} ${TARGET_SOURCE_FILES} ${TARGET_DOC_FILES})
+
+# Generate visual studio filters following the hierarchy
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TARGET_FILES})
+source_group("Extra files" FILES ${TARGET_EXTRA_FILES})
+
+# Set include directory variable
+set(TARGET_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Header)
+
+# Generate executable
+add_executable(${TARGET_NAME})
+
+# Add sources to executable, only visible to itself
+target_sources(${TARGET_NAME} PRIVATE ${TARGET_FILES} ${TARGET_EXTRA_FILES})
+
+# Make necessary include directories visible to the executable
+target_include_directories(${TARGET_NAME}
+    PRIVATE ${TARGET_INCLUDE_DIR}
+    PRIVATE ${LIBMATH_INCLUDE_DIR}
+    PRIVATE ${glm_SOURCE_DIR}
+)
+
+
+# Link necessary static libs
+target_link_libraries(${TARGET_NAME}
+    PRIVATE ${MATHLIB_LIB}
+    PRIVATE Catch2::Catch2
+)
+
+if (MSVC)
+
+    # Raise warning level to level 4 and treat warnings as errors
+    # /Za disables MSVC compiler extensions that aren't compatible with ISO C90
+    target_compile_options(${TARGET_NAME} PRIVATE /W4 /Za)
+
+    # TODO remove
+    # Force disable LNK2019 unresolved external linker error
+    # target_link_options(${TARGET_NAME} PRIVATE /FORCE:UNRESOLVED)
+
+elseif(LINUX)
+
+    # Raise warning level to max and treat warnings as errors
+    target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wshadow -Wextra -Wpedantic -Wno-unknown-pragmas -g)
 
 endif()
