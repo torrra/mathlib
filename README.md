@@ -13,7 +13,7 @@ This was initially a school project, used for computer graphics as well as game 
 
 <br>
 
-## Features
+## Features - Now with quaternions!
 
 ### Vectors
 
@@ -38,7 +38,7 @@ And more
 
 2x2, 3x3 and 4x4 matrices are also implemented in this library with:
 
-* Basic arithmetic
+* Basic arithmetic (including multiplication)
 * Determinant
 * Cofactor matrix
 * Adjugate matrix
@@ -109,5 +109,5 @@ Latest stable update
 <br>
 
 ## Coming soon
-* Intersection 2D & 3D rework
+* Intersection 2D & 3D
 * Complex numbers
