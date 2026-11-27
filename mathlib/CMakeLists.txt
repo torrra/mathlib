@@ -82,12 +82,12 @@ target_sources(${TARGET_NAME} PRIVATE ${TARGET_FILES})
 target_include_directories(${TARGET_NAME} PUBLIC ${TARGET_INCLUDE_DIR})
 
 # Generate Visual Studio filter without the extra "math" folder in Header
-source_group("Source" ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TARGET_SOURCE_FILES})
-source_group("Header" ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TARGET_HEADER_FILES})
+source_group("Source" FILES ${TARGET_SOURCE_FILES})
+source_group("Header" FILES ${TARGET_HEADER_FILES})
 
 source_group("Header/Generic" FILES ${GENERIC_HEADERS})
-source_group("Header/Vector" FILES ${VECTOR_HEADERS})
-source_group("Header/Matrix" FILES ${MATRIX_HEADERS})
+source_group("Header/Vector"  FILES ${VECTOR_HEADERS})
+source_group("Header/Matrix"  FILES ${MATRIX_HEADERS})
 
 # Raise warning level in MSVC and g++
 if(MSVC)
