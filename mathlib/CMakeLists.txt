@@ -93,8 +93,14 @@ if(MSVC)
 
 elseif(LINUX)
 
-    # TODO remove debug symbols
-    target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wextra -Wshadow -Wpedantic -Werror -g)
+    target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wextra -Wshadow -Wpedantic -Werror)
+
+    if (CMAKE_BUILDTYPE MATCHES "[dD]ebug" OR $<CONFIG:Debug>)
+        target_compile_options(${TARGET_NAME} PRIVATE -g)
+        message(STATUS "[${TARGET_NAME}] Debug symbols enabled...")
+    else()
+        message(STATUS "[${TARGET_NAME}] Release build...")
+    endif()
 
 endif()
 

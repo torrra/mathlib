@@ -2,6 +2,8 @@
 [oO]ut/
 [bB]uild/
 tests/
+[dD]ebug/
+[rR]elease/
 
 # Microsoft editor folders
 .vs/
