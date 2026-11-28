@@ -27,13 +27,13 @@ endif()
 add_subdirectory(mathlib)
 
 # Build executable with unit tests
-if (EXISTS ${CMAKE_SOURCE_DIR}/UnitTest)
+if (EXISTS ${CMAKE_SOURCE_DIR}/tests/CMakeLists.txt)
 
-    add_subdirectory(UnitTest)
+    add_subdirectory(tests)
 
     # Set unit test executable as Visual Studio startup project
     if (MSVC)
-        set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT UnitTest)
+        set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT tests)
     endif()
 
 endif()

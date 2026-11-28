@@ -96,9 +96,16 @@ The state of library as of June 7th 2024, the school assignment's due date
 
 ### dev : Jun 22nd 2024 - current
 
-In-progress features and refactors with unit tests
+In-progress features and refactors
 
 [View branch](https://github.com/torrra/mathlib/tree/dev)
+
+
+### tests
+
+Unit tests (using Catch2)
+[View branch](https://github.com/torrra/mathlib/tree/tests)
+
 
 ### main
 
@@ -109,5 +116,6 @@ Latest stable update
 <br>
 
 ## Coming soon
+* SIMD vectorization
 * Intersection 2D & 3D
 * Complex numbers
