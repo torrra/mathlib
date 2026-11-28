@@ -450,7 +450,7 @@ template<DimensionType TDimensions, CScalarType TValueType>
 inline Matrix<4, TValueType>
 Matrix<TDimensions, TValueType>::ScaleMatrix(const Vector<3, TValueType>& scale)
 {
-    Matrix scaleMatrix;
+    Matrix<4, TValueType> scaleMatrix;
 
     scaleMatrix.Identity();
 
@@ -475,7 +475,7 @@ inline Matrix<4, TValueType> Matrix<TDimensions, TValueType>::RotationMatrix(
         TValueType cosPitch = Cos(angleX), sinPitch = Sin(angleX);
         TValueType cosRoll = Cos(angleY), sinRoll = Sin(angleY);
 
-        Matrix rotationMatrix;
+        Matrix<4, TValueType> rotationMatrix;
 
         // Assign COLUMN-MAJOR rotation matrix
 
