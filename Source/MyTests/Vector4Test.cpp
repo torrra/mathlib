@@ -11,6 +11,7 @@
 
 #include "Timer.h"
 
+#include "math/Vector3.hpp"
 #include "math/Vector4.hpp"
 
 #define CHECK_VECTOR4(vec1, vec2)\
