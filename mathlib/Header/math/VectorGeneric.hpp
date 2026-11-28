@@ -624,9 +624,7 @@ inline void Vector<TDimensions, TValueType>::Rotate(Radian<TValueType>          
         const TValueType cosAngle = Cos(angle);
         const TValueType sinAngle = Sin(angle);
 
-        const TValueType            oneMinCos = static_cast<TValueType>(1) - cosAngle;
-        const Vector<3, TValueType> oneMinAxis
-            = static_cast<Vector<3, TValueType>>(norm * oneMinCos);
+        const TValueType oneMinCos = static_cast<TValueType>(1) - cosAngle;
 
         // Create multiplication matrix and multiply manually
         // TODO: Clean up
